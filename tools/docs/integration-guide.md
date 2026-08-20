@@ -1,6 +1,13 @@
-# AutoResearchClaw Integration Guide
+# Legacy AutoResearchClaw Integration Guide
 
-> **The simplest way to use AutoResearchClaw**: give the repo URL to [OpenClaw](https://github.com/openclaw/openclaw) and say *"Research [your topic]."* That's it — OpenClaw handles cloning, installing, configuring, and running the entire 23-stage pipeline for you.
+> **Archive notice:** this document describes the upstream standalone
+> AutoResearchClaw 23-stage product and is retained for feature reference. In
+> this repository, the outer **AutoResearch** directory is the main repository,
+> `tools/` is only its execution toolbox, and the parent `AGENTS.md` governs the
+> active 16-stage research-to-experiment-decision workflow. Do not use the
+> standalone clone instructions or legacy paper-writing stages below for the
+> current repository. Start with the outer [`README.md`](../../README.md) and
+> the current [`RESEARCHCLAW_AGENTS.md`](../RESEARCHCLAW_AGENTS.md).
 
 This guide is for humans who want to understand what's happening under the hood, or who prefer to set things up manually.
 
@@ -491,13 +498,20 @@ docker build -t researchclaw/experiment:latest researchclaw/docker/
 
 ### SSH Remote
 
+Prerequisites are Python 3.12, a local OpenSSH client providing `ssh` and
+`scp`, and key-based access to the target node. Passwords and private keys must
+not be stored in repository configuration. For the complete A800 workflow,
+including SSH aliases, remote Python setup, storage placement, and verification,
+see [Remote GPU Execution](REMOTE_EXECUTION.md).
+
 ```yaml
 experiment:
   mode: "ssh_remote"
   ssh_remote:
-    host: "gpu-server.example.com"
-    gpu_ids: [0, 1]
-    remote_workdir: "/tmp/researchclaw_experiments"
+    host: "autoresearch-a800"
+    gpu_ids: [0]
+    remote_workdir: "/u3disk/<A800_USER>/autoresearch/runs"
+    remote_python: "/u3disk/<A800_USER>/envs/autoresearch-py312/bin/python"
 ```
 
 The pipeline sends generated code to a remote GPU server for execution.

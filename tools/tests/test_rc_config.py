@@ -307,7 +307,7 @@ def test_load_config_wrapper_returns_rcconfig(tmp_path: Path):
 def test_security_config_defaults_match_expected_values():
     defaults = SecurityConfig()
 
-    assert defaults.hitl_required_stages == (5, 9, 20)
+    assert defaults.hitl_required_stages == (5, 8, 10)
     assert defaults.allow_publish_without_approval is False
     assert defaults.redact_sensitive_logs is True
 
@@ -387,7 +387,7 @@ def test_rcconfig_from_dict_uses_default_security_when_missing(tmp_path: Path):
     del data["security"]
 
     config = RCConfig.from_dict(data, project_root=tmp_path, check_paths=False)
-    assert config.security.hitl_required_stages == (5, 9, 20)
+    assert config.security.hitl_required_stages == (5, 8, 10)
 
 
 def test_load_uses_file_parent_as_default_project_root(tmp_path: Path):

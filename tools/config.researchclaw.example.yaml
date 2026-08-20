@@ -2,6 +2,10 @@ project:
   name: "my-research"
   mode: "full-auto"
 
+# This file configures the toolbox under AutoResearch/tools. The outer
+# AutoResearch repository is the main workspace, and ../AGENTS.md remains the
+# authoritative policy discovered and injected at runtime.
+
 research:
   topic: "Your research topic here"
   domains:
@@ -95,8 +99,10 @@ experiment:
   metric_key: "primary_metric"
   metric_direction: "minimize"
   sandbox:
-    # Use ".venv/Scripts/python.exe" on Windows
-    python_path: ".venv/bin/python3"
+    # Resolve Python from the active auto_research Conda environment. uv users
+    # may set ".venv/Scripts/python.exe" (Windows) or ".venv/bin/python"
+    # (macOS/Linux) explicitly.
+    python_path: "python"
     gpu_required: false
     max_memory_mb: 4096
   # Docker sandbox settings (only used when mode: "docker")
@@ -141,15 +147,21 @@ experiment:
 # SSH Remote Examples
 # ============================================================================
 #
-# 1. Lab server (bare Python, basic sandboxing):
+# 1. Lab A800 node (bare Python, basic sandboxing).
+#    Obtain host/user/port through the lab's private channel. Prefer an SSH
+#    alias named `autoresearch-a800`; never put a password in this file.
 #   experiment:
 #     mode: "ssh_remote"
 #     ssh_remote:
-#       host: "gpu-server.lab.edu"
-#       user: "researcher"
-#       key_path: "~/.ssh/id_rsa"
+#       host: "autoresearch-a800"
+#       user: ""
+#       port: 22
+#       key_path: ""
 #       gpu_ids: [0]
-#       remote_python: "python3"
+#       remote_workdir: "/u3disk/<A800_USER>/autoresearch/runs"
+#       remote_python: "/u3disk/<A800_USER>/envs/autoresearch-py312/bin/python"
+#
+# See docs/REMOTE_EXECUTION.md for prerequisites and setup.
 #
 # 2. Lab server (Docker — most secure):
 #   experiment:

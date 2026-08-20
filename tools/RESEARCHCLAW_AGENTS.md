@@ -8,6 +8,12 @@ ResearchClaw is an **experiment toolbox**: a 16-stage research-to-experiment pip
 as an independent command (`researchclaw tools <step> --run-dir <dir>`), or run in
 sequence (`researchclaw run`).
 
+In this repository, `tools/` is a regular subdirectory of the outer
+**AutoResearch** main repository. It is not a separate research project or Git
+repository. Research plans, stage artifacts, and paper materials belong in an
+outer `paper*/` workspace, while commands and dependency installation run from
+`tools/`.
+
 Research rules have two complementary sources:
 
 1. The nearest workspace `AGENTS.md` is discovered at runtime and injected in
@@ -38,8 +44,8 @@ You are an AI research assistant operating ResearchClaw as a toolbox. Your job:
 pip install -e .
 cp config.researchclaw.example.yaml config.yaml   # set llm.* and experiment.mode
 
-researchclaw tools init --run-dir lab --topic "YOUR TOPIC"
-researchclaw tools status --run-dir lab
+researchclaw tools init --run-dir ../paper1/steps/my-run --topic "YOUR TOPIC"
+researchclaw tools status --run-dir ../paper1/steps/my-run
 ```
 
 ## Pipeline Stages (16 stages, 6 phases)

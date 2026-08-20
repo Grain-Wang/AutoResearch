@@ -4,11 +4,17 @@
 
 <h2 align="center"><b>AGENTS-Governed Autonomous Research Experiment Toolbox</b></h2>
 
-> **Current fork mode:** AutoResearchClaw is being integrated as the execution
-> toolbox for the repository-level `AGENTS.md`. The active workflow has 16 stages
-> from research scoping through experiment decision; legacy paper-writing stages
-> are not part of the active pipeline. See
-> [`RESEARCHCLAW_AGENTS.md`](RESEARCHCLAW_AGENTS.md) for the authoritative usage.
+> **AutoResearch repository mode:** this `tools/` directory contains the
+> AutoResearchClaw execution toolbox; the parent
+> [`AutoResearch`](../README.md) directory is the main repository and research
+> workspace. The parent [`AGENTS.md`](../AGENTS.md) is authoritative. The active
+> workflow has 16 stages from research scoping through experiment decision, and
+> research artifacts belong in the parent's `paper*/` directories. Legacy
+> paper-writing stages are not active. See
+> [`RESEARCHCLAW_AGENTS.md`](RESEARCHCLAW_AGENTS.md) for the current usage.
+> Localized READMEs, the website, release notes, and parts of the long-form
+> integration guide are retained as upstream AutoResearchClaw reference material
+> and may still describe the legacy standalone 23-stage product.
 
 
 
@@ -29,7 +35,7 @@
   <a href="https://arxiv.org/abs/2605.20025"><img src="https://img.shields.io/badge/arXiv-2605.20025-b31b1b?logo=arxiv&logoColor=white" alt="arXiv"></a>
   <a href="https://huggingface.co/datasets/AIMING-Lab-UNC/ARC-Bench"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-ARC--Bench-yellow" alt="ARC-Bench on Hugging Face"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License"></a>
-  <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+"></a>
+  <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12"></a>
   <a href="#testing"><img src="https://img.shields.io/badge/Tests-2699%20passed-brightgreen?logo=pytest&logoColor=white" alt="2699 Tests Passed"></a>
   <a href="https://github.com/aiming-lab/AutoResearchClaw"><img src="https://img.shields.io/badge/GitHub-AutoResearchClaw-181717?logo=github" alt="GitHub"></a>
   <a href="#openclaw-integration"><img src="https://img.shields.io/badge/OpenClaw-Compatible-ff4444?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==" alt="OpenClaw Compatible"></a>
@@ -49,7 +55,7 @@
 </p>
 
 <p align="center">
-  <a href="docs/showcase/SHOWCASE.md">🏆 Paper Showcase</a> · <a href="docs/HITL_GUIDE.md">🧑‍✈️ Co-Pilot Guide</a> · <a href="docs/integration-guide.md">📖 Integration Guide</a> · <a href="https://discord.gg/u4ksqW5P">💬 Discord Community</a>
+  <a href="../README.md">📖 AutoResearch Guide</a> · <a href="RESEARCHCLAW_AGENTS.md">🧰 Toolbox Reference</a> · <a href="docs/integration-guide.md">🗄️ Legacy Upstream Guide</a> · <a href="docs/REMOTE_EXECUTION.md">🖥️ Remote GPU Guide</a>
 </p>
 
 ---
@@ -130,26 +136,39 @@ The pipeline runs **end-to-end** — fully autonomous or with human-in-the-loop 
 
 ## 🚀 Quick Start
 
+All required dependencies must be recorded in the project's dependency
+declarations (`pyproject.toml`) rather than installed as undocumented local
+packages. Prefer creating and activating a Conda environment named
+`auto_research` before installing the project; as a second choice, use `uv`
+inside the project directory to create the local environment and install the
+declared dependencies.
+
+Run from the outer AutoResearch clone. Conda is preferred:
+
 ```bash
-# 1. Clone & install
-git clone https://github.com/aiming-lab/AutoResearchClaw.git
-cd AutoResearchClaw
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e .
+cd AutoResearch
+conda create -n auto_research python=3.12 -y
+conda activate auto_research
+cd tools
+python -m pip install -e ".[dev]"
 
-# 2. Setup (interactive — installs OpenCode beast mode, checks Docker/LaTeX)
-researchclaw setup
-
-# 3. Configure
-researchclaw init          # Interactive: choose LLM provider, creates config.arc.yaml
-# Or manually: cp config.researchclaw.example.yaml config.arc.yaml
-
-# 4. Run
-export OPENAI_API_KEY="sk-..."
-researchclaw run --config config.arc.yaml --topic "Your research idea" --auto-approve
+cp config.researchclaw.example.yaml config.yaml
+researchclaw tools list
+researchclaw tools init --run-dir ../paper1/steps/my-run \
+  --topic "Your research idea" --config config.yaml
+researchclaw tools status --run-dir ../paper1/steps/my-run
 ```
 
-Output → `artifacts/rc-YYYYMMDD-HHMMSS-<hash>/deliverables/` — compile-ready LaTeX, BibTeX, experiment code, charts.
+As a second choice, create a local environment inside `AutoResearch/tools`:
+
+```bash
+uv venv --python 3.12
+uv pip install --python .venv -e ".[dev]"
+```
+
+Stage artifacts are written to the requested outer research workspace; the
+active toolbox ends with the Stage 16 research decision and does not generate
+the legacy standalone paper-writing deliverables.
 
 <details>
 <summary>📝 Minimum required config</summary>
@@ -170,10 +189,18 @@ llm:
 experiment:
   mode: "sandbox"
   sandbox:
-    python_path: ".venv/bin/python"
+    python_path: "python"  # active auto_research Conda environment
 ```
 
 </details>
+
+### Remote A800 execution
+
+Remote runs require an OpenSSH client (`ssh` and `scp`), key-based access, and
+a Python 3.12 environment on the node. Real host details and credentials are
+distributed privately and must not be committed. See the
+[`Remote GPU Execution Guide`](docs/REMOTE_EXECUTION.md) for SSH setup, storage
+placement, GPU selection, and `ssh_remote` configuration.
 
 ---
 
@@ -637,7 +664,7 @@ experiment:
   metric_key: "val_loss"           # Primary metric name
   metric_direction: "minimize"     # minimize | maximize
   sandbox:
-    python_path: ".venv/bin/python"
+    python_path: "python"           # active Conda env; uv users may set .venv path
     gpu_required: false
     allowed_imports: [math, random, json, csv, numpy, torch, sklearn]
     max_memory_mb: 4096

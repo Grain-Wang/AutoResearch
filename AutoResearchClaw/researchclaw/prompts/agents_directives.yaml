@@ -1,0 +1,125 @@
+# AGENTS.md per-stage directives (auto-injected into pipeline prompts)
+# ------------------------------------------------------------------------
+# Source: ./AGENTS.md at the project root — the binding research methodology.
+#
+# PromptManager preloads this file by default and appends each stage's
+# directive to the rendered user prompt as "## AGENTS.md Directives", so the
+# research rules are structurally enforced on every `researchclaw run` and
+# `researchclaw tools <step>` invocation.
+#
+# To override a directive for a stage, set `prompts.extra_prompts.<stage>` in
+# config.yaml — user guidance wins.  To disable a directive, set its value to
+# `null` in this file.
+#
+# Stage names follow the pipeline enum (researchclaw/pipeline/stages.py).
+# experiment_run / iterative_refine are executor-driven (no LLM prompt), so
+# their directives are shown by `tools list` / `tools status` rather than
+# injected into a prompt.
+
+stages:
+  topic_init: |
+    （AGENTS.md §3 / §4 / §17）选题必须瞄准算法创新，目标是弱 CCF-B / 强 CCF-C 的 Full / Regular Paper：
+    - 核心贡献必须是新算法或新优化目标：新算法、新的决策/调度/搜索/资源分配、新的训练/推理/采样/压缩/选择方法、跨层算法设计、有明确算法成分的系统方法、或对已有算法关键假设的修正。
+    - 下列内容不得作为核心贡献：单个 bug / issue / timeout、配置错误、wrapper / adapter、纯 benchmark / survey / measurement、仅比较现有方法、只改超参 / prompt / 阈值 / 损失权重、纯复现、局部 microbenchmark、依赖人工标注的评分。
+    - 工程问题只能作为现实动机、失败案例或实验对象，不能成为主要 novelty。
+    - 贡献必须在删除具体仓库名、issue 编号和实现细节后仍然成立。
+    - 评价标准是问题真实性与算法创新性，不是代码量、GPU 数、文献量或实验量。
+
+  problem_decompose: |
+    （AGENTS.md §5.1-5.3）从论文前沿与现有方法缺口出发，而不是从 GitHub issue 出发：
+    - 先锁定最直接近邻，提取 baseline 的明确问题、关键假设、架构限制与失败场景。
+    - 判断缺陷是否属于算法或架构层面，且删除仓库名与实现细节后仍然成立。
+    - 子问题应导向可证伪的实验，避免把工程 issue 包装成研究方向。
+
+  search_strategy: |
+    （AGENTS.md §5.1）检索以近期高质量论文和最直接近邻为核心：
+    - 优先目标领域的高质量会议/期刊与近邻工作的方法部分。
+    - 检索词覆盖方法名、机制名与失败场景，确保不漏掉已实质解决同类缺陷的近邻。
+
+  literature_collect: |
+    （AGENTS.md §5.1）收集能支撑缺陷判断与近邻对比的候选文献：
+    - 以覆盖面与针对性为准，避免只堆数量。
+
+  literature_screen: |
+    （AGENTS.md §6.1 Research Opportunity Gate）按研究机会门槛筛选文献与方向。一个方向入围短名单需同时满足：
+    - 有一个明确、可复现或用最小实验证实的 baseline 缺陷；
+    - 缺陷来自算法目标、学习机制、推理过程或架构假设，而非单个 issue、实现 bug 或配置问题；
+    - 最近邻尚未实质解决该缺陷；
+    - 至少存在一个合理的算法改进假设（能写出核心决策、目标函数或结构变化）；
+    - 能设计简单且可证伪的 probe，区分"问题不存在"与"问题真实但初版解法不够好"；
+    - 数据、自动 oracle 和算力成本在当前范围内可承受。
+
+  knowledge_extract: |
+    （AGENTS.md §5.2-5.3）抽取知识卡片时重点记录 baseline 的：
+    - 明确问题、关键假设、架构限制与失败场景；
+    - 方法的核心决策、目标函数或结构变化；
+    - 是否属于算法/架构层缺陷，以及删除仓库名与实现细节后是否仍成立。
+
+  synthesis: |
+    （AGENTS.md §5.4）综合时锁定最强 baseline 及其明确缺陷：
+    - 把缺陷按算法/架构层归类，明确删除仓库名与实现细节后仍成立的缺陷。
+    - 为 baseline 复现阶段给出可执行的最小复现方向；不要求新方法立即打赢最强 baseline。
+
+  baseline_reproduce: |
+    （AGENTS.md §5.4 + §7 + §10.2）用最小测试复现或证实 baseline 缺陷：
+    - 目标：确认缺陷真实、可复现，且属于算法/架构层（而非单个 bug、配置、兼容性或版本差异）。
+    - 优先复现最关键部分，不追求完整重建；预计耗时过长立即更换 baseline 或方向。
+    - 写最小自包含脚本，输出可验证的数值证据（症状指标 + 对照）。
+    - 缺陷未证实（或属工程问题）→ 不得继续生成假设：判定为未证实并暂停，回滚到综合。
+    - 不得把大量复现工作误写成算法贡献。
+
+  hypothesis_gen: |
+    （AGENTS.md §5.5-5.7 + §6.2）针对已证实缺陷提出可证伪的算法性解决思路：
+    - 同时最多保留 5 个 Research Opportunities；
+    - 每个方向必须是：问题真实、近邻未解决、存在合理算法路径；
+    - 能写出新算法的核心决策、目标函数或结构变化；
+    - 按价值、清晰度、实验成本排序；
+    - 初版方法失败不构成自动淘汰：若失败原因清楚、问题仍存在且还有非等价算法路径，保留方向继续迭代。
+
+  experiment_design: |
+    （AGENTS.md §6.2 Paper-Candidate Novelty Gate + §8 + §9）实验设计必须能回答三个问题：
+    - 现有最强方法为什么不够？
+    - 新算法具体改变了什么？
+    - 为什么这种改变在理论或机制上应该有效？
+    - 回答不清楚时只能做低成本问题诊断与原型迭代，不得进入完整 Paper Build 或大规模实验。
+    - 默认禁止新增人工标注 / 众包 / 专家打分 / 开放式人评；优先公开 benchmark、程序生成数据与可验证真值、simulator / compiler / solver oracle、已有标签、自动规则与可重复评价器。
+    - 每个核心组件都要能用消融验证；最好、一般与负结果均有预定义解释；数据与算力成本在当前预算内。
+    - 设计简单可证伪的 probe，区分"问题不存在"与"问题真实但初版解法不够好"。
+
+  code_generation: |
+    （AGENTS.md §14 Code Rules）生成实验代码必须：
+    - Python 3.12；变量、函数、类与文件名为英文。
+    - 所有公开函数添加 type hints；使用 black 格式化、ruff 检查。
+    - 数据处理、训练、评价与绘图必须支持命令行重建；记录随机种子、配置与版本。
+    - 禁止遗留 debug print、TODO 或临时代码；优先复用已有文件，禁止重复实现相同逻辑。
+
+  resource_planning: |
+    （AGENTS.md §9 + §2）资源规划必须与预算一致：
+    - 按每个方向的数据、自动 oracle 与算力成本排期，低成本验证优先。
+    - 现成代码、数据与低成本只用于降低验证成本或在同等价值方向间排序，不得主导选题。
+    - 超过 4 张 GPU、大规模人工参与、付费服务、离开当前目录或对外发布，必须先暂停征求确认。
+
+  result_analysis: |
+    （AGENTS.md §10.5-10.9）结果分析遵循诊断式迭代：
+    - 用误差切片与消融诊断失败，区分"问题不存在 / 机制假设错误 / 实现与优化不充分"；
+    - 对比 killer baseline 与最近邻；
+    - 做消融、鲁棒性、效率与资源分析；必要时独立重复；
+    - 一个原型失败 ≠ 研究问题被否定，先做机制诊断再决定是否放弃；
+    - 不因沉没成本继续无价值实验；结果足够支持或否定 claim 时立即停止扩张。
+
+  research_decision: |
+    （AGENTS.md §11 + §15.8）升级为完整 Paper Build 的候选门槛（Candidate Gate）：
+    - 算法 novelty 清楚；killer baseline 未消除增益；主指标出现稳定有效信号；主要改进不是工程优化带来的假象。
+    - 若最终只剩：工程 issue / 框架修复 / 简单隔离方案 / 测量现象 / 显而易见的 baseline → 必须降级或归档，不得强行包装。
+    - 报告最强反方意见、算法 claim 当前是否成立、是否达到 Paper Candidate、下一步是否真的需要更多实验。
+
+  experiment_run: |
+    （AGENTS.md §10.1-10.4 + §2）按规划执行实验：
+    - 先跑环境 canary，再做最强简单 baseline 与最小真实数据 probe，再上最小算法原型。
+    - 不得在问题尚未被最小测试证实时建设通用框架或大规模实验矩阵。
+    - 不超过 4 张 GPU；需要大规模人工参与或付费服务时先暂停征求确认。
+
+  iterative_refine: |
+    （AGENTS.md §10.5-10.6 + §15.6）迭代优化：
+    - 基于误差切片和消融诊断算法；初版原型不赢 baseline 不构成自动淘汰，先判断是问题不存在、机制假设错误，还是实现与优化尚未充分。
+    - 对少数高价值方向持续深挖最近邻、机制、失败切片与非等价算法路径，不得用频繁换题或浅层广搜代替研究迭代。

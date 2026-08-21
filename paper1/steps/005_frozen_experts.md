@@ -2,7 +2,7 @@
 
 ## Status
 
-`IN-PROGRESS`。scene-group OOF stacking 计划与泄漏审计代码已完成；PyTorch 双候选、训练和真实 cache 尚未完成。不再等待 TR2M 训练代码，也不把 TR2M released checkpoint 当正式双候选。
+`IN-PROGRESS`。现有 scene-group stacking 计划必须升级为 sequence/drive-cluster、seed/control/checkpoint 实体绑定后才可使用；PyTorch 双候选、训练和真实 cache 尚未完成。不再等待 TR2M 训练代码，也不把 TR2M released checkpoint 当正式双候选。
 
 ## Shared-backbone contract
 

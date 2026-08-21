@@ -12,10 +12,10 @@ RGB 图像 `I`、自动 caption `c`、冻结纯视觉候选 `D0(I)`、冻结图�
 
 | Claim | 状态 | 唯一证据 | 支持条件 |
 | --- | --- | --- | --- |
-| Claim-F：控制视觉难度与候选差异后，原始文本—区域语义仍有增量 advantage 预测力 | UNVERIFIED SCIENTIFIC HYPOTHESIS | Step 006 的 B-direct/C-direct/C-permuted scene-group OOF controls | C-direct−B-direct 与 C-direct−C-permuted 的 AUROC/HV scene-cluster CI 下界均 >0；Main-orth 不参与 |
-| Claim-M：clean-retention/tail-regret router 优于获得相同 OOF experts 与合法 zC 特征的直接 defer 方法 | UNVERIFIED METHOD HYPOTHESIS | Step 007/008 与 Risk-L2D-C、regression、density-ratio、dense-coherence、LOO-uncertainty baselines 比较 | Main 相对每个 direct baseline 的两数据集 HV scene-cluster CI 下界均 >0 |
+| Claim-F：控制视觉难度与候选差异后，原始文本—区域语义仍有增量 advantage 预测力 | UNVERIFIED SCIENTIFIC HYPOTHESIS | Step 006 的固定宽度 B-direct/C-direct/两类 C-permuted cluster-OOF controls | C-direct−B-direct 与 C-direct−两类 C-permuted 的 AUROC/HV cluster-CI 下界均 >0；Main-PR 不参与 |
+| Claim-M：固定 clean utility 下的局部尾部 regret router 优于获得相同 OOF experts 与合法 zC 特征的直接 defer 方法 | UNVERIFIED METHOD HYPOTHESIS | Step 007/008 与 Risk-L2D-C、TIGER-style LOO、regression、density-ratio、dense-coherence、LOO-uncertainty faithful/matched baselines 比较 | dev 只选 retention≥0.80 的最低 CVaR threshold；internal-test 上 Main-PR 相对每个 baseline 的 CVaR 与 WorstOf3 paired cluster-CI 上界均 <0；HV 仅作 secondary |
 
-cross-fitting、orthogonal residualization、CVaR、clean constraint、dense defer、leave-one-out contribution teacher、continuous regression defer 和 frozen-expert post-hoc scoring 均已被先行工作覆盖，不能单独列为创新。
+cross-fitting、partial residualization、CVaR、clean constraint、dense defer、language-guided frozen-expert routing、leave-one-out contribution teacher、continuous regression defer 和 frozen-expert post-hoc scoring 均已被先行工作覆盖，不能单独列为创新。唯一待否证差异由 [014 objective spec](014_objective_and_algorithm_spec.md) 定义。
 
 ## Falsification
 

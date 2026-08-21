@@ -8,11 +8,18 @@ from collections import defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass, replace
 
-from paper1.experiments.covol.metrics import (
-    clean_gain_retention,
-    corruption_metrics,
-    pareto_hypervolume,
-)
+try:
+    from paper1.experiments.covol.metrics import (
+        clean_gain_retention,
+        corruption_metrics,
+        pareto_hypervolume,
+    )
+except ModuleNotFoundError:  # Direct script consumers in this directory.
+    from metrics import (  # type: ignore[no-redef]
+        clean_gain_retention,
+        corruption_metrics,
+        pareto_hypervolume,
+    )
 
 
 @dataclass(frozen=True)
@@ -31,11 +38,19 @@ class PolicyImageOutcome:
 class ClusterBootstrapResult:
     """Point estimate and percentile interval for a paired HV difference."""
 
-    estimate: float
-    ci_lower: float
-    ci_upper: float
+    status: str
+    estimate: float | None
+    ci_lower: float | None
+    ci_upper: float | None
     cluster_count: int
     replicates: int
+    valid_replicates: int
+    invalid_replicates: int
+    invalid_fraction: float
+
+
+class UnstableCleanGainError(ValueError):
+    """Raised when a sampled clean-gain denominator is not practically positive."""
 
 
 def _validate_outcomes(outcomes: Sequence[PolicyImageOutcome]) -> tuple[int, int]:
@@ -44,6 +59,8 @@ def _validate_outcomes(outcomes: Sequence[PolicyImageOutcome]) -> tuple[int, int
     threshold_count = len(outcomes[0].routed_clean_losses)
     if threshold_count == 0:
         raise ValueError("each outcome must contain at least one threshold")
+    if len(outcomes[0].routed_variant_losses) != threshold_count:
+        raise ValueError("clean/corruption threshold count mismatch")
     variant_count = len(outcomes[0].routed_variant_losses[0])
     if variant_count == 0:
         raise ValueError("each threshold must contain caption variants")
@@ -81,19 +98,31 @@ def policy_hypervolume(
     outcomes: Sequence[PolicyImageOutcome],
     *,
     reference_cvar: float,
+    minimum_clean_gain: float = 0.0,
 ) -> float:
     """Recompute retention, CVaR, Pareto front, and HV from image rows."""
 
     threshold_count, variant_count = _validate_outcomes(outcomes)
+    if not math.isfinite(minimum_clean_gain) or minimum_clean_gain < 0.0:
+        raise ValueError("minimum_clean_gain must be finite and nonnegative")
     d0_losses = [outcome.d0_clean_loss for outcome in outcomes]
     d1_losses = [outcome.d1_clean_loss for outcome in outcomes]
+    clean_gain = sum(
+        d0_loss - d1_loss
+        for d0_loss, d1_loss in zip(d0_losses, d1_losses, strict=True)
+    ) / len(d0_losses)
+    if clean_gain <= minimum_clean_gain:
+        raise UnstableCleanGainError(
+            "STOP_UNSTABLE_CLEAN_GAIN: sampled clean gain does not exceed "
+            "the frozen practical threshold"
+        )
     points: list[tuple[float, float]] = []
     for threshold in range(threshold_count):
         retention = clean_gain_retention(
             d0_losses,
             d1_losses,
             [outcome.routed_clean_losses[threshold] for outcome in outcomes],
-            clean_gain_ci_lower=math.inf,
+            clean_gain_ci_lower=clean_gain,
         )
         risks = corruption_metrics(
             d0_losses,
@@ -158,6 +187,8 @@ def cluster_bootstrap_hypervolume_difference(
     replicates: int = 10_000,
     seed: int = 20260821,
     confidence: float = 0.95,
+    minimum_clean_gain: float,
+    maximum_invalid_fraction: float = 0.05,
 ) -> ClusterBootstrapResult:
     """Paired cluster bootstrap with full metric recomputation per replicate."""
 
@@ -178,11 +209,31 @@ def cluster_bootstrap_hypervolume_difference(
             raise ValueError("paired methods must share the same frozen experts")
     if not 0.0 < confidence < 1.0:
         raise ValueError("confidence must be in (0, 1)")
+    if not 0.0 <= maximum_invalid_fraction < 1.0:
+        raise ValueError("maximum_invalid_fraction must be in [0, 1)")
 
-    estimate = policy_hypervolume(
-        left,
-        reference_cvar=reference_cvar,
-    ) - policy_hypervolume(right, reference_cvar=reference_cvar)
+    try:
+        estimate = policy_hypervolume(
+            left,
+            reference_cvar=reference_cvar,
+            minimum_clean_gain=minimum_clean_gain,
+        ) - policy_hypervolume(
+            right,
+            reference_cvar=reference_cvar,
+            minimum_clean_gain=minimum_clean_gain,
+        )
+    except UnstableCleanGainError:
+        return ClusterBootstrapResult(
+            status="STOP_UNSTABLE_CLEAN_GAIN",
+            estimate=None,
+            ci_lower=None,
+            ci_upper=None,
+            cluster_count=len({row.scene_id for row in left}),
+            replicates=replicates,
+            valid_replicates=0,
+            invalid_replicates=replicates,
+            invalid_fraction=1.0,
+        )
     sampled_indices = cluster_bootstrap_indices(
         [row.scene_id for row in left],
         replicates=replicates,
@@ -204,21 +255,43 @@ def cluster_bootstrap_hypervolume_difference(
             )
             for position, index in enumerate(indices)
         ]
-        differences.append(
-            policy_hypervolume(
+        try:
+            difference = policy_hypervolume(
                 left_sample,
                 reference_cvar=reference_cvar,
-            )
-            - policy_hypervolume(
+                minimum_clean_gain=minimum_clean_gain,
+            ) - policy_hypervolume(
                 right_sample,
                 reference_cvar=reference_cvar,
+                minimum_clean_gain=minimum_clean_gain,
             )
+        except UnstableCleanGainError:
+            continue
+        differences.append(difference)
+    valid_replicates = len(differences)
+    invalid_replicates = replicates - valid_replicates
+    invalid_fraction = invalid_replicates / replicates
+    if invalid_fraction > maximum_invalid_fraction or not differences:
+        return ClusterBootstrapResult(
+            status="STOP_UNSTABLE_CLEAN_GAIN",
+            estimate=estimate,
+            ci_lower=None,
+            ci_upper=None,
+            cluster_count=len({row.scene_id for row in left}),
+            replicates=replicates,
+            valid_replicates=valid_replicates,
+            invalid_replicates=invalid_replicates,
+            invalid_fraction=invalid_fraction,
         )
     tail = (1.0 - confidence) / 2.0
     return ClusterBootstrapResult(
+        status="PASS",
         estimate=estimate,
         ci_lower=_percentile(differences, tail),
         ci_upper=_percentile(differences, 1.0 - tail),
         cluster_count=len({row.scene_id for row in left}),
         replicates=replicates,
+        valid_replicates=valid_replicates,
+        invalid_replicates=invalid_replicates,
+        invalid_fraction=invalid_fraction,
     )

@@ -17,6 +17,8 @@
 
 ## 004-B H-fallback-defect
 
+数据集组合先读取 `dataset_fallback_decision.yaml`：coverage 全通过时用 NYUv2+KITTI；KITTI local coverage 失败且 VKITTI2 通过时用 NYUv2+VKITTI2，KITTI 只报告 image-level sensitivity，不能同时保留为 local defect 证据。
+
 问题：corrupted `D1` 是否比独立训练、冻结且公平的 `D0` 更差？
 
 $$
@@ -27,7 +29,7 @@ $$
 
 1. `expert_manifest.json` 中 D0/D1 checkpoint SHA256；
 2. 两 expert 使用 Step 005 同构输入合同、相同 optimizer/updates/seeds；
-3. `expert_stacking_plan.json` 与 `expert_cache_manifest.json` 通过 scene-group OOF 审计；router-train 不含训练内 expert prediction；
+3. `expert_stacking_plan.json` 与 `expert_cache_manifest.json` 通过 sequence/drive-cluster OOF 及实体文件 hash 审计；router-train 不含训练内 expert prediction；
 4. `D1` 未见 corruption/router 数据。
 
 缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。

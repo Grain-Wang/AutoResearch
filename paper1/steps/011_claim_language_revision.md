@@ -10,20 +10,21 @@
 | 细粒度文本/语义原子是创新 | 最近邻已有机制 | CapDepth 已覆盖 |
 | 冻结视觉+语言校准是创新 | 最近邻已有机制 | arXiv:2601.01457 与 TR2M 已覆盖 |
 | 通用 advantage gate 是创新 | 必须与 L2D/SelectiveNet 比较 | 两专家选择本身并不新 |
-| cross-fitting/正交残差是创新 | 标准统计学习组件的任务化使用 | DML 与 Orthogonal Statistical Learning 已覆盖 |
+| cross-fitting/partial residual 是创新 | 标准统计学习组件的任务化使用；不称 orthogonalized | 当前没有 Neyman-orthogonal moment；DML 只作启发来源 |
 | CVaR/coverage control 是创新 | 标准尾部风险与选择预测组件的任务化使用 | CVaR optimization、Learn then Test 与近期 general risk control 已覆盖 |
 | 区域/dense defer 是创新 | 直接算法基线 | DeferredSeg 已覆盖 pixel-wise defer 与 spatial coherence |
 | 经验误差贡献教师是创新 | 直接算法基线 | MRUF 已使用 leave-one-out error increase 监督路由 |
 | 连续 advantage defer 是创新 | 直接算法基线 | Regression with Multi-Expert Deferral 已覆盖连续损失与 two-stage defer |
 | 冻结专家 post-hoc router 是创新 | 直接算法基线 | Density-Ratio Post-Hoc L2D 已覆盖冻结 expert scorer 与可调 threshold |
+| 语言条件+冻结专家+dense contribution routing 是创新 | 已被 TIGER 直接覆盖 | TIGER 使用 task instruction、token routing 和 expert-exclusion contribution target |
 | 完整真实 caption | predicate-clean caption | oracle 只排除启用 predicates，不能证明完整 factuality |
 
 ## 两个独立主张
 
 | 主张 | 允许的最强表述 | 唯一支持门禁 | 失败动作 |
 | --- | --- | --- | --- |
-| Claim-F（科学） | predicate-clean/错误条件下，原始文本—区域语义具有任务有效的增量预测信息 | 同模型/同目标 C-direct−B-direct 与 C-direct−C-permuted 的 AUROC/HV scene-cluster CI 下界均 >0 | 删除语义增量与自然部署外推 |
-| Claim-M（方法） | clean-retention/tail-regret 决策过程优于相同 OOF experts、合法特征和预算的直接 defer 方法 | Main 相对 Risk-L2D-C 及四个 published-method adaptations 的 HV scene-cluster CI 下界均 >0 | 删除算法贡献；不得用 Claim-F 代替 |
+| Claim-F（科学） | predicate-clean/错误条件下，原始文本—区域语义具有任务有效的增量预测信息 | 固定宽度同模型/同目标 C-direct−B-direct 与两类 C-direct−C-permuted 的 AUROC/HV cluster-CI 下界均 >0 | 删除语义增量与自然部署外推 |
+| Claim-M（方法） | 固定 clean utility 下的局部尾部 regret 决策优于相同 OOF experts、合法特征和预算的 direct defer 方法 | dev 冻结 retention≥0.80 的最低 CVaR threshold；internal-test 上 Main-PR 相对 Risk-L2D-C、TIGER-style LOO 及 faithful/matched published adaptations 的 CVaR/WorstOf3 风险差 cluster-CI 上界均 <0 | 删除算法贡献；不得用 Claim-F 代替 |
 
 ## 结果出现前允许的主张
 

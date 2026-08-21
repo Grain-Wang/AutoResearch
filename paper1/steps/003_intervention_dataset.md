@@ -2,17 +2,18 @@
 
 ## Status
 
-`IN-PROGRESS`。通用 split builder 已加入 RGB 内容哈希、sequence 隔离和泄漏测试；NYUv2/KITTI 适配器、真实 JSONL、annotation coverage 与 power 结果尚不存在。
+`IMPLEMENTED, REMOTE VALIDATION PENDING`。NYUv2/KITTI source adapters、training-only pilot builder、frozen-crop annotation coverage、20-grid cluster power 与 provenance verifier 已实现；真实数据、测试和门禁只允许在授权 Linux 节点的 `whr/AutoResearch` 工作区执行，尚未形成可提交的远端结果。
 
 ## Canary sampling
 
 - NYUv2 与 KITTI **各 500 张都只从 official training pool 选择**；official benchmark test 在方法、阈值和超参数完全冻结前不得读取。
 - 300 train / 100 dev / 100 internal-test 仅是首轮 power/coverage pilot，不是无条件冻结的最终样本量；若主门禁 power <0.80，必须增加独立 internal-test scenes，不能增加 patch 冒充样本。
-- `paper1/experiments/covol/build_image_manifest.py` 载入 official-train candidate manifest 与 official benchmark-test manifest，同时断言 image ID、scene ID、sequence ID 和 RGB SHA256 交集均为 0。
-- 源 manifest 每行强制包含 `rgb_sha256, sequence_id, frame_index`；重复 RGB 内容即使 image ID 不同也硬失败。
-- sequence 按稳定 hash 排序且不可跨 split；该规则比“只排除相邻一帧”更保守，保证同一 NYUv2 sequence/KITTI drive 的全部近邻帧只属于一个 split。
+- Step 003 唯一 builder 是 `build_training_pilot_manifest.py`，配置中出现任何 official-test 路径即硬失败；`build_image_manifest.py` 已改为 Step-008-only integrity audit，必须显式 `--allow-official-test-read` 才能读取 test manifest。
+- 源 manifest 每行强制包含 `rgb_sha256, sequence_id, frame_index`；pilot builder 另写入由完整训练池 scene–sequence 图计算的 `cluster_id`；重复 RGB 内容即使 image ID 不同也硬失败。
+- scene 与 sequence 形成 bipartite connected components，component 按稳定 hash 排序且不可跨 split；`cluster_id` 是 component 节点集合的 SHA256，coverage/power 按该独立单位计数并拒绝同一 scene/sequence 映射到多个 cluster。
 - 真实适配器必须从原始 RGB bytes 计算 SHA256，不得信任下载清单中的预填值；NYUv2 scene/sequence 与 KITTI drive/frame 映射需各自单测。
 - official benchmark test 只允许在 Step 008 完全冻结方法后运行一次；任何提前读取都使正式结果失效。
+- 正式 Step-003 rows 必须通过可信源合同：NYUv2 adapter/archive/splits/eval-crop SHA 全部固定；KITTI adapter、canonical training list、source revision 与 selection-audit SHA 全部固定。任意自报 64 位字符串不能通过 coverage/power gate。
 
 ## Structured intervention corpus
 
@@ -57,7 +58,7 @@ natural-error 与 structured intervention 分开报告。若独立 scenes 或自
 
 每条 structured 记录至少包含：
 
-`image_id, dataset, scene_id, sequence_id, frame_index, rgb_sha256, split, predicate_clean_caption, intervention, error_type, variant_id, target_region, generator, generator_revision, template_id, seed, source_caption_hash, machine_check`。
+`image_id, dataset, scene_id, sequence_id, cluster_id, frame_index, rgb_sha256, split, predicate_clean_caption, intervention, error_type, variant_id, target_region, generator, generator_revision, template_id, seed, source_caption_hash, machine_check`。
 
 `machine_check` 至少包含：
 
@@ -89,15 +90,19 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 - 每数据集至少 150 张图具有 reliable mask 且目标内 ≥32 个 valid-depth pixels；
 - 每数据集至少 300 个实体对满足两个 mask 各 ≥32 valid-depth pixels 且 median-depth gap ≥10%；
 - KITTI 未达门禁时，structured outdoor set 切换为 Virtual KITTI 2；KITTI 仅保留 image-level sensitivity/fallback，不伪造局部 oracle。
+- 分支唯一由 `configs/covol/dataset_fallback_decision.yaml` 决定；一旦 VKITTI2 fallback 生效，Claim-F/Claim-M 的 local 两数据集证据固定为 NYUv2+Virtual KITTI 2，KITTI 不再出现在 local gate 中。
 
-随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次 power simulation，分别估计 `ΔAUROC=0.03` 与 HV 门禁 power。主场景 power 必须 ≥0.80；不足时扩大独立 scene 数或把 natural-error 结论降为描述统计。
+随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次 power simulation。planning AUROC effect 固定为 `0.05`，最终最小 point gate 仍为 `0.03`；主场景 power 必须 ≥0.80。formal failure 只有在 manifest/split-audit/implementation/grid/seed/5,000 simulations/20 scenarios 全部 hash-linked 时才允许扩大 independent internal-test scenes。
+
+所有下载、adapter、coverage、power、Ruff、Black 与 Pytest 均在授权 Linux 节点 `whr/AutoResearch` 下执行；大型数据保存在该目录的忽略路径中，不在本机执行科学门禁，也不提交 archive、RGB、cache 或生成 manifest。
 
 ## Expected artifacts
 
 - `paper1/experiments/covol/build_interventions.py`
 - `paper1/experiments/covol/audit_annotation_coverage.py`
 - `paper1/experiments/covol/power_analysis.py`
-- `paper1/experiments/covol/build_image_manifest.py`
+- `paper1/experiments/covol/build_training_pilot_manifest.py`
+- `paper1/experiments/covol/build_image_manifest.py`（Step 008 only）
 - `paper1/data/covol/image_manifest.jsonl`
 - `paper1/data/covol/split_audit.json`
 - `paper1/data/covol/interventions_all.jsonl`：`12N` rows（pilot 12,000）
@@ -110,6 +115,7 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 - `paper1/data/covol/intervention_manifest.json`：schema/version/hash/count/leakage audit
 - `paper1/results/covol/annotation_coverage.csv`
 - `paper1/results/covol/power_analysis.csv`
+- `paper1/configs/covol/dataset_fallback_decision.yaml`
 
 ## Acceptance checks
 

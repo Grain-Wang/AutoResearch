@@ -1,0 +1,28 @@
+version: 1
+input_artifact: paper1/results/covol/annotation_coverage.json
+required_indoor_dataset: NYUv2
+primary_outdoor_dataset: KITTI
+fallback_outdoor_dataset: Virtual KITTI 2
+
+branches:
+  - when: nyuv2_pass_and_kitti_pass
+    local_claim_datasets: [NYUv2, KITTI]
+    kitti_role: local_primary
+    decision: GO_LOCAL_CLAIMS_NYUV2_KITTI
+  - when: nyuv2_pass_and_kitti_fail_and_vkitti2_pass
+    local_claim_datasets: [NYUv2, Virtual KITTI 2]
+    kitti_role: image_level_sensitivity_only
+    decision: GO_LOCAL_CLAIMS_NYUV2_VKITTI2
+  - when: nyuv2_fail
+    local_claim_datasets: []
+    kitti_role: diagnostic_only
+    decision: STOP_LOCAL_CLAIMS
+  - when: nyuv2_pass_and_kitti_fail_and_vkitti2_not_passed
+    local_claim_datasets: [NYUv2]
+    kitti_role: image_level_sensitivity_only
+    decision: STOP_TWO_DATASET_CLAIM_PENDING_VKITTI2
+
+forbidden_claims:
+  - treat_kitti_image_level_sensitivity_as_local_oracle_evidence
+  - require_kitti_local_gate_after_vkitti2_branch_is_selected
+  - describe_structured_only_evidence_as_natural_deployment_prevalence

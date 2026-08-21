@@ -23,7 +23,7 @@
 | --- | --- | --- |
 | 空间粒度 | global、8×8、16×16、32×32 | 相同特征、风险目标、预算和 coverage grid |
 | gate 上采样 | hard-nearest、soft-bilinear | 相同 16×16 logits；soft 版本用插值后的 `p(D1)` 混合冻结深度，不再二次阈值化 |
-| residualization | raw advantage、5-fold scene-group OOF residual | 相同 `z_C`、风险目标与模型容量 |
+| residualization | raw advantage、5-fold sequence/drive-cluster OOF partial residual | 相同 `z_C`、风险目标与模型容量 |
 | 风险目标 | mean regret、CVaR@20% + clean constraint | 相同训练样本、trial 数和 seeds |
 
 主表报告全部预注册组合；不得只展示最佳粒度或最佳插值方式。

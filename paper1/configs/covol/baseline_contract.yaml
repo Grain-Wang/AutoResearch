@@ -1,9 +1,11 @@
-version: 2
+version: 3
 feature_sets:
   z_b:
     description: visual difficulty plus candidate difference and residual features
   z_c:
     description: z_b plus all text-region semantic features
+  z_bc_fixed_width:
+    description: fixed-width concatenation of z_b and a semantic block plus mask
 
 heuristics:
   - always_d0
@@ -16,13 +18,20 @@ heuristics:
 
 claim_f_controls:
   b_direct:
-    features: z_b
+    features: z_bc_fixed_width
+    semantic_block: masked_zero
     objective: standard_direct_advantage
   c_direct:
-    features: z_c
+    features: z_bc_fixed_width
+    semantic_block: observed
     objective: standard_direct_advantage
-  c_permuted:
-    features: z_c_scene_permuted
+  c_permuted_global_match:
+    features: z_bc_fixed_width
+    semantic_block: cross_cluster_length_scene_matched
+    objective: standard_direct_advantage
+  c_permuted_local_relation:
+    features: z_bc_fixed_width
+    semantic_block: local_entity_relation_permuted
     objective: standard_direct_advantage
 
 learned:
@@ -51,9 +60,27 @@ learned:
     source: arxiv_2607_10599
     features: z_c
     objective: leave_one_out_contribution_plus_uncertainty
-  main:
+  main_pr:
     features: z_c
-    objective: crossfit_residual_plus_clean_constraint_plus_cvar
+    objective: crossfit_partial_residual_plus_clean_constraint_plus_cvar
+
+objective:
+  specification: paper1/steps/014_objective_and_algorithm_spec.md
+  cvar_tail_fraction: 0.20
+  clean_retention_constraint: 0.80
+  clean_gain_practical_threshold: max_2x_repeatability_q95_or_1pct_d0_risk
+  clean_gain_invalid_bootstrap_fraction_stop: 0.05
+  corruption_aggregation: region_then_worst_of_3_then_image_mean
+  dual_initial_value: 0.0
+  dual_learning_rate: 0.01
+  dual_max_value: 100.0
+  gate_temperature: 0.10
+  dev_threshold_selection: min_cvar_among_retention_ge_0.80
+  dev_threshold_tie_break: max_retention_then_smallest_threshold_id
+  internal_test_primary_metrics:
+    - cvar_at_dev_frozen_retention_ge_0.80
+    - worst_of_3_at_dev_frozen_retention_ge_0.80
+  hypervolume_role: secondary_only
 
 artifact_controls:
   text_only:
@@ -78,11 +105,24 @@ feature_policy:
     - machine_check
     - source_caption_hash
     - split
+    - ground_truth
+    - depth_gt
+    - target
+    - label
+    - advantage
+    - a_p
+    - d0_loss
+    - d1_loss
+    - oracle
+    - test_metric
   require_source_function: true
+  require_repository_relative_source_file_path: true
   require_source_file_sha256: true
+  recompute_source_file_sha256: true
 
 fairness:
-  trainable_parameter_tolerance: 0.10
+  published_adaptation_modes: [faithful, capacity_matched]
+  capacity_matched_parameter_tolerance: 0.10
   hyperparameter_trials: 20
   seeds: [17, 29, 43]
   coverage_grid: [0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00]
@@ -93,4 +133,6 @@ fairness:
   bootstrap_unit: scene_or_drive
   bootstrap_replicates: 10000
   hypervolume_reference: 1.05_times_dev_always_d1_cvar
+  hypervolume_role: secondary_only
+  primary_claim_m_selection: dev_frozen_cvar_at_clean_retention_ge_0.80
   claim_m_requires_all_direct_baselines: true

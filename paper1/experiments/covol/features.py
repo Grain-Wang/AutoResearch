@@ -19,10 +19,20 @@ INTERVENTION_METADATA_DENYLIST = frozenset(
         "machine_check",
         "source_caption_hash",
         "split",
+        "ground_truth",
+        "depth_gt",
+        "target",
+        "label",
+        "advantage",
+        "a_p",
+        "d0_loss",
+        "d1_loss",
+        "oracle",
+        "test_metric",
     }
 )
 ALLOWED_SOURCE_KINDS = frozenset({"image", "candidate", "caption_content"})
-_SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 
 
 def _normalize_name(value: object) -> str:
@@ -79,9 +89,32 @@ def validate_feature_schema(
         source_function = str(column.get("source_function", "")).strip()
         if not source_function:
             raise ValueError(f"feature {name!r} has no source_function")
-        source_sha256 = str(column.get("source_file_sha256", "")).strip().lower()
-        if _SHA256_PATTERN.fullmatch(source_sha256) is None:
-            raise ValueError(f"feature {name!r} has invalid source_file_sha256")
+        source_path = Path(str(column.get("source_file_path", "")).strip())
+        if not str(source_path) or source_path.is_absolute():
+            raise ValueError(
+                f"feature {name!r} must use a repository-relative source_file_path"
+            )
+        resolved_source_path = (REPOSITORY_ROOT / source_path).resolve(strict=True)
+        try:
+            portable_source_path = resolved_source_path.relative_to(REPOSITORY_ROOT)
+        except ValueError as error:
+            raise ValueError(
+                f"feature {name!r} source_file_path escapes the repository"
+            ) from error
+        if not resolved_source_path.is_file():
+            raise ValueError(f"feature {name!r} source_file_path is not a file")
+        digest = hashlib.sha256()
+        with resolved_source_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        source_sha256 = digest.hexdigest()
+        declared_sha256 = column.get("source_file_sha256")
+        if declared_sha256 is not None and str(declared_sha256).strip().lower() != (
+            source_sha256
+        ):
+            raise ValueError(
+                f"feature {name!r} source_file_sha256 does not match the local file"
+            )
 
         seen_names.add(normalized_name)
         normalized_columns.append(
@@ -90,6 +123,7 @@ def validate_feature_schema(
                 "source_fields": [str(value) for value in source_fields],
                 "source_kind": source_kind,
                 "source_function": source_function,
+                "source_file_path": portable_source_path.as_posix(),
                 "source_file_sha256": source_sha256,
             }
         )

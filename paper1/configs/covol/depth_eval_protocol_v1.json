@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "protocol_version": "covol-depth-eval-v1",
+  "datasets": {
+    "NYUv2": {
+      "image_height": 480,
+      "image_width": 640,
+      "crop": {
+        "y_start_inclusive": 45,
+        "y_end_exclusive": 471,
+        "x_start_inclusive": 41,
+        "x_end_exclusive": 601
+      },
+      "minimum_depth_exclusive_m": 0.001,
+      "maximum_depth_exclusive_m": 10.0,
+      "depth_key": "rawDepths"
+    }
+  }
+}

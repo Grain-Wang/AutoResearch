@@ -16,7 +16,7 @@
 | --- | --- | --- | --- |
 | 001 主线范围 | DONE-DESIGN | 唯一主线锁为 CoVoL；Q-GeoRoute 停放 | 只有正式范围变更才能切主线 |
 | 002 最近邻审计 | DONE-DESIGN | 增补 MRUF、DeferredSeg、Regression Deferral、Density-Ratio Post-Hoc L2D；覆盖机制已撤回新颖性 | 首次 GPU 实验前再检索一次最新近邻 |
-| 003 干预数据 | IN-PROGRESS | split builder 已检查 image/scene/sequence/RGB hash；真实 adapters、coverage/power/干预未生成 | 先完成 annotation coverage 与 power gate |
+| 003 干预数据 | IMPLEMENTED / REMOTE-GATE-PENDING | training-only connected-component split、NYUv2/KITTI adapters、frozen-crop coverage、formal power/provenance 已实现；远端数据与门禁尚未冻结 | 在授权 Linux `whr` 工作区完成数据下载、Ruff/Black/Pytest、真实 coverage/power；未通过则不进 005 |
 | 004 缺陷复现 | PENDING | 已拆为 004-A H-sensitivity 与 004-B H-fallback-defect；前者依赖 003，后者依赖 005 | 不再用 TR2M 单 checkpoint 声称 H-defect |
 | 005 冻结专家 | IN-PROGRESS | OOF stacking plan/cache 审计代码完成；同构 D0/D1、负控制和真实 cache 未完成 | 实现 PyTorch 模型并产出 OOF/final checkpoints/cache |
 | 006 语义增量 | PENDING | Claim-F 改为 B-direct/C-direct/C-permuted；Main 使用 outer-5/inner-4 nested OOF | 两个 direct/permuted AUROC/HV cluster-CI 下界均 >0 |

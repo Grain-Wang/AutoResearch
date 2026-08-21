@@ -1,4 +1,4 @@
-"""Build leakage-free internal canary splits from official training pools."""
+"""Run the Step-008 official-test integrity audit after method freeze."""
 
 from __future__ import annotations
 
@@ -143,37 +143,89 @@ def _select_scene_grouped(
     dataset: str,
     split_counts: Mapping[str, int],
     seed: int,
+    max_images_per_component: Mapping[str, int] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
     if set(split_counts) != set(SPLIT_ORDER):
         raise ValueError(f"split_counts must contain exactly {SPLIT_ORDER}")
     if any(count <= 0 for count in split_counts.values()):
         raise ValueError("all split counts must be positive")
-
-    by_sequence: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for record in records:
-        by_sequence[str(record["sequence_id"])].append(record)
-
-    sequence_ids = sorted(
-        by_sequence,
-        key=lambda sequence: _stable_hash(dataset, seed, "sequence", sequence),
+    component_caps = (
+        {split: int(split_counts[split]) for split in SPLIT_ORDER}
+        if max_images_per_component is None
+        else {
+            split: int(max_images_per_component.get(split, 0)) for split in SPLIT_ORDER
+        }
     )
-    sequence_cursor = 0
+    if any(cap <= 0 for cap in component_caps.values()):
+        raise ValueError("all max_images_per_component values must be positive")
+
+    parent: dict[tuple[str, str], tuple[str, str]] = {}
+
+    def find(node: tuple[str, str]) -> tuple[str, str]:
+        parent.setdefault(node, node)
+        while parent[node] != node:
+            parent[node] = parent[parent[node]]
+            node = parent[node]
+        return node
+
+    def union(left: tuple[str, str], right: tuple[str, str]) -> None:
+        left_root = find(left)
+        right_root = find(right)
+        if left_root == right_root:
+            return
+        if left_root < right_root:
+            parent[right_root] = left_root
+        else:
+            parent[left_root] = right_root
+
+    for record in records:
+        union(
+            ("scene", str(record["scene_id"])),
+            ("sequence", str(record["sequence_id"])),
+        )
+
+    component_nodes: dict[tuple[str, str], list[tuple[str, str]]] = defaultdict(list)
+    for node in parent:
+        component_nodes[find(node)].append(node)
+    component_key_by_root = {
+        root: hashlib.sha256(
+            "\n".join(
+                f"{kind}:{identifier}" for kind, identifier in sorted(nodes)
+            ).encode("utf-8")
+        ).hexdigest()
+        for root, nodes in component_nodes.items()
+    }
+    by_component: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        root = find(("scene", str(record["scene_id"])))
+        by_component[component_key_by_root[root]].append(record)
+
+    component_ids = sorted(
+        by_component,
+        key=lambda component: _stable_hash(
+            dataset,
+            seed,
+            "scene-sequence-component",
+            component,
+        ),
+    )
+    component_cursor = 0
     selected: list[dict[str, Any]] = []
-    selected_scene_counts: dict[str, int] = {}
+    selected_cluster_counts: dict[str, int] = {}
 
     for split in SPLIT_ORDER:
         remaining = int(split_counts[split])
-        split_scenes = 0
         while remaining:
-            if sequence_cursor >= len(sequence_ids):
+            if component_cursor >= len(component_ids):
                 raise ValueError(
-                    f"{dataset}: insufficient sequence-disjoint training images "
+                    f"{dataset}: insufficient scene/sequence-disjoint training "
+                    "images "
                     f"for split {split!r}; {remaining} still required"
                 )
-            sequence_id = sequence_ids[sequence_cursor]
-            sequence_cursor += 1
-            sequence_records = sorted(
-                by_sequence[sequence_id],
+            component_id = component_ids[component_cursor]
+            component_cursor += 1
+            component_records = sorted(
+                by_component[component_id],
                 key=lambda record: _stable_hash(
                     dataset,
                     seed,
@@ -181,11 +233,16 @@ def _select_scene_grouped(
                     record["image_id"],
                 ),
             )
-            take = min(remaining, len(sequence_records))
-            for record in sequence_records[:take]:
+            take = min(
+                remaining,
+                len(component_records),
+                component_caps[split],
+            )
+            for record in component_records[:take]:
                 selected.append(
                     {
                         **record,
+                        "cluster_id": component_id,
                         "split": split,
                         "selection_hash": _stable_hash(
                             dataset,
@@ -196,10 +253,15 @@ def _select_scene_grouped(
                     }
                 )
             remaining -= take
-            split_scenes += 1
-        selected_scene_counts[split] = split_scenes
+        selected_cluster_counts[split] = len(
+            {
+                str(record["cluster_id"])
+                for record in selected
+                if record["split"] == split
+            }
+        )
 
-    return selected, selected_scene_counts
+    return selected, selected_cluster_counts
 
 
 def build_dataset_manifest(
@@ -207,7 +269,13 @@ def build_dataset_manifest(
     *,
     config_dir: Path,
     default_seed: int,
+    allow_official_test_read: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    if not allow_official_test_read:
+        raise PermissionError(
+            "official benchmark test manifests are frozen until Step 008; "
+            "use build_training_pilot_manifest.py during Step 003"
+        )
     dataset = str(spec["name"])
     training_path = (config_dir / str(spec["training_manifest"])).resolve()
     test_path = (config_dir / str(spec["official_test_manifest"])).resolve()
@@ -240,7 +308,7 @@ def build_dataset_manifest(
         test_records,
         dataset=dataset,
     )
-    selected, scene_counts = _select_scene_grouped(
+    selected, cluster_counts = _select_scene_grouped(
         training_records,
         dataset=dataset,
         split_counts=split_counts,
@@ -277,7 +345,7 @@ def build_dataset_manifest(
             split: sum(record["split"] == split for record in selected)
             for split in SPLIT_ORDER
         },
-        "selected_scene_counts": scene_counts,
+        "selected_cluster_counts": cluster_counts,
         "official_test_overlap": {
             "image_count": len(image_overlap),
             "scene_count": len(scene_overlap),
@@ -288,7 +356,18 @@ def build_dataset_manifest(
     return selected, audit
 
 
-def build_manifests(config_path: Path, output_path: Path, audit_path: Path) -> None:
+def build_manifests(
+    config_path: Path,
+    output_path: Path,
+    audit_path: Path,
+    *,
+    allow_official_test_read: bool = False,
+) -> None:
+    if not allow_official_test_read:
+        raise PermissionError(
+            "official benchmark test manifests are frozen until Step 008; "
+            "pass --allow-official-test-read only after the method is frozen"
+        )
     config_path = config_path.resolve()
     config = json.loads(config_path.read_text(encoding="utf-8"))
     if not isinstance(config, dict) or not isinstance(config.get("datasets"), list):
@@ -304,6 +383,7 @@ def build_manifests(config_path: Path, output_path: Path, audit_path: Path) -> N
             spec,
             config_dir=config_path.parent,
             default_seed=default_seed,
+            allow_official_test_read=True,
         )
         all_records.extend(records)
         dataset_audits.append(audit)
@@ -341,12 +421,22 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--audit", type=Path, required=True)
+    parser.add_argument(
+        "--allow-official-test-read",
+        action="store_true",
+        help="Step-008-only unlock after every method and threshold is frozen",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = _parse_args()
-    build_manifests(args.config, args.output, args.audit)
+    build_manifests(
+        args.config,
+        args.output,
+        args.audit,
+        allow_official_test_read=args.allow_official_test_read,
+    )
 
 
 if __name__ == "__main__":

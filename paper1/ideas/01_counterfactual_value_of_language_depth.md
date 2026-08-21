@@ -6,17 +6,17 @@
 - **这是仓库唯一主线。** Q-GeoRoute 仅在 Gate-0 否定本方向后启动。
 - 任务限定为：自动图像描述出现局部、可机器验证的语义错误时，在冻结的纯视觉候选 `D0` 与图文候选 `D1` 之间逐区域选择，无收益时回退到 `D0`。
 - “错误语言会损害深度”“长描述/细粒度文本”“冻结视觉骨干+语言校准”“通用 gate”均已被近邻覆盖，不作为贡献。
-- 研究主张拆成两层：Claim-F 用同算法 direct/permuted controls 检验语义是否有增量信息；Claim-M 检验 clean-retention/tail-risk router 是否优于获得相同 OOF experts 与合法 zC 特征的五类 direct defer baselines。
-- cross-fitting、orthogonal residualization、CVaR 与 clean constraint 都是标准组件，不能单独作为创新；只有 Claim-M 的 same-feature 对比通过，组合决策差异才可能成为算法贡献。
+- 研究主张拆成两层：Claim-F 用固定宽度 direct/两类 permuted controls 检验语义是否有增量信息；Claim-M 检验固定 clean utility 下的局部 tail-regret router 是否优于获得相同 OOF experts 与合法 zC 特征的 direct defer baselines。
+- cross-fitting、partial residualization、CVaR 与 clean constraint 都是标准组件，不能单独作为创新；TIGER 也已覆盖语言指令、冻结专家、dense routing 与 expert-exclusion contribution target。只有 Claim-M 的 same-feature、faithful/matched 对比通过，任务专属决策差异才可能成为算法贡献。
 
 术语统一：`counterfactual` 改为 **controlled caption intervention**；`value` 仅指两个冻结候选间的 **empirical advantage**，无因果含义；`safe` 改为 **selective/fallback-aware**，不声称分布外安全保证。
 
 ## 1. 可证伪假设
 
 1. **H-sensitivity（诊断）：** 同一 D1 的 corrupted caption 相对 clean caption 显著退化；可用 TR2M checkpoint，但不证明 fallback 必要。
-2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差，且 NYUv2/KITTI scene/drive-cluster regret 95% CI 下界均 >0。
-3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted` 的 advantage AUROC 和 retention–CVaR hypervolume scene-cluster CI 下界均 >0；Main-orth 不参与。
-4. **H-method / Claim-M：** clean gain retention ≥80%、worst-of-3 regret 降低 ≥50%，且 Main 相对 Risk-L2D-C、regression、density-ratio、dense-coherence 与 LOO-uncertainty baselines 的 Pareto hypervolume scene-cluster CI 下界均 >0。
+2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；local coverage 通过时在 NYUv2/KITTI 判定，KITTI 失败则 local claim 唯一切换到 NYUv2+Virtual KITTI 2，KITTI 只保留 image-level sensitivity。
+3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 的 advantage AUROC 和 retention–CVaR hypervolume cluster-CI 下界均 >0；Main-PR 不参与。
+4. **H-method / Claim-M：** dev 只在 clean gain retention ≥80% 的 thresholds 中选最低 CVaR，internal-test 上 Main-PR 相对 Risk-L2D-C、TIGER-style LOO、regression、density-ratio、dense-coherence 与 LOO-uncertainty baselines 的 CVaR/WorstOf3 风险差 cluster-CI 上界均 <0；HV 仅作 secondary。
 
 正式依赖按 `003 → 005 → H-fallback-defect → H-semantic → H-method` 执行。H-sensitivity 可提前诊断，但不能替代公平 D0-relative defect。
 
@@ -36,21 +36,22 @@
 | [DeferredSeg](https://arxiv.org/abs/2604.12411) | dense segmentation defer | base model/人类及多专家 | pixel-wise route + spatial coherence | collaboration surrogate | 区域 defer 与空间一致性已覆盖，不能作为 novelty |
 | [Regression Multi-Expert Deferral](https://arxiv.org/abs/2403.19494) | 连续回归 defer | predictor/multiple experts | single/two-stage defer | H-consistent bounded-loss surrogate | 连续 advantage/defer 已覆盖，必须实现 two-stage baseline |
 | [Density-Ratio Post-Hoc L2D](https://arxiv.org/abs/2605.19557) | 冻结专家 post-hoc defer | frozen model/expert | density-ratio scorer + threshold | DR CPE loss | 冻结候选后处理已覆盖，必须实现 post-hoc baseline |
+| [TIGER](https://arxiv.org/abs/2606.15765) | 异构冻结 VFM 的多任务 dense prediction | CLIP/DINOv2/SAM/OWLv2 features | natural-language task instruction + token routing | expert-exclusion loss change | 语言条件、冻结专家、dense contribution routing 已覆盖；剩余边界只能是同任务双候选的 clean-utility/tail-regret 决策 |
 
 **审计结论：** 当前最强反对意见是“direct regression/dense/post-hoc/LOO routers 与 robust single-expert training 已解释全部收益”。若 H-semantic 失败，删除“语言价值预测”主张；若 Claim-M 未击败这些 killers，撤回算法论文路径，而不是换名包装。
 
-组件级先行工作已补入 [002 related-work audit](../steps/002_related_work_audit.md)。本研究对 cross-fitting、orthogonalization、CVaR 和 risk control 的使用一律标为直接复用或任务化改写。
+组件级先行工作已补入 [002 related-work audit](../steps/002_related_work_audit.md)。本研究对 cross-fitting、partial residualization、CVaR 和 risk control 的使用一律标为直接复用或任务化改写；不存在可复核的正交 score，故不使用 orthogonalized 表述。
 
 ## 3. OOF 冻结协议
 
 ### 3.1 公平候选
 
-- `D0`：冻结 DepthAnything ViT-S 骨干，读取 frozen image-global/multi-scale features；text channel 固定为 null/zero embedding。
+- `D0`：冻结 DepthAnything ViT-S 骨干，读取 frozen image-global/multi-scale features；text channel 使用固定非零 learned-null embedding，并经过与 D1 完全相同的 adapter 路径。
 - `D1`：读取完全相同的 frozen image-global/multi-scale features；唯一变化是 text channel 读取冻结 caption embedding。
 - 两个 head 独立训练、独立保存、无共享可训练参数；数据、mask、优化器、步数和种子相同。
 - 对应层、初始化 seed、参数量和 FiLM 位置逐项一致；`D1` 只看 predicate-clean 自动 caption，`D0` 对 caption permutation 逐元素不变。
 - 先冻结并记录两个 checkpoint 的 SHA256，再缓存 `D0/D1/Delta/mask/features`；router 只能读取缓存。测试必须确认 expert 梯度均为 `None` 且重复缓存逐元素一致。
-- router-train 使用 5-fold scene-group OOF experts；每个 fold 的 experts 排除该 fold scene 后训练。dev/internal-test 由只在非 dev/test scenes 上训练的 final experts 预测。
+- router-train 使用 5-fold sequence/drive-cluster OOF experts；每个 fold 的 experts 排除该 fold 全部近邻帧后训练。dev/internal-test 由只在非 dev/internal-test clusters 上训练的 final experts 预测。
 - 两个 image-only twin heads 与 shuffled-caption D1 作为负控制，排除随机 expert diversity。
 
 ### 3.2 仓库自有实现路线
@@ -89,16 +90,16 @@ $$
 
 ## 5. 候选算法：交叉拟合的语义增量优势
 
-Claim-F 固定三个同算法 controls：`B-direct(zB)`、`C-direct(zC)`、scene-wise `C-permuted(zC)`。三者模型类、参数量、standard objective 和 trials 完全相同，只改变语义信息。Main-orth 不参加 Claim-F。
+Claim-F 固定四个同算法 controls：固定宽度 `B-direct([zB,0,mask=0])`、`C-direct([zB,semantic,mask=1])`、跨 cluster length/scene 匹配的 `C-permuted-global` 和只错配局部实体/关系的 `C-permuted-local`。四者第一层、模型、参数量、standard objective 和 trials 完全相同，只改变语义信息。Main-PR 不参加 Claim-F。
 
-Main 唯一实现固定为 outer 5-fold + inner 4-fold scene-group cross-fitting，详见 [Step 006](../steps/006_semantic_incrementality_gate.md)。inner folds 为每个 outer-train 样本产生未见本样本的 nuisance OOF prediction；trial 以跨 outer-validation 平均 rank 最小选择。最小算法：
+Main-PR 唯一实现固定为 outer 5-fold + inner 4-fold sequence/drive-cluster cross-fitting，详见 [Step 006](../steps/006_semantic_incrementality_gate.md) 与 [唯一目标规范](../steps/014_objective_and_algorithm_spec.md)。inner folds 为每个 outer-train 样本产生未见本样本的 nuisance OOF prediction；trial 以跨 outer-validation 平均 rank 最小选择。最小算法：
 
 1. 在折外样本估计 nuisance advantage `m_p=E[a_p|z_B]`；
 2. 形成不参与自身拟合的残差 `r_p=a_p-m_p`；
 3. semantic branch 只用新增语义特征预测 `r_p`；
 4. 最终分数 `s_p=m_p+ŝ_p`，在 dev 集校准 gate。
 
-这不是已成立的贡献。只有 C-direct 同时超过 B-direct 与 C-permuted，才能支持 Claim-F；只有 Main 进一步超过全部 direct baselines，才能支持 Claim-M。
+这不是已成立的贡献，也不是正交学习。只有 C-direct 同时超过 B-direct 与两类 C-permuted，才能支持 Claim-F；只有 Main-PR 进一步超过全部 direct baselines，才能支持 Claim-M。
 
 删除用 `L_sparse` 防止全关门的设计。预注册 clean gain retention：
 
@@ -108,21 +109,21 @@ G_{clean}=
 {R(D_0)-R(D_{1,clean})}\ge\kappa,\quad\kappa=0.80.
 $$
 
-用 primal-dual 优化 advantage loss 与 corrupted regret 的 `CVaR@20%`，并满足上式约束。`κ` 不得看测试结果后修改。只有 paired clean D1-D0 gain 的 bootstrap 95% CI 下界 >0 才计算 retention，否则输出 `STOP_NO_CLEAN_GAIN`。唯一聚合公式见 [metrics spec](../steps/metrics_spec.md)。
+用 primal-dual 优化 partial-residual loss 与 corrupted regret 的 `CVaR@20%`，并满足上式约束。`κ` 不得看测试结果后修改。只有 paired clean D1-D0 gain 的 bootstrap 95% CI 下界 >0 且超过预注册 `δ_clean` 才计算 retention；invalid bootstrap replicate 比例超过 5% 输出 `STOP_UNSTABLE_CLEAN_GAIN`。唯一聚合与更新公式见 [objective spec](../steps/014_objective_and_algorithm_spec.md) 和 [metrics spec](../steps/metrics_spec.md)。
 
 ## 6. 数据、基线与统计
 
-- NYUv2/KITTI 各从 **official training pool** 按 scene hash 固定 500 张，并各分 300 train / 100 dev / 100 internal-test；构建器必须断言与 official benchmark test 的 image/scene 交集为 0。
+- NYUv2/KITTI 各从 **official training pool** 按 scene–sequence connected component 固定 500 张，并各分 300 train / 100 dev / 100 internal-test；Step 003 不读取 official benchmark test，完整 test integrity audit 只允许 Step 008 显式解锁。
 - 同图像配对 predicate-clean、未经编辑但机器检查失败的 natural error 与 structured local error；null_diagnostic 和随机/全局错配只作独立诊断，不进入 local CVaR。
 - scene/image 不跨 split；template、captioner、替换词表和至少一个 error family 在 test 留出；自然错误与合成干预分开报告。
 - natural `entity_absence` 只对 declared-exhaustive classes 启用，并要求两个独立 detector/segmenter 都未检出；否则标为 `unverified_mention`。predicate precision <0.95 自动禁用。
 - 详细协议见 [003_intervention_dataset.md](../steps/003_intervention_dataset.md)。
 
-heuristic baselines（always-D0/D1、oracle、CLIP、uncertainty、`|D1-D0|`）保留原始零参数实现，不做参数匹配。learned gates 才匹配 Main 的参数量 ±10%、训练步数、3 seeds 和 20-trial 搜索预算。必须新增：
+heuristic baselines（always-D0/D1、oracle、CLIP、uncertainty、`|D1-D0|`）保留原始零参数实现，不做参数匹配。learned published gates 同时报告 faithful 与 capacity-matched 两版；±10% 只约束 matched 版，不能裁剪 faithful 公式。所有 learned gates 共享训练步数、3 seeds 和 20-trial 搜索预算。必须新增：
 
 - L2D-B：读取 zB；
 - L2D-C：读取与 Main 完全相同的 zC；
-- Risk-L2D-C：读取相同 zC，并使用相同 clean constraint + CVaR objective，但不做 orthogonalized residual routing；
+- Risk-L2D-C：读取相同 zC，并使用相同 clean constraint + CVaR objective，但不做 cross-fitted partial residual routing；
 - Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D、LOO-Uncertainty-Router：分别对应连续回归 defer、density-ratio post-hoc、dense spatial coherence 和 leave-one-out contribution routing；
 - robust expert killers：caption dropout、corruption augmentation、three-caption ensemble、image-caption consistency filtering；
 - artifact controls：text-only classifier 与 frozen VLM grounding scorer。

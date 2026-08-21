@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import hashlib
+from pathlib import Path
+
 import pytest
 from paper1.experiments.covol.features import (
     feature_schema_payload,
     validate_feature_schema,
 )
 
-VALID_SHA256 = "a" * 64
+SOURCE_FILE_PATH = "paper1/experiments/covol/features.py"
+VALID_SHA256 = hashlib.sha256(Path(SOURCE_FILE_PATH).read_bytes()).hexdigest()
 
 
 def _column(
@@ -20,6 +24,7 @@ def _column(
         "source_fields": source_fields,
         "source_kind": source_kind,
         "source_function": "paper1.experiments.covol.features.example",
+        "source_file_path": SOURCE_FILE_PATH,
         "source_file_sha256": VALID_SHA256,
     }
 
@@ -49,6 +54,10 @@ def test_valid_schema_has_stable_hash_and_provenance() -> None:
         ("semantic_score", ["error_type"]),
         ("generator_revision_embedding", ["raw_caption"]),
         ("fold_hint", ["split"]),
+        ("renamed_gt_embedding", ["ground_truth_depth"]),
+        ("benefit_proxy", ["advantage"]),
+        ("candidate_loss_pair", ["d0_loss", "d1_loss"]),
+        ("oracle_hint", ["oracle_region"]),
     ],
 )
 def test_rejects_direct_or_derived_intervention_metadata(
@@ -63,5 +72,5 @@ def test_requires_traceable_source_sha() -> None:
     column = _column("candidate_difference", source_fields=["d0_depth", "d1_depth"])
     column["source_file_sha256"] = "not-a-sha"
 
-    with pytest.raises(ValueError, match="source_file_sha256"):
+    with pytest.raises(ValueError, match="does not match the local file"):
         validate_feature_schema([column])

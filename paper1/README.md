@@ -10,34 +10,37 @@
 2. [最近邻审计](steps/002_related_work_audit.md)
 3. [主研究方案](ideas/01_counterfactual_value_of_language_depth.md)
 4. [执行状态表](steps/README.md)
-5. [最新审稿意见](responce_from_reviewer/review_20260821_032352.md)
-6. [最新回应](responce_from_reviewer/response_20260821_032352.md)
+5. [最新审稿意见](responce_from_reviewer/review_20260821_153624.md)
+6. [最新回应](responce_from_reviewer/response_20260821_153624.md)
 
 ## 执行顺序
 
 主依赖链固定为：
 
-`003 数据适配/coverage/power → 005 scene-group OOF 公平专家 → 004-fallback 正式缺陷复现 → 006 direct/permuted Claim-F Gate → 007 direct+robust killer baselines → 008 最终 canary`。
+`003 数据适配/coverage/power → 005 sequence/drive-cluster OOF 公平专家 → 004-fallback 正式缺陷复现 → 006 direct/permuted Claim-F Gate → 007 faithful+matched killer baselines → 008 最终 canary`。
 
 `004-sensitivity` 只测同一 `D1` 的 clean→corrupted 敏感性，可在 003 后用 TR2M checkpoint 提前运行，但不能替代正式 H-fallback-defect。
 
-当前已有 split/content-leakage audit、OOF stacking plan audit、feature denylist、核心指标和 scene-cluster bootstrap 代码，但尚无真实数据、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。`paper1/results/` 为空时，所有研究主张均为预注册假设。
+当前已有 training-only split/source/coverage/power audits、OOF stacking plan、feature firewall、核心指标和 denominator-aware cluster bootstrap 代码，但尚无经远端复验的真实门禁结果、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。`paper1/results/` 为空时，所有研究主张均为预注册假设。
 
 ## 当前可运行检查
 
-源 manifest 的每行至少包含 `dataset`、`image_id`、`scene_id`、`sequence_id`、`frame_index`、原始 RGB bytes 的 `rgb_sha256` 和 `official_split`。复制并填写 [image_manifest.example.json](configs/covol/image_manifest.example.json) 后，在仓库根目录运行：
+本轮所有下载、测试和数据门禁只在 `sshconfig.md` 指定的授权 Linux 节点执行，工作区必须位于远端 `whr/AutoResearch`；本机不执行数据或测试。远端激活 `vlm` 环境后，先由 NYUv2/KITTI source adapters 生成 official-training JSONL，再复制并填写 [training pilot example](configs/covol/training_pilot_manifest.example.json)：
 
-```powershell
-conda run -n auto_research python paper1/experiments/covol/build_image_manifest.py `
-  --config paper1/configs/covol/image_manifest.json `
-  --output paper1/data/covol/image_manifest.jsonl `
+```bash
+cd whr/AutoResearch
+conda run -n vlm python paper1/experiments/covol/build_training_pilot_manifest.py \
+  --config paper1/configs/covol/training_pilot_manifest.json \
+  --output paper1/data/covol/image_manifest.jsonl \
   --audit paper1/data/covol/split_audit.json
 
-conda run -n auto_research python -m pytest paper1/tests -q `
-  --basetemp .local-deps/pytest-paper1
+conda run -n vlm python -m ruff check .
+conda run -n vlm python -m black --check .
+conda run -n vlm python -m pytest paper1/tests -q \
+  --basetemp paper1/data/tmp/pytest-paper1
 ```
 
-若 official test 与开发候选在 image、scene、sequence 或 RGB 内容哈希层面有交集，构建脚本会非零退出，不生成可用的通过审计结果。
+Step 003 配置中出现 official-test manifest 会立即失败。`build_image_manifest.py` 仅用于 Step 008 完全冻结后的 test integrity audit，且必须显式传入 `--allow-official-test-read`；不得用它替代当前 training-only builder。
 
 生成真实 router manifest 后，可先冻结 OOF stacking 计划（仍不代表模型已训练）：
 

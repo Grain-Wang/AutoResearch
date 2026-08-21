@@ -19,10 +19,24 @@
 
 | 工作 | 任务 | 预测粒度 | 专家是否冻结 | 贡献/优势教师 | 损失类型 | 本研究剩余边界 |
 | --- | --- | --- | --- | --- | --- | --- |
+| [TIGER](https://arxiv.org/abs/2606.15765) | 多任务 dense prediction 的异构 VFM 协作 | shared token grid 上的 token-level expert weights | 是，CLIP/DINOv2/SAM/OWLv2 均冻结 | 移除每个 expert 后的 task-loss 变化 | task loss + counterfactual contribution alignment | language task instruction、frozen experts、dense routing 与 expert-exclusion target 均已覆盖；本研究只能检验同任务双候选在固定 clean utility 下的局部尾部 regret 决策 |
 | [MRUF](https://arxiv.org/abs/2607.10599) | 鲁棒多模态情感分析 | subspace 与 modality/utterance 多粒度 | 非冻结候选后处理设定 | leave-one-out error increase + modality uncertainty | routing、inverse-variance calibration、contrastive alignment | leave-one-out 经验贡献教师和多粒度可靠性路由已知；只能作为直接 baseline |
 | [DeferredSeg](https://arxiv.org/abs/2604.12411) | 模型与人类专家的医学分割 defer | pixel-wise dense regions | 不是本研究的冻结双模型设定 | base/expert discrepancy | pixel-wise collaboration surrogate + spatial-coherence + load balance | dense defer、空间一致性与多专家路由已知；区域 gate 不构成创新 |
 | [Regression with Multi-Expert Deferral](https://arxiv.org/abs/2403.19494) | 连续回归向多个专家 defer | instance-level continuous regression | two-stage 支持 pre-trained predictor | bounded regression loss 与 expert cost | single/two-stage H-consistent surrogate | 连续 advantage/defer 已知；必须实现其 two-stage surrogate 对照 |
 | [Density-Ratio Losses for Post-Hoc L2D](https://arxiv.org/abs/2605.19557) | 冻结 model/expert 的 post-hoc defer | instance-level thresholded scorer | 是，post-hoc | model/expert ideal-distribution density ratio | DR class-probability-estimation loss | 冻结候选后处理与可调 threshold 已知；必须实现 density-ratio 对照 |
+
+## 六个直接机制的八维对照
+
+`✓` 表示原方法核心或本方案预注册组件；`—` 表示不是其主要机制。Main-PR 各组件仍为 `UNVERIFIED`，不能由矩阵直接推出新颖性。
+
+| 工作 | 冻结 experts | 语言指令/条件 | token/region routing | expert-exclusion target | clean utility 约束 | 上尾 regret | 同任务候选替换 | 本研究角色 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| TIGER | ✓ | task instruction | token | ✓ | — | — | —；异构 feature fusion | faithful/matched direct baseline |
+| MRUF | 部分 | modality context | utterance/subspace | ✓ | — | uncertainty-weighted | — | LOO-uncertainty baseline |
+| DeferredSeg | model+human | — | pixel | discrepancy | load balance | — | segmentation defer | dense-coherence baseline |
+| Regression-L2D | 可 two-stage 冻结 | — | instance | bounded expert cost | — | — | continuous prediction/expert | faithful/matched regression baseline |
+| DR-PostHoc-L2D | ✓ | — | instance threshold | density ratio | — | — | frozen model/expert | faithful/matched post-hoc baseline |
+| Main-PR | ✓ | caption-region content | region | empirical D1-D0 advantage；非新颖 | retention `>=0.80` | CVaR@20% | 同任务 D0/D1 | 待否证候选 |
 
 ## 组件级先行工作
 
@@ -30,8 +44,8 @@
 
 | 组件级工作 | 已覆盖内容 | 本研究使用方式 | 边界判定 |
 | --- | --- | --- | --- |
-| [Double/Debiased Machine Learning](https://arxiv.org/abs/1608.00060) | orthogonal score、sample splitting 与 K-fold cross-fitting | 对场景分组后的 advantage nuisance 产生 OOF residual | cross-fitting 直接复用；scene-group 与 dense-depth 统计单位是任务化改写 |
-| [Orthogonal Statistical Learning](https://arxiv.org/abs/1901.09036) | 两阶段 nuisance estimation 与正交损失下的泛化分析 | 将视觉难度、候选差异和残差幅度视为 nuisance | orthogonalization 直接复用；本研究没有提出新的正交学习理论 |
+| [Double/Debiased Machine Learning](https://arxiv.org/abs/1608.00060) | orthogonal score、sample splitting 与 K-fold cross-fitting | 仅借用 sample splitting/cross-fitting 形成场景分组 OOF partial residual | cross-fitting 直接复用；本研究没有 Neyman-orthogonal score，不继承 DML 理论 |
+| [Orthogonal Statistical Learning](https://arxiv.org/abs/1901.09036) | 两阶段 nuisance estimation 与正交损失下的泛化分析 | 仅作为“为何要隔离 nuisance 拟合”的启发来源 | 当前损失不是正交损失；不得把 Main-PR 称为 orthogonal learning |
 | [Optimization of Conditional Value-at-Risk](https://doi.org/10.21314/JOR.2000.038) | CVaR 的尾部风险定义与优化形式 | 在先按 caption variants 聚合得到的图像级风险上优化 CVaR@20% | CVaR 直接复用；image-level 聚合和 clean-gain 约束是任务化改写 |
 | [Learn then Test](https://arxiv.org/abs/2110.01052) | 对候选规则进行有限样本风险控制和多重检验 | 用固定 coverage 网格审计选择策略，而不声称逐样本安全保证 | 风险控制思想直接复用；当前方案尚未提供其同等级有限样本保证 |
 | [Conformal Selective Prediction with General Risk Control](https://arxiv.org/abs/2603.24704) | 一般风险下的选择性预测与校准 | 作为 risk-aware selective prediction 的近期强对照边界 | 选择性风险控制不是本研究新颖性；若采用其保证，必须单列实现与假设 |
@@ -47,16 +61,17 @@
 7. DeferredSeg 已实现 pixel-wise dense defer 与 spatial-coherence routing；“区域 defer”不能作为新颖性。
 8. Regression with Multi-Expert Deferral 已覆盖 bounded continuous loss 下的 single/two-stage defer；“连续 advantage defer”不能作为新颖性。
 9. Density-Ratio Post-Hoc L2D 已覆盖冻结 model/expert 的 scorer 与可调 threshold；“冻结专家后处理”不能作为新颖性。
+10. TIGER 已覆盖自然语言 task instruction、冻结异构 VFM、token-level dense routing 与 expert-exclusion contribution alignment；这些机制全部不能作为本研究新颖性。
 
 ## 当前仅剩的可测试差异
 
 | 待验证主张 | 必要实验 | 失败后处理 |
 | --- | --- | --- |
 | Claim-F：文本—区域语义在控制视觉难度和候选差异后仍有任务有效的增量预测力 | 同模型/同目标 `C-direct−B-direct` 与 `C-direct−C-permuted`；AUROC/HV scene-cluster CI | 任一门禁失败即删除语义增量主张 |
-| Claim-M：组合决策算法优于相同输入和风险目标的标准方法 | Main 必须同时击败 Risk-L2D-C、regression surrogate、density-ratio、dense-coherence 和 LOO-uncertainty direct baselines | 任一直接方法差值 CI 下界不大于 0 时删除算法贡献，仅保留 Claim-F（若成立） |
+| Claim-M：固定 clean utility 下的局部尾部 regret 决策优于相同输入和风险目标的标准方法 | Main-PR 必须同时击败 Risk-L2D-C、TIGER-style LOO、regression surrogate、density-ratio、dense-coherence 和 LOO-uncertainty；主判据为 dev-frozen `CVaR/WorstOf3@Retention>=0.80` | 任一直接方法差值 CI 下界不大于 0 时删除算法贡献，仅保留 Claim-F（若成立） |
 | region replacement 有必要 | global vs 8×8/16×16/32×32；局部错误 mask | 若 global 相同则删除区域机制 |
 
-cross-fitting、orthogonal residualization、CVaR、coverage control、dense defer、leave-one-out contribution teacher、continuous regression defer 和 frozen-expert post-hoc scoring 均不再作为独立贡献。唯一可能的方法贡献是特定 clean-retention/tail-regret 决策过程同时击败全部 direct baselines；这必须由步骤 007/008 支持。
+cross-fitting、partial residualization、CVaR、coverage control、dense defer、leave-one-out contribution teacher、language-guided frozen-expert routing、continuous regression defer 和 frozen-expert post-hoc scoring 均不再作为独立贡献。唯一可能的方法贡献是固定 clean utility 下的同任务双候选局部尾部 regret 决策同时击败全部 faithful/matched direct baselines；这必须由步骤 007/008 支持。
 
 ## 实现可用性审计
 
@@ -68,7 +83,8 @@ cross-fitting、orthogonal residualization、CVaR、coverage control、dense def
 
 - 主线保留为 Research Opportunity。
 - 不主张“首次发现错误文本危害”“首次细粒度 caption 深度”“首次冻结视觉语言校准”或“首次 advantage gate”。
-- 不把 cross-fitting、orthogonalization、CVaR 或 selective risk control 单独列为贡献。
+- 不把 cross-fitting、partial residualization、CVaR 或 selective risk control 单独列为贡献，也不使用未定义的 orthogonalization 表述。
+- TIGER 已使“语言条件 + 冻结 experts + dense contribution routing”失去新颖空间；若 `014_objective_and_algorithm_spec.md` 的 clean-utility/tail-regret 差异不能在 direct baselines 上得到证据，Claim-M 降为 `ANALYSIS-ONLY`。
 - 不把区域 defer、经验误差贡献教师、连续 advantage defer 或冻结专家 post-hoc routing 列为贡献。
 - Claim-F 与 Claim-M 必须分开判定；H-semantic 通过不自动支持算法新颖性。
 - 最近邻审计在第一次 GPU 实验前、Paper Candidate Gate 前各重跑一次；发现同构方法时立即更新 `001_primary_scope_lock.md` 并重新判定。

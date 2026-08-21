@@ -6,15 +6,15 @@
 
 ## Frozen inputs
 
-- router-train 只读取 Step 005 的 scene-group OOF expert cache；dev/internal-test 只读取 final-expert cache；
+- router-train 只读取 Step 005 的 sequence/drive-cluster OOF expert cache；dev/internal-test 只读取 final-expert cache；
 - 每行 cache 必须先通过 `validate_expert_cache_manifest`，训练内 expert prediction 一律拒绝；
 - official-train 的 train/dev/internal-test scene splits 已由 Step 003 冻结；
 - 同一 image 的 predicate-clean、natural、structured、null-diagnostic captions 与所有 regions 必须在同一 fold；
 - official benchmark test 不进入任何 fold、scaler、trial、threshold 或结果选择。
 
-## Nested scene-group cross-fitting
+## Nested sequence/drive-cluster cross-fitting
 
-仅在 router `train` split 上执行；`scene_id/drive_id` 是不可拆分 cluster。
+仅在 router `train` split 上执行；NYUv2 `sequence_id` 与 KITTI `drive_id` 是不可拆分 cluster，`scene_id` 只作统计字段。
 
 ### Outer 5-fold
 
@@ -59,18 +59,19 @@ tie 不进入 AUROC/AUPRC 的二元标签，但保留在连续回归、Spearman 
 
 ## Claim-F controls and Main
 
-固定四个模型：
+固定五个模型：
 
 | 模型 | 输入 | 训练算法/目标 | 进入哪个 claim |
 | --- | --- | --- | --- |
-| `B-direct` | `z_B`：视觉难度、候选差异、residual norm、confidence | standard direct advantage objective | Claim-F |
-| `C-direct` | `z_C=z_B+` text-region semantic content | 与 B-direct 完全相同的模型类、参数量、目标和 trials | Claim-F |
-| `C-permuted` | 与 C-direct 同列，但按 scene 内固定 cyclic permutation 打乱 caption/semantic 对应 | 与 C-direct 完全相同 | Claim-F negative control |
-| `Main-orth` | 原始 `z_C` | inner-OOF nuisance residual + clean/CVaR objective | Claim-M only |
+| `B-direct` | 固定宽度 `[z_B, 0, mask=0]` | standard direct advantage objective | Claim-F |
+| `C-direct` | 同宽度 `[z_B, semantic, mask=1]` | 与 B-direct 完全相同的第一层、模型、参数量、目标和 trials | Claim-F |
+| `C-permuted-global` | 跨 cluster 且 caption length/scene category 匹配的 semantic block | 与 C-direct 完全相同 | Claim-F negative control |
+| `C-permuted-local` | 只置换 target entity/local relation，保留全局场景与文风 | 与 C-direct 完全相同 | Claim-F negative control |
+| `Main-PR` | 原始 `z_C` | inner-OOF partial residual + clean/CVaR objective | Claim-M only |
 
-scene 只有一个 image、无法产生非恒等 permutation 时不静默保留；必须报告不可置换 scene 数，并在 power gate 中处理。Main-orth 不参与 Claim-F 的语义信息判定。
+置换必须报告 caption length、全局 image-text similarity 与 target-region grounding 的 paired 差异；前两者标准化差异绝对值必须 `<0.1`，target grounding 必须显著下降。无法构造有效错配的 cluster 不静默保留，必须在 power gate 中处理。Main-PR 不参与 Claim-F 的语义信息判定。
 
-所有模型的最终列必须通过 `features.py`：`error_type, template_id, generator, generator_revision, variant_id, machine_check, source_caption_hash, split` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和 source-file SHA256。
+所有模型的最终列必须通过 `features.py`：除 intervention metadata 外，`ground_truth/depth_gt/target/label/advantage/a_p/d0_loss/d1_loss/oracle/test_metric` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和仓库相对 source path；SHA256 必须由本地文件重算。
 
 ## Threshold calibration and policy utility
 
@@ -78,15 +79,15 @@ scene 只有一个 image、无法产生非恒等 permutation 时不静默保留�
 - 只在独立 dev split 上把 score quantiles 冻结成 21 个 coverage thresholds（0%,5%,…,100%）；
 - internal-test 只应用冻结 thresholds，一次性计算，不重新校准。
 
-除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/C-permuted 使用完全相同 thresholds 与 [metrics spec](metrics_spec.md) 生成 clean-gain retention–CVaR 曲线。
+除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/两类 C-permuted 使用完全相同 thresholds 与 [metrics spec](metrics_spec.md) 生成 clean-gain retention–CVaR 曲线。
 
 ## H-semantic decision
 
 Claim-F 仅在以下条件同时满足时通过：
 
 1. internal-test 上 `C-direct−B-direct` AUROC ≥0.03，scene/drive-cluster paired-bootstrap 95% CI 下界 >0；
-2. `C-direct−C-permuted` 的 AUROC 差值 cluster-CI 下界 >0；
-3. C-direct 相对 B-direct 和 C-permuted 的 retention–CVaR Pareto hypervolume 差值 cluster-CI 下界均 >0；
+2. `C-direct−C-permuted-global/local` 的 AUROC 差值 cluster-CI 下界均 >0；
+3. C-direct 相对 B-direct 和两类 C-permuted 的 retention–CVaR Pareto hypervolume 差值 cluster-CI 下界均 >0；
 4. held-out captioner 和 held-out error family 上方向一致；
 5. 连续 advantage regression/Spearman 不与分类结论矛盾。
 
@@ -102,7 +103,7 @@ for outer_fold in SceneGroupKFold(K=5):
         build inner SceneGroupKFold(K=4) nuisance OOF predictions
         train residual branch only on inner-OOF residual targets
         rank trial on outer-validation only
-    emit B-direct/C-direct/C-permuted/Main-orth outer-OOF scores once
+    emit B-direct/C-direct/two C-permuted/Main-PR outer-OOF scores once
 choose trial by minimum mean outer-validation rank; tie by trial ID
 refit final direct models on all router-train
 refit final Main using full-train nuisance OOF targets, then full nuisance

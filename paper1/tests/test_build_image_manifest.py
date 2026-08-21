@@ -5,7 +5,10 @@ import json
 from pathlib import Path
 
 import pytest
-from paper1.experiments.covol.build_image_manifest import build_manifests
+from paper1.experiments.covol.build_image_manifest import (
+    _select_scene_grouped,
+    build_manifests,
+)
 
 
 def _rgb_hash(value: str) -> str:
@@ -74,8 +77,18 @@ def test_builds_exact_deterministic_scene_disjoint_splits(tmp_path: Path) -> Non
     second_output = tmp_path / "manifest-2.jsonl"
     second_audit = tmp_path / "audit-2.json"
 
-    build_manifests(config_path, first_output, first_audit)
-    build_manifests(config_path, second_output, second_audit)
+    build_manifests(
+        config_path,
+        first_output,
+        first_audit,
+        allow_official_test_read=True,
+    )
+    build_manifests(
+        config_path,
+        second_output,
+        second_audit,
+        allow_official_test_read=True,
+    )
 
     first_records = [json.loads(line) for line in first_output.read_text().splitlines()]
     split_counts = {
@@ -127,6 +140,7 @@ def test_rejects_official_test_scene_leakage(tmp_path: Path) -> None:
             config_path,
             tmp_path / "manifest.jsonl",
             tmp_path / "audit.json",
+            allow_official_test_read=True,
         )
 
 
@@ -144,6 +158,7 @@ def test_rejects_official_test_rgb_alias_with_different_id(tmp_path: Path) -> No
             config_path,
             tmp_path / "manifest.jsonl",
             tmp_path / "audit.json",
+            allow_official_test_read=True,
         )
 
 
@@ -159,4 +174,45 @@ def test_rejects_official_test_sequence_leakage(tmp_path: Path) -> None:
             config_path,
             tmp_path / "manifest.jsonl",
             tmp_path / "audit.json",
+            allow_official_test_read=True,
         )
+
+
+def test_official_test_integrity_audit_requires_step008_unlock(
+    tmp_path: Path,
+) -> None:
+    config_path = _make_config(tmp_path)
+
+    with pytest.raises(PermissionError, match="frozen until Step 008"):
+        build_manifests(
+            config_path,
+            tmp_path / "manifest.jsonl",
+            tmp_path / "audit.json",
+        )
+
+
+def test_scene_sequence_components_are_indivisible() -> None:
+    records = [
+        {
+            "image_id": f"image-{scene_index}-{sequence_index}",
+            "scene_id": f"scene-{scene_index}",
+            "sequence_id": f"sequence-{scene_index}-{sequence_index}",
+        }
+        for scene_index in range(3)
+        for sequence_index in range(2)
+    ]
+
+    selected, _ = _select_scene_grouped(
+        records,
+        dataset="toy",
+        split_counts={"train": 2, "dev": 2, "internal_test": 2},
+        seed=20260821,
+    )
+
+    split_by_scene: dict[str, set[str]] = {}
+    split_by_cluster: dict[str, set[str]] = {}
+    for record in selected:
+        split_by_scene.setdefault(record["scene_id"], set()).add(record["split"])
+        split_by_cluster.setdefault(record["cluster_id"], set()).add(record["split"])
+    assert all(len(splits) == 1 for splits in split_by_scene.values())
+    assert all(len(splits) == 1 for splits in split_by_cluster.values())

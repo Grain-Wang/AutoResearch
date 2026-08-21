@@ -2,12 +2,12 @@
 
 ## Status and implementation
 
-`DONE-CODE FOR CORE METRICS AND CLUSTER-HV BOOTSTRAP`。公式实现位于 `metrics.py` 与 `bootstrap.py`，测试位于 `paper1/tests/`。official crop/valid-depth adapter、AUROC、真实结果表仍未实现。
+`DONE-CODE, REMOTE VERIFICATION PENDING`。公式实现位于 `metrics.py` 与 `bootstrap.py`，NYUv2 official crop/valid-depth adapter 位于 `build_nyuv2_source_manifest.py`；真实远端产物、AUROC 和结果表仍未冻结。
 
 ## Input shapes and statistical unit
 
 - `N`：图像数，只用于图像内损失与风险聚合；
-- `S`：独立 scene/drive 数，是所有置信区间、power 和显著性报告的统计单位；
+- `S`：pilot manifest 中 scene–sequence connected component（KITTI 退化为 drive）的 `cluster_id` 数，是所有置信区间、power 和显著性报告的统计单位；
 - `V=3`：每张图、每个 corruption family 的 caption variants；
 - `P_i`：图像 `i` 中满足有效深度条件的 eligible regions；
 - patch 和 image 都保留在所属 scene cluster 内，不作为可交换独立样本。
@@ -71,7 +71,13 @@ $$
 \Delta_{clean}=\frac1N\sum_i[R_i(D_0)-R_i(D_{1,clean})].
 $$
 
-只有其 scene/drive-cluster paired-bootstrap 95% CI 下界大于 0 时才计算：
+只有其 scene/drive-cluster paired-bootstrap 95% CI 下界大于 0，且均值超过
+
+$$
+\delta_{clean}=\max(2q^{repeat}_{0.95},0.01R(D_0))
+$$
+
+时才计算：
 
 $$
 \text{Retention}=
@@ -79,7 +85,11 @@ $$
 {\Delta_{clean}}.
 $$
 
-否则输出 `STOP_NO_CLEAN_GAIN`，禁止用 `10^{-6}` 人工稳定一个无意义比值。
+否则输出 `STOP_UNSTABLE_CLEAN_GAIN`，禁止用 `10^{-6}` 人工稳定一个无意义比值。
+
+## Primary constrained operating point
+
+Claim-M 不以全曲线面积作为唯一主判据。只在 dev 上从 21 个 thresholds 中保留 `Retention>=0.80` 的候选，选择 CVaR 最低者；并列时依次取 retention 更高、预注册 threshold ID 更小者。该 threshold 冻结后在 internal-test 单次报告 `CVaR@Ret>=0.80` 与 `WorstOf3@Ret>=0.80`。hypervolume 仅作 secondary sensitivity。
 
 ## Pareto hypervolume
 
@@ -94,11 +104,13 @@ hypervolume 只计算 reference point 内非支配矩形的并集。加入/删�
 
 所有主差值使用 10,000 次 paired cluster bootstrap：
 
-1. 以 `scene_id`（NYUv2）或 `drive_id`（KITTI）有放回抽样 S 个 clusters；
+1. 以 frozen `cluster_id` 有放回抽样 S 个 clusters；NYUv2 的同 sequence/scene 连通帧与 KITTI 的同 drive 帧始终共同抽样；
 2. 每次保留抽中 cluster 的全部 images、regions 和 caption variants；
 3. replicate 内从原始 losses 重新计算 clean-gain denominator、retention、worst-of-N、CVaR、Pareto front 和 hypervolume；
 4. 左右方法使用完全相同的 cluster indices 和同一固定 reference；
 5. 报告 cluster 数、image 数、seed、replicates 和 percentile 95% CI。
+
+每个 denominator `<=delta_clean` 的 replicate 记为 invalid，不能静默删除或使整次 bootstrap 抛异常。invalid 比例超过 5% 时不生成 CI，并返回 `STOP_UNSTABLE_CLEAN_GAIN`；否则同时报告 valid/invalid replicate 数与比例。
 
 实现见 `paper1/experiments/covol/bootstrap.py`。禁止只对最终 Pareto points 做近似重采样，也禁止用 image/patch 数替代独立 cluster 数。
 

@@ -14,12 +14,12 @@ always-D0、always-D1、oracle、CLIP similarity、uncertainty、`|D1-D0|` 与 r
 | --- | --- | --- | --- |
 | L2D-B | 完整 zB | standard best-expert/defer loss | 非语义 information baseline |
 | L2D-C | 与主方法完全相同的 zC 列 | standard best-expert/defer loss | 区分更多语义输入与算法差异 |
-| Risk-L2D-C | 与主方法完全相同的 zC 列 | 同一 clean constraint + CVaR objective | 区分风险目标与 orthogonalized routing |
+| Risk-L2D-C | 与主方法完全相同的 zC 列 | 同一 clean constraint + CVaR objective | 区分风险目标与 cross-fitted partial residualization |
 | Regression-L2D | zC；相同 OOF experts | Mao et al. two-stage regression-deferral surrogate | 连续损失/冻结 predictor 直接近邻 |
 | DR-PostHoc-L2D | zC；相同 OOF experts | Soen et al. density-ratio CPE scorer + dev threshold | 冻结专家 post-hoc 直接近邻 |
 | Dense-Coherence-L2D | zC；相同 region grid | DeferredSeg-style dense collaboration surrogate + spatial coherence | dense defer/空间一致性直接近邻 |
 | LOO-Uncertainty-Router | zC；相同 OOF experts | MRUF-style leave-one-out contribution target + uncertainty calibration | 经验贡献教师/多粒度路由直接近邻 |
-| Main | zC；cross-fitted nuisance residual | 同一 clean constraint + CVaR objective | 未验证候选方法 |
+| Main-PR | zC；cross-fitted nuisance partial residual | 同一 clean constraint + CVaR objective | 未验证候选方法 |
 
 learned gates 必须：
 
@@ -37,7 +37,7 @@ learned gates 必须：
 - text-only artifact classifier：只读原始 caption content，不读模板 ID 或 D0/D1 loss；
 - frozen VLM contradiction/grounding scorer：只读原图和 caption，不读 GT/候选 loss。
 
-它们在 held-out template、captioner 和 error family 上使用相同 coverage grid。若任一达到 Main 的 HV，删除“几何语义可靠性”解释。
+它们在 held-out template、captioner 和 error family 上使用相同 coverage grid。若任一在 dev-frozen retention≥0.80 threshold 上达到 Main-PR 的 CVaR/WorstOf3，删除方法贡献；HV 只作 secondary。
 
 ## Robust expert killer baselines
 
@@ -54,7 +54,8 @@ learned gates 必须：
 
 - C 优于 B 只能支持语义信息增量；
 - Main 优于 L2D-C 但不优于 Risk-L2D-C，说明收益来自风险目标；
-- Claim-M 要求 Main 相对 Risk-L2D-C 以及四个 direct published-method adaptations 的 hypervolume 增量在两数据集 cluster-CI 下界均 >0；
+- Claim-M 要求 Main-PR 相对 Risk-L2D-C、TIGER-style LOO 以及四个 direct published-method adaptations，在 dev-frozen retention≥0.80 threshold 上的 internal-test CVaR/WorstOf3 风险差 cluster-CI 上界均 <0；
+- published methods 各报告 `faithful` 与 `capacity-matched` 两版；±10% 参数规则只约束 matched 版，不能裁剪 faithful 公式；
 - 任一 direct baseline 缺失时 Claim-M 不得判定；
 - 参数、trial、feature schema 或 seed 缺失的 baseline 行视为未完成。
 

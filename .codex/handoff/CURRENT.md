@@ -1,5 +1,18 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-22 最新覆盖状态（优先于下方旧快照）**
+>
+> - 当前分支 `chore/integrate-tools-and-paper1` 已快进到远端审稿提交 `cae15e4`；新增意见为 `paper1/responce_from_reviewer/review_20260821_153624.md`。
+> - 拉取前工作保存在 `stash@{0}`（`codex-pre-review-pull-20260822`），且已成功 apply 到当前工作树；远程验证、提交和推送完成前不得删除该恢复点。
+> - 用户明确要求：本机禁止运行测试或下载实验数据；所有测试与数据操作只能在 `sshconfig.md` 指定的远程 Linux 上执行，数据必须放在远程 `whr` 下。禁止提交或披露 `sshconfig.md` 中的私密连接信息。
+> - 审稿后主线改名为 **Main-PR**（cross-fitted partial residual，而非 orthogonal moment）。唯一待证伪边界是在两个冻结同任务 metric-depth candidates 之间，在 clean retention `>=0.80` 约束下最小化局部 caption-error upper-tail regret；dev 固定最低 CVaR threshold，internal-test 主报 CVaR/WorstOf3，hypervolume 降为 secondary。
+> - 已实现但尚未远程验证：TIGER 最近邻/机制矩阵、唯一目标与 RU-CVaR/dual/伪代码、training-only NYUv2/KITTI adapters、scene-sequence connected-component split、trusted provenance、coverage/power gates、formal failure lineage、bootstrap invalid-denominator stop、扩展 feature firewall、B/C 等宽双 permutation、faithful/matched baseline 合同。回复草案为 `paper1/responce_from_reviewer/response_20260821_153624.md`。
+> - 科学状态仍为 **Research Opportunity / UNVERIFIED**；没有真实数据门禁、checkpoint 或主结果，不能升级 Paper Candidate。
+> - 2026-08-22 用户说明当前在校外，暂时无法访问校内 Linux 节点，并明确要求停止连接 Linux、直接提交本轮工作。故本轮 Ruff/Black/Pytest、真实数据下载及 coverage/power 门禁均为 `DEFERRED_BY_USER`，不得写成已通过。
+> - 用户后续明确通知 Linux 可用后，下一原子动作是：在远程 `whr` 下保留已有文件并建立隔离工作副本 → 同步修改 → 在 `vlm` 环境确认 Python 3.12 → 远程 Ruff/Black/Pytest → 仅用 official-training 数据运行 NYUv2/KITTI coverage 与 20-grid × 5,000 formal power gate → 同步必要修复并追加提交。
+>
+> 下方为 2026-08-21 旧快照，只保留作历史导航；其中基线提交、环境命令和“下一原子动作”如与本覆盖状态冲突，均已失效。
+
 - 更新时间：2026-08-21 14:13（Asia/Shanghai）
 - 接续类型：脱敏、可移植状态快照
 - 原始 Codex 会话：未包含

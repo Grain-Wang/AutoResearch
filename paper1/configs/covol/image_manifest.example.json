@@ -1,0 +1,27 @@
+{
+  "seed": 20260821,
+  "datasets": [
+    {
+      "name": "NYUv2",
+      "training_manifest": "../../data/source/nyuv2_official_train.jsonl",
+      "official_test_manifest": "../../data/source/nyuv2_official_test.jsonl",
+      "select_count": 500,
+      "split_counts": {
+        "train": 300,
+        "dev": 100,
+        "internal_test": 100
+      }
+    },
+    {
+      "name": "KITTI",
+      "training_manifest": "../../data/source/kitti_official_train.jsonl",
+      "official_test_manifest": "../../data/source/kitti_official_test.jsonl",
+      "select_count": 500,
+      "split_counts": {
+        "train": 300,
+        "dev": 100,
+        "internal_test": 100
+      }
+    }
+  ]
+}

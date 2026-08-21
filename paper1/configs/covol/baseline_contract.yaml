@@ -1,0 +1,38 @@
+version: 1
+feature_sets:
+  z_b:
+    description: visual difficulty plus candidate difference and residual features
+  z_c:
+    description: z_b plus all text-region semantic features
+
+heuristics:
+  - always_d0
+  - always_d1
+  - oracle_region
+  - clip_similarity
+  - uncertainty
+  - candidate_difference
+  - residual_norm
+
+learned:
+  l2d_b:
+    features: z_b
+    objective: standard_l2d
+  l2d_c:
+    features: z_c
+    objective: standard_l2d
+  risk_l2d_c:
+    features: z_c
+    objective: clean_constraint_plus_cvar
+  main:
+    features: z_c
+    objective: crossfit_residual_plus_clean_constraint_plus_cvar
+
+fairness:
+  trainable_parameter_tolerance: 0.10
+  hyperparameter_trials: 20
+  seeds: [17, 29, 43]
+  coverage_grid: [0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00]
+  require_identical_z_c_columns: true
+  require_identical_expert_cache: true
+  require_identical_metric_version: true

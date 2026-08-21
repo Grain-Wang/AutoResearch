@@ -6,10 +6,12 @@
 
 ## Canary sampling
 
-- NYUv2 official test/validation pool 与 KITTI Eigen test pool 各取 500 张，只用于问题与机制 canary，不作为最终 benchmark test claim。
-- 按 `SHA256(dataset + / + image_id + /20260821)` 升序选择，scene 去重优先；固定后写入 `paper1/data/covol/image_manifest.jsonl`。
-- 统计/训练按 scene group 做 60/20/20 划分：总计 600/200/200 张图像进入 train/dev/test；同一 scene、RGB frame 或近邻视频帧不得跨 split。
-- 最终论文实验必须另保留从未参与 canary/router 选择的正式 test set。
+- NYUv2 与 KITTI **各 500 张都只从 official training pool 选择**；official benchmark test 在方法、阈值和超参数完全冻结前不得读取。
+- 每个数据集按 scene hash 固定为 300 train / 100 dev / 100 internal-test；两数据集合计 600/200/200。
+- `paper1/experiments/covol/build_image_manifest.py` 载入 official-train candidate manifest 与 official benchmark-test manifest，同时断言 image ID 和 scene ID 交集均为 0。
+- scene 按 `SHA256(dataset/seed/scene_id)` 排序，scene 内图像再按稳定 hash 排序；边界 scene 只取当前 split 所需图像，其余图像丢弃且该 scene 不进入其他 split。
+- 同一 scene、RGB frame 或近邻视频帧不得跨内部 split；输出 `image_manifest.jsonl` 与带输入 SHA256、计数和 overlap 的 `split_audit.json`。
+- official benchmark test 只允许在 Step 008 完全冻结方法后运行一次；任何提前读取都使正式结果失效。
 
 ## Structured intervention corpus
 
@@ -24,18 +26,21 @@
 
 ## Natural-error slice
 
-自然错误必须来自 captioner 的**未经编辑原始输出**。机器检查发现下列任一矛盾后纳入：
+自然错误必须来自 captioner 的**未经编辑原始输出**。机器检查只允许下列两种 verified predicate：
 
-- 提及数据集标签/可靠检测结果中不存在的实体；
+- `entity_absence`：类别必须属于数据集明确声明为穷举标注的类别，同时两套独立 detector/segmenter 均未检出；任何条件不足都标为 `unverified_mention`；
 - 给出与两个实体 mask 的 GT median depth 显著冲突的远近关系；
 - 遗漏不算错误，只单独登记 completeness。
 
 natural-error 与 structured intervention 分开报告。若自然错误数量不足以形成稳定图像级 CI，只能声明合成干预结果，不能外推真实 captioner 鲁棒性。
 
+若 NYUv2/KITTI 对目标类别没有穷举标注声明，`entity_absence` predicate 自动禁用；“标签中没有”或“两模型未检出”本身不能计入 hallucination prevalence。
+
 ## Captioner isolation
 
-- development captioner：TR2M bundled LLaVA-v1.6 captions；其上游 commit 锁为 `a45925862bcd76c84ac38c6fc98da1e187f1146e`。
-- held-out captioner：`OpenGVLab/InternVL3-8B`，只进入 test natural-error slice 和 test base captions。
+- development captioner 1：只取 official-train IDs 的 TR2M bundled LLaVA-v1.6 captions；其上游 commit 锁为 `a45925862bcd76c84ac38c6fc98da1e187f1146e`。
+- development captioner 2：`Qwen/Qwen2.5-VL-7B-Instruct`，只在 train/dev 生成。
+- held-out captioner：`OpenGVLab/InternVL3-8B`，只进入 internal-test natural-error slice 和 internal-test base captions。
 - 在第一次生成前把 Hugging Face snapshot SHA、tokenizer revision、prompt 文本 SHA256、最大 token 数、temperature、top-p 和框架版本写入 manifest；revision 缺失时脚本必须拒绝运行。
 - caption decoding 默认 greedy；若使用采样，随机种子固定为 `17/29/43` 并逐条记录。
 
@@ -60,7 +65,7 @@ target region 使用 dataset mask/detection mask 的稳定 ID，不嵌入大型�
 
 ## Machine-verification rules
 
-- entity absence：canonicalized target class 不在 dataset label 或通过预注册阈值的 detector set 中；
+- entity absence：仅对 declared-exhaustive class 启用，并要求两个独立 detector/segmenter 均未检出；否则写 `unverified_mention`；
 - entity presence/deletion：被删除实体必须有有效 mask，面积 ≥32 像素；
 - depth relation：两个 mask 各至少 32 个有效深度像素，median-depth 相对差至少 10%，再允许反转；
 - semantic-preserving：实体集合与结构化关系三元组不变；
@@ -68,10 +73,16 @@ target region 使用 dataset mask/detection mask 的稳定 ID，不嵌入大型�
 
 VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 
+## Predicate validity test
+
+每个 dataset×enabled predicate 必须先构造至少 200 个程序化正例和 200 个程序化负例。`depth_relation_conflict` 使用 confirmed masks/GT depth 构造；`entity_absence` 只使用 declared-exhaustive classes。precision ≥0.95 才能启用该 predicate，否则自动禁用并在 manifest 记录原因。结果写入 `paper1/results/covol/predicate_validity.csv`。
+
 ## Expected artifacts
 
 - `paper1/experiments/covol/build_interventions.py`
+- `paper1/experiments/covol/build_image_manifest.py`
 - `paper1/data/covol/image_manifest.jsonl`
+- `paper1/data/covol/split_audit.json`
 - `paper1/data/covol/interventions_all.jsonl`：12,000 rows
 - `paper1/data/covol/interventions_train.jsonl`：5,400 rows（600 images × 3 seen families × 3）
 - `paper1/data/covol/interventions_dev.jsonl`：1,800 rows（200 images × 3 seen families × 3）
@@ -86,7 +97,9 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 2. machine-check 通过率 100%；
 3. all/train/dev/test/quarantine 数量为 12,000/5,400/1,800/2,400/2,400，且 train/dev/quarantine/test 是 all 的无重叠视图；
 4. scene/template/captioner/held-out error-family 泄漏均为 0；
-5. 同一脚本和 manifest 重跑产生相同排序与内容 SHA256；
-6. 随机抽查只能由程序生成报告，不依赖用户长期人工标注。
+5. train/dev/internal-test 与 official benchmark test 的 image/scene overlap 均为 0；
+6. enabled predicate 的 validity precision ≥0.95，失败 predicate 已自动禁用；
+7. 同一脚本和 manifest 重跑产生相同排序与内容 SHA256；
+8. 随机抽查只能由程序生成报告，不依赖用户长期人工标注。
 
-未满足任一项时，步骤 004 不得开始。
+未满足任一项时，步骤 005 和正式 004-B 均不得开始。

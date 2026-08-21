@@ -1,0 +1,26 @@
+[project]
+name = 'autoresearch-paper1'
+version = '0.1.0'
+requires-python = '>=3.12'
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    'black>=24',
+    'pytest>=8',
+    'ruff>=0.6',
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+
+[tool.ruff]
+line-length = 88
+target-version = 'py312'
+
+[tool.ruff.lint]
+select = ['E', 'F', 'I', 'UP', 'B']
+
+[tool.pytest.ini_options]
+testpaths = ['tests']

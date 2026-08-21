@@ -3,6 +3,8 @@
 状态含义：
 
 - `DONE-DESIGN`：范围、定义或门禁已写定，不代表实验完成。
+- `DONE-CODE`：实现与单元测试已完成，但不代表真实数据或科学结果已经生成。
+- `IN-PROGRESS`：已有部分可运行产物，仍缺少该步骤的必要数据、模型或结果。
 - `READY`：输入与实现依赖齐全，可执行。
 - `SPECIFIED`：协议已写定，但数据/代码/产物尚未生成。
 - `BLOCKED`：存在已确认的外部或实现依赖。
@@ -13,21 +15,22 @@
 | 步骤 | 状态 | 本轮证据 | 下一出口 |
 | --- | --- | --- | --- |
 | 001 主线范围 | DONE-DESIGN | 唯一主线锁为 CoVoL；Q-GeoRoute 停放 | 只有正式范围变更才能切主线 |
-| 002 最近邻审计 | DONE-DESIGN | 8 项矩阵补齐 2024/2026 关键近邻 | 实验前再检索一次最新近邻 |
-| 003 干预数据 | SPECIFIED | 数量、schema、泄漏规则、机器检查已预注册 | 生成脚本与 12,000 条 JSONL |
-| 004 缺陷复现 | BLOCKED | TR2M eval 权重可用；原始数据与 caption 产物未就绪 | 两数据集至少一局部错误族 regret CI 下界 >0 |
-| 005 冻结专家 | BLOCKED | 上游 TR2M 尚未释放训练代码 | 自行复现公平 heads 或切换可训练基线 |
-| 006 语义增量 | PENDING | A/B/C nested probe 与阈值已定义 | C-B AUROC ≥0.03 且 CI 下界 >0 |
-| 007 公平基线 | PENDING | baseline 清单与公平约束已定义 | 同缓存、参数量 ±10%、3 seeds |
-| 008 最终 canary | PENDING | 80% retention / 50% regret 阈值已预注册 | 两数据集显著超过最强简单基线 |
-| 009 组件消融 | PENDING | 依赖 008 | 每个贡献对应独立消融 |
+| 002 最近邻审计 | DONE-DESIGN | 增补 DML/cross-fitting、orthogonal learning、CVaR、risk control；标准组件不列为贡献 | 首次 GPU 实验前再检索一次最新近邻 |
+| 003 干预数据 | IN-PROGRESS | official-train-only scene split builder 与泄漏单测完成；真实 manifest/干预未生成 | 导入真实 official-train/test manifests 并生成审计产物 |
+| 004 缺陷复现 | PENDING | 已拆为 004-A H-sensitivity 与 004-B H-fallback-defect；前者依赖 003，后者依赖 005 | 不再用 TR2M 单 checkpoint 声称 H-defect |
+| 005 冻结专家 | SPECIFIED | 仓库自有 shared-backbone dual-head 协议已锁定，不再等待 TR2M 训练代码 | 实现模型/训练脚本并产出双 checkpoint、SHA256 与 smoke test |
+| 006 语义增量 | PENDING | 5-fold scene-group cross-fitting、tie band 与双门禁已唯一化 | C-B AUROC 与 Pareto hypervolume 的 CI 下界均 >0 |
+| 007 公平基线 | SPECIFIED | `L2D-B`、same-feature `L2D-C`、same-objective `Risk-L2D-C` 合同已写定 | 实现同缓存、同容量、同预算的 learned gates |
+| 008 最终 canary | PENDING | Claim-F/Claim-M 已分离；Claim-M 只对 `Risk-L2D-C` 判定 | 两数据集的 Claim-M 差值 CI 下界 >0 |
+| 009 组件消融 | SPECIFIED | granularity 与 hard/soft boundary 协议已写定 | 删除无独立增益或产生边界伪影的组件 |
 | 010 复现环境 | PENDING | 依赖方法代码 | 锁依赖、硬件、运行时与一键命令 |
-| 011 主张语言 | DONE-DESIGN | 因果/安全 overclaim 已移除 | 结果出现后逐条更新 claim status |
+| 指标实现 | DONE-CODE | 唯一指标公式与 5 个手算单测完成；全套 7 个测试通过 | 真实缓存生成后锁定版本并产出结果表 |
+| 011 主张语言 | DONE-DESIGN | 因果/安全 overclaim 已移除；Claim-F/Claim-M 分开 | 结果出现后逐条更新 claim status |
 | 012 Q-GeoRoute | PARKED | 仅保留 Phase-0 Go/No-Go | CoVoL Gate-0 否定且更新 001 后才能启动 |
 
 ## 当前不能声称的内容
 
-- 尚无缺陷复现、数据 JSONL、checkpoint、结果表、置信区间或 latency。
+- 已有 split/metrics 基础代码及单元测试，但尚无真实数据 JSONL、checkpoint、缺陷复现、结果表、置信区间或 latency。
 - 尚未证明文本语义有超出普通专家选择的预测力。
 - 尚未实现冻结公平 `D0/D1` 或最终 router。
 - 尚未达到强 CCF-C，也未进入 Paper Build。

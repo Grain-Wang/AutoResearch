@@ -1,0 +1,54 @@
+# 004 Defect Reproduction
+
+## Status
+
+`PENDING 003 AND 005`。该步骤拆成两个不能混写的假设。
+
+## 004-A H-sensitivity
+
+问题：同一个语言模型 `D1` 从 verified-clean caption 切换到 corrupted caption 时是否显著退化？
+
+- 可使用锁定的 TR2M released checkpoint；
+- 比较 `R_i(D1_corrupt)-R_i(D1_clean)`；
+- 只证明 caption sensitivity，不证明 fallback necessity；
+- 结果必须标注 `diagnostic-only`，不得写成 `D1 vs D0` regret。
+
+003 数据就绪后即可运行本项。
+
+## 004-B H-fallback-defect
+
+问题：corrupted `D1` 是否比独立训练、冻结且公平的 `D0` 更差？
+
+$$
+r_{i,v}=R_i(D1_{corrupt,v})-R_i(D0).
+$$
+
+运行前必须同时存在：
+
+1. `expert_manifest.json` 中 D0/D1 checkpoint SHA256；
+2. 两 expert 使用相同 official-train split、优化器、步数和 seeds；
+3. cache manifest 与输入 data manifest hash；
+4. `D1` 未见 corruption/router 数据。
+
+缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。
+
+H-fallback-defect 仅当至少一个局部错误族在 NYUv2/KITTI internal-test 上的 image-level mean regret 95% CI 下界均大于 0 才通过。
+
+## Natural error motivation audit
+
+对每个 dataset×captioner×predicate 分别报告：
+
+- verified natural-error 图像级发生率与 Wilson 95% CI；
+- `unverified_mention` 发生率；
+- verified error 相对公平 D0 的 mean/worst/CVaR regret；
+- verified 样本数少于 30 时只作描述统计，不给独立显著性结论。
+
+发生率与严重度必须分开。低发生率、高尾部风险可支持风险动机；高发生率但无 D0-relative regret 不支持候选路由。
+
+## Expected artifacts
+
+- `paper1/experiments/covol/run_defect_reproduction.py`
+- `paper1/results/covol/sensitivity.csv`
+- `paper1/results/covol/fallback_defect.csv`
+- `paper1/results/covol/natural_error_prevalence.csv`
+- 每行记录 dataset、image/scene ID、captioner revision、error family、expert SHA、seed 和 metric-spec version。

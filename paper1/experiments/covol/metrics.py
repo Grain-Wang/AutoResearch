@@ -156,6 +156,21 @@ def clean_gain_retention(
     return routed_gain / baseline_gain
 
 
+def fixed_reference_cvar(
+    always_d1_dev_cvar: float,
+    *,
+    margin_multiplier: float = 1.05,
+) -> float:
+    """Freeze the HV reference using always-D1 dev risk only."""
+
+    value = float(always_d1_dev_cvar)
+    if not math.isfinite(value) or value <= 0.0:
+        raise ValueError("always_d1_dev_cvar must be finite and positive")
+    if not math.isfinite(margin_multiplier) or margin_multiplier <= 1.0:
+        raise ValueError("margin_multiplier must be finite and greater than 1")
+    return margin_multiplier * value
+
+
 def pareto_hypervolume(
     points: Sequence[tuple[float, float]],
     *,

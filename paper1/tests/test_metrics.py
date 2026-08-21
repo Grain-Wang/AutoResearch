@@ -7,6 +7,7 @@ from paper1.experiments.covol.metrics import (
     clean_gain_retention,
     corruption_metrics,
     coverage,
+    fixed_reference_cvar,
     pareto_hypervolume,
 )
 
@@ -65,3 +66,42 @@ def test_pareto_hypervolume_has_fixed_orientation() -> None:
 
 def test_advantage_tie_band_uses_nearest_rank_95th_percentile() -> None:
     assert advantage_tie_band([0.001, -0.002, 0.003, 0.004]) == 0.004
+
+
+def test_hypervolume_reference_uses_only_always_d1_dev_risk() -> None:
+    reference = fixed_reference_cvar(0.4)
+
+    assert reference == pytest.approx(0.42)
+    base = pareto_hypervolume(
+        [(0.5, 0.3), (0.8, 0.35)],
+        reference_retention=0.0,
+        reference_cvar=reference,
+    )
+    with_dominated_candidate = pareto_hypervolume(
+        [(0.5, 0.3), (0.8, 0.35), (0.1, 0.41)],
+        reference_retention=0.0,
+        reference_cvar=reference,
+    )
+
+    assert with_dominated_candidate == pytest.approx(base, abs=1e-12)
+
+
+def test_hypervolume_handles_duplicate_retention_and_dominated_points() -> None:
+    base = pareto_hypervolume(
+        [(0.5, 0.4), (0.8, 0.5), (0.7, 0.3)],
+        reference_retention=0.0,
+        reference_cvar=1.0,
+    )
+    augmented = pareto_hypervolume(
+        [
+            (0.5, 0.4),
+            (0.8, 0.5),
+            (0.7, 0.3),
+            (0.7, 0.6),
+            (0.1, 0.9),
+        ],
+        reference_retention=0.0,
+        reference_cvar=1.0,
+    )
+
+    assert augmented == pytest.approx(base)

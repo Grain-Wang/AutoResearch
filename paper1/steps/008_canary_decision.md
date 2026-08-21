@@ -6,24 +6,28 @@
 
 ## Claim-F
 
-证据只来自 Step 006。AUROC 与 policy hypervolume 双门通过才标为 `SUPPORTED-INTERNAL`；任一失败即 `UNSUPPORTED`。仅 structured errors 通过时必须写成 `SUPPORTED-STRUCTURED-ONLY`。
+证据只来自 Step 006 的 `B-direct/C-direct/C-permuted` controls；Main-orth 不参与。`C-direct−B-direct` 与 `C-direct−C-permuted` 的 AUROC 和 policy hypervolume cluster-CI 双门都通过才标为 `SUPPORTED-INTERNAL`；任一失败即 `UNSUPPORTED`。仅 structured errors 通过时必须写成 `SUPPORTED-STRUCTURED-ONLY`。
 
 ## Claim-M
 
-证据只来自 Main vs same-feature Risk-L2D-C：
+证据来自 Main 与全部 direct killer baselines：
 
 - clean gain retention ≥80%；
 - 相对 always-D1 worst-of-3 regret 降低 ≥50%；
-- NYUv2/KITTI internal-test 的 Pareto hypervolume 增量 95% CI 下界均 >0；
+- NYUv2/KITTI internal-test 上，Main 相对 Risk-L2D-C、Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D 和 LOO-Uncertainty-Router 的 Pareto hypervolume scene/drive-cluster CI 下界均 >0；
 - held-out captioner 与 held-out error family 方向一致；
 - region boundary artifact 未否定最终 gate 实现。
+- 正式 D0/D1 的信号显著超过 image-only twins 与 shuffled-caption expert controls；
+- caption dropout、corruption augmentation、multi-caption ensemble 和 consistency filtering 均未支配 Main Pareto。
 
-未显著优于 Risk-L2D-C 时，Claim-M 标为 `UNSUPPORTED`，不得把 cross-fitting/CVaR 的组合命名成新算法贡献。
+任一 direct 或 robust expert baseline 缺失/不败时，Claim-M 标为 `UNSUPPORTED`，不得把 cross-fitting/CVaR/region routing 的组合命名成新算法贡献。
 
 ## Natural-error relevance
 
-每个 dataset×captioner×error predicate 至少 30 个 verified natural errors 才做显著性结论。样本不足或 predicate precision <0.95 时只能报告描述统计，不能声称真实部署鲁棒性。
+每个 dataset×captioner×error predicate 的独立 scene 数与 error 数必须达到 power-analysis 冻结值；“30 个错误”不再作为无功效依据的通用阈值。power <0.80、annotation coverage 失败或 predicate precision <0.95 时只能报告描述统计，不能声称真实部署鲁棒性。
 
 ## Paper Candidate Gate
 
-只有 H-fallback-defect、Claim-F、Claim-M、第二 backbone 重复和最新近邻审计全部通过，才能升级。若只在合成错误上成立，最多保留为受控鲁棒性 Research Opportunity。
+只有 OOF H-fallback-defect、Claim-F、Claim-M、全部 direct/robust controls、第二 backbone 重复和最新近邻审计全部通过，才能升级。若只在合成错误上成立，最多保留为受控鲁棒性 Research Opportunity。
+
+若 Claim-F 成立而 Claim-M 失败，预注册降级为“语义条件增量可预测性”分析方向：它可以另行评估普通 CCF-C 价值，但不满足 AGENTS.md 的算法型 Paper Candidate Gate，不进入当前 Paper Build。

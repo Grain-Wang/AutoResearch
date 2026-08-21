@@ -6,7 +6,7 @@
 
 ## 004-A H-sensitivity
 
-问题：同一个语言模型 `D1` 从 verified-clean caption 切换到 corrupted caption 时是否显著退化？
+问题：同一个语言模型 `D1` 从 predicate-clean caption 切换到 corrupted caption 时是否显著退化？
 
 - 可使用锁定的 TR2M released checkpoint；
 - 比较 `R_i(D1_corrupt)-R_i(D1_clean)`；
@@ -26,22 +26,22 @@ $$
 运行前必须同时存在：
 
 1. `expert_manifest.json` 中 D0/D1 checkpoint SHA256；
-2. 两 expert 使用相同 official-train split、优化器、步数和 seeds；
-3. cache manifest 与输入 data manifest hash；
+2. 两 expert 使用 Step 005 同构输入合同、相同 optimizer/updates/seeds；
+3. `expert_stacking_plan.json` 与 `expert_cache_manifest.json` 通过 scene-group OOF 审计；router-train 不含训练内 expert prediction；
 4. `D1` 未见 corruption/router 数据。
 
 缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。
 
-H-fallback-defect 仅当至少一个局部错误族在 NYUv2/KITTI internal-test 上的 image-level mean regret 95% CI 下界均大于 0 才通过。
+H-fallback-defect 仅当至少一个局部错误族在 NYUv2/KITTI internal-test 上的 scene/drive-cluster mean regret 95% CI 下界均大于 0 才通过。null_diagnostic 和 global swap 不进入该门禁。
 
 ## Natural error motivation audit
 
 对每个 dataset×captioner×predicate 分别报告：
 
-- verified natural-error 图像级发生率与 Wilson 95% CI；
+- verified natural-error 的 scene/image 发生率与区间；
 - `unverified_mention` 发生率；
 - verified error 相对公平 D0 的 mean/worst/CVaR regret；
-- verified 样本数少于 30 时只作描述统计，不给独立显著性结论。
+- 独立 scene 数或 error 数未达到 Step 003 power gate 时只作描述统计，不给显著性结论。
 
 发生率与严重度必须分开。低发生率、高尾部风险可支持风险动机；高发生率但无 D0-relative regret 不支持候选路由。
 

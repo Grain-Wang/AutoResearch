@@ -2,11 +2,11 @@
 
 ## Status
 
-`SPECIFIED, PENDING STEP 006`。公平性按 heuristic 与 learned gate 分开处理。
+`SPECIFIED, PENDING REAL OOF CACHE`。公平性按 heuristic、learned router 与 independently-trained robust expert 分开处理。
 
 ## Heuristics
 
-always-D0、always-D1、oracle、CLIP similarity、uncertainty、`|D1-D0|` 与 residual-norm gate 保留原始零参数定义；不做虚假的 ±10% 参数匹配。所有 heuristic 仍必须读取同一 expert cache、eligible regions 和 dev-calibrated coverage grid。
+always-D0、always-D1、oracle、CLIP similarity、uncertainty、`|D1-D0|` 与 residual-norm gate 保留原始零参数定义；不做虚假的 ±10% 参数匹配。所有 heuristic 仍必须读取同一 OOF/final expert cache、eligible regions 和 dev-calibrated coverage grid。
 
 ## Learned gates
 
@@ -15,6 +15,10 @@ always-D0、always-D1、oracle、CLIP similarity、uncertainty、`|D1-D0|` 与 r
 | L2D-B | 完整 zB | standard best-expert/defer loss | 非语义 information baseline |
 | L2D-C | 与主方法完全相同的 zC 列 | standard best-expert/defer loss | 区分更多语义输入与算法差异 |
 | Risk-L2D-C | 与主方法完全相同的 zC 列 | 同一 clean constraint + CVaR objective | 区分风险目标与 orthogonalized routing |
+| Regression-L2D | zC；相同 OOF experts | Mao et al. two-stage regression-deferral surrogate | 连续损失/冻结 predictor 直接近邻 |
+| DR-PostHoc-L2D | zC；相同 OOF experts | Soen et al. density-ratio CPE scorer + dev threshold | 冻结专家 post-hoc 直接近邻 |
+| Dense-Coherence-L2D | zC；相同 region grid | DeferredSeg-style dense collaboration surrogate + spatial coherence | dense defer/空间一致性直接近邻 |
+| LOO-Uncertainty-Router | zC；相同 OOF experts | MRUF-style leave-one-out contribution target + uncertainty calibration | 经验贡献教师/多粒度路由直接近邻 |
 | Main | zC；cross-fitted nuisance residual | 同一 clean constraint + CVaR objective | 未验证候选方法 |
 
 learned gates 必须：
@@ -24,12 +28,34 @@ learned gates 必须：
 - 每个方法恰好 20 组预注册 trial；
 - 相同 early-stopping budget、fold/dev 数据和 metric implementation；
 - 输出逐列 feature schema hash；L2D-C、Risk-L2D-C 与 Main 的原始输入列必须逐项相等。
+- 全部读取 Step 005 的 OOF expert cache；任何 in-sample cache 行使 baseline 和 Main 同时失效；
+- 全部 feature schema 通过 intervention-metadata denylist，不得读取模板、生成器、error family 或 split 标签；
+- 主表使用 scene/drive-cluster 10,000 次 paired bootstrap。
+
+## Artifact and grounding controls
+
+- text-only artifact classifier：只读原始 caption content，不读模板 ID 或 D0/D1 loss；
+- frozen VLM contradiction/grounding scorer：只读原图和 caption，不读 GT/候选 loss。
+
+它们在 held-out template、captioner 和 error family 上使用相同 coverage grid。若任一达到 Main 的 HV，删除“几何语义可靠性”解释。
+
+## Robust expert killer baselines
+
+以下方法不强行读取 frozen cache，而是用相同 frozen backbone、expert-training scenes、head 容量、updates 和 seeds 独立训练：
+
+1. caption dropout；
+2. seen-family corruption augmentation；
+3. three-caption prediction ensemble；
+4. image-caption consistency filtering。
+
+报告 clean AbsRel/δ1、clean gain、mean/worst/CVaR regret、参数、训练成本和推理成本。若任一单专家方法支配 Main 的 retention–CVaR Pareto，Claim-M 停止。
 
 ## Decision
 
 - C 优于 B 只能支持语义信息增量；
 - Main 优于 L2D-C 但不优于 Risk-L2D-C，说明收益来自风险目标；
-- 只有 Main 相对 Risk-L2D-C 的 hypervolume 增量在两数据集 95% CI 下界均 >0，才可能支持 Claim-M；
+- Claim-M 要求 Main 相对 Risk-L2D-C 以及四个 direct published-method adaptations 的 hypervolume 增量在两数据集 cluster-CI 下界均 >0；
+- 任一 direct baseline 缺失时 Claim-M 不得判定；
 - 参数、trial、feature schema 或 seed 缺失的 baseline 行视为未完成。
 
 契约机器可读版本见 `paper1/configs/covol/baseline_contract.yaml`。

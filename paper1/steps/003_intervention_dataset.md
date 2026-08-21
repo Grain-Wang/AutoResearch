@@ -2,27 +2,28 @@
 
 ## Status
 
-`SPECIFIED, NOT EXECUTED`。本文件固定数据构造与泄漏规则；当前尚无生成脚本、JSONL 或通过率结果，不能记为完成。
+`IN-PROGRESS`。通用 split builder 已加入 RGB 内容哈希、sequence 隔离和泄漏测试；NYUv2/KITTI 适配器、真实 JSONL、annotation coverage 与 power 结果尚不存在。
 
 ## Canary sampling
 
 - NYUv2 与 KITTI **各 500 张都只从 official training pool 选择**；official benchmark test 在方法、阈值和超参数完全冻结前不得读取。
-- 每个数据集按 scene hash 固定为 300 train / 100 dev / 100 internal-test；两数据集合计 600/200/200。
-- `paper1/experiments/covol/build_image_manifest.py` 载入 official-train candidate manifest 与 official benchmark-test manifest，同时断言 image ID 和 scene ID 交集均为 0。
-- scene 按 `SHA256(dataset/seed/scene_id)` 排序，scene 内图像再按稳定 hash 排序；边界 scene 只取当前 split 所需图像，其余图像丢弃且该 scene 不进入其他 split。
-- 同一 scene、RGB frame 或近邻视频帧不得跨内部 split；输出 `image_manifest.jsonl` 与带输入 SHA256、计数和 overlap 的 `split_audit.json`。
+- 300 train / 100 dev / 100 internal-test 仅是首轮 power/coverage pilot，不是无条件冻结的最终样本量；若主门禁 power <0.80，必须增加独立 internal-test scenes，不能增加 patch 冒充样本。
+- `paper1/experiments/covol/build_image_manifest.py` 载入 official-train candidate manifest 与 official benchmark-test manifest，同时断言 image ID、scene ID、sequence ID 和 RGB SHA256 交集均为 0。
+- 源 manifest 每行强制包含 `rgb_sha256, sequence_id, frame_index`；重复 RGB 内容即使 image ID 不同也硬失败。
+- sequence 按稳定 hash 排序且不可跨 split；该规则比“只排除相邻一帧”更保守，保证同一 NYUv2 sequence/KITTI drive 的全部近邻帧只属于一个 split。
+- 真实适配器必须从原始 RGB bytes 计算 SHA256，不得信任下载清单中的预填值；NYUv2 scene/sequence 与 KITTI drive/frame 映射需各自单测。
 - official benchmark test 只允许在 Step 008 完全冻结方法后运行一次；任何提前读取都使正式结果失效。
 
 ## Structured intervention corpus
 
-每张图像保存一个 verified-clean base caption，并生成 4 个 family、每类 3 个变体，共 `1,000×4×3=12,000` 条：
+每张图像保存一个 predicate-clean base caption，含义仅是“未检测到当前启用 predicates 的错误”，不代表整条 caption 完全真实。每图生成 4 个 local family、每类 3 个变体；pilot `N=1,000` 时为 `12,000` 条，power gate 扩样后总数固定为 `12N`：
 
 1. `semantic_preserving`：同义改写、句序变化、删除无关形容词，作为等价性正控制；
-2. `target_deletion`：删除一个有 mask 的实体、删除一个远处实体、完整 null caption；
+2. `target_deletion`：删除目标实体短语、删除另一有 mask 实体短语、只删除局部深度关系短语；三者都必须是局部删除；
 3. `local_entity_conflict`：将目标实体替换为图中不存在实体、冲突材质、冲突几何属性；
 4. `depth_relation_conflict`：对有可靠 GT depth 的实体对反转前后/远近关系，或写入与中位深度差冲突的关系。
 
-`global_caption_swap` 只作为容易识别的诊断集，不进入 12,000 条核心数据，也不能代表自然 caption 风险。
+`null_diagnostic` 每图单独保存完整 null caption，不进入任何 local-family worst-of-3/CVaR 或 H-fallback 门禁。`global_caption_swap` 同样只作容易识别的诊断集；两者均不进入 `12N` 条核心数据。
 
 ## Natural-error slice
 
@@ -32,7 +33,7 @@
 - 给出与两个实体 mask 的 GT median depth 显著冲突的远近关系；
 - 遗漏不算错误，只单独登记 completeness。
 
-natural-error 与 structured intervention 分开报告。若自然错误数量不足以形成稳定图像级 CI，只能声明合成干预结果，不能外推真实 captioner 鲁棒性。
+natural-error 与 structured intervention 分开报告。若独立 scenes 或自然错误数量不足以形成稳定 cluster CI，只能声明合成干预结果，不能外推真实 captioner 鲁棒性。
 
 若 NYUv2/KITTI 对目标类别没有穷举标注声明，`entity_absence` predicate 自动禁用；“标签中没有”或“两模型未检出”本身不能计入 hallucination prevalence。
 
@@ -42,6 +43,7 @@ natural-error 与 structured intervention 分开报告。若自然错误数量�
 - development captioner 2：`Qwen/Qwen2.5-VL-7B-Instruct`，只在 train/dev 生成。
 - held-out captioner：`OpenGVLab/InternVL3-8B`，只进入 internal-test natural-error slice 和 internal-test base captions。
 - 在第一次生成前把 Hugging Face snapshot SHA、tokenizer revision、prompt 文本 SHA256、最大 token 数、temperature、top-p 和框架版本写入 manifest；revision 缺失时脚本必须拒绝运行。
+- official benchmark test 的 captioner、prompt、revision、decoding 与 predicate audit 在打开任何 official test RGB 前冻结；test caption 不得成为 prompt 调参通道。
 - caption decoding 默认 greedy；若使用采样，随机种子固定为 `17/29/43` 并逐条记录。
 
 ## Leakage isolation
@@ -55,7 +57,7 @@ natural-error 与 structured intervention 分开报告。若自然错误数量�
 
 每条 structured 记录至少包含：
 
-`image_id, dataset, scene_id, split, clean_caption, intervention, error_type, variant_id, target_region, generator, generator_revision, template_id, seed, source_caption_hash, machine_check`。
+`image_id, dataset, scene_id, sequence_id, frame_index, rgb_sha256, split, predicate_clean_caption, intervention, error_type, variant_id, target_region, generator, generator_revision, template_id, seed, source_caption_hash, machine_check`。
 
 `machine_check` 至少包含：
 
@@ -73,33 +75,53 @@ target region 使用 dataset mask/detection mask 的稳定 ID，不嵌入大型�
 
 VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 
-## Predicate validity test
+## Predicate validity without circular validation
 
-每个 dataset×enabled predicate 必须先构造至少 200 个程序化正例和 200 个程序化负例。`depth_relation_conflict` 使用 confirmed masks/GT depth 构造；`entity_absence` 只使用 declared-exhaustive classes。precision ≥0.95 才能启用该 predicate，否则自动禁用并在 manifest 记录原因。结果写入 `paper1/results/covol/predicate_validity.csv`。
+- 用同一 GT 规则生成再验证的 200 正/200 负例只叫 regression suite，证明实现一致性，不估计自然错误 precision；
+- natural predicate precision 必须使用独立证据链：不同来源的 exhaustive annotation 或 detector/segmenter ensemble，加上与生成器独立的 parser/grounding revision；
+- 同一模型不得既生成 caption 又作唯一 judge；同一 intervention rule 不得生成并验证自然错误标签；
+- precision ≥0.95 只适用于对应 predicate，不得写成完整 caption factuality；失败 predicate 自动禁用。
+
+## Annotation coverage and power gates
+
+在承诺 12,000 条干预前，先对 pilot manifest 运行 annotation-coverage audit：
+
+- 每数据集至少 150 张图具有 reliable mask 且目标内 ≥32 个 valid-depth pixels；
+- 每数据集至少 300 个实体对满足两个 mask 各 ≥32 valid-depth pixels 且 median-depth gap ≥10%；
+- KITTI 未达门禁时，structured outdoor set 切换为 Virtual KITTI 2；KITTI 仅保留 image-level sensitivity/fallback，不伪造局部 oracle。
+
+随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次 power simulation，分别估计 `ΔAUROC=0.03` 与 HV 门禁 power。主场景 power 必须 ≥0.80；不足时扩大独立 scene 数或把 natural-error 结论降为描述统计。
 
 ## Expected artifacts
 
 - `paper1/experiments/covol/build_interventions.py`
+- `paper1/experiments/covol/audit_annotation_coverage.py`
+- `paper1/experiments/covol/power_analysis.py`
 - `paper1/experiments/covol/build_image_manifest.py`
 - `paper1/data/covol/image_manifest.jsonl`
 - `paper1/data/covol/split_audit.json`
-- `paper1/data/covol/interventions_all.jsonl`：12,000 rows
-- `paper1/data/covol/interventions_train.jsonl`：5,400 rows（600 images × 3 seen families × 3）
-- `paper1/data/covol/interventions_dev.jsonl`：1,800 rows（200 images × 3 seen families × 3）
-- `paper1/data/covol/interventions_test.jsonl`：2,400 rows
-- `paper1/data/covol/interventions_quarantine.jsonl`：2,400 rows（train/dev images 上的 held-out family，不进入任何拟合/调参）
+- `paper1/data/covol/interventions_all.jsonl`：`12N` rows（pilot 12,000）
+- `paper1/data/covol/interventions_train.jsonl`：`9N_train` rows（pilot 5,400）
+- `paper1/data/covol/interventions_dev.jsonl`：`9N_dev` rows（pilot 1,800）
+- `paper1/data/covol/interventions_test.jsonl`：`12N_test` rows（pilot 2,400）
+- `paper1/data/covol/interventions_quarantine.jsonl`：`3(N_train+N_dev)` rows（pilot 2,400；held-out family，不进入拟合/调参）
 - `paper1/data/covol/natural_captions.jsonl`：数量由原始 captioner 错误率决定
+- `paper1/data/covol/null_diagnostic.jsonl`：`N` rows（pilot 1,000），不进入 local risk
 - `paper1/data/covol/intervention_manifest.json`：schema/version/hash/count/leakage audit
+- `paper1/results/covol/annotation_coverage.csv`
+- `paper1/results/covol/power_analysis.csv`
 
 ## Acceptance checks
 
-1. structured 总行数正好 12,000，主键 `(image_id,error_type,variant_id)` 唯一；
+1. structured 总行数正好 `12N`，主键 `(image_id,error_type,variant_id)` 唯一；
 2. machine-check 通过率 100%；
-3. all/train/dev/test/quarantine 数量为 12,000/5,400/1,800/2,400/2,400，且 train/dev/quarantine/test 是 all 的无重叠视图；
+3. all/train/dev/test/quarantine 数量满足 `12N/9N_train/9N_dev/12N_test/3(N_train+N_dev)`，且四个 materialized views 是 all 的无重叠视图；
 4. scene/template/captioner/held-out error-family 泄漏均为 0；
 5. train/dev/internal-test 与 official benchmark test 的 image/scene overlap 均为 0；
 6. enabled predicate 的 validity precision ≥0.95，失败 predicate 已自动禁用；
 7. 同一脚本和 manifest 重跑产生相同排序与内容 SHA256；
 8. 随机抽查只能由程序生成报告，不依赖用户长期人工标注。
+9. null_diagnostic 与四个 local families 完全分离；
+10. annotation coverage 通过，且主门禁 power ≥0.80；否则已扩大 scenes 或显式降级 claim。
 
 未满足任一项时，步骤 005 和正式 004-B 均不得开始。

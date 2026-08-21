@@ -15,6 +15,15 @@
 | [Predict Responsibly / Learning to Defer](https://arxiv.org/abs/1711.06664) | 模型向外部专家 defer | 自动模型与外部专家 | 每样本预测或 defer | GT 与专家行为 | 两专家 advantage gate 是已知范式；必须证明语义增量与新风险 Pareto |
 | [SelectiveNet](https://arxiv.org/abs/1901.09192) | coverage 约束的选择性预测 | 模型输出与 reject | accept/reject | selective risk 与 coverage | 拒绝已知；本方向需证明 dense region candidate replacement 的额外价值 |
 
+## 直接算法近邻
+
+| 工作 | 任务 | 预测粒度 | 专家是否冻结 | 贡献/优势教师 | 损失类型 | 本研究剩余边界 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [MRUF](https://arxiv.org/abs/2607.10599) | 鲁棒多模态情感分析 | subspace 与 modality/utterance 多粒度 | 非冻结候选后处理设定 | leave-one-out error increase + modality uncertainty | routing、inverse-variance calibration、contrastive alignment | leave-one-out 经验贡献教师和多粒度可靠性路由已知；只能作为直接 baseline |
+| [DeferredSeg](https://arxiv.org/abs/2604.12411) | 模型与人类专家的医学分割 defer | pixel-wise dense regions | 不是本研究的冻结双模型设定 | base/expert discrepancy | pixel-wise collaboration surrogate + spatial-coherence + load balance | dense defer、空间一致性与多专家路由已知；区域 gate 不构成创新 |
+| [Regression with Multi-Expert Deferral](https://arxiv.org/abs/2403.19494) | 连续回归向多个专家 defer | instance-level continuous regression | two-stage 支持 pre-trained predictor | bounded regression loss 与 expert cost | single/two-stage H-consistent surrogate | 连续 advantage/defer 已知；必须实现其 two-stage surrogate 对照 |
+| [Density-Ratio Losses for Post-Hoc L2D](https://arxiv.org/abs/2605.19557) | 冻结 model/expert 的 post-hoc defer | instance-level thresholded scorer | 是，post-hoc | model/expert ideal-distribution density ratio | DR class-probability-estimation loss | 冻结候选后处理与可调 threshold 已知；必须实现 density-ratio 对照 |
+
 ## 组件级先行工作
 
 下表专门审计本方案所用统计和风险优化组件。`直接复用` 表示不得单独作为新颖性；`任务化改写` 表示只改变了数据单位、约束或评测对象；`本研究新增` 仅表示仍待实验否证的组合差异，不表示已经成立。
@@ -34,16 +43,20 @@
 3. CapDepth 已使用详细长 caption、progressive masked attention 和 text-adaptive decoder；“语义原子/细粒度文本筛选”不能作为新颖性。
 4. TR2M 已输出 pixel-wise scale/shift maps；“局部语言校准”本身不能作为新颖性。
 5. Learning-to-defer 与 SelectiveNet 使 `D0/D1 + advantage + gate/coverage` 成为必须击败的范式，而不是默认贡献。
+6. MRUF 已用 leave-one-out error increase 监督 modality routing，并以 uncertainty 校准 gate；“经验贡献教师”不能作为新颖性。
+7. DeferredSeg 已实现 pixel-wise dense defer 与 spatial-coherence routing；“区域 defer”不能作为新颖性。
+8. Regression with Multi-Expert Deferral 已覆盖 bounded continuous loss 下的 single/two-stage defer；“连续 advantage defer”不能作为新颖性。
+9. Density-Ratio Post-Hoc L2D 已覆盖冻结 model/expert 的 scorer 与可调 threshold；“冻结专家后处理”不能作为新颖性。
 
 ## 当前仅剩的可测试差异
 
 | 待验证主张 | 必要实验 | 失败后处理 |
 | --- | --- | --- |
-| Claim-F：文本—区域语义在控制视觉难度和候选差异后仍有任务有效的增量预测力 | A/B/C nested probe；C-B AUROC 差值 CI；C 相对 B 的 retention–CVaR Pareto hypervolume 差值 CI | 任一门禁失败即删除语义增量主张 |
-| Claim-M：组合决策算法优于相同输入和风险目标的标准方法 | Main 与 same-feature、same-objective、same-budget 的 `Risk-L2D-C` 直接比较 | CI 下界不大于 0 时删除算法贡献，仅保留 Claim-F（若成立） |
+| Claim-F：文本—区域语义在控制视觉难度和候选差异后仍有任务有效的增量预测力 | 同模型/同目标 `C-direct−B-direct` 与 `C-direct−C-permuted`；AUROC/HV scene-cluster CI | 任一门禁失败即删除语义增量主张 |
+| Claim-M：组合决策算法优于相同输入和风险目标的标准方法 | Main 必须同时击败 Risk-L2D-C、regression surrogate、density-ratio、dense-coherence 和 LOO-uncertainty direct baselines | 任一直接方法差值 CI 下界不大于 0 时删除算法贡献，仅保留 Claim-F（若成立） |
 | region replacement 有必要 | global vs 8×8/16×16/32×32；局部错误 mask | 若 global 相同则删除区域机制 |
 
-cross-fitting、orthogonal residualization、CVaR 和 coverage control 均不再作为独立贡献。唯一可能的方法贡献是它们在本任务中的组合决策实现确实击败 `Risk-L2D-C`；这必须由步骤 007/008 的公平比较支持。
+cross-fitting、orthogonal residualization、CVaR、coverage control、dense defer、leave-one-out contribution teacher、continuous regression defer 和 frozen-expert post-hoc scoring 均不再作为独立贡献。唯一可能的方法贡献是特定 clean-retention/tail-regret 决策过程同时击败全部 direct baselines；这必须由步骤 007/008 支持。
 
 ## 实现可用性审计
 
@@ -56,5 +69,6 @@ cross-fitting、orthogonal residualization、CVaR 和 coverage control 均不再
 - 主线保留为 Research Opportunity。
 - 不主张“首次发现错误文本危害”“首次细粒度 caption 深度”“首次冻结视觉语言校准”或“首次 advantage gate”。
 - 不把 cross-fitting、orthogonalization、CVaR 或 selective risk control 单独列为贡献。
+- 不把区域 defer、经验误差贡献教师、连续 advantage defer 或冻结专家 post-hoc routing 列为贡献。
 - Claim-F 与 Claim-M 必须分开判定；H-semantic 通过不自动支持算法新颖性。
 - 最近邻审计在第一次 GPU 实验前、Paper Candidate Gate 前各重跑一次；发现同构方法时立即更新 `001_primary_scope_lock.md` 并重新判定。

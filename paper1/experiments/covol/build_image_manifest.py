@@ -26,6 +26,10 @@ def _file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _valid_sha256(value: str) -> bool:
+    return len(value) == 64 and all(char in "0123456789abcdef" for char in value)
+
+
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     with path.open("r", encoding="utf-8") as handle:
@@ -47,6 +51,7 @@ def _validated_records(
 ) -> list[dict[str, Any]]:
     records = _read_jsonl(path)
     seen_images: set[str] = set()
+    seen_rgb_hashes: set[str] = set()
     normalized: list[dict[str, Any]] = []
 
     for index, record in enumerate(records):
@@ -54,9 +59,22 @@ def _validated_records(
         scene_id = str(record.get("scene_id", "")).strip()
         official_split = str(record.get("official_split", "")).strip()
         record_dataset = str(record.get("dataset", dataset)).strip()
+        rgb_sha256 = str(record.get("rgb_sha256", "")).strip().lower()
+        sequence_id = str(record.get("sequence_id", "")).strip()
+        frame_index_raw = record.get("frame_index")
 
-        if not image_id or not scene_id:
-            raise ValueError(f"{path}: record {index} lacks image_id or scene_id")
+        if not image_id or not scene_id or not sequence_id:
+            raise ValueError(
+                f"{path}: record {index} lacks image_id, scene_id, or sequence_id"
+            )
+        if not _valid_sha256(rgb_sha256):
+            raise ValueError(f"{path}: record {index} has invalid rgb_sha256")
+        try:
+            frame_index = int(frame_index_raw)
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                f"{path}: record {index} has invalid frame_index"
+            ) from error
         if record_dataset != dataset:
             raise ValueError(
                 f"{path}: dataset {record_dataset!r} does not match {dataset!r}"
@@ -68,14 +86,20 @@ def _validated_records(
             )
         if image_id in seen_images:
             raise ValueError(f"{path}: duplicate image_id {image_id!r}")
+        if rgb_sha256 in seen_rgb_hashes:
+            raise ValueError(f"{path}: duplicate RGB content hash {rgb_sha256!r}")
 
         seen_images.add(image_id)
+        seen_rgb_hashes.add(rgb_sha256)
         normalized.append(
             {
                 **record,
                 "dataset": dataset,
                 "image_id": image_id,
                 "scene_id": scene_id,
+                "sequence_id": sequence_id,
+                "frame_index": frame_index,
+                "rgb_sha256": rgb_sha256,
                 "official_split": official_split,
             }
         )
@@ -88,21 +112,29 @@ def _assert_no_benchmark_overlap(
     test_records: Iterable[Mapping[str, Any]],
     *,
     dataset: str,
-) -> tuple[set[str], set[str]]:
+) -> tuple[set[str], set[str], set[str], set[str]]:
     train_images = {str(record["image_id"]) for record in training_records}
     train_scenes = {str(record["scene_id"]) for record in training_records}
+    train_sequences = {str(record["sequence_id"]) for record in training_records}
+    train_rgb_hashes = {str(record["rgb_sha256"]) for record in training_records}
     test_images = {str(record["image_id"]) for record in test_records}
     test_scenes = {str(record["scene_id"]) for record in test_records}
+    test_sequences = {str(record["sequence_id"]) for record in test_records}
+    test_rgb_hashes = {str(record["rgb_sha256"]) for record in test_records}
     image_overlap = train_images & test_images
     scene_overlap = train_scenes & test_scenes
+    sequence_overlap = train_sequences & test_sequences
+    rgb_overlap = train_rgb_hashes & test_rgb_hashes
 
-    if image_overlap or scene_overlap:
+    if image_overlap or scene_overlap or sequence_overlap or rgb_overlap:
         raise ValueError(
             f"{dataset}: official-test leakage detected; "
             f"image_overlap={sorted(image_overlap)[:5]}, "
-            f"scene_overlap={sorted(scene_overlap)[:5]}"
+            f"scene_overlap={sorted(scene_overlap)[:5]}, "
+            f"sequence_overlap={sorted(sequence_overlap)[:5]}, "
+            f"rgb_overlap={sorted(rgb_overlap)[:5]}"
         )
-    return image_overlap, scene_overlap
+    return image_overlap, scene_overlap, sequence_overlap, rgb_overlap
 
 
 def _select_scene_grouped(
@@ -117,15 +149,15 @@ def _select_scene_grouped(
     if any(count <= 0 for count in split_counts.values()):
         raise ValueError("all split counts must be positive")
 
-    by_scene: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    by_sequence: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
-        by_scene[str(record["scene_id"])].append(record)
+        by_sequence[str(record["sequence_id"])].append(record)
 
-    scene_ids = sorted(
-        by_scene,
-        key=lambda scene: _stable_hash(dataset, seed, "scene", scene),
+    sequence_ids = sorted(
+        by_sequence,
+        key=lambda sequence: _stable_hash(dataset, seed, "sequence", sequence),
     )
-    scene_cursor = 0
+    sequence_cursor = 0
     selected: list[dict[str, Any]] = []
     selected_scene_counts: dict[str, int] = {}
 
@@ -133,15 +165,15 @@ def _select_scene_grouped(
         remaining = int(split_counts[split])
         split_scenes = 0
         while remaining:
-            if scene_cursor >= len(scene_ids):
+            if sequence_cursor >= len(sequence_ids):
                 raise ValueError(
-                    f"{dataset}: insufficient scene-disjoint training images "
+                    f"{dataset}: insufficient sequence-disjoint training images "
                     f"for split {split!r}; {remaining} still required"
                 )
-            scene_id = scene_ids[scene_cursor]
-            scene_cursor += 1
-            scene_records = sorted(
-                by_scene[scene_id],
+            sequence_id = sequence_ids[sequence_cursor]
+            sequence_cursor += 1
+            sequence_records = sorted(
+                by_sequence[sequence_id],
                 key=lambda record: _stable_hash(
                     dataset,
                     seed,
@@ -149,8 +181,8 @@ def _select_scene_grouped(
                     record["image_id"],
                 ),
             )
-            take = min(remaining, len(scene_records))
-            for record in scene_records[:take]:
+            take = min(remaining, len(sequence_records))
+            for record in sequence_records[:take]:
                 selected.append(
                     {
                         **record,
@@ -198,7 +230,12 @@ def build_dataset_manifest(
         dataset=dataset,
         required_split="test",
     )
-    image_overlap, scene_overlap = _assert_no_benchmark_overlap(
+    (
+        image_overlap,
+        scene_overlap,
+        sequence_overlap,
+        rgb_overlap,
+    ) = _assert_no_benchmark_overlap(
         training_records,
         test_records,
         dataset=dataset,
@@ -211,13 +248,19 @@ def build_dataset_manifest(
     )
 
     selected_scenes: dict[str, set[str]] = defaultdict(set)
+    selected_sequences: dict[str, set[str]] = defaultdict(set)
     for record in selected:
         selected_scenes[str(record["split"])].add(str(record["scene_id"]))
+        selected_sequences[str(record["split"])].add(str(record["sequence_id"]))
     for left_index, left in enumerate(SPLIT_ORDER):
         for right in SPLIT_ORDER[left_index + 1 :]:
             if selected_scenes[left] & selected_scenes[right]:
                 raise AssertionError(
                     f"{dataset}: internal scene leakage between {left} and {right}"
+                )
+            if selected_sequences[left] & selected_sequences[right]:
+                raise AssertionError(
+                    f"{dataset}: internal sequence leakage between {left} and {right}"
                 )
 
     audit = {
@@ -238,6 +281,8 @@ def build_dataset_manifest(
         "official_test_overlap": {
             "image_count": len(image_overlap),
             "scene_count": len(scene_overlap),
+            "sequence_count": len(sequence_overlap),
+            "rgb_sha256_count": len(rgb_overlap),
         },
     }
     return selected, audit

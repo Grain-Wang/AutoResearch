@@ -6,24 +6,40 @@
 
 ## Frozen inputs
 
-- 只读取 Step 005 的 frozen expert cache 和 SHA manifest；
+- router-train 只读取 Step 005 的 scene-group OOF expert cache；dev/internal-test 只读取 final-expert cache；
+- 每行 cache 必须先通过 `validate_expert_cache_manifest`，训练内 expert prediction 一律拒绝；
 - official-train 的 train/dev/internal-test scene splits 已由 Step 003 冻结；
-- 同一 image 的 clean/natural/structured/null captions 与所有 regions 必须在同一 fold；
+- 同一 image 的 predicate-clean、natural、structured、null-diagnostic captions 与所有 regions 必须在同一 fold；
 - official benchmark test 不进入任何 fold、scaler、trial、threshold 或结果选择。
 
-## Five-fold scene-group cross-fitting
+## Nested scene-group cross-fitting
 
-仅在 internal `train` split 上构建 5 folds，按 dataset 与 error family 做近似分层，但 `scene_id` 是不可拆分 group。
+仅在 router `train` split 上执行；`scene_id/drive_id` 是不可拆分 cluster。
 
-对每个 outer fold `k`：
+### Outer 5-fold
 
-1. outer fold-k 只作 OOF test；
-2. 其余 scene 按固定 hash 再分 80% fold-fit / 20% fold-validation；
-3. scaler、缺失值处理、feature selection 和 nuisance model 只在 fold-fit 拟合；
-4. 20 组预注册超参数 trial 只用 fold-validation 选择；
-5. 对 fold-k 只输出一次 OOF prediction，不更新任何状态。
+outer fold-k 只产生最终 OOF score。其余 outer-train scenes 按固定 hash 划分 outer-fit/outer-validation；所有 scaler、缺失处理、feature selection 和 trial state 只能读取 outer-fit。20 个 trial 在 outer-validation 上排名，不读取 outer-test。
 
-每个训练样本最终恰有一次 OOF prediction；同 scene 跨 fold、scaler 读取 fold-test 或同样本多次 OOF 都是硬失败。
+### Inner 4-fold nuisance OOF
+
+对每个 outer-train：
+
+1. 把 outer-fit scenes 固定为 inner 4 folds；
+2. 第 j 个 nuisance `m_B^{(-j)}` 只在其余 3 folds 拟合，并只预测 inner-j；
+3. 拼接后每个 outer-fit 样本恰有一个 inner-OOF nuisance prediction；
+4. 用 `r_p=a_p-m_B^{OOF}(z_B)` 训练 semantic residual branch；
+5. 将 nuisance 在全部 outer-fit 上重拟合，仅用于 outer-validation/outer-test score；residual target 永不来自看过本样本的 nuisance model；
+6. 选定 trial 后，在 outer-train 上按同一 inner-OOF 流程重建 residual branch，再对 outer-test 输出唯一 score。
+
+每个样本记录 outer fold、inner fold、scaler SHA、trial SHA、nuisance OOF SHA 和最终 score SHA。同 scene 跨 fold、预处理读取 test、trial 读取 test 或 target 来自 in-sample nuisance 均为硬失败。
+
+### Trial aggregation and final refit
+
+- 每个 outer fold 对 20 个 trial 按 outer-validation 主目标排序；
+- 选择“跨 5 个 outer folds 平均 rank 最小”的 trial；并列时取预注册 trial ID 最小者；
+- final direct models 用该 trial 在全部 router-train scenes 重拟合；
+- final Main 先在全部 router-train 上运行 5-fold nuisance OOF 形成 residual targets，再拟合 semantic branch，最后将 nuisance 在全部 router-train 上重拟合；
+- dev 只校准 coverage threshold；internal-test 不参与模型、trial 或 preprocessing refit。
 
 ## Tie band and targets
 
@@ -41,51 +57,58 @@ $$
 
 tie 不进入 AUROC/AUPRC 的二元标签，但保留在连续回归、Spearman 和所有策略效用计算中。
 
-## Nested predictors
+## Claim-F controls and Main
 
-- A：视觉难度、D0 uncertainty、纹理/边界与 region size；
-- B：A + D0/D1 difference、residual norm、candidate confidence；
-- C：B + text–region semantic alignment、caption entity/relation features。
+固定四个模型：
 
-对每个 outer fold，先用 fold-fit/validation 得到 nuisance `m_B(z_B)`；只用 OOF nuisance prediction形成：
+| 模型 | 输入 | 训练算法/目标 | 进入哪个 claim |
+| --- | --- | --- | --- |
+| `B-direct` | `z_B`：视觉难度、候选差异、residual norm、confidence | standard direct advantage objective | Claim-F |
+| `C-direct` | `z_C=z_B+` text-region semantic content | 与 B-direct 完全相同的模型类、参数量、目标和 trials | Claim-F |
+| `C-permuted` | 与 C-direct 同列，但按 scene 内固定 cyclic permutation 打乱 caption/semantic 对应 | 与 C-direct 完全相同 | Claim-F negative control |
+| `Main-orth` | 原始 `z_C` | inner-OOF nuisance residual + clean/CVaR objective | Claim-M only |
 
-$$
-r_p=a_p-m_B(z_B).
-$$
+scene 只有一个 image、无法产生非恒等 permutation 时不静默保留；必须报告不可置换 scene 数，并在 power gate 中处理。Main-orth 不参与 Claim-F 的语义信息判定。
 
-semantic branch 预测 `r_p`，最终 `s_C=m_B+\hat r`。所有标准化和超参数选择遵守同一 fold 边界。
+所有模型的最终列必须通过 `features.py`：`error_type, template_id, generator, generator_revision, variant_id, machine_check, source_caption_hash, split` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和 source-file SHA256。
 
 ## Threshold calibration and policy utility
 
-- 用全部 OOF-train predictions 拟合最终训练过程；
+- 使用平均-rank 冻结的 trial 按上节 final-refit 规则拟合最终模型；
 - 只在独立 dev split 上把 score quantiles 冻结成 21 个 coverage thresholds（0%,5%,…,100%）；
 - internal-test 只应用冻结 thresholds，一次性计算，不重新校准。
 
-除 AUROC/AUPRC/Spearman 外，B/C 使用完全相同 thresholds 与 [metrics spec](metrics_spec.md) 生成 clean-gain retention–CVaR 曲线。
+除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/C-permuted 使用完全相同 thresholds 与 [metrics spec](metrics_spec.md) 生成 clean-gain retention–CVaR 曲线。
 
 ## H-semantic decision
 
 Claim-F 仅在以下条件同时满足时通过：
 
-1. internal-test 上 C-B AUROC ≥0.03，image-level paired-bootstrap 95% CI 下界 >0；
-2. held-out captioner 和 held-out error family 上方向一致；
-3. C-B retention–CVaR Pareto hypervolume 增量 95% CI 下界 >0；
-4. 连续 advantage regression/Spearman 不与分类结论矛盾。
+1. internal-test 上 `C-direct−B-direct` AUROC ≥0.03，scene/drive-cluster paired-bootstrap 95% CI 下界 >0；
+2. `C-direct−C-permuted` 的 AUROC 差值 cluster-CI 下界 >0；
+3. C-direct 相对 B-direct 和 C-permuted 的 retention–CVaR Pareto hypervolume 差值 cluster-CI 下界均 >0；
+4. held-out captioner 和 held-out error family 上方向一致；
+5. 连续 advantage regression/Spearman 不与分类结论矛盾。
 
 任一失败记录 `STOP_CLAIM_F` 或 `REFRAME_NON_SEMANTIC`，不得进入语义算法叙事。
 
 ## Pseudocode
 
 ```text
-freeze split manifest, expert cache, feature schema, tie band
+freeze split manifest, OOF/final expert cache, denylisted feature schema, tie band
 for outer_fold in SceneGroupKFold(K=5):
-    fit_scenes, validation_scenes = hash_split(outer_train_scenes, 80/20)
-    fit preprocessing and each of 20 trials on fit_scenes only
-    choose trial on validation_scenes only
-    predict nuisance m_B and A/B/C scores on outer_fold exactly once
+    split outer-train into outer-fit/outer-validation by scene hash
+    for trial in 20 preregistered trials:
+        build inner SceneGroupKFold(K=4) nuisance OOF predictions
+        train residual branch only on inner-OOF residual targets
+        rank trial on outer-validation only
+    emit B-direct/C-direct/C-permuted/Main-orth outer-OOF scores once
+choose trial by minimum mean outer-validation rank; tie by trial ID
+refit final direct models on all router-train
+refit final Main using full-train nuisance OOF targets, then full nuisance
 calibrate 21 coverage thresholds on independent dev
-evaluate frozen A/B/C policies once on internal_test
-paired-bootstrap images 10,000 times
+evaluate frozen controls and Main once on internal_test
+paired-bootstrap scenes/drives 10,000 times with full metric recomputation
 apply AUROC and Pareto-hypervolume gates
 ```
 
@@ -93,5 +116,8 @@ apply AUROC and Pareto-hypervolume gates
 
 - `paper1/experiments/covol/crossfit_semantic_advantage.py`
 - `paper1/tests/test_crossfit_no_leakage.py`
-- `paper1/results/covol/predictability_probe.csv`
-- fold manifest、feature schema、scaler/trial hashes 与 OOF uniqueness audit。
+- `paper1/experiments/covol/features.py`
+- `paper1/tests/test_feature_schema_no_intervention_metadata.py`
+- `paper1/results/covol/claim_f_controls.csv`
+- `paper1/artifacts/covol/crossfit_manifest.json`
+- fold manifest、feature schema、scaler/trial hashes、inner/outer OOF uniqueness audit。

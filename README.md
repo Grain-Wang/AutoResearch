@@ -17,9 +17,28 @@ AutoResearch 是最外层的主仓库和自主科研工作区，由仓库级
 | 路径 | 用途 |
 | --- | --- |
 | `AGENTS.md` | 整个仓库的权威研究与执行规则 |
+| `.codex/handoff/` | 脱敏的跨机器 Codex 状态与历史接续包 |
 | `tools/` | 可安装的 AutoResearchClaw 16 阶段研究实验工具箱 |
 | `paper1/` | 当前论文方向的研究资料与过程文件 |
 | `sshconfig.md` | 本地私密的服务器连接信息，禁止提交 |
+
+## 跨机器继续 Codex 工作
+
+当前完整研究状态位于 `chore/integrate-tools-and-paper1` 分支；在合并到默认分支前，另一台机器应显式克隆该分支：
+
+```powershell
+git clone -b chore/integrate-tools-and-paper1 git@github.com:Grain-Wang/AutoResearch.git
+cd AutoResearch
+codex -C .
+```
+
+新会话会先遵循根目录 `AGENTS.md`。建议首条消息为：
+
+```text
+读取 .codex/handoff/CURRENT.md，核对当前 Git 和仓库文件，然后从下一原子动作继续；只有需要追溯决策时才读取 TRANSCRIPT.md。
+```
+
+接续包不是原始 Codex session，也不包含认证信息。格式、读取顺序和安全边界见 [`.codex/handoff/README.md`](.codex/handoff/README.md)。
 
 ## 环境与依赖
 

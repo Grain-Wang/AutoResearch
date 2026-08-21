@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "snapshot_time": "2026-08-21T14:13:49+08:00",
+  "snapshot_kind": "sanitized_portable_handoff",
+  "entrypoint": ".codex/handoff/CURRENT.md",
+  "history": ".codex/handoff/TRANSCRIPT.md",
+  "repository": {
+    "canonical_root": "AutoResearch",
+    "remote": "git@github.com:Grain-Wang/AutoResearch.git",
+    "branch": "chore/integrate-tools-and-paper1",
+    "base_commit": "9d48060162bce151798e7361220afe02fd78905e",
+    "default_branch_at_snapshot": "main"
+  },
+  "codex": {
+    "client": "vscode",
+    "cli_version": "0.148.0-alpha.15",
+    "contains_raw_session": false,
+    "contains_internal_messages": false,
+    "contains_tool_outputs": false,
+    "contains_authentication_material": false
+  },
+  "research": {
+    "active_project": "paper1",
+    "active_direction": "CoVoL-Depth",
+    "stage": "Research Opportunity",
+    "paper_candidate": false,
+    "claim_f": "UNVERIFIED",
+    "claim_m": "UNVERIFIED"
+  },
+  "last_verified": {
+    "base_commit": "9d48060162bce151798e7361220afe02fd78905e",
+    "pytest": "22 passed",
+    "ruff": "passed",
+    "black": "passed",
+    "git_diff_check": "passed",
+    "scientific_results_generated": false
+  },
+  "redacted": [
+    "credentials",
+    "SSH connection details",
+    "machine-specific absolute paths",
+    "raw tool activity",
+    "internal instructions and state",
+    "attachments"
+  ]
+}

@@ -1,5 +1,15 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-22 Round-5 最新覆盖状态（优先于本文全部旧内容）**
+>
+> - 已从远端 fast-forward 到审稿基线 `ba4bf48`，新增意见为 `paper1/responce_from_reviewer/review_round5.md`；本轮回复为 `response_round5.md`。
+> - 用户已改为授权本机运行小规模代码测试，但校内 Linux 仍不可达：本机不得下载完整研究数据、训练模型或生成科学结论；在用户明确通知恢复前不得再连接 Linux。
+> - 上一轮 47 文件的 paper1 回归已在本机隔离 Python 3.12 环境复核：`ruff check paper1`、`black --check paper1` 通过，`pytest paper1/tests -q` 为 `92 passed`。仓库级检查仍被 `tools/` 中既存 lint/format debt 阻断，本轮未批量改写该无关范围。
+> - Round-5 已修正：Main-PR 的 complete-caption WorstOf3 风险、标准 signed Lagrangian 与冻结优化常量；`cluster_id` bootstrap；dev-only frozen threshold + internal-test CVaR/WorstOf3 paired CI；VKITTI2 2.0.3 adapter/provenance 和 hash-linked fallback decision；feature extractor allowlist/runtime sanitizer；D0 learned-null/active-gradient 公平合同；conditional detectability 的克制命名。
+> - VKITTI2 的所有变化按基础 `SceneXX` 聚类，官方只有 5 个独立基础场景；不得把天气/相机 clone 冒充 20 个独立场景。真实门禁可能因此 STOP，这是协议要求而非待绕过的工程问题。
+> - 科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M UNVERIFIED**。仍缺真实 manifest、coverage/detectability、checkpoint、实体级 OOF cache、缺陷复现、killer baselines 和主结果。
+> - 旧恢复点 `stash@{0}`（`codex-pre-review-pull-20260822`）仍保留，不得无授权删除。
+
 > **2026-08-22 最新覆盖状态（优先于下方旧快照）**
 >
 > - 当前分支 `chore/integrate-tools-and-paper1` 已包含远端审稿基线 `cae15e4`；审稿改进提交 `6e197dc` 已于 2026-08-22 推送到同名远端分支。新增意见与回复分别为 `review_20260821_153624.md`、`response_20260821_153624.md`。

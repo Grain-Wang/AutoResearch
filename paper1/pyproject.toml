@@ -5,6 +5,7 @@ requires-python = '>=3.12'
 dependencies = [
     'h5py>=3.11',
     'numpy>=1.26',
+    'pillow>=10',
     'scipy>=1.13',
 ]
 

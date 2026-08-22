@@ -34,7 +34,7 @@ $$
 
 缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。
 
-H-fallback-defect 仅当至少一个局部错误族在 NYUv2/KITTI internal-test 上的 scene/drive-cluster mean regret 95% CI 下界均大于 0 才通过。null_diagnostic 和 global swap 不进入该门禁。
+H-fallback-defect 仅当至少一个局部错误族在冻结的 `claim_dataset_decision.local_claim_datasets` 两个 internal-test 数据集上，其 cluster-mean regret 95% CI 下界均大于 0 才通过。该组合只能是 NYUv2+KITTI 或 NYUv2+Virtual KITTI 2；null_diagnostic 和 global swap 不进入该门禁。
 
 ## Natural error motivation audit
 

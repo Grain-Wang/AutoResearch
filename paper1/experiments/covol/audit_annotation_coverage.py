@@ -26,6 +26,9 @@ try:
     from paper1.experiments.covol.build_nyuv2_source_manifest import (
         NYUV2_EVAL_PROTOCOL_SHA256,
     )
+    from paper1.experiments.covol.build_vkitti2_source_manifest import (
+        VKITTI2_EVAL_PROTOCOL_SHA256,
+    )
 except ModuleNotFoundError:  # Direct script execution from the repository root.
     from audit_provenance import (  # type: ignore[no-redef]
         EXPANDED_SELECTION_STAGE,
@@ -38,6 +41,9 @@ except ModuleNotFoundError:  # Direct script execution from the repository root.
     )
     from build_nyuv2_source_manifest import (  # type: ignore[no-redef]
         NYUV2_EVAL_PROTOCOL_SHA256,
+    )
+    from build_vkitti2_source_manifest import (  # type: ignore[no-redef]
+        VKITTI2_EVAL_PROTOCOL_SHA256,
     )
 
 SCHEMA_VERSION = "covol-annotation-coverage-v1"
@@ -133,9 +139,7 @@ def _nonnegative_integer(value: object, *, field: str, context: str) -> int:
     try:
         integer = int(value)
     except (TypeError, ValueError) as error:
-        raise ValueError(
-            f"{context}: {field} must be a nonnegative integer"
-        ) from error
+        raise ValueError(f"{context}: {field} must be a nonnegative integer") from error
     if integer < 0 or integer != value:
         raise ValueError(f"{context}: {field} must be a nonnegative integer")
     return integer
@@ -153,9 +157,10 @@ def _optional_provenance(
     if isinstance(raw_source, Mapping):
         source = str(raw_source.get("path", "")).strip()
         nested_sha256 = raw_source.get("sha256")
-        if raw_sha256 is not None and str(raw_sha256).strip().lower() != str(
-            nested_sha256
-        ).strip().lower():
+        if (
+            raw_sha256 is not None
+            and str(raw_sha256).strip().lower() != str(nested_sha256).strip().lower()
+        ):
             raise ValueError(
                 f"{context}: conflicting nested and flat {prefix} SHA256 values"
             )
@@ -211,8 +216,7 @@ def _validate_entity(
     )
     if valid_depth > mask_area:
         raise ValueError(
-            f"{context}: eval_valid_depth_count cannot exceed "
-            "eval_mask_area_pixels"
+            f"{context}: eval_valid_depth_count cannot exceed " "eval_mask_area_pixels"
         )
     raw_median = value.get("eval_median_depth")
     median_depth: float | None
@@ -285,9 +289,7 @@ def validate_image_record(
         raise ValueError(f"{context}: selection_hash must be a lowercase SHA256")
     manifest_scope = str(record.get("manifest_scope", "")).strip()
     if manifest_scope != "training_pilot_step003":
-        raise ValueError(
-            f"{context}: manifest_scope must be training_pilot_step003"
-        )
+        raise ValueError(f"{context}: manifest_scope must be training_pilot_step003")
     official_test_audit_status = str(
         record.get("official_test_audit_status", "")
     ).strip()
@@ -306,13 +308,19 @@ def validate_image_record(
         if raw_eval_protocol_sha256 is None
         else str(raw_eval_protocol_sha256).strip().lower()
     )
-    if eval_protocol_sha256 is not None and not _valid_sha256(
-        eval_protocol_sha256
-    ):
+    if eval_protocol_sha256 is not None and not _valid_sha256(eval_protocol_sha256):
         raise ValueError(f"{context}: eval_protocol_sha256 must be a SHA256 or null")
     if dataset == "NYUv2" and eval_protocol_sha256 != NYUV2_EVAL_PROTOCOL_SHA256:
         raise ValueError(
             f"{context}: NYUv2 eval_protocol_sha256 does not match the frozen crop"
+        )
+    if (
+        dataset == VIRTUAL_KITTI_DATASET
+        and eval_protocol_sha256 != VKITTI2_EVAL_PROTOCOL_SHA256
+    ):
+        raise ValueError(
+            f"{context}: Virtual KITTI 2 eval_protocol_sha256 does not match "
+            "the frozen full-frame metric protocol"
         )
     annotation_available = _availability(
         record,
@@ -340,9 +348,7 @@ def validate_image_record(
     if not isinstance(raw_entities, list):
         raise ValueError(f"{context}: entities must be a JSON list")
     if raw_entities and eval_protocol_sha256 is None:
-        raise ValueError(
-            f"{context}: entity summaries require eval_protocol_sha256"
-        )
+        raise ValueError(f"{context}: entity summaries require eval_protocol_sha256")
     entities = tuple(
         _validate_entity(
             entity,
@@ -405,9 +411,7 @@ def read_annotation_manifest(path: Path) -> list[ImageAnnotationSummary]:
             seen_images.add(key)
             selection_key = (record.dataset, record.selection_hash)
             if selection_key in seen_selection_hashes:
-                raise ValueError(
-                    f"{path.name}:{line_number} duplicates selection_hash"
-                )
+                raise ValueError(f"{path.name}:{line_number} duplicates selection_hash")
             seen_selection_hashes.add(selection_key)
             records.append(record)
     if not records:
@@ -419,9 +423,7 @@ def read_annotation_manifest(path: Path) -> list[ImageAnnotationSummary]:
             for record in dataset_records:
                 group_clusters[str(getattr(record, field))].add(record.cluster_id)
             split_components = sorted(
-                group
-                for group, clusters in group_clusters.items()
-                if len(clusters) > 1
+                group for group, clusters in group_clusters.items() if len(clusters) > 1
             )
             if split_components:
                 raise ValueError(
@@ -519,24 +521,17 @@ def summarize_dataset_coverage(
                 reliable_in_image = True
             else:
                 exclusions["unreliable_mask"] += 1
-            if (
-                entity.eval_mask_area_pixels
-                >= thresholds.minimum_mask_area_pixels
-            ):
+            if entity.eval_mask_area_pixels >= thresholds.minimum_mask_area_pixels:
                 sufficient_mask_area_count += 1
             else:
                 exclusions["mask_area_below_threshold"] += 1
-            if (
-                entity.eval_valid_depth_count
-                >= thresholds.minimum_valid_depth_pixels
-            ):
+            if entity.eval_valid_depth_count >= thresholds.minimum_valid_depth_pixels:
                 sufficient_valid_depth_count += 1
             else:
                 exclusions["valid_depth_below_threshold"] += 1
             if (
                 entity.reliable_mask
-                and entity.eval_mask_area_pixels
-                >= thresholds.minimum_mask_area_pixels
+                and entity.eval_mask_area_pixels >= thresholds.minimum_mask_area_pixels
                 and entity.eval_valid_depth_count
                 >= thresholds.minimum_valid_depth_pixels
             ):
@@ -709,9 +704,7 @@ def build_coverage_audit(
     gate_pass = not missing_required_datasets and all(
         dataset["structured_requirement_pass"] for dataset in datasets
     )
-    by_dataset_name = {
-        str(dataset["dataset"]): dataset for dataset in datasets
-    }
+    by_dataset_name = {str(dataset["dataset"]): dataset for dataset in datasets}
     nyuv2_pass = bool(by_dataset_name.get("NYUv2", {}).get("gate_pass"))
     kitti_pass = bool(by_dataset_name.get("KITTI", {}).get("gate_pass"))
     if nyuv2_pass and kitti_pass:
@@ -790,9 +783,7 @@ def _csv_rows(audit: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "annotation_available_image_count": dataset[
                     "annotation_available_image_count"
                 ],
-                "depth_available_image_count": dataset[
-                    "depth_available_image_count"
-                ],
+                "depth_available_image_count": dataset["depth_available_image_count"],
                 "entity_count": dataset["entity_count"],
                 "eligible_target_count": dataset["eligible_target_count"],
                 "eligible_image_count": dataset["eligible_image_count"],
@@ -804,12 +795,8 @@ def _csv_rows(audit: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "independent_clusters_with_eligible_pair": dataset[
                     "independent_clusters_with_eligible_pair"
                 ],
-                "minimum_mask_area_pixels": thresholds[
-                    "minimum_mask_area_pixels"
-                ],
-                "minimum_valid_depth_pixels": thresholds[
-                    "minimum_valid_depth_pixels"
-                ],
+                "minimum_mask_area_pixels": thresholds["minimum_mask_area_pixels"],
+                "minimum_valid_depth_pixels": thresholds["minimum_valid_depth_pixels"],
                 "minimum_relative_median_depth_gap": thresholds[
                     "minimum_relative_median_depth_gap"
                 ],
@@ -826,9 +813,7 @@ def _csv_rows(audit: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "pair_gate_pass": dataset["pair_gate_pass"],
                 "gate_pass": dataset["gate_pass"],
                 "fallback_resolved": dataset["fallback_resolved"],
-                "structured_requirement_pass": dataset[
-                    "structured_requirement_pass"
-                ],
+                "structured_requirement_pass": dataset["structured_requirement_pass"],
                 "decision": dataset["decision"],
                 "exclusion_counts_json": json.dumps(
                     exclusions,

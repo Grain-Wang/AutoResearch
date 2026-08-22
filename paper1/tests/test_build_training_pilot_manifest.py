@@ -232,6 +232,11 @@ def test_power_expansion_preserves_parent_and_links_formal_failure(
                 "schema_version": "covol-power-analysis-v1",
                 "status": "FAIL",
                 "run_mode": "FORMAL",
+                "dataset_decision": {
+                    "source": "preregistered_primary_default",
+                    "decision": "GO_LOCAL_CLAIMS_NYUV2_KITTI",
+                    "selected_datasets": ["KITTI", "NYUv2"],
+                },
                 "input": {
                     "manifest_sha256": parent_hash,
                     "split": "internal_test",

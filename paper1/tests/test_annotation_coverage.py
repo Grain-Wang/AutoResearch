@@ -14,6 +14,9 @@ from paper1.experiments.covol.audit_annotation_coverage import (
 from paper1.experiments.covol.build_nyuv2_source_manifest import (
     NYUV2_EVAL_PROTOCOL_SHA256,
 )
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    VKITTI2_EVAL_PROTOCOL_SHA256,
+)
 
 _ANNOTATION_HASH = "a" * 64
 _DEPTH_HASH = "d" * 64
@@ -56,7 +59,11 @@ def _record(
         raw["eval_protocol_sha256"] = (
             NYUV2_EVAL_PROTOCOL_SHA256
             if dataset == "NYUv2"
-            else _sha(f"eval-protocol-{dataset}")
+            else (
+                VKITTI2_EVAL_PROTOCOL_SHA256
+                if dataset == "Virtual KITTI 2"
+                else _sha(f"eval-protocol-{dataset}")
+            )
         )
     return validate_image_record(raw, line_number=1)
 
@@ -118,10 +125,7 @@ def test_missing_kitti_masks_are_zero_coverage_and_trigger_fallback() -> None:
     assert result["eligible_image_count"] == 0
     assert result["eligible_pair_count"] == 0
     assert result["gate_pass"] is False
-    assert (
-        result["decision"]
-        == "FALLBACK_VIRTUAL_KITTI_2_FOR_STRUCTURED_OUTDOOR"
-    )
+    assert result["decision"] == "FALLBACK_VIRTUAL_KITTI_2_FOR_STRUCTURED_OUTDOOR"
 
 
 def test_passing_virtual_kitti_resolves_kitti_structured_fallback() -> None:
@@ -263,15 +267,14 @@ def test_many_pairs_in_one_image_cannot_satisfy_independent_unit_gate() -> None:
     record = _record(
         dataset="NYUv2",
         image_id="one",
-        entities=[
-            _entity(f"entity-{index}", float(index + 1)) for index in range(25)
-        ],
+        entities=[_entity(f"entity-{index}", float(index + 1)) for index in range(25)],
     )
 
     result = summarize_dataset_coverage(
         "NYUv2",
         [record],
         thresholds=CoverageThresholds(
+            minimum_relative_median_depth_gap=0.0,
             minimum_eligible_images=1,
             minimum_eligible_pairs=300,
             minimum_images_with_eligible_pair=2,

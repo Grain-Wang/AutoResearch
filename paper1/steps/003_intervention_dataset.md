@@ -2,7 +2,7 @@
 
 ## Status
 
-`IMPLEMENTED, REMOTE VALIDATION PENDING`。NYUv2/KITTI source adapters、training-only pilot builder、frozen-crop annotation coverage、20-grid cluster power 与 provenance verifier 已实现；真实数据、测试和门禁只允许在授权 Linux 节点的 `whr/AutoResearch` 工作区执行，尚未形成可提交的远端结果。
+`IMPLEMENTED, LOCAL CODE QA PASSED, REMOTE DATA GATE PENDING`。NYUv2/KITTI/Virtual KITTI 2 source adapters、training-only pilot builder、frozen metric protocol、20-grid cluster conditional-detectability audit 与 provenance verifier 已实现；本机只运行微型合成数据的代码检查，不下载真实数据、不生成科学结论。真实数据与 GPU 门禁仍等待授权 Linux 节点的 `whr/AutoResearch` 工作区恢复。
 
 ## Canary sampling
 
@@ -13,7 +13,7 @@
 - scene 与 sequence 形成 bipartite connected components，component 按稳定 hash 排序且不可跨 split；`cluster_id` 是 component 节点集合的 SHA256，coverage/power 按该独立单位计数并拒绝同一 scene/sequence 映射到多个 cluster。
 - 真实适配器必须从原始 RGB bytes 计算 SHA256，不得信任下载清单中的预填值；NYUv2 scene/sequence 与 KITTI drive/frame 映射需各自单测。
 - official benchmark test 只允许在 Step 008 完全冻结方法后运行一次；任何提前读取都使正式结果失效。
-- 正式 Step-003 rows 必须通过可信源合同：NYUv2 adapter/archive/splits/eval-crop SHA 全部固定；KITTI adapter、canonical training list、source revision 与 selection-audit SHA 全部固定。任意自报 64 位字符串不能通过 coverage/power gate。
+- 正式 Step-003 rows 必须通过可信源合同：NYUv2 adapter/archive/splits/eval-crop SHA 全部固定；KITTI adapter、canonical training list、source revision 与 selection-audit SHA 全部固定；Virtual KITTI 2 固定为官方 `2.0.3`，校验 RGB/depth/class/instance/textgt 五个 archive 的官方 MD5、逐文件 SHA256、全图 metric protocol 与 non-commercial license。任意自报 64 位字符串不能通过 coverage/detectability gate。
 
 ## Structured intervention corpus
 
@@ -90,11 +90,12 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 - 每数据集至少 150 张图具有 reliable mask 且目标内 ≥32 个 valid-depth pixels；
 - 每数据集至少 300 个实体对满足两个 mask 各 ≥32 valid-depth pixels 且 median-depth gap ≥10%；
 - KITTI 未达门禁时，structured outdoor set 切换为 Virtual KITTI 2；KITTI 仅保留 image-level sensitivity/fallback，不伪造局部 oracle。
-- 分支唯一由 `configs/covol/dataset_fallback_decision.yaml` 决定；一旦 VKITTI2 fallback 生效，Claim-F/Claim-M 的 local 两数据集证据固定为 NYUv2+Virtual KITTI 2，KITTI 不再出现在 local gate 中。
+- 分支唯一由 coverage JSON 中 hash-linked 的 `claim_dataset_decision` 决定；`power_analysis.py --coverage-decision ...` 只能读取 `[NYUv2,KITTI]` 或 `[NYUv2,Virtual KITTI 2]`，不得在结果出现后手工换组。一旦 VKITTI2 fallback 生效，KITTI 不再进入 local gate。
+- VKITTI2 的天气、视角与双相机渲染全部按基础 `SceneXX` 连成同一 `cluster_id`。官方只有 5 个基础场景，因此它不能靠 clone 数量冒充 20 个独立场景；像素/实体 coverage 即使充足，正式独立聚类门禁仍会 STOP，只能作描述统计，不得给跨场景尾部风险结论。
 
-随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次 power simulation。planning AUROC effect 固定为 `0.05`，最终最小 point gate 仍为 `0.03`；主场景 power 必须 ≥0.80。formal failure 只有在 manifest/split-audit/implementation/grid/seed/5,000 simulations/20 scenarios 全部 hash-linked 时才允许扩大 independent internal-test scenes。
+随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次模拟。它只估计“给定预设 score/loss 分布时的条件检出能力”，不包含模型训练、超参数搜索、captioner 或阈值学习误差，不能称为端到端 study power。主场景 conditional detectability 必须 ≥0.80；formal failure 只有在 dataset-decision/manifest/split-audit/implementation/grid/seed/5,000 simulations/20 scenarios 全部 hash-linked 时才允许扩大 independent internal-test scenes。
 
-所有下载、adapter、coverage、power、Ruff、Black 与 Pytest 均在授权 Linux 节点 `whr/AutoResearch` 下执行；大型数据保存在该目录的忽略路径中，不在本机执行科学门禁，也不提交 archive、RGB、cache 或生成 manifest。
+当前校外阶段允许本机运行 Ruff、Black、Pytest 与微型合成 adapter 测试；禁止在本机下载完整数据、训练模型或把合成测试写成科学结果。真实下载、coverage、conditional-detectability 与 GPU 实验恢复后只在授权 Linux `whr/AutoResearch` 中执行；archive、RGB、cache 和生成 manifest 不提交 Git。
 
 ## Expected artifacts
 
@@ -103,6 +104,7 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 - `paper1/experiments/covol/power_analysis.py`
 - `paper1/experiments/covol/build_training_pilot_manifest.py`
 - `paper1/experiments/covol/build_image_manifest.py`（Step 008 only）
+- `paper1/experiments/covol/build_vkitti2_source_manifest.py`
 - `paper1/data/covol/image_manifest.jsonl`
 - `paper1/data/covol/split_audit.json`
 - `paper1/data/covol/interventions_all.jsonl`：`12N` rows（pilot 12,000）
@@ -128,6 +130,6 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 7. 同一脚本和 manifest 重跑产生相同排序与内容 SHA256；
 8. 随机抽查只能由程序生成报告，不依赖用户长期人工标注。
 9. null_diagnostic 与四个 local families 完全分离；
-10. annotation coverage 通过，且主门禁 power ≥0.80；否则已扩大 scenes 或显式降级 claim。
+10. annotation coverage 通过，且主门禁 conditional detectability ≥0.80；否则已扩大 scenes 或显式降级 claim。
 
 未满足任一项时，步骤 005 和正式 004-B 均不得开始。

@@ -10,7 +10,7 @@
 
 ## Claim-M
 
-正式 local datasets 由 Step 003 的 `dataset_fallback_decision.yaml` 唯一冻结；不得在结果出现后于 KITTI 与 VKITTI2 之间择优报告。
+正式 local datasets 由 Step 003 coverage JSON 内 hash-linked 的 `claim_dataset_decision` 唯一冻结，power 与结果表都必须保存其 SHA256 和 dataset role；不得在结果出现后于 KITTI 与 VKITTI2 之间择优报告。
 
 证据来自 Main 与全部 direct killer baselines：
 

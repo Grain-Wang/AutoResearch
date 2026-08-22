@@ -1,4 +1,4 @@
-"""Paired scene/drive cluster bootstrap for policy hypervolume."""
+"""Paired frozen-cluster bootstrap for CoVoL policy comparisons."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ class PolicyImageOutcome:
     """Per-image losses for every frozen coverage threshold."""
 
     image_id: str
-    scene_id: str
+    cluster_id: str
     d0_clean_loss: float
     d1_clean_loss: float
     routed_clean_losses: tuple[float, ...]
@@ -42,6 +42,24 @@ class ClusterBootstrapResult:
     estimate: float | None
     ci_lower: float | None
     ci_upper: float | None
+    cluster_count: int
+    replicates: int
+    valid_replicates: int
+    invalid_replicates: int
+    invalid_fraction: float
+
+
+@dataclass(frozen=True)
+class ConstrainedRiskBootstrapResult:
+    """Paired primary-risk differences at dev-frozen operating points."""
+
+    status: str
+    cvar_estimate: float | None
+    cvar_ci_lower: float | None
+    cvar_ci_upper: float | None
+    worst_of_n_estimate: float | None
+    worst_of_n_ci_lower: float | None
+    worst_of_n_ci_upper: float | None
     cluster_count: int
     replicates: int
     valid_replicates: int
@@ -66,8 +84,8 @@ def _validate_outcomes(outcomes: Sequence[PolicyImageOutcome]) -> tuple[int, int
         raise ValueError("each threshold must contain caption variants")
     seen_images: set[str] = set()
     for outcome in outcomes:
-        if not outcome.image_id or not outcome.scene_id:
-            raise ValueError("image_id and scene_id must be nonempty")
+        if not outcome.image_id or not outcome.cluster_id:
+            raise ValueError("image_id and cluster_id must be nonempty")
         if outcome.image_id in seen_images:
             raise ValueError(f"duplicate image_id: {outcome.image_id}")
         if len(outcome.routed_clean_losses) != threshold_count:
@@ -108,8 +126,7 @@ def policy_hypervolume(
     d0_losses = [outcome.d0_clean_loss for outcome in outcomes]
     d1_losses = [outcome.d1_clean_loss for outcome in outcomes]
     clean_gain = sum(
-        d0_loss - d1_loss
-        for d0_loss, d1_loss in zip(d0_losses, d1_losses, strict=True)
+        d0_loss - d1_loss for d0_loss, d1_loss in zip(d0_losses, d1_losses, strict=True)
     ) / len(d0_losses)
     if clean_gain <= minimum_clean_gain:
         raise UnstableCleanGainError(
@@ -197,9 +214,9 @@ def cluster_bootstrap_hypervolume_difference(
     if len(left) != len(right):
         raise ValueError("paired methods must contain the same images")
     for left_row, right_row in zip(left, right, strict=True):
-        if (left_row.image_id, left_row.scene_id) != (
+        if (left_row.image_id, left_row.cluster_id) != (
             right_row.image_id,
-            right_row.scene_id,
+            right_row.cluster_id,
         ):
             raise ValueError("paired methods must have identical image ordering")
         if (
@@ -228,14 +245,14 @@ def cluster_bootstrap_hypervolume_difference(
             estimate=None,
             ci_lower=None,
             ci_upper=None,
-            cluster_count=len({row.scene_id for row in left}),
+            cluster_count=len({row.cluster_id for row in left}),
             replicates=replicates,
             valid_replicates=0,
             invalid_replicates=replicates,
             invalid_fraction=1.0,
         )
     sampled_indices = cluster_bootstrap_indices(
-        [row.scene_id for row in left],
+        [row.cluster_id for row in left],
         replicates=replicates,
         seed=seed,
     )
@@ -277,7 +294,7 @@ def cluster_bootstrap_hypervolume_difference(
             estimate=estimate,
             ci_lower=None,
             ci_upper=None,
-            cluster_count=len({row.scene_id for row in left}),
+            cluster_count=len({row.cluster_id for row in left}),
             replicates=replicates,
             valid_replicates=valid_replicates,
             invalid_replicates=invalid_replicates,
@@ -289,9 +306,184 @@ def cluster_bootstrap_hypervolume_difference(
         estimate=estimate,
         ci_lower=_percentile(differences, tail),
         ci_upper=_percentile(differences, 1.0 - tail),
-        cluster_count=len({row.scene_id for row in left}),
+        cluster_count=len({row.cluster_id for row in left}),
         replicates=replicates,
         valid_replicates=valid_replicates,
         invalid_replicates=invalid_replicates,
         invalid_fraction=invalid_fraction,
+    )
+
+
+def _fixed_threshold_risks(
+    outcomes: Sequence[PolicyImageOutcome],
+    *,
+    threshold_index: int,
+) -> tuple[float, float]:
+    _, variant_count = _validate_outcomes(outcomes)
+    if (
+        isinstance(threshold_index, bool)
+        or not isinstance(threshold_index, int)
+        or not 0 <= threshold_index < len(outcomes[0].routed_variant_losses)
+    ):
+        raise ValueError("threshold_index lies outside the frozen coverage grid")
+    risks = corruption_metrics(
+        [row.d0_clean_loss for row in outcomes],
+        [row.routed_variant_losses[threshold_index] for row in outcomes],
+        expected_variants=variant_count,
+    )
+    return risks.cvar, risks.worst_of_n
+
+
+def _practical_clean_gain(
+    outcomes: Sequence[PolicyImageOutcome],
+    *,
+    minimum_clean_gain: float,
+) -> float:
+    clean_gain = sum(row.d0_clean_loss - row.d1_clean_loss for row in outcomes) / len(
+        outcomes
+    )
+    if clean_gain <= minimum_clean_gain:
+        raise UnstableCleanGainError(
+            "STOP_UNSTABLE_CLEAN_GAIN: sampled clean gain does not exceed "
+            "the frozen practical threshold"
+        )
+    return clean_gain
+
+
+def cluster_bootstrap_constrained_risk_difference(
+    left: Sequence[PolicyImageOutcome],
+    right: Sequence[PolicyImageOutcome],
+    *,
+    left_threshold_index: int,
+    right_threshold_index: int,
+    minimum_clean_gain: float,
+    replicates: int = 10_000,
+    seed: int = 20260821,
+    confidence: float = 0.95,
+    maximum_invalid_fraction: float = 0.05,
+) -> ConstrainedRiskBootstrapResult:
+    """Compare primary risks at thresholds frozen independently on dev.
+
+    Threshold indices are inputs rather than selected here, so no internal-test
+    value can change either method's operating point.
+    """
+
+    _validate_outcomes(left)
+    _validate_outcomes(right)
+    if len(left) != len(right):
+        raise ValueError("paired methods must contain the same images")
+    for left_row, right_row in zip(left, right, strict=True):
+        if (left_row.image_id, left_row.cluster_id) != (
+            right_row.image_id,
+            right_row.cluster_id,
+        ):
+            raise ValueError("paired methods must have identical image ordering")
+        if (
+            left_row.d0_clean_loss != right_row.d0_clean_loss
+            or left_row.d1_clean_loss != right_row.d1_clean_loss
+        ):
+            raise ValueError("paired methods must share the same frozen experts")
+    if not math.isfinite(minimum_clean_gain) or minimum_clean_gain < 0.0:
+        raise ValueError("minimum_clean_gain must be finite and nonnegative")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must be in (0, 1)")
+    if not 0.0 <= maximum_invalid_fraction < 1.0:
+        raise ValueError("maximum_invalid_fraction must be in [0, 1)")
+
+    cluster_count = len({row.cluster_id for row in left})
+    try:
+        _practical_clean_gain(left, minimum_clean_gain=minimum_clean_gain)
+        left_cvar, left_worst = _fixed_threshold_risks(
+            left,
+            threshold_index=left_threshold_index,
+        )
+        right_cvar, right_worst = _fixed_threshold_risks(
+            right,
+            threshold_index=right_threshold_index,
+        )
+    except UnstableCleanGainError:
+        return ConstrainedRiskBootstrapResult(
+            status="STOP_UNSTABLE_CLEAN_GAIN",
+            cvar_estimate=None,
+            cvar_ci_lower=None,
+            cvar_ci_upper=None,
+            worst_of_n_estimate=None,
+            worst_of_n_ci_lower=None,
+            worst_of_n_ci_upper=None,
+            cluster_count=cluster_count,
+            replicates=replicates,
+            valid_replicates=0,
+            invalid_replicates=replicates,
+            invalid_fraction=1.0,
+        )
+
+    sampled_indices = cluster_bootstrap_indices(
+        [row.cluster_id for row in left],
+        replicates=replicates,
+        seed=seed,
+    )
+    cvar_differences: list[float] = []
+    worst_differences: list[float] = []
+    for indices in sampled_indices:
+        left_sample = [
+            replace(
+                left[index],
+                image_id=f"{left[index].image_id}@bootstrap-{position}",
+            )
+            for position, index in enumerate(indices)
+        ]
+        right_sample = [
+            replace(
+                right[index],
+                image_id=f"{right[index].image_id}@bootstrap-{position}",
+            )
+            for position, index in enumerate(indices)
+        ]
+        try:
+            _practical_clean_gain(
+                left_sample,
+                minimum_clean_gain=minimum_clean_gain,
+            )
+        except UnstableCleanGainError:
+            continue
+        sampled_left_cvar, sampled_left_worst = _fixed_threshold_risks(
+            left_sample,
+            threshold_index=left_threshold_index,
+        )
+        sampled_right_cvar, sampled_right_worst = _fixed_threshold_risks(
+            right_sample,
+            threshold_index=right_threshold_index,
+        )
+        cvar_differences.append(sampled_left_cvar - sampled_right_cvar)
+        worst_differences.append(sampled_left_worst - sampled_right_worst)
+
+    valid_replicates = len(cvar_differences)
+    invalid_replicates = replicates - valid_replicates
+    invalid_fraction = invalid_replicates / replicates
+    common = {
+        "cvar_estimate": left_cvar - right_cvar,
+        "worst_of_n_estimate": left_worst - right_worst,
+        "cluster_count": cluster_count,
+        "replicates": replicates,
+        "valid_replicates": valid_replicates,
+        "invalid_replicates": invalid_replicates,
+        "invalid_fraction": invalid_fraction,
+    }
+    if invalid_fraction > maximum_invalid_fraction or not cvar_differences:
+        return ConstrainedRiskBootstrapResult(
+            status="STOP_UNSTABLE_CLEAN_GAIN",
+            cvar_ci_lower=None,
+            cvar_ci_upper=None,
+            worst_of_n_ci_lower=None,
+            worst_of_n_ci_upper=None,
+            **common,
+        )
+    tail = (1.0 - confidence) / 2.0
+    return ConstrainedRiskBootstrapResult(
+        status="PASS",
+        cvar_ci_lower=_percentile(cvar_differences, tail),
+        cvar_ci_upper=_percentile(cvar_differences, 1.0 - tail),
+        worst_of_n_ci_lower=_percentile(worst_differences, tail),
+        worst_of_n_ci_upper=_percentile(worst_differences, 1.0 - tail),
+        **common,
     )

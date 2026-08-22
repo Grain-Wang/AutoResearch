@@ -67,13 +67,26 @@ learned:
 objective:
   specification: paper1/steps/014_objective_and_algorithm_spec.md
   cvar_tail_fraction: 0.20
+  cvar_beta: 1.0
+  partial_residual_standardization: outer_train_median_mad
+  huber_delta_standardized: 1.0
+  region_weight: valid_depth_pixels_normalized_within_image
+  optimizer: adamw
+  optimizer_learning_rate: 0.001
+  optimizer_weight_decay: 0.0001
+  cluster_batch_size: 8
+  maximum_images_per_cluster_per_batch: 4
+  eta_initialization: outer_train_empirical_risk_quantile_0.80
+  eta_learning_rate: 0.001
+  eta_update_frequency: every_optimizer_step
   clean_retention_constraint: 0.80
   clean_gain_practical_threshold: max_2x_repeatability_q95_or_1pct_d0_risk
   clean_gain_invalid_bootstrap_fraction_stop: 0.05
-  corruption_aggregation: region_then_worst_of_3_then_image_mean
+  corruption_aggregation: complete_variant_region_weighted_then_worst_of_3_then_image_tail
   dual_initial_value: 0.0
   dual_learning_rate: 0.01
   dual_max_value: 100.0
+  dual_update_frequency: every_optimizer_step_signed_constraint
   gate_temperature: 0.10
   dev_threshold_selection: min_cvar_among_retention_ge_0.80
   dev_threshold_tie_break: max_retention_then_smallest_threshold_id
@@ -121,6 +134,9 @@ feature_policy:
   recompute_source_file_sha256: true
 
 fairness:
+  d0_text_input: trainable_shared_learned_null_token
+  d0_d1_text_path_identical: true
+  require_layerwise_active_gradient_parity: true
   published_adaptation_modes: [faithful, capacity_matched]
   capacity_matched_parameter_tolerance: 0.10
   hyperparameter_trials: 20
@@ -130,7 +146,7 @@ fairness:
   require_identical_expert_cache: true
   require_oof_expert_cache_for_router_train: true
   require_identical_metric_version: true
-  bootstrap_unit: scene_or_drive
+  bootstrap_unit: frozen_cluster_id
   bootstrap_replicates: 10000
   hypervolume_reference: 1.05_times_dev_always_d1_cvar
   hypervolume_role: secondary_only

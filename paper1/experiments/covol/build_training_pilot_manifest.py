@@ -31,9 +31,7 @@ PILOT_COMPONENT_CAPS = {"train": 60, "dev": 20, "internal_test": 5}
 MINIMUM_INTERNAL_TEST_SCENES = 20
 
 
-def _record_split_source_sha256(
-    record: Mapping[str, Any], *, line_number: int
-) -> str:
+def _record_split_source_sha256(record: Mapping[str, Any], *, line_number: int) -> str:
     return validate_trusted_training_source(
         record,
         context=f"training source record {line_number}",
@@ -307,11 +305,11 @@ def _validate_expanded_selection(
     parent_records: Sequence[Mapping[str, Any]],
     parent_audit: Mapping[str, Any],
 ) -> None:
-    current_by_dataset_split: dict[str, dict[str, set[str]]] = (
-        defaultdict(lambda: {split: set() for split in SPLIT_ORDER})
+    current_by_dataset_split: dict[str, dict[str, set[str]]] = defaultdict(
+        lambda: {split: set() for split in SPLIT_ORDER}
     )
-    parent_by_dataset_split: dict[str, dict[str, set[str]]] = (
-        defaultdict(lambda: {split: set() for split in SPLIT_ORDER})
+    parent_by_dataset_split: dict[str, dict[str, set[str]]] = defaultdict(
+        lambda: {split: set() for split in SPLIT_ORDER}
     )
     for source_records, destination in (
         (records, current_by_dataset_split),

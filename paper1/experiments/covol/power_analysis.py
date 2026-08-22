@@ -1,4 +1,9 @@
-"""Cluster-aware preregistered power simulation for CoVoL Step 003."""
+"""Cluster-aware conditional-detectability simulation for CoVoL Step 003.
+
+This module conditions on prespecified score/loss distributions.  It does not
+simulate model fitting, hyperparameter search, caption generation, or threshold
+estimation and therefore must not be interpreted as end-to-end study power.
+"""
 
 from __future__ import annotations
 
@@ -61,6 +66,12 @@ SCHEMA_VERSION = "covol-power-analysis-v1"
 DEFAULT_SEED = 20260821
 PREREGISTERED_GRID_SHA256 = POWER_GRID_CANONICAL_SHA256
 REQUIRED_POWER_DATASETS = frozenset({"KITTI", "NYUv2"})
+ALLOWED_POWER_DATASET_SETS = frozenset(
+    {
+        frozenset({"KITTI", "NYUv2"}),
+        frozenset({"NYUv2", "Virtual KITTI 2"}),
+    }
+)
 DEFAULT_GRID_PATH = (
     Path(__file__).resolve().parents[2] / "configs" / "covol" / "power_grid_v1.json"
 )
@@ -129,6 +140,59 @@ class DatasetDesign:
         """Return the number of dev calibration clusters."""
 
         return len(self.dev_scene_sizes)
+
+
+def load_power_dataset_decision(
+    path: Path,
+    *,
+    manifest_sha256: str,
+) -> tuple[frozenset[str], dict[str, Any]]:
+    """Load a hash-linked, pre-result dataset choice from the coverage audit."""
+
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        raise ValueError("coverage decision artifact must be a JSON object")
+    input_payload = payload.get("input")
+    decision = payload.get("claim_dataset_decision")
+    if (
+        payload.get("schema_version") != "covol-annotation-coverage-v1"
+        or payload.get("status") != "PASS"
+        or not isinstance(input_payload, Mapping)
+        or str(input_payload.get("manifest_sha256", "")).lower() != manifest_sha256
+        or not isinstance(decision, Mapping)
+    ):
+        raise ValueError(
+            "coverage decision must be a PASS artifact bound to the power manifest"
+        )
+    selected = frozenset(
+        str(value).strip() for value in decision.get("local_claim_datasets", [])
+    )
+    if selected not in ALLOWED_POWER_DATASET_SETS:
+        raise ValueError("coverage decision selected an unregistered dataset set")
+    expected_decision = (
+        "GO_LOCAL_CLAIMS_NYUV2_KITTI"
+        if selected == REQUIRED_POWER_DATASETS
+        else "GO_LOCAL_CLAIMS_NYUV2_VKITTI2"
+    )
+    if decision.get("decision") != expected_decision:
+        raise ValueError("coverage decision name and selected datasets disagree")
+    dataset_rows = payload.get("datasets")
+    if not isinstance(dataset_rows, list):
+        raise ValueError("coverage decision lacks dataset gate rows")
+    structured_pass = {
+        str(row.get("dataset"))
+        for row in dataset_rows
+        if isinstance(row, Mapping) and row.get("structured_requirement_pass") is True
+    }
+    if not selected <= structured_pass:
+        raise ValueError("selected power dataset did not pass the coverage contract")
+    return selected, {
+        "source": "frozen_coverage_audit",
+        "coverage_decision_sha256": file_sha256(path),
+        "coverage_manifest_sha256": manifest_sha256,
+        "decision": expected_decision,
+        "selected_datasets": sorted(selected),
+    }
 
 
 def _strict_integer(value: object, *, field: str) -> int:
@@ -291,9 +355,7 @@ def load_power_grid(path: Path = DEFAULT_GRID_PATH) -> PowerGrid:
         raise ValueError("paired expert-advantage SD must be positive")
     expected_coverage_grid = tuple(index / 20 for index in range(21))
     if policy_coverage_grid != expected_coverage_grid:
-        raise ValueError(
-            "policy_coverage_grid must be exactly 0.00, 0.05, ..., 1.00"
-        )
+        raise ValueError("policy_coverage_grid must be exactly 0.00, 0.05, ..., 1.00")
     grid_version = str(payload.get("grid_version", "")).strip()
     if not grid_version:
         raise ValueError("grid_version must be nonempty")
@@ -402,9 +464,7 @@ def _read_manifest_design_data(
                 PILOT_SELECTION_STAGE,
                 EXPANDED_SELECTION_STAGE,
             }:
-                raise ValueError(
-                    "power manifest requires a recognized selection_stage"
-                )
+                raise ValueError("power manifest requires a recognized selection_stage")
             selection_stages.add(selection_stage)
             key = (dataset, image_id)
             if key in seen_images:
@@ -553,22 +613,14 @@ def _simulate_control_scores(
     c_null_scores: list[float] = []
     c_alternative_scores: list[float] = []
     for label, cluster in zip(labels, clusters, strict=True):
-        shared_component = (
-            scene_scale * shared_scene[cluster]
-            + image_scale * rng.gauss(0.0, 1.0)
-        )
-        b_component = (
-            scene_scale * b_scene[cluster]
-            + image_scale * rng.gauss(0.0, 1.0)
-        )
-        permuted_component = (
-            scene_scale * permuted_scene[cluster]
-            + image_scale * rng.gauss(0.0, 1.0)
-        )
-        c_component = (
-            scene_scale * c_scene[cluster]
-            + image_scale * rng.gauss(0.0, 1.0)
-        )
+        shared_component = scene_scale * shared_scene[
+            cluster
+        ] + image_scale * rng.gauss(0.0, 1.0)
+        b_component = scene_scale * b_scene[cluster] + image_scale * rng.gauss(0.0, 1.0)
+        permuted_component = scene_scale * permuted_scene[
+            cluster
+        ] + image_scale * rng.gauss(0.0, 1.0)
+        c_component = scene_scale * c_scene[cluster] + image_scale * rng.gauss(0.0, 1.0)
         b_noise = shared_scale * shared_component + specific_scale * b_component
         permuted_noise = (
             shared_scale * shared_component + specific_scale * permuted_component
@@ -602,18 +654,14 @@ def _simulate_expert_losses(
     scene_scale = math.sqrt(scene_icc)
     image_scale = math.sqrt(1.0 - scene_icc)
     base_scene = [rng.gauss(0.0, 1.0) for _ in range(scene_count)]
-    clean_advantage_scene = [
-        rng.gauss(0.0, 1.0) for _ in range(scene_count)
-    ]
+    clean_advantage_scene = [rng.gauss(0.0, 1.0) for _ in range(scene_count)]
     variant_advantage_scenes = [
         [rng.gauss(0.0, 1.0) for _ in range(scene_count)] for _ in range(3)
     ]
     d0_clean_losses: list[float] = []
     d1_clean_losses: list[float] = []
     d1_variant_losses: list[tuple[float, ...]] = []
-    conditional_absrel_shift = (
-        paired_expert_advantage_absrel_sd * conditional_effect
-    )
+    conditional_absrel_shift = paired_expert_advantage_absrel_sd * conditional_effect
     for label, cluster in zip(labels, clusters, strict=True):
         d0_clean_loss = max(
             0.25,
@@ -626,20 +674,13 @@ def _simulate_expert_losses(
             scene_scale * clean_advantage_scene[cluster]
             + image_scale * rng.gauss(0.0, 1.0)
         )
-        clean_gain = (
-            0.20 + conditional_absrel_shift * centered_label + clean_noise
-        )
+        clean_gain = 0.20 + conditional_absrel_shift * centered_label + clean_noise
         variants: list[float] = []
         for variant_scene in variant_advantage_scenes:
             variant_noise = paired_expert_advantage_absrel_sd * (
-                scene_scale * variant_scene[cluster]
-                + image_scale * rng.gauss(0.0, 1.0)
+                scene_scale * variant_scene[cluster] + image_scale * rng.gauss(0.0, 1.0)
             )
-            d1_regret = (
-                0.05
-                - conditional_absrel_shift * centered_label
-                + variant_noise
-            )
+            d1_regret = 0.05 - conditional_absrel_shift * centered_label + variant_noise
             variants.append(max(0.0, d0_clean_loss + d1_regret))
         d0_clean_losses.append(d0_clean_loss)
         d1_clean_losses.append(max(0.0, d0_clean_loss - clean_gain))
@@ -683,8 +724,7 @@ def _apply_frozen_score_thresholds(
     if not scores or any(not math.isfinite(float(score)) for score in scores):
         raise ValueError("internal-test scores must be finite and nonempty")
     return tuple(
-        tuple(float(score) > threshold for score in scores)
-        for threshold in thresholds
+        tuple(float(score) > threshold for score in scores) for threshold in thresholds
     )
 
 
@@ -729,7 +769,7 @@ def _policy_outcomes_from_scores(
         outcomes.append(
             PolicyImageOutcome(
                 image_id=f"simulation-image-{image_index}",
-                scene_id=f"simulation-scene-{clusters[image_index]}",
+                cluster_id=f"simulation-cluster-{clusters[image_index]}",
                 d0_clean_loss=d0_loss,
                 d1_clean_loss=d1_loss,
                 routed_clean_losses=routed_clean_losses,
@@ -782,12 +822,8 @@ def _simulate_policy_hypervolume_contrasts(
         )
     return {
         "null_c_minus_b": hypervolumes["c_null"] - hypervolumes["b"],
-        "null_c_minus_permuted": (
-            hypervolumes["c_null"] - hypervolumes["permuted"]
-        ),
-        "alternative_c_minus_b": (
-            hypervolumes["c_alternative"] - hypervolumes["b"]
-        ),
+        "null_c_minus_permuted": (hypervolumes["c_null"] - hypervolumes["permuted"]),
+        "alternative_c_minus_b": (hypervolumes["c_alternative"] - hypervolumes["b"]),
         "alternative_c_minus_permuted": (
             hypervolumes["c_alternative"] - hypervolumes["permuted"]
         ),
@@ -852,14 +888,10 @@ def _simulation_is_estimable(
     if positive_count < minimum_positive_errors or positive_count == len(labels):
         return False
     positive_clusters = {
-        cluster
-        for label, cluster in zip(labels, clusters, strict=True)
-        if label
+        cluster for label, cluster in zip(labels, clusters, strict=True) if label
     }
     negative_clusters = {
-        cluster
-        for label, cluster in zip(labels, clusters, strict=True)
-        if not label
+        cluster for label, cluster in zip(labels, clusters, strict=True) if not label
     }
     return len(positive_clusters) >= 2 and len(negative_clusters) >= 2
 
@@ -933,12 +965,8 @@ def simulate_power_scenario(
             dev_clusters,
             prevalence=scenario.error_prevalence,
             scene_icc=scenario.scene_icc,
-            conditional_effect=(
-                scenario.conditional_advantage_standardized_effect
-            ),
-            paired_expert_advantage_absrel_sd=(
-                grid.paired_expert_advantage_absrel_sd
-            ),
+            conditional_effect=(scenario.conditional_advantage_standardized_effect),
+            paired_expert_advantage_absrel_sd=(grid.paired_expert_advantage_absrel_sd),
             rng=rng,
         )
         dev_always_d1_cvar = corruption_metrics(
@@ -956,12 +984,8 @@ def simulate_power_scenario(
         c_null_auc = _auc_value(labels, scores["c_null"])
         c_alternative_auc = _auc_value(labels, scores["c_alternative"])
         null_differences["c_minus_b_auc"].append(c_null_auc - b_auc)
-        null_differences["c_minus_permuted_auc"].append(
-            c_null_auc - permuted_auc
-        )
-        alternative_differences["c_minus_b_auc"].append(
-            c_alternative_auc - b_auc
-        )
+        null_differences["c_minus_permuted_auc"].append(c_null_auc - permuted_auc)
+        alternative_differences["c_minus_b_auc"].append(c_alternative_auc - b_auc)
         alternative_differences["c_minus_permuted_auc"].append(
             c_alternative_auc - permuted_auc
         )
@@ -972,19 +996,13 @@ def simulate_power_scenario(
             dev_scores,
             prevalence=scenario.error_prevalence,
             scene_icc=scenario.scene_icc,
-            conditional_effect=(
-                scenario.conditional_advantage_standardized_effect
-            ),
-            paired_expert_advantage_absrel_sd=(
-                grid.paired_expert_advantage_absrel_sd
-            ),
+            conditional_effect=(scenario.conditional_advantage_standardized_effect),
+            paired_expert_advantage_absrel_sd=(grid.paired_expert_advantage_absrel_sd),
             coverage_grid=grid.policy_coverage_grid,
             reference_cvar=reference_cvar,
             rng=rng,
         )
-        null_differences["c_minus_b_hv"].append(
-            hv_contrasts["null_c_minus_b"]
-        )
+        null_differences["c_minus_b_hv"].append(hv_contrasts["null_c_minus_b"])
         null_differences["c_minus_permuted_hv"].append(
             hv_contrasts["null_c_minus_permuted"]
         )
@@ -1002,22 +1020,17 @@ def simulate_power_scenario(
         for name in metric_names:
             critical_value = _percentile(null_differences[name], null_quantile)
             metric_detections = [
-                value > critical_value
-                for value in alternative_differences[name]
+                value > critical_value for value in alternative_differences[name]
             ]
             detections[name] = metric_detections
             detection_count = sum(metric_detections)
             power = detection_count / simulations
             contrast_results[name] = {
                 "null_critical_value": critical_value,
-                "mean_alternative_difference": fmean(
-                    alternative_differences[name]
-                ),
+                "mean_alternative_difference": fmean(alternative_differences[name]),
                 "detection_count": detection_count,
                 "power": power,
-                "power_monte_carlo_se": math.sqrt(
-                    power * (1.0 - power) / simulations
-                ),
+                "power_monte_carlo_se": math.sqrt(power * (1.0 - power) / simulations),
                 "power_threshold_pass": power >= grid.minimum_power,
             }
         auc_joint_detections = [
@@ -1060,9 +1073,7 @@ def simulate_power_scenario(
             four_contrast_inferential_detections
         )
         point_effect_detection_count = sum(point_effect_detections)
-        full_statistical_gate_detection_count = sum(
-            full_statistical_gate_detections
-        )
+        full_statistical_gate_detection_count = sum(full_statistical_gate_detections)
         auc_joint_detection_count = sum(auc_joint_detections)
         hv_joint_detection_count = sum(hv_joint_detections)
     else:
@@ -1151,6 +1162,7 @@ def run_power_analysis(
     split: str = "internal_test",
     simulations: int = 5_000,
     seed: int = DEFAULT_SEED,
+    coverage_decision_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run all 20 scenarios per dataset and write CSV/JSON audit artifacts."""
 
@@ -1164,21 +1176,29 @@ def run_power_analysis(
         )
     )
     manifest_hash = file_sha256(manifest_path)
+    if coverage_decision_path is None:
+        required_power_datasets = REQUIRED_POWER_DATASETS
+        dataset_decision = {
+            "source": "preregistered_primary_default",
+            "decision": "GO_LOCAL_CLAIMS_NYUV2_KITTI",
+            "selected_datasets": sorted(REQUIRED_POWER_DATASETS),
+        }
+    else:
+        required_power_datasets, dataset_decision = load_power_dataset_decision(
+            coverage_decision_path,
+            manifest_sha256=manifest_hash,
+        )
     grid_file_hash = file_sha256(grid_path)
     grid_hash = canonical_json_sha256(grid_path)
     manifest_dataset_names = set(split_counts)
     designs = [
-        design
-        for design in all_designs
-        if design.dataset in REQUIRED_POWER_DATASETS
+        design for design in all_designs if design.dataset in required_power_datasets
     ]
     if not designs:
         raise ValueError("manifest contains no preregistered power datasets")
     analysis_dataset_names = {design.dataset for design in designs}
-    required_datasets_present = REQUIRED_POWER_DATASETS <= manifest_dataset_names
-    supplemental_datasets = sorted(
-        manifest_dataset_names - REQUIRED_POWER_DATASETS
-    )
+    required_datasets_present = required_power_datasets <= manifest_dataset_names
+    supplemental_datasets = sorted(manifest_dataset_names - required_power_datasets)
     split_link = None
     if split_audit_path is not None:
         split_link = verify_split_audit(
@@ -1186,26 +1206,23 @@ def run_power_analysis(
             manifest_sha256=manifest_hash,
             manifest_record_count=record_count,
             manifest_split_counts=split_counts,
-            required_datasets=REQUIRED_POWER_DATASETS,
+            required_datasets=required_power_datasets,
             manifest_path=manifest_path,
         )
         if split_link.selection_stage != manifest_selection_stage:
-            raise ValueError(
-                "manifest row selection_stage does not match split audit"
-            )
+            raise ValueError("manifest row selection_stage does not match split audit")
     minimum_test_scenes_met = all(
         design.scene_count >= grid.minimum_independent_scenes for design in designs
     )
     minimum_dev_scenes_met = all(
-        design.dev_scene_count >= grid.minimum_independent_scenes
-        for design in designs
+        design.dev_scene_count >= grid.minimum_independent_scenes for design in designs
     )
     formal_run = (
         simulations == grid.formal_simulations
         and grid_hash == PREREGISTERED_GRID_SHA256
         and split == "internal_test"
         and seed == DEFAULT_SEED
-        and analysis_dataset_names == REQUIRED_POWER_DATASETS
+        and analysis_dataset_names == required_power_datasets
         and required_datasets_present
         and split_link is not None
         and minimum_test_scenes_met
@@ -1223,14 +1240,12 @@ def run_power_analysis(
             )
             for scenario in grid.scenarios
         ]
-        primary = next(
-            result for result in scenario_results if result["is_primary"]
-        )
+        primary = next(result for result in scenario_results if result["is_primary"])
         primary_power_pass = bool(primary["scenario_power_threshold_pass"])
         if not formal_run:
             decision = "DIAGNOSTIC_ONLY_NOT_A_GATE"
         elif primary_power_pass:
-            decision = "PASS_STEP003_POWER_ONLY"
+            decision = "PASS_STEP003_CONDITIONAL_DETECTABILITY_ONLY"
         else:
             decision = "EXPAND_INDEPENDENT_SCENES_OR_DOWNGRADE_CLAIM"
         dataset_payloads.append(
@@ -1257,6 +1272,7 @@ def run_power_analysis(
         status = "FAIL"
     audit = {
         "schema_version": SCHEMA_VERSION,
+        "estimand_scope": "CONDITIONAL_INFERENTIAL_DETECTABILITY_NOT_END_TO_END_POWER",
         "status": status,
         "run_mode": "FORMAL" if formal_run else "DIAGNOSTIC",
         "input": {
@@ -1271,6 +1287,7 @@ def run_power_analysis(
         "split_audit": (
             split_audit_link_payload(split_link) if split_link is not None else None
         ),
+        "dataset_decision": dataset_decision,
         "authorization_scope": (
             split_link.authorization_scope if split_link is not None else None
         ),
@@ -1280,9 +1297,7 @@ def run_power_analysis(
             "grid_sha256": grid_hash,
             "grid_file_sha256": grid_file_hash,
             "preregistered_grid_sha256": PREREGISTERED_GRID_SHA256,
-            "matches_preregistered_grid": (
-                grid_hash == PREREGISTERED_GRID_SHA256
-            ),
+            "matches_preregistered_grid": (grid_hash == PREREGISTERED_GRID_SHA256),
             "scenario_count": len(grid.scenarios),
             "primary_scenario_id": grid.primary_scenario_id,
             "primary_scenario_rationale": grid.primary_scenario_rationale,
@@ -1295,9 +1310,7 @@ def run_power_analysis(
             "planning_auc_delta": grid.planning_auc_delta,
             "minimum_auc_delta": grid.minimum_auc_delta,
             "score_correlation": grid.score_correlation,
-            "hv_reference_margin_multiplier": (
-                grid.hv_reference_margin_multiplier
-            ),
+            "hv_reference_margin_multiplier": (grid.hv_reference_margin_multiplier),
             "hv_reference_definition": (
                 "within each replicate, 1.05 times independent-dev "
                 "CVaR(always-D1), shared by every policy"
@@ -1329,14 +1342,12 @@ def run_power_analysis(
             "formal_run": formal_run,
             "formal_conditions": {
                 "exact_simulations_met": simulations == grid.formal_simulations,
-                "preregistered_grid_matched": (
-                    grid_hash == PREREGISTERED_GRID_SHA256
-                ),
+                "preregistered_grid_matched": (grid_hash == PREREGISTERED_GRID_SHA256),
                 "split_is_internal_test": split == "internal_test",
                 "seed_is_preregistered": seed == DEFAULT_SEED,
                 "required_power_datasets_present": required_datasets_present,
                 "analysis_datasets_exact": (
-                    analysis_dataset_names == REQUIRED_POWER_DATASETS
+                    analysis_dataset_names == required_power_datasets
                 ),
                 "split_audit_linked": split_link is not None,
                 "minimum_internal_test_scenes_met": minimum_test_scenes_met,
@@ -1399,9 +1410,7 @@ def _power_csv_rows(audit: Mapping[str, Any]) -> list[dict[str, Any]]:
                     "four_contrast_inferential_power"
                 ],
                 "point_effect_power": scenario["point_effect_power"],
-                "full_statistical_gate_power": scenario[
-                    "full_statistical_gate_power"
-                ],
+                "full_statistical_gate_power": scenario["full_statistical_gate_power"],
                 "full_statistical_gate_power_monte_carlo_se": scenario[
                     "full_statistical_gate_power_monte_carlo_se"
                 ],
@@ -1482,6 +1491,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--split", default="internal_test")
     parser.add_argument("--simulations", type=int, default=5_000)
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument(
+        "--coverage-decision",
+        type=Path,
+        help=(
+            "PASS annotation-coverage JSON that freezes KITTI or Virtual KITTI 2 "
+            "before power analysis"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -1496,6 +1513,7 @@ def main() -> None:
         split=args.split,
         simulations=args.simulations,
         seed=args.seed,
+        coverage_decision_path=args.coverage_decision,
     )
     if audit["run_mode"] == "FORMAL" and audit["status"] != "PASS":
         raise SystemExit(2)

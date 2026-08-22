@@ -18,7 +18,7 @@ TIGER 使用自然语言任务指令在多个冻结异构 VFM 特征之间做 to
 | `s_ir,m_ir` | 固定宽度 semantic block 及其 observation mask |
 | `g_ir` | 使用 D1 的 soft gate；推理时由 dev 冻结 threshold 二值化 |
 
-所有方法先在 region 内算损失，再在每图内按 region 权重聚合；corruption 先对同图同 region 的三个 variants 取 worst-of-3，最后才跨 image 计算上尾 CVaR。patch、variant 和 image 都不充当独立 cluster。
+所有方法先在 region 内算损失；对每个完整 caption variant 先按同一组 region 权重聚合成 image regret，再在三个完整 variants 上取 worst-of-3，最后才跨 image 计算上尾 CVaR。禁止把不同 region 各自最坏的 variant 拼成现实中不存在的 Frankenstein caption。patch、variant 和 image 都不充当独立 cluster。
 
 ## Capacity-identical Claim-F controls
 
@@ -59,6 +59,8 @@ $$
 L^g_{irv}=(1-g_{ir})L^0_{ir}+g_{ir}L^1_{ir}(c_{iv}). \tag{4}
 $$
 
+式 (4) 是 Bernoulli hard route 的期望损失，不等于先混合两张深度图再计算 AbsRel。正式实现只对已经冻结的候选 region losses 做凸组合；推理使用 deterministic binary gate。soft、straight-through hard 与 train/infer 都 hard 的 relaxation-gap 对照为强制消融，不能把 soft surrogate 的优势直接写成 hard-routing 结果。
+
 令 clean gain
 
 $$
@@ -80,10 +82,12 @@ $$
 每图 corruption tail input 固定为
 
 $$
-Q_i(\theta)=\sum_r w_{ir}
+Q_i(\theta)=
 \left[\max_{v\in\{1,2,3\}}
-(L^g_{irv}-L^0_{ir})\right]_+. \tag{7}
+\sum_r w_{ir}(L^g_{irv}-L^0_{ir})\right]_+. \tag{7}
 $$
+
+`w_ir` 固定为该 region 在 official crop 内的 valid-depth pixel count 除以该图所有 eligible regions 的 valid-depth pixel count；每图权重和必须为 1。代码实现为 `main_pr_objective.image_worst_variant_regret`。
 
 上尾比例 `alpha=0.20` 的 Rockafellar–Uryasev batch estimator 为
 
@@ -101,7 +105,7 @@ $$
 \underbrace{\frac1{|B_R|}\sum_{ir\in B_R}
 \rho(q_\theta(z^{BC}_{ir})-u_{ir})}_{L_{PR}}
 +\beta\widehat{\operatorname{CVaR}}_{0.20}(Q)
-+\lambda[\kappa G_1-G_g]_+, \tag{9}
++\lambda(\kappa G_1-G_g), \tag{9}
 $$
 
 其中 `rho` 为配置冻结的 Huber loss。dual update 为
@@ -110,6 +114,18 @@ $$
 \lambda\leftarrow
 \Pi_{[0,100]}\{\lambda+0.01(\kappa G_1-G_g)\}. \tag{10}
 $$
+
+式 (9)–(10) 是同一个标准 Lagrangian 与 projected dual-ascent 问题；不再把 hinge penalty 与 signed dual update 混用。每个 optimizer step 用同一 cluster batch 的 signed constraint 更新一次 `lambda`，约束满足时允许下降但不得小于 0。
+
+## Frozen optimization constants
+
+- `beta=1.0`；`kappa=0.80`；CVaR tail fraction `alpha=0.20`；
+- partial-residual target 只用 outer-train 的 median/MAD 标准化，Huber `delta=1.0`；
+- 每 batch 抽 8 个 frozen `cluster_id`，每 cluster 至多稳定哈希选 4 图，故至多 32 图；不足 8 clusters 时不放回使用全部，禁止把同 cluster 拆开当独立单位；
+- AdamW learning rate `1e-3`、weight decay `1e-4`；gate temperature `0.10`；
+- `eta` 以 outer-train image risks 的经验 0.80 quantile 初始化，learning rate `1e-3`，每 optimizer step 更新；
+- `lambda=0` 初始化，dual learning rate `0.01`，每 optimizer step 更新，投影到 `[0,100]`；
+- trial、seed、early-stop 和 update budget 继续由 baseline contract 的公平预算共同约束，Main-PR 与 Risk-L2D-C 不得使用不同搜索预算。
 
 `Risk-L2D-C` 使用相同式 (4)–(10)、同一 batch、feature、预算与 gate，只把 `L_PR` 换成直接 advantage loss；这使 Claim-M 的差异只剩 cross-fitted partial-residual 决策过程。B/C-direct 只使用相同 standard direct advantage objective，不混入 Main。
 

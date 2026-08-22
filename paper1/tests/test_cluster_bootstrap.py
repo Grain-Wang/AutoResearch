@@ -10,7 +10,7 @@ from paper1.experiments.covol.bootstrap import (
 
 def _outcome(
     image_id: str,
-    scene_id: str,
+    cluster_id: str,
     *,
     clean_loss: float,
     corrupt_loss: float,
@@ -18,7 +18,7 @@ def _outcome(
 ) -> PolicyImageOutcome:
     return PolicyImageOutcome(
         image_id=image_id,
-        scene_id=scene_id,
+        cluster_id=cluster_id,
         d0_clean_loss=1.0,
         d1_clean_loss=d1_clean_loss,
         routed_clean_losses=(clean_loss,),
@@ -26,7 +26,7 @@ def _outcome(
     )
 
 
-def test_cluster_resampling_keeps_all_scene_members_together() -> None:
+def test_cluster_resampling_keeps_all_cluster_members_together() -> None:
     samples = cluster_bootstrap_indices(
         ["scene-a", "scene-a", "scene-b"],
         replicates=20,

@@ -11,8 +11,9 @@
 - D0/D1 使用两个独立训练、结构逐层同构、参数不共享的 metric heads；
 - 两个 head 均接收完全相同的 frozen image-global feature 和 frozen multi-scale image features；
 - 两个 head 都含相同的 `768→256→C` text-channel adapter、FiLM 位置和同构 decoder；
-- D0 的 text channel 固定输入同一个 null/zero embedding，D1 的 text channel 输入冻结 caption embedding；D0 不以 image context 替换 text channel；
+- D0 的 text channel 输入一个可训练、所有样本共享的 learned-null token，且经过与 D1 caption embedding 完全相同的 adapter/FiLM 路径；D0 不以 zero embedding 或 image context 绕过 text channel；
 - 对应层使用同一初始化 seed，层名、shape、trainable parameter count 必须完全相等，而不只是 ±10%；
+- 除总参数量外，32 样本 smoke test 还逐层报告 nonzero-gradient parameter count/ratio；D0/D1 每个对应层的 active-gradient 状态必须一致，否则容量公平门禁失败；
 - 输出 pixel-wise inverse-depth affine maps，再与 frozen relative depth 组合为 metric depth。
 
 该设计不声称复现 TR2M；它是为回答本研究问题而建立的最小公平双候选基线。

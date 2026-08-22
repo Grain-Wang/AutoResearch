@@ -32,6 +32,30 @@ INTERVENTION_METADATA_DENYLIST = frozenset(
     }
 )
 ALLOWED_SOURCE_KINDS = frozenset({"image", "candidate", "caption_content"})
+ALLOWED_SOURCE_FUNCTIONS = {
+    "paper1.experiments.covol.features.candidate_features": {
+        "source_kind": "candidate",
+        "source_fields": frozenset(
+            {
+                "d0_depth",
+                "d1_depth",
+                "d0_uncertainty",
+                "d1_uncertainty",
+                "candidate_residual",
+            }
+        ),
+    },
+    "paper1.experiments.covol.features.caption_region_features": {
+        "source_kind": "caption_content",
+        "source_fields": frozenset(
+            {"raw_caption", "caption_embedding", "region_embedding", "region_mask"}
+        ),
+    },
+    "paper1.experiments.covol.features.image_features": {
+        "source_kind": "image",
+        "source_fields": frozenset({"rgb", "image_embedding", "image_statistics"}),
+    },
+}
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 
 
@@ -89,6 +113,25 @@ def validate_feature_schema(
         source_function = str(column.get("source_function", "")).strip()
         if not source_function:
             raise ValueError(f"feature {name!r} has no source_function")
+        function_contract = ALLOWED_SOURCE_FUNCTIONS.get(source_function)
+        if function_contract is None:
+            raise ValueError(
+                f"feature {name!r} uses unregistered source_function "
+                f"{source_function!r}"
+            )
+        if function_contract["source_kind"] != source_kind:
+            raise ValueError(
+                f"feature {name!r} source_kind conflicts with source_function"
+            )
+        allowed_fields = function_contract["source_fields"]
+        unexpected_fields = sorted(
+            str(field) for field in source_fields if str(field) not in allowed_fields
+        )
+        if unexpected_fields:
+            raise ValueError(
+                f"feature {name!r} source_fields are outside the extractor "
+                f"allowlist: {unexpected_fields}"
+            )
         source_path = Path(str(column.get("source_file_path", "")).strip())
         if not str(source_path) or source_path.is_absolute():
             raise ValueError(
@@ -133,6 +176,31 @@ def validate_feature_schema(
     return normalized_columns
 
 
+def sanitize_feature_inputs(
+    record: Mapping[str, Any],
+    *,
+    source_function: str,
+    source_fields: Iterable[str],
+) -> dict[str, Any]:
+    """Return the only raw fields that a registered extractor may observe."""
+
+    contract = ALLOWED_SOURCE_FUNCTIONS.get(source_function)
+    if contract is None:
+        raise ValueError(f"unregistered source_function {source_function!r}")
+    requested = tuple(str(field) for field in source_fields)
+    unexpected = sorted(
+        field for field in requested if field not in contract["source_fields"]
+    )
+    if unexpected:
+        raise ValueError(
+            f"source_fields are outside the extractor allowlist: {unexpected}"
+        )
+    missing = sorted(field for field in requested if field not in record)
+    if missing:
+        raise ValueError(f"feature input is missing fields: {missing}")
+    return {field: record[field] for field in requested}
+
+
 def feature_schema_payload(
     columns: Iterable[Mapping[str, Any]],
 ) -> dict[str, Any]:
@@ -142,6 +210,13 @@ def feature_schema_payload(
     hash_input = {
         "version": 1,
         "denylist": sorted(INTERVENTION_METADATA_DENYLIST),
+        "source_function_allowlist": {
+            name: {
+                "source_kind": value["source_kind"],
+                "source_fields": sorted(value["source_fields"]),
+            }
+            for name, value in sorted(ALLOWED_SOURCE_FUNCTIONS.items())
+        },
         "columns": validated,
     }
     encoded = json.dumps(

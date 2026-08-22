@@ -265,9 +265,7 @@ def _entity_record(
 ) -> dict[str, Any]:
     normalized_class_name = str(class_name or "").strip()
     if not normalized_class_name:
-        raise ValueError(
-            f"NYUv2 class ID {class_id} lacks a languageable class name"
-        )
+        raise ValueError(f"NYUv2 class ID {class_id} lacks a languageable class name")
     record = {
         "entity_id": (
             f"nyuv2:{matlab_index:04d}:class-{class_id}:instance-{instance_id}"

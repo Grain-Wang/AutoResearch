@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 from paper1.experiments.covol.features import (
     feature_schema_payload,
+    sanitize_feature_inputs,
     validate_feature_schema,
 )
 
@@ -19,11 +20,16 @@ def _column(
     source_fields: list[str],
     source_kind: str = "candidate",
 ) -> dict[str, object]:
+    source_function = (
+        "paper1.experiments.covol.features.caption_region_features"
+        if source_kind == "caption_content"
+        else "paper1.experiments.covol.features.candidate_features"
+    )
     return {
         "name": name,
         "source_fields": source_fields,
         "source_kind": source_kind,
-        "source_function": "paper1.experiments.covol.features.example",
+        "source_function": source_function,
         "source_file_path": SOURCE_FILE_PATH,
         "source_file_sha256": VALID_SHA256,
     }
@@ -74,3 +80,29 @@ def test_requires_traceable_source_sha() -> None:
 
     with pytest.raises(ValueError, match="does not match the local file"):
         validate_feature_schema([column])
+
+
+def test_source_function_and_raw_field_allowlists_block_renamed_gt() -> None:
+    column = _column("difficulty", source_fields=["empirical_error"])
+    with pytest.raises(ValueError, match="extractor allowlist"):
+        validate_feature_schema([column])
+
+    column = _column("difficulty", source_fields=["d0_depth"])
+    column["source_function"] = "paper1.example.unreviewed_extractor"
+    with pytest.raises(ValueError, match="unregistered source_function"):
+        validate_feature_schema([column])
+
+
+def test_runtime_sanitizer_hides_unrequested_ground_truth_fields() -> None:
+    sanitized = sanitize_feature_inputs(
+        {
+            "d0_depth": [1.0],
+            "d1_depth": [2.0],
+            "empirical_error": 99.0,
+            "ground_truth_depth": [3.0],
+        },
+        source_function="paper1.experiments.covol.features.candidate_features",
+        source_fields=["d0_depth", "d1_depth"],
+    )
+
+    assert sanitized == {"d0_depth": [1.0], "d1_depth": [2.0]}

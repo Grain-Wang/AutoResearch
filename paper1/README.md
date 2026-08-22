@@ -10,8 +10,8 @@
 2. [最近邻审计](steps/002_related_work_audit.md)
 3. [主研究方案](ideas/01_counterfactual_value_of_language_depth.md)
 4. [执行状态表](steps/README.md)
-5. [最新审稿意见](responce_from_reviewer/review_20260821_153624.md)
-6. [最新回应](responce_from_reviewer/response_20260821_153624.md)
+5. [最新审稿意见](responce_from_reviewer/review_round5.md)
+6. [最新回应](responce_from_reviewer/response_round5.md)
 
 ## 执行顺序
 
@@ -21,11 +21,11 @@
 
 `004-sensitivity` 只测同一 `D1` 的 clean→corrupted 敏感性，可在 003 后用 TR2M checkpoint 提前运行，但不能替代正式 H-fallback-defect。
 
-当前已有 training-only split/source/coverage/power audits、OOF stacking plan、feature firewall、核心指标和 denominator-aware cluster bootstrap 代码，但尚无经远端复验的真实门禁结果、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。`paper1/results/` 为空时，所有研究主张均为预注册假设。
+当前已有 training-only split/source/coverage/conditional-detectability audits、OOF stacking plan、feature firewall、核心指标、dev-frozen constrained comparison 和 denominator-aware `cluster_id` bootstrap 代码，但尚无真实门禁结果、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。`paper1/results/` 为空时，所有研究主张均为预注册假设。
 
 ## 当前可运行检查
 
-本轮所有下载、测试和数据门禁只在 `sshconfig.md` 指定的授权 Linux 节点执行，工作区必须位于远端 `whr/AutoResearch`；本机不执行数据或测试。远端激活 `vlm` 环境后，先由 NYUv2/KITTI source adapters 生成 official-training JSONL，再复制并填写 [training pilot example](configs/covol/training_pilot_manifest.example.json)：
+校外阶段允许本机执行 Ruff、Black、Pytest 和微型合成数据测试，但不下载真实数据、不训练模型、不生成科学结果。真实数据门禁在 Linux 恢复后于 `whr/AutoResearch` 执行；先由 NYUv2/KITTI/VKITTI2 source adapters 生成 training-only JSONL，再复制并填写 [training pilot example](configs/covol/training_pilot_manifest.example.json)：
 
 ```bash
 cd whr/AutoResearch

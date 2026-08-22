@@ -9,6 +9,22 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    ADAPTER_VERSION as VKITTI2_ADAPTER_VERSION,
+)
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    ARCHIVE_MD5 as VKITTI2_ARCHIVE_MD5,
+)
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    CHECKSUM_SOURCE as VKITTI2_CHECKSUM_SOURCE,
+)
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    DATASET_VERSION as VKITTI2_DATASET_VERSION,
+)
+from paper1.experiments.covol.build_vkitti2_source_manifest import (
+    VKITTI2_EVAL_PROTOCOL_SHA256,
+)
+
 SPLIT_ORDER = ("train", "dev", "internal_test")
 PILOT_SEED = 20260821
 PILOT_SPLIT_COUNTS = {"train": 300, "dev": 100, "internal_test": 100}
@@ -90,9 +106,7 @@ def _mapping_field(
     return value
 
 
-def validate_trusted_training_source(
-    record: Mapping[str, Any], *, context: str
-) -> str:
+def validate_trusted_training_source(record: Mapping[str, Any], *, context: str) -> str:
     """Validate one formal Step-003 row against frozen source contracts.
 
     The returned digest identifies the canonical *full* training-split source,
@@ -137,9 +151,9 @@ def validate_trusted_training_source(
     if dataset == "KITTI":
         if record.get("adapter") != KITTI_ADAPTER_VERSION:
             raise ValueError(f"{context}: untrusted KITTI adapter version")
-        canonical_sha256 = str(
-            record.get("canonical_split_source_sha256", "")
-        ).strip().lower()
+        canonical_sha256 = (
+            str(record.get("canonical_split_source_sha256", "")).strip().lower()
+        )
         if canonical_sha256 != KITTI_CANONICAL_TRAINING_SPLIT_SHA256:
             raise ValueError(f"{context}: KITTI canonical split SHA256 is not frozen")
         if record.get("source_repository_id") != KITTI_SOURCE_REPOSITORY_ID:
@@ -155,6 +169,74 @@ def validate_trusted_training_source(
             raise ValueError(f"{context}: KITTI selection audit SHA256 is invalid")
         return canonical_sha256
 
+    if dataset == "Virtual KITTI 2":
+        if record.get("adapter") != VKITTI2_ADAPTER_VERSION:
+            raise ValueError(f"{context}: untrusted Virtual KITTI 2 adapter version")
+        if record.get("dataset_version") != VKITTI2_DATASET_VERSION:
+            raise ValueError(f"{context}: Virtual KITTI 2 version is not frozen")
+        if record.get("archive_checksum_source") != VKITTI2_CHECKSUM_SOURCE:
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 checksum source is not frozen"
+            )
+        archive_md5 = record.get("archive_md5")
+        if not isinstance(archive_md5, Mapping) or dict(archive_md5) != (
+            VKITTI2_ARCHIVE_MD5
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 official archive MD5 values mismatch"
+            )
+        if record.get("semantic_decode_scope") != "official_v2.0.3_full_frame":
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 semantic decode scope is invalid"
+            )
+        if record.get("source_license") != "CC-BY-NC-SA-3.0-noncommercial":
+            raise ValueError(f"{context}: Virtual KITTI 2 license is not frozen")
+        if (
+            str(record.get("eval_protocol_sha256", "")).lower()
+            != VKITTI2_EVAL_PROTOCOL_SHA256
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 evaluation protocol is not frozen"
+            )
+        for field in (
+            "archive_checksum_file_sha256",
+            "source_split_list_sha256",
+            "rgb_sha256",
+            "depth_sha256",
+        ):
+            if not _valid_sha256(record.get(field)):
+                raise ValueError(f"{context}: Virtual KITTI 2 {field} is invalid")
+        annotation_components = record.get("annotation_components")
+        expected_component_fields = {
+            "class_segmentation_sha256",
+            "colors_sha256",
+            "instance_segmentation_sha256",
+        }
+        if (
+            not isinstance(annotation_components, Mapping)
+            or set(annotation_components) != expected_component_fields
+            or any(
+                not _valid_sha256(annotation_components[field])
+                for field in expected_component_fields
+            )
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 annotation components are invalid"
+            )
+        encoded_components = json.dumps(
+            dict(annotation_components),
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        if (
+            str(record.get("annotation_sha256", "")).lower()
+            != hashlib.sha256(encoded_components).hexdigest()
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 annotation SHA256 is inconsistent"
+            )
+        return str(record["source_split_list_sha256"]).lower()
+
     raise ValueError(f"{context}: dataset {dataset!r} has no trusted source contract")
 
 
@@ -166,7 +248,9 @@ def _resolve_lineage_artifact(audit_path: Path, value: object) -> Path:
     try:
         resolved.relative_to(REPOSITORY_ROOT)
     except ValueError as error:
-        raise ValueError("lineage artifacts must remain inside the repository") from error
+        raise ValueError(
+            "lineage artifacts must remain inside the repository"
+        ) from error
     if not resolved.is_file():
         raise ValueError("lineage artifact must resolve to a regular file")
     return resolved
@@ -197,9 +281,7 @@ def _read_manifest_identity(
             split = str(raw.get("split", "")).strip()
             selection_hash = str(raw.get("selection_hash", "")).strip().lower()
             if not dataset or not image_id:
-                raise ValueError(
-                    f"{path.name}:{line_number} lacks dataset or image_id"
-                )
+                raise ValueError(f"{path.name}:{line_number} lacks dataset or image_id")
             if split not in SPLIT_ORDER:
                 raise ValueError(f"{path.name}:{line_number} has invalid split")
             if (
@@ -261,6 +343,43 @@ def verify_formal_power_failure(
         else None
     )
     datasets = payload.get("datasets")
+    dataset_decision = payload.get("dataset_decision")
+    allowed_dataset_sets = {
+        frozenset({"KITTI", "NYUv2"}),
+        frozenset({"NYUv2", "Virtual KITTI 2"}),
+    }
+    selected_datasets = (
+        frozenset(str(value) for value in dataset_decision.get("selected_datasets", []))
+        if isinstance(dataset_decision, Mapping)
+        else frozenset()
+    )
+    expected_decision_name = (
+        "GO_LOCAL_CLAIMS_NYUV2_KITTI"
+        if selected_datasets == frozenset({"KITTI", "NYUv2"})
+        else "GO_LOCAL_CLAIMS_NYUV2_VKITTI2"
+    )
+    decision_source = (
+        str(dataset_decision.get("source", ""))
+        if isinstance(dataset_decision, Mapping)
+        else ""
+    )
+    valid_decision_link = (
+        isinstance(dataset_decision, Mapping)
+        and selected_datasets in allowed_dataset_sets
+        and dataset_decision.get("decision") == expected_decision_name
+        and (
+            (
+                decision_source == "preregistered_primary_default"
+                and selected_datasets == frozenset({"KITTI", "NYUv2"})
+            )
+            or (
+                decision_source == "frozen_coverage_audit"
+                and _valid_sha256(dataset_decision.get("coverage_decision_sha256"))
+                and str(dataset_decision.get("coverage_manifest_sha256", "")).lower()
+                == parent_manifest_sha256
+            )
+        )
+    )
     expected_implementation_sha256 = file_sha256(
         Path(__file__).with_name("power_analysis.py")
     )
@@ -284,22 +403,20 @@ def verify_formal_power_failure(
         != parent_manifest_sha256
         or input_payload.get("split") != "internal_test"
         or input_payload.get("selection_stage") != PILOT_SELECTION_STAGE
-        or set(input_payload.get("datasets", [])) != {"KITTI", "NYUv2"}
-        or set(input_payload.get("power_analysis_datasets", []))
-        != {"KITTI", "NYUv2"}
+        or not valid_decision_link
+        or not selected_datasets <= set(input_payload.get("datasets", []))
+        or set(input_payload.get("power_analysis_datasets", [])) != selected_datasets
         or not isinstance(split_audit_payload, Mapping)
         or str(split_audit_payload.get("manifest_sha256", "")).lower()
         != parent_manifest_sha256
         or split_audit_payload.get("selection_stage") != PILOT_SELECTION_STAGE
-        or set(split_audit_payload.get("datasets", [])) != {"KITTI", "NYUv2"}
+        or not selected_datasets <= set(split_audit_payload.get("datasets", []))
         or payload.get("authorization_scope") != STEP003_AUTHORIZATION_SCOPE
-        or payload.get("implementation_sha256")
-        != expected_implementation_sha256
+        or payload.get("implementation_sha256") != expected_implementation_sha256
         or not isinstance(grid_payload, Mapping)
         or grid_payload.get("matches_preregistered_grid") is not True
         or grid_payload.get("grid_sha256") != POWER_GRID_CANONICAL_SHA256
-        or grid_payload.get("preregistered_grid_sha256")
-        != POWER_GRID_CANONICAL_SHA256
+        or grid_payload.get("preregistered_grid_sha256") != POWER_GRID_CANONICAL_SHA256
         or grid_payload.get("scenario_count") != 20
         or grid_payload.get("primary_scenario_id") != "prev05_icc30_hv20"
         or grid_payload.get("formal_simulations") != 5_000
@@ -319,15 +436,17 @@ def verify_formal_power_failure(
             for dataset in datasets
             if isinstance(dataset, Mapping)
         }
-        != {"KITTI", "NYUv2"}
+        != selected_datasets
     ):
         raise ValueError(
             "expansion trigger must be a canonical-grid FORMAL FAIL bound to "
             "the parent manifest"
         )
-    if parent_split_audit_sha256 is not None and str(
-        split_audit_payload.get("split_audit_sha256", "")
-    ).lower() != parent_split_audit_sha256:
+    if (
+        parent_split_audit_sha256 is not None
+        and str(split_audit_payload.get("split_audit_sha256", "")).lower()
+        != parent_split_audit_sha256
+    ):
         raise ValueError("expansion trigger split-audit SHA256 mismatch")
     failed_datasets = 0
     for dataset in datasets:
@@ -377,16 +496,12 @@ def verify_split_audit(
     if payload.get("audit_mode") != "training_pilot":
         raise ValueError("Step-003 gates require audit_mode=training_pilot")
     if payload.get("authorization_scope") != STEP003_AUTHORIZATION_SCOPE:
-        raise ValueError(
-            "split audit authorization_scope must remain Step-003-only"
-        )
+        raise ValueError("split audit authorization_scope must remain Step-003-only")
     if payload.get("seed") != PILOT_SEED:
         raise ValueError(f"training-pilot seed must equal {PILOT_SEED}")
     selection_stage = str(payload.get("selection_stage", "")).strip()
     if selection_stage not in {PILOT_SELECTION_STAGE, EXPANDED_SELECTION_STAGE}:
-        raise ValueError(
-            "selection_stage must be PILOT_V1 or EXPANDED_FOR_POWER"
-        )
+        raise ValueError("selection_stage must be PILOT_V1 or EXPANDED_FOR_POWER")
     if not _valid_sha256(payload.get("config_sha256")):
         raise ValueError("split audit config_sha256 must be a valid SHA256")
     expansion_fields = (
@@ -412,9 +527,10 @@ def verify_split_audit(
     elif any(field in payload for field in expansion_fields) or lineage_artifacts:
         raise ValueError("PILOT_V1 audit must not contain expansion lineage fields")
     official_test_audit = payload.get("official_test_audit")
-    if not isinstance(official_test_audit, Mapping) or official_test_audit.get(
-        "status"
-    ) != "DEFERRED_FROZEN":
+    if (
+        not isinstance(official_test_audit, Mapping)
+        or official_test_audit.get("status") != "DEFERRED_FROZEN"
+    ):
         raise ValueError("official test audit must be explicitly DEFERRED_FROZEN")
     if str(payload.get("manifest_sha256", "")).lower() != manifest_sha256:
         raise ValueError("split audit manifest_sha256 does not match input manifest")
@@ -536,13 +652,15 @@ def verify_split_audit(
         parent_manifest_sha256 = str(payload["parent_manifest_sha256"]).lower()
         if file_sha256(parent_manifest_path) != parent_manifest_sha256:
             raise ValueError("parent manifest artifact SHA256 mismatch")
-        if file_sha256(parent_split_audit_path) != str(
-            payload["parent_split_audit_sha256"]
-        ).lower():
+        if (
+            file_sha256(parent_split_audit_path)
+            != str(payload["parent_split_audit_sha256"]).lower()
+        ):
             raise ValueError("parent split-audit artifact SHA256 mismatch")
-        if file_sha256(trigger_power_audit_path) != str(
-            payload["trigger_power_audit_sha256"]
-        ).lower():
+        if (
+            file_sha256(trigger_power_audit_path)
+            != str(payload["trigger_power_audit_sha256"]).lower()
+        ):
             raise ValueError("trigger power-audit artifact SHA256 mismatch")
         parent_records, parent_count, parent_counts = _read_manifest_identity(
             parent_manifest_path
@@ -591,9 +709,7 @@ def verify_split_audit(
         verify_formal_power_failure(
             trigger_power_audit_path,
             parent_manifest_sha256=parent_manifest_sha256,
-            parent_split_audit_sha256=str(
-                payload["parent_split_audit_sha256"]
-            ).lower(),
+            parent_split_audit_sha256=str(payload["parent_split_audit_sha256"]).lower(),
         )
         if not parent_records < current_records:
             raise ValueError("expanded manifest must be a strict superset of parent")

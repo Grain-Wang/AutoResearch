@@ -154,9 +154,7 @@ def test_small_simulation_is_deterministic_and_not_a_formal_gate(tmp_path) -> No
     with first_csv.open("r", encoding="utf-8", newline="") as handle:
         rows = list(csv.DictReader(handle))
     assert len(rows) == 20
-    assert {row["grid_sha256"] for row in rows} == {
-        first["grid"]["grid_sha256"]
-    }
+    assert {row["grid_sha256"] for row in rows} == {first["grid"]["grid_sha256"]}
 
 
 def test_inestimable_replicates_count_as_power_failures() -> None:

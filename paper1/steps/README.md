@@ -16,7 +16,7 @@
 | --- | --- | --- | --- |
 | 001 主线范围 | DONE-DESIGN | 唯一主线锁为 CoVoL；Q-GeoRoute 停放 | 只有正式范围变更才能切主线 |
 | 002 最近邻审计 | DONE-DESIGN | 增补 MRUF、DeferredSeg、Regression Deferral、Density-Ratio Post-Hoc L2D；覆盖机制已撤回新颖性 | 首次 GPU 实验前再检索一次最新近邻 |
-| 003 干预数据 | IMPLEMENTED / REMOTE-GATE-PENDING | training-only connected-component split、NYUv2/KITTI adapters、frozen-crop coverage、formal power/provenance 已实现；远端数据与门禁尚未冻结 | 在授权 Linux `whr` 工作区完成数据下载、Ruff/Black/Pytest、真实 coverage/power；未通过则不进 005 |
+| 003 干预数据 | IMPLEMENTED / REMOTE-DATA-GATE-PENDING | 本地微型 QA 已覆盖 training-only connected-component split、NYUv2/KITTI/VKITTI2 adapters、coverage、动态 dataset decision 与 conditional detectability；无真实数据结果 | Linux 恢复后仅在 `whr` 下载真实数据并跑 coverage/detectability；未通过则不进 005 |
 | 004 缺陷复现 | PENDING | 已拆为 004-A H-sensitivity 与 004-B H-fallback-defect；前者依赖 003，后者依赖 005 | 不再用 TR2M 单 checkpoint 声称 H-defect |
 | 005 冻结专家 | IN-PROGRESS | OOF stacking plan/cache 审计代码完成；同构 D0/D1、负控制和真实 cache 未完成 | 实现 PyTorch 模型并产出 OOF/final checkpoints/cache |
 | 006 语义增量 | PENDING | Claim-F 改为 B-direct/C-direct/C-permuted；Main 使用 outer-5/inner-4 nested OOF | 两个 direct/permuted AUROC/HV cluster-CI 下界均 >0 |
@@ -24,7 +24,7 @@
 | 008 最终 canary | PENDING | Claim-M 要求击败全部 direct/robust killers；Claim-F-only 降级路径已写定 | 两数据集的全部 Claim-M 差值 cluster-CI 下界 >0 |
 | 009 组件消融 | SPECIFIED | granularity 与 hard/soft boundary 协议已写定 | 删除无独立增益或产生边界伪影的组件 |
 | 010 复现环境 | PENDING | 依赖方法代码 | 锁依赖、硬件、运行时与一键命令 |
-| 指标/审计代码 | DONE-CODE | OOF、feature denylist、cluster bootstrap、fixed HV reference 等全套 22 个测试通过 | official metric adapter 与真实结果仍待生成 |
+| 指标/审计代码 | DONE-CODE | feature extractor allowlist/runtime sanitization、`cluster_id` bootstrap、dev-frozen CVaR/WorstOf3 主比较与 fixed-HV sensitivity 均有本地单测 | official metric adapter、真实结果与远端复验仍待生成 |
 | 011 主张语言 | DONE-DESIGN | 因果/安全 overclaim 已移除；Claim-F/Claim-M 分开 | 结果出现后逐条更新 claim status |
 | 012 Q-GeoRoute | PARKED | 仅保留 Phase-0 Go/No-Go | CoVoL Gate-0 否定且更新 001 后才能启动 |
 

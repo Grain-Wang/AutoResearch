@@ -35,7 +35,7 @@ tasks:
       - paper1/tests
       - -q
       - --basetemp
-      - paper1/data/tmp/pytest-paper1
+      - .local-deps/pytest-paper1
     cwd: ../../..
     gpu_count: 0
     depends_on: [qa-black]
@@ -44,7 +44,8 @@ tasks:
   - id: step003-build-training-pilot
     command:
       - python
-      - paper1/experiments/covol/build_training_pilot_manifest.py
+      - -m
+      - paper1.experiments.covol.build_training_pilot_manifest
       - --config
       - paper1/configs/covol/training_pilot_manifest.json
       - --output
@@ -62,7 +63,8 @@ tasks:
   - id: step003-coverage
     command:
       - python
-      - paper1/experiments/covol/audit_annotation_coverage.py
+      - -m
+      - paper1.experiments.covol.audit_annotation_coverage
       - --input
       - paper1/data/covol/image_manifest.jsonl
       - --split-audit
@@ -86,7 +88,8 @@ tasks:
   - id: step003-conditional-detectability
     command:
       - python
-      - paper1/experiments/covol/power_analysis.py
+      - -m
+      - paper1.experiments.covol.power_analysis
       - --manifest
       - paper1/data/covol/image_manifest.jsonl
       - --split-audit

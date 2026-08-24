@@ -45,6 +45,22 @@ def _split_source_sha256(records: Sequence[Mapping[str, Any]]) -> str:
     }
     if len(values) != 1:
         raise ValueError("one dataset training pool must use one split-source SHA256")
+    datasets = {str(record.get("dataset", "")).strip() for record in records}
+    if datasets == {"Virtual KITTI 2"}:
+        canonical_counts = {record.get("canonical_frame_count") for record in records}
+        if canonical_counts != {len(records)}:
+            raise ValueError(
+                "Virtual KITTI 2 training manifest must contain the complete "
+                "canonical full source"
+            )
+        canonical_hashes = {
+            str(record.get("canonical_full_source_sha256", "")).lower()
+            for record in records
+        }
+        if canonical_hashes != values:
+            raise ValueError(
+                "Virtual KITTI 2 training manifest canonical hash mismatch"
+            )
     return next(iter(values))
 
 

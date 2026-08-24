@@ -10,7 +10,7 @@
 
 ## Claim-M
 
-正式 local datasets 由 Step 003 coverage JSON 内 hash-linked 的 `claim_dataset_decision` 唯一冻结，power 与结果表都必须保存其 SHA256 和 dataset role；不得在结果出现后于 KITTI 与 VKITTI2 之间择优报告。
+正式 local datasets 由 Step 003 coverage JSON 内 hash-linked 的 `claim_dataset_decision` 唯一冻结，且只能是 NYUv2+KITTI；power 与结果表都必须保存其 SHA256 和 dataset role。KITTI 失败即停止双数据集 Claim-M，VKITTI2 固定为 synthetic structured auxiliary set，不得在结果出现后择优替代。
 
 证据来自 Main 与全部 direct killer baselines：
 

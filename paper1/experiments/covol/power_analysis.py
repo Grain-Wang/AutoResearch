@@ -66,12 +66,7 @@ SCHEMA_VERSION = "covol-power-analysis-v1"
 DEFAULT_SEED = 20260821
 PREREGISTERED_GRID_SHA256 = POWER_GRID_CANONICAL_SHA256
 REQUIRED_POWER_DATASETS = frozenset({"KITTI", "NYUv2"})
-ALLOWED_POWER_DATASET_SETS = frozenset(
-    {
-        frozenset({"KITTI", "NYUv2"}),
-        frozenset({"NYUv2", "Virtual KITTI 2"}),
-    }
-)
+ALLOWED_POWER_DATASET_SETS = frozenset({REQUIRED_POWER_DATASETS})
 DEFAULT_GRID_PATH = (
     Path(__file__).resolve().parents[2] / "configs" / "covol" / "power_grid_v1.json"
 )
@@ -169,11 +164,7 @@ def load_power_dataset_decision(
     )
     if selected not in ALLOWED_POWER_DATASET_SETS:
         raise ValueError("coverage decision selected an unregistered dataset set")
-    expected_decision = (
-        "GO_LOCAL_CLAIMS_NYUV2_KITTI"
-        if selected == REQUIRED_POWER_DATASETS
-        else "GO_LOCAL_CLAIMS_NYUV2_VKITTI2"
-    )
+    expected_decision = "GO_LOCAL_CLAIMS_NYUV2_KITTI"
     if decision.get("decision") != expected_decision:
         raise ValueError("coverage decision name and selected datasets disagree")
     dataset_rows = payload.get("datasets")
@@ -1495,8 +1486,8 @@ def _parse_args() -> argparse.Namespace:
         "--coverage-decision",
         type=Path,
         help=(
-            "PASS annotation-coverage JSON that freezes KITTI or Virtual KITTI 2 "
-            "before power analysis"
+            "PASS annotation-coverage JSON that freezes NYUv2 and KITTI as the "
+            "two inferential datasets before power analysis"
         ),
     )
     return parser.parse_args()

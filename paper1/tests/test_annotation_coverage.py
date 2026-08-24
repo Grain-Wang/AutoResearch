@@ -111,7 +111,7 @@ def test_coverage_uses_mask_depth_and_conservative_pair_gap() -> None:
     assert result["gate_pass"] is True
 
 
-def test_missing_kitti_masks_are_zero_coverage_and_trigger_fallback() -> None:
+def test_missing_kitti_masks_are_zero_coverage_and_stop_local_gate() -> None:
     record = _record(
         dataset="KITTI",
         image_id="frame-0",
@@ -125,10 +125,10 @@ def test_missing_kitti_masks_are_zero_coverage_and_trigger_fallback() -> None:
     assert result["eligible_image_count"] == 0
     assert result["eligible_pair_count"] == 0
     assert result["gate_pass"] is False
-    assert result["decision"] == "FALLBACK_VIRTUAL_KITTI_2_FOR_STRUCTURED_OUTDOOR"
+    assert result["decision"] == "STOP_INSUFFICIENT_LOCAL_ANNOTATION_COVERAGE"
 
 
-def test_passing_virtual_kitti_resolves_kitti_structured_fallback() -> None:
+def test_passing_virtual_kitti_does_not_resolve_kitti_inferential_gate() -> None:
     kitti = _record(
         dataset="KITTI",
         image_id="kitti-frame",
@@ -159,15 +159,19 @@ def test_passing_virtual_kitti_resolves_kitti_structured_fallback() -> None:
     )
 
     by_dataset = {row["dataset"]: row for row in audit["datasets"]}
-    assert audit["status"] == "PASS"
+    assert audit["status"] == "FAIL"
     assert audit["claim_dataset_decision"] == {
-        "decision": "GO_LOCAL_CLAIMS_NYUV2_VKITTI2",
-        "local_claim_datasets": ["NYUv2", "Virtual KITTI 2"],
+        "decision": "STOP_TWO_DATASET_CLAIM",
+        "local_claim_datasets": ["NYUv2"],
         "kitti_role": "image_level_sensitivity_only",
+        "virtual_kitti2_role": "synthetic_structured_auxiliary_only",
     }
     assert by_dataset["KITTI"]["gate_pass"] is False
-    assert by_dataset["KITTI"]["fallback_resolved"] is True
-    assert by_dataset["KITTI"]["structured_requirement_pass"] is True
+    assert by_dataset["KITTI"]["fallback_resolved"] is False
+    assert by_dataset["KITTI"]["inferential_requirement_pass"] is False
+    assert by_dataset["Virtual KITTI 2"]["evidence_role"] == (
+        "synthetic_structured_auxiliary_only"
+    )
 
 
 def test_precomputed_entities_require_annotation_and_depth_provenance() -> None:

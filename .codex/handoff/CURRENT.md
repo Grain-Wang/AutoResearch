@@ -1,5 +1,14 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-24 Step003 Round-6 P0 修复状态（优先于下方旧内容）**
+>
+> - 当前分支仍为 `grain_paper1`。Step003 正式 inferential 数据集固定为 NYUv2+KITTI；已删除 `GO_LOCAL_CLAIMS_NYUV2_VKITTI2`，KITTI coverage 失败统一返回 `STOP_TWO_DATASET_CLAIM`，VKITTI2 永久标记为 `synthetic_structured_auxiliary_only`。
+> - VKITTI2 source adapter 已改为扫描官方解压目录的完整 scene/variation/camera/frame 与 RGB/depth/class/instance/textgt 对齐关系，不再接受外部 frame index；canonical full-source hash 与总行数会在 pilot builder 中复核，截取子集不能通过。
+> - Step003 队列入口统一改为 `python -m paper1.experiments.covol.<module>`，修复从仓库根目录直接执行时的包导入失败。队列 validate/dry-run 显示 6 个启用任务均为 CPU。
+> - 本地证据：`ruff check .` 通过；所有 Python 文件逐文件 Black check 通过；`paper1` 为 96 passed，`tools` 为 44 passed，Step003 定向测试为 31 passed。Black 26.5.1 在网络文件系统上按目录批量检查会无输出挂起，因此用相同配置逐文件完成检查。
+> - 远程只读盘点确认：授权 `whr` 工作区与隔离 Python 3.12 环境存在，但 NYUv2/KITTI 原始数据和 active training pilot 配置尚不存在。尚未产生真实 coverage/detectability 结果或新科学事实。
+> - 当前科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M UNVERIFIED**，未达到 Paper Candidate。下一原子动作是同步已验证修复、停止不再需要的旧 GPU canary，然后只用 CPU 自动准备 official-training 数据并运行 Step003 feasibility gate。
+
 > **2026-08-24 `grain_paper1` 工具精简覆盖状态（优先于下方全部旧内容）**
 >
 > - 已从 `chore/integrate-tools-and-paper1` 的 `e90be8b` 创建并切换到 `grain_paper1`。`tools/` 现在只保留根 `AGENTS.md` 约束的通用科研核心：16 阶段产物契约与门禁、真实公共文献检索、本地/密钥 SSH 实验执行、协作式 GPU 队列和 PDF 文献转换。

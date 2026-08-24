@@ -14,7 +14,7 @@
 ## 1. 可证伪假设
 
 1. **H-sensitivity（诊断）：** 同一 D1 的 corrupted caption 相对 clean caption 显著退化；可用 TR2M checkpoint，但不证明 fallback 必要。
-2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；local coverage 通过时在 NYUv2/KITTI 判定，KITTI 失败则 local claim 唯一切换到 NYUv2+Virtual KITTI 2，KITTI 只保留 image-level sensitivity。
+2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；正式 local claim 只能在 coverage 通过的 NYUv2/KITTI 上判定。KITTI 失败即停止双数据集 claim；Virtual KITTI 2 只作 synthetic structured auxiliary stress test。
 3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 的 advantage AUROC 和 retention–CVaR hypervolume cluster-CI 下界均 >0；Main-PR 不参与。
 4. **H-method / Claim-M：** dev 只在 clean gain retention ≥80% 的 thresholds 中选最低 CVaR，internal-test 上 Main-PR 相对 Risk-L2D-C、TIGER-style LOO、regression、density-ratio、dense-coherence 与 LOO-uncertainty baselines 的 CVaR/WorstOf3 风险差 cluster-CI 上界均 <0；HV 仅作 secondary。
 

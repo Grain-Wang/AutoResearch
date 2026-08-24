@@ -17,7 +17,7 @@
 
 ## 004-B H-fallback-defect
 
-数据集组合先读取 `dataset_fallback_decision.yaml`：coverage 全通过时用 NYUv2+KITTI；KITTI local coverage 失败且 VKITTI2 通过时用 NYUv2+VKITTI2，KITTI 只报告 image-level sensitivity，不能同时保留为 local defect 证据。
+数据集组合先读取 `dataset_fallback_decision.yaml`：只有 NYUv2 与 KITTI coverage 都通过时才进入正式双数据集缺陷复现。KITTI local coverage 失败时返回 `STOP_TWO_DATASET_CLAIM`；VKITTI2 只作 synthetic structured auxiliary analysis，不能替代 KITTI。
 
 问题：corrupted `D1` 是否比独立训练、冻结且公平的 `D0` 更差？
 
@@ -34,7 +34,7 @@ $$
 
 缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。
 
-H-fallback-defect 仅当至少一个局部错误族在冻结的 `claim_dataset_decision.local_claim_datasets` 两个 internal-test 数据集上，其 cluster-mean regret 95% CI 下界均大于 0 才通过。该组合只能是 NYUv2+KITTI 或 NYUv2+Virtual KITTI 2；null_diagnostic 和 global swap 不进入该门禁。
+H-fallback-defect 仅当至少一个局部错误族在冻结的 NYUv2+KITTI 两个 internal-test 数据集上，其 cluster-mean regret 95% CI 下界均大于 0 才通过。VKITTI2、null_diagnostic 和 global swap 不进入该门禁。
 
 ## Natural error motivation audit
 

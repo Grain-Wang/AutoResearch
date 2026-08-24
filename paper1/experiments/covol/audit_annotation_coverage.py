@@ -578,10 +578,10 @@ def summarize_dataset_coverage(
         >= thresholds.minimum_independent_clusters_with_eligible_pair
     )
     gate_pass = image_gate_pass and pair_gate_pass
-    if gate_pass:
+    if dataset == VIRTUAL_KITTI_DATASET:
+        decision = "SYNTHETIC_STRUCTURED_AUXILIARY_ONLY"
+    elif gate_pass:
         decision = "GO_LOCAL_STRUCTURED_INTERVENTIONS"
-    elif dataset.strip().casefold() == "kitti":
-        decision = "FALLBACK_VIRTUAL_KITTI_2_FOR_STRUCTURED_OUTDOOR"
     else:
         decision = "STOP_INSUFFICIENT_LOCAL_ANNOTATION_COVERAGE"
 
@@ -682,29 +682,26 @@ def build_coverage_audit(
     ]
     present_datasets = {str(dataset["dataset"]) for dataset in raw_datasets}
     missing_required_datasets = sorted(REQUIRED_DATASETS - present_datasets)
-    virtual_kitti_pass = any(
-        dataset["dataset"] == VIRTUAL_KITTI_DATASET and dataset["gate_pass"]
-        for dataset in raw_datasets
-    )
     datasets: list[dict[str, Any]] = []
     for raw_dataset in raw_datasets:
         dataset = dict(raw_dataset)
-        fallback_resolved = (
-            dataset["dataset"] == "KITTI"
-            and not dataset["gate_pass"]
-            and virtual_kitti_pass
+        dataset_name = str(dataset["dataset"])
+        dataset["fallback_resolved"] = False
+        dataset["structured_requirement_pass"] = bool(dataset["gate_pass"])
+        dataset["inferential_requirement_pass"] = (
+            dataset_name in REQUIRED_DATASETS and bool(dataset["gate_pass"])
         )
-        dataset["fallback_resolved"] = fallback_resolved
-        dataset["structured_requirement_pass"] = (
-            bool(dataset["gate_pass"]) or fallback_resolved
+        dataset["evidence_role"] = (
+            "synthetic_structured_auxiliary_only"
+            if dataset_name == VIRTUAL_KITTI_DATASET
+            else "candidate_inferential_local_dataset"
         )
-        if fallback_resolved:
-            dataset["decision"] = "FALLBACK_RESOLVED_BY_VIRTUAL_KITTI_2"
         datasets.append(dataset)
-    gate_pass = not missing_required_datasets and all(
-        dataset["structured_requirement_pass"] for dataset in datasets
-    )
     by_dataset_name = {str(dataset["dataset"]): dataset for dataset in datasets}
+    gate_pass = not missing_required_datasets and all(
+        bool(by_dataset_name[name]["inferential_requirement_pass"])
+        for name in REQUIRED_DATASETS
+    )
     nyuv2_pass = bool(by_dataset_name.get("NYUv2", {}).get("gate_pass"))
     kitti_pass = bool(by_dataset_name.get("KITTI", {}).get("gate_pass"))
     if nyuv2_pass and kitti_pass:
@@ -712,24 +709,21 @@ def build_coverage_audit(
             "decision": "GO_LOCAL_CLAIMS_NYUV2_KITTI",
             "local_claim_datasets": ["NYUv2", "KITTI"],
             "kitti_role": "local_primary",
-        }
-    elif nyuv2_pass and virtual_kitti_pass:
-        claim_dataset_decision = {
-            "decision": "GO_LOCAL_CLAIMS_NYUV2_VKITTI2",
-            "local_claim_datasets": ["NYUv2", VIRTUAL_KITTI_DATASET],
-            "kitti_role": "image_level_sensitivity_only",
+            "virtual_kitti2_role": "synthetic_structured_auxiliary_only",
         }
     elif not nyuv2_pass:
         claim_dataset_decision = {
             "decision": "STOP_LOCAL_CLAIMS",
             "local_claim_datasets": [],
             "kitti_role": "diagnostic_only",
+            "virtual_kitti2_role": "synthetic_structured_auxiliary_only",
         }
     else:
         claim_dataset_decision = {
-            "decision": "STOP_TWO_DATASET_CLAIM_PENDING_VKITTI2",
+            "decision": "STOP_TWO_DATASET_CLAIM",
             "local_claim_datasets": ["NYUv2"],
             "kitti_role": "image_level_sensitivity_only",
+            "virtual_kitti2_role": "synthetic_structured_auxiliary_only",
         }
     return {
         "schema_version": SCHEMA_VERSION,
@@ -814,6 +808,8 @@ def _csv_rows(audit: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "gate_pass": dataset["gate_pass"],
                 "fallback_resolved": dataset["fallback_resolved"],
                 "structured_requirement_pass": dataset["structured_requirement_pass"],
+                "inferential_requirement_pass": dataset["inferential_requirement_pass"],
+                "evidence_role": dataset["evidence_role"],
                 "decision": dataset["decision"],
                 "exclusion_counts_json": json.dumps(
                     exclusions,

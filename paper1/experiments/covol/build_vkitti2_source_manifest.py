@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import re
 from collections import Counter
@@ -23,7 +24,7 @@ from PIL import Image
 
 DATASET_NAME = "Virtual KITTI 2"
 DATASET_VERSION = "2.0.3"
-ADAPTER_VERSION = "vkitti2-source-v1"
+ADAPTER_VERSION = "vkitti2-source-v2"
 CHECKSUM_SOURCE = (
     "https://download.europe.naverlabs.com/virtual_kitti_2.0.3/"
     "vkitti_2.0.3_md5_checksums.txt"
@@ -64,6 +65,24 @@ VKITTI2_EVAL_PROTOCOL_SHA256 = hashlib.sha256(
 
 _SCENE_RE = re.compile(r"^Scene\d{2}$")
 _CAMERA_RE = re.compile(r"^Camera_[01]$")
+_MODALITY_LAYOUTS = {
+    "rgb": ("vkitti_2.0.3_rgb", "rgb", re.compile(r"^rgb_(\d{5})\.jpg$")),
+    "depth": (
+        "vkitti_2.0.3_depth",
+        "depth",
+        re.compile(r"^depth_(\d{5})\.png$"),
+    ),
+    "class": (
+        "vkitti_2.0.3_classSegmentation",
+        "classsegmentation",
+        re.compile(r"^classgt_(\d{5})\.png$"),
+    ),
+    "instance": (
+        "vkitti_2.0.3_instanceSegmentation",
+        "instancesegmentation",
+        re.compile(r"^instancegt_(\d{5})\.png$"),
+    ),
+}
 
 
 def _file_sha256(path: Path) -> str:
@@ -106,92 +125,130 @@ def _read_official_checksums(path: Path) -> dict[str, str]:
     return {name: parsed[name] for name in sorted(ARCHIVE_MD5)}
 
 
-def _read_frame_index(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    identities: set[tuple[str, str, str, int]] = set()
-    with path.open("r", encoding="utf-8-sig") as handle:
-        for line_number, line in enumerate(handle, start=1):
-            if not line.strip():
-                continue
-            value = json.loads(line)
-            if not isinstance(value, Mapping):
-                raise ValueError(f"{path}:{line_number}: row must be a JSON object")
-            scene = str(value.get("scene", "")).strip()
-            variation = str(value.get("variation", "")).strip()
-            camera = str(value.get("camera", "")).strip()
-            frame_value = value.get("frame_index")
-            if isinstance(frame_value, bool):
-                raise ValueError(
-                    f"{path}:{line_number}: frame_index must be an integer"
-                )
-            try:
-                frame_index = int(frame_value)
-            except (TypeError, ValueError) as error:
-                raise ValueError(
-                    f"{path}:{line_number}: frame_index must be an integer"
-                ) from error
-            if frame_index != frame_value or frame_index < 0:
-                raise ValueError(f"{path}:{line_number}: invalid frame_index")
-            if scene not in SCENES or _SCENE_RE.fullmatch(scene) is None:
-                raise ValueError(f"{path}:{line_number}: unknown official scene")
-            if variation not in VARIATIONS:
-                raise ValueError(f"{path}:{line_number}: unknown official variation")
-            if camera not in CAMERAS or _CAMERA_RE.fullmatch(camera) is None:
-                raise ValueError(f"{path}:{line_number}: unknown official camera")
-            if value.get("official_split", "train") != "train":
-                raise ValueError(
-                    f"{path}:{line_number}: fallback source is training-only"
-                )
-            identity = (scene, variation, camera, frame_index)
-            if identity in identities:
-                raise ValueError(f"{path}:{line_number}: duplicate frame identity")
-            identities.add(identity)
-            rows.append(
-                {
-                    "scene": scene,
-                    "variation": variation,
-                    "camera": camera,
-                    "frame_index": frame_index,
-                }
-            )
-    if not rows:
-        raise ValueError("Virtual KITTI 2 frame index must not be empty")
-    return rows
+FrameIdentity = tuple[str, str, str, int]
 
 
-def _relative_paths(row: Mapping[str, Any]) -> dict[str, Path]:
-    scene = str(row["scene"])
-    variation = str(row["variation"])
-    camera = str(row["camera"])
-    frame_index = int(row["frame_index"])
-    prefix = Path(scene) / variation
-    return {
-        "rgb": Path("vkitti_2.0.3_rgb")
-        / prefix
-        / "frames"
-        / "rgb"
-        / camera
-        / f"rgb_{frame_index:05d}.jpg",
-        "depth": Path("vkitti_2.0.3_depth")
-        / prefix
-        / "frames"
-        / "depth"
-        / camera
-        / f"depth_{frame_index:05d}.png",
-        "class": Path("vkitti_2.0.3_classSegmentation")
-        / prefix
-        / "frames"
-        / "classsegmentation"
-        / camera
-        / f"classgt_{frame_index:05d}.png",
-        "instance": Path("vkitti_2.0.3_instanceSegmentation")
-        / prefix
-        / "frames"
-        / "instancesegmentation"
-        / camera
-        / f"instancegt_{frame_index:05d}.png",
-        "colors": Path("vkitti_2.0.3_textgt") / prefix / "colors.txt",
+def _scan_modality(
+    data_root: Path,
+    *,
+    archive: str,
+    frame_directory: str,
+    filename_pattern: re.Pattern[str],
+) -> dict[FrameIdentity, Path]:
+    """Enumerate one official image modality without accepting a caller subset."""
+
+    archive_root = data_root / archive
+    if not archive_root.is_dir():
+        raise FileNotFoundError(archive_root)
+    paths: dict[FrameIdentity, Path] = {}
+    pattern = f"*/*/frames/{frame_directory}/*/*"
+    for path in sorted(archive_root.glob(pattern)):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(data_root)
+        parts = relative.parts
+        if len(parts) != 7:
+            raise ValueError(f"unexpected Virtual KITTI 2 path: {relative}")
+        _, scene, variation, frames, modality, camera, filename = parts
+        match = filename_pattern.fullmatch(filename)
+        if frames != "frames" or modality != frame_directory or match is None:
+            raise ValueError(f"unexpected Virtual KITTI 2 path: {relative}")
+        if scene not in SCENES or _SCENE_RE.fullmatch(scene) is None:
+            raise ValueError(f"unknown official Virtual KITTI 2 scene: {scene}")
+        if variation not in VARIATIONS:
+            raise ValueError(f"unknown official Virtual KITTI 2 variation: {variation}")
+        if camera not in CAMERAS or _CAMERA_RE.fullmatch(camera) is None:
+            raise ValueError(f"unknown official Virtual KITTI 2 camera: {camera}")
+        identity = (scene, variation, camera, int(match.group(1)))
+        if identity in paths:
+            raise ValueError(f"duplicate Virtual KITTI 2 frame identity: {identity}")
+        paths[identity] = relative
+    if not paths:
+        raise ValueError(f"Virtual KITTI 2 {archive} contains no official frames")
+    return paths
+
+
+def _scan_canonical_frames(data_root: Path) -> list[dict[str, Any]]:
+    modality_paths = {
+        name: _scan_modality(
+            data_root,
+            archive=archive,
+            frame_directory=frame_directory,
+            filename_pattern=filename_pattern,
+        )
+        for name, (archive, frame_directory, filename_pattern) in (
+            _MODALITY_LAYOUTS.items()
+        )
     }
+    rgb_identities = set(modality_paths["rgb"])
+    for modality, paths in modality_paths.items():
+        if set(paths) != rgb_identities:
+            missing = sorted(rgb_identities - set(paths))[:5]
+            extra = sorted(set(paths) - rgb_identities)[:5]
+            raise ValueError(
+                f"Virtual KITTI 2 {modality} identities disagree with RGB; "
+                f"missing={missing}, extra={extra}"
+            )
+
+    expected_contexts = set(itertools.product(SCENES, VARIATIONS, CAMERAS))
+    actual_contexts = {identity[:3] for identity in rgb_identities}
+    if actual_contexts != expected_contexts:
+        missing = sorted(expected_contexts - actual_contexts)[:5]
+        extra = sorted(actual_contexts - expected_contexts)[:5]
+        raise ValueError(
+            "Virtual KITTI 2 does not contain the complete official "
+            f"scene/variation/camera grid; missing={missing}, extra={extra}"
+        )
+
+    frames_by_context: dict[tuple[str, str, str], set[int]] = {}
+    for scene, variation, camera in expected_contexts:
+        frames = {
+            frame
+            for row_scene, row_variation, row_camera, frame in rgb_identities
+            if (row_scene, row_variation, row_camera) == (scene, variation, camera)
+        }
+        if not frames or frames != set(range(max(frames) + 1)):
+            raise ValueError(
+                "Virtual KITTI 2 frame indices must be contiguous and zero-based: "
+                f"{scene}/{variation}/{camera}"
+            )
+        frames_by_context[(scene, variation, camera)] = frames
+    for scene in SCENES:
+        scene_frame_sets = {
+            tuple(sorted(frames_by_context[(scene, variation, camera)]))
+            for variation in VARIATIONS
+            for camera in CAMERAS
+        }
+        if len(scene_frame_sets) != 1:
+            raise ValueError(
+                "Virtual KITTI 2 variations/cameras have inconsistent frame "
+                f"enumeration for {scene}"
+            )
+
+    text_root = data_root / "vkitti_2.0.3_textgt"
+    if not text_root.is_dir():
+        raise FileNotFoundError(text_root)
+    rows: list[dict[str, Any]] = []
+    for scene, variation, camera, frame_index in sorted(rgb_identities):
+        colors = Path("vkitti_2.0.3_textgt") / scene / variation / "colors.txt"
+        if not (data_root / colors).is_file():
+            raise FileNotFoundError(data_root / colors)
+        rows.append(
+            {
+                "scene": scene,
+                "variation": variation,
+                "camera": camera,
+                "frame_index": frame_index,
+                "relative_paths": {
+                    **{
+                        name: paths[(scene, variation, camera, frame_index)]
+                        for name, paths in modality_paths.items()
+                    },
+                    "colors": colors,
+                },
+            }
+        )
+    return rows
 
 
 def _read_colors(path: Path) -> dict[tuple[int, int, int], str]:
@@ -271,40 +328,31 @@ def _entity_summaries(
 
 def build_vkitti2_source_manifest(
     data_root: Path,
-    frame_index_path: Path,
     checksum_path: Path,
     output_path: Path,
 ) -> list[dict[str, object]]:
     """Build a training-only manifest from extracted official VKITTI2 archives."""
 
     data_root = data_root.resolve()
-    frame_index_path = frame_index_path.resolve()
     checksum_path = checksum_path.resolve()
     output_path = output_path.resolve()
     if not data_root.is_dir():
         raise NotADirectoryError(data_root)
-    if not frame_index_path.is_file():
-        raise FileNotFoundError(frame_index_path)
     if not checksum_path.is_file():
         raise FileNotFoundError(checksum_path)
-    if output_path in {frame_index_path, checksum_path}:
+    if output_path == checksum_path:
         raise ValueError("output path must not overwrite an input")
 
     archive_md5 = _read_official_checksums(checksum_path)
-    frame_rows = _read_frame_index(frame_index_path)
-    frame_index_sha256 = _file_sha256(frame_index_path)
+    frame_rows = _scan_canonical_frames(data_root)
     checksum_file_sha256 = _file_sha256(checksum_path)
     records: list[dict[str, object]] = []
+    canonical_entries: list[dict[str, object]] = []
     seen_rgb_hashes: dict[str, str] = {}
     for row in frame_rows:
-        relative = _relative_paths(row)
+        relative = row["relative_paths"]
+        assert isinstance(relative, Mapping)
         absolute = {name: data_root / path for name, path in relative.items()}
-        missing = [name for name, path in absolute.items() if not path.is_file()]
-        if missing:
-            raise FileNotFoundError(
-                f"{row['scene']}/{row['variation']}/{row['camera']}/"
-                f"{row['frame_index']}: missing {missing}"
-            )
         file_hashes = {name: _file_sha256(path) for name, path in absolute.items()}
         rgb_hash = file_hashes["rgb"]
         image_id = (
@@ -322,6 +370,18 @@ def build_vkitti2_source_manifest(
             "colors_sha256": file_hashes["colors"],
             "instance_segmentation_sha256": file_hashes["instance"],
         }
+        canonical_entries.append(
+            {
+                "identity": image_id,
+                "files": {
+                    name: {
+                        "path": Path(relative[name]).as_posix(),
+                        "sha256": file_hashes[name],
+                    }
+                    for name in sorted(relative)
+                },
+            }
+        )
         records.append(
             {
                 "adapter": ADAPTER_VERSION,
@@ -361,12 +421,26 @@ def build_vkitti2_source_manifest(
                 "semantic_decode_scope": "official_v2.0.3_full_frame",
                 "sequence_id": (f"{row['scene']}/{row['variation']}/{row['camera']}"),
                 "source_license": "CC-BY-NC-SA-3.0-noncommercial",
-                "source_split_list_sha256": frame_index_sha256,
                 "variation": row["variation"],
             }
         )
 
     records.sort(key=lambda record: str(record["image_id"]))
+    canonical_full_source_sha256 = hashlib.sha256(
+        json.dumps(
+            canonical_entries,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    for record in records:
+        record["canonical_enumeration"] = (
+            "official_complete_scene_variation_camera_frame_v1"
+        )
+        record["canonical_frame_count"] = len(records)
+        record["canonical_full_source_sha256"] = canonical_full_source_sha256
+        record["source_split_list_sha256"] = canonical_full_source_sha256
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8", newline="\n") as handle:
         for record in records:
@@ -378,7 +452,6 @@ def build_vkitti2_source_manifest(
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True)
-    parser.add_argument("--frame-index", type=Path, required=True)
     parser.add_argument("--official-checksums", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
@@ -388,7 +461,6 @@ def main() -> None:
     args = _parse_args()
     build_vkitti2_source_manifest(
         args.data_root,
-        args.frame_index,
         args.official_checksums,
         args.output,
     )

@@ -10,8 +10,8 @@
 2. [最近邻审计](steps/002_related_work_audit.md)
 3. [主研究方案](ideas/01_counterfactual_value_of_language_depth.md)
 4. [执行状态表](steps/README.md)
-5. [最新审稿意见](responce_from_reviewer/review_round5.md)
-6. [最新回应](responce_from_reviewer/response_round5.md)
+5. [最新审稿意见](responce_from_reviewer/review_round6.md)
+6. Round-6 修复与真实门禁结果完成后再生成正式回应
 
 ## 执行顺序
 
@@ -21,15 +21,15 @@
 
 `004-sensitivity` 只测同一 `D1` 的 clean→corrupted 敏感性，可在 003 后用 TR2M checkpoint 提前运行，但不能替代正式 H-fallback-defect。
 
-当前已有 training-only split/source/coverage/conditional-detectability audits、OOF stacking plan、feature firewall、核心指标、dev-frozen constrained comparison 和 denominator-aware `cluster_id` bootstrap 代码，但尚无真实门禁结果、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。`paper1/results/` 为空时，所有研究主张均为预注册假设。
+当前已有 training-only split/source/coverage/conditional-detectability audits、OOF stacking plan、feature firewall、核心指标、dev-frozen constrained comparison 和 denominator-aware `cluster_id` bootstrap 代码，但尚无真实门禁结果、checkpoint 或科学结果。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。VKITTI2 固定为 synthetic structured auxiliary set，不能替代 KITTI 成为第二个 inferential dataset。`paper1/results/` 为空时，所有研究主张均为预注册假设。
 
 ## 当前可运行检查
 
-校外阶段允许本机执行 Ruff、Black、Pytest 和微型合成数据测试，但不下载真实数据、不训练模型、不生成科学结果。真实数据门禁在 Linux 恢复后于 `whr/AutoResearch` 执行；先由 NYUv2/KITTI/VKITTI2 source adapters 生成 training-only JSONL，再复制并填写 [training pilot example](configs/covol/training_pilot_manifest.example.json)：
+校外阶段允许本机执行 Ruff、Black、Pytest 和微型合成数据测试，但不下载真实数据、不训练模型、不生成科学结果。真实数据门禁在 Linux 恢复后于 `whr/AutoResearch` 执行；正式双数据集 gate 只准备 NYUv2/KITTI training-only JSONL，VKITTI2 adapter 仅服务后续合成结构化辅助分析。复制并填写 [training pilot example](configs/covol/training_pilot_manifest.example.json)：
 
 ```bash
 cd whr/AutoResearch
-conda run -n vlm python paper1/experiments/covol/build_training_pilot_manifest.py \
+conda run -n vlm python -m paper1.experiments.covol.build_training_pilot_manifest \
   --config paper1/configs/covol/training_pilot_manifest.json \
   --output paper1/data/covol/image_manifest.jsonl \
   --audit paper1/data/covol/split_audit.json

@@ -200,12 +200,32 @@ def validate_trusted_training_source(record: Mapping[str, Any], *, context: str)
             )
         for field in (
             "archive_checksum_file_sha256",
+            "canonical_full_source_sha256",
             "source_split_list_sha256",
             "rgb_sha256",
             "depth_sha256",
         ):
             if not _valid_sha256(record.get(field)):
                 raise ValueError(f"{context}: Virtual KITTI 2 {field} is invalid")
+        if record.get("canonical_enumeration") != (
+            "official_complete_scene_variation_camera_frame_v1"
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 canonical enumeration is invalid"
+            )
+        canonical_frame_count = record.get("canonical_frame_count")
+        if (
+            isinstance(canonical_frame_count, bool)
+            or not isinstance(canonical_frame_count, int)
+            or canonical_frame_count <= 0
+        ):
+            raise ValueError(
+                f"{context}: Virtual KITTI 2 canonical frame count is invalid"
+            )
+        if record.get("source_split_list_sha256") != record.get(
+            "canonical_full_source_sha256"
+        ):
+            raise ValueError(f"{context}: Virtual KITTI 2 source hash is not canonical")
         annotation_components = record.get("annotation_components")
         expected_component_fields = {
             "class_segmentation_sha256",
@@ -344,20 +364,13 @@ def verify_formal_power_failure(
     )
     datasets = payload.get("datasets")
     dataset_decision = payload.get("dataset_decision")
-    allowed_dataset_sets = {
-        frozenset({"KITTI", "NYUv2"}),
-        frozenset({"NYUv2", "Virtual KITTI 2"}),
-    }
+    allowed_dataset_sets = {frozenset({"KITTI", "NYUv2"})}
     selected_datasets = (
         frozenset(str(value) for value in dataset_decision.get("selected_datasets", []))
         if isinstance(dataset_decision, Mapping)
         else frozenset()
     )
-    expected_decision_name = (
-        "GO_LOCAL_CLAIMS_NYUV2_KITTI"
-        if selected_datasets == frozenset({"KITTI", "NYUv2"})
-        else "GO_LOCAL_CLAIMS_NYUV2_VKITTI2"
-    )
+    expected_decision_name = "GO_LOCAL_CLAIMS_NYUV2_KITTI"
     decision_source = (
         str(dataset_decision.get("source", ""))
         if isinstance(dataset_decision, Mapping)

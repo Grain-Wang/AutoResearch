@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import itertools
 import json
 from pathlib import Path
 
@@ -10,8 +11,14 @@ from paper1.experiments.covol.audit_provenance import (
     validate_trusted_training_source,
 )
 from paper1.experiments.covol.build_image_manifest import _select_scene_grouped
+from paper1.experiments.covol.build_training_pilot_manifest import (
+    _split_source_sha256,
+)
 from paper1.experiments.covol.build_vkitti2_source_manifest import (
     ARCHIVE_MD5,
+    CAMERAS,
+    SCENES,
+    VARIATIONS,
     VKITTI2_EVAL_PROTOCOL_SHA256,
     build_vkitti2_source_manifest,
 )
@@ -101,56 +108,46 @@ def _write_frame(
     )
 
 
-def _write_index(path: Path, rows: list[dict[str, object]]) -> None:
-    path.write_text(
-        "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows),
-        encoding="utf-8",
-    )
-
-
-def _build_one(tmp_path: Path) -> tuple[dict[str, object], Path, Path, Path]:
+def _build_complete_source(
+    tmp_path: Path,
+) -> tuple[list[dict[str, object]], Path, Path, Path]:
     data_root = tmp_path / "vkitti"
     checksum_path = tmp_path / "checksums.txt"
-    index_path = tmp_path / "frames.jsonl"
     output_path = tmp_path / "source.jsonl"
     _write_checksums(checksum_path)
-    _write_frame(
-        data_root,
-        scene="Scene01",
-        variation="clone",
-        camera="Camera_0",
-        frame_index=0,
-        rgb_value=10,
-    )
-    _write_index(
-        index_path,
-        [
-            {
-                "scene": "Scene01",
-                "variation": "clone",
-                "camera": "Camera_0",
-                "frame_index": 0,
-                "official_split": "train",
-            }
-        ],
-    )
+    for rgb_value, (scene, variation, camera) in enumerate(
+        itertools.product(sorted(SCENES), sorted(VARIATIONS), sorted(CAMERAS)),
+        start=1,
+    ):
+        _write_frame(
+            data_root,
+            scene=scene,
+            variation=variation,
+            camera=camera,
+            frame_index=0,
+            rgb_value=rgb_value,
+        )
     records = build_vkitti2_source_manifest(
         data_root,
-        index_path,
         checksum_path,
         output_path,
     )
-    return records[0], data_root, checksum_path, index_path
+    return records, data_root, checksum_path, output_path
 
 
 def test_legal_vkitti2_source_hashes_files_and_decodes_entities(tmp_path: Path) -> None:
-    record, _, _, _ = _build_one(tmp_path)
+    records, _, _, _ = _build_complete_source(tmp_path)
+    record = next(
+        row for row in records if row["image_id"] == "Scene01/clone/Camera_0/00000"
+    )
 
     assert record["image_id"] == "Scene01/clone/Camera_0/00000"
     assert record["scene_id"] == "Scene01"
     assert record["sequence_id"] == "Scene01/clone/Camera_0"
     assert record["eval_protocol_sha256"] == VKITTI2_EVAL_PROTOCOL_SHA256
     assert record["archive_md5"] == ARCHIVE_MD5
+    assert record["canonical_frame_count"] == 100
+    assert record["canonical_full_source_sha256"] == record["source_split_list_sha256"]
     assert [entity["class_name"] for entity in record["entities"]] == [
         "Car",
         "Truck",
@@ -166,20 +163,20 @@ def test_legal_vkitti2_source_hashes_files_and_decodes_entities(tmp_path: Path) 
 
 
 def test_rejects_forged_official_archive_checksum(tmp_path: Path) -> None:
-    _, data_root, checksum_path, index_path = _build_one(tmp_path)
+    _, data_root, checksum_path, _ = _build_complete_source(tmp_path)
     _write_checksums(checksum_path, forged_rgb=True)
 
     with pytest.raises(ValueError, match="official version 2.0.3"):
         build_vkitti2_source_manifest(
             data_root,
-            index_path,
             checksum_path,
             tmp_path / "forged.jsonl",
         )
 
 
 def test_rejects_forged_vkitti2_revision_after_adapter(tmp_path: Path) -> None:
-    record, _, _, _ = _build_one(tmp_path)
+    records, _, _, _ = _build_complete_source(tmp_path)
+    record = records[0]
     record["dataset_version"] = "2.0.4"
 
     with pytest.raises(ValueError, match="version is not frozen"):
@@ -187,41 +184,68 @@ def test_rejects_forged_vkitti2_revision_after_adapter(tmp_path: Path) -> None:
 
 
 def test_rejects_rgb_alias_under_two_frame_ids(tmp_path: Path) -> None:
-    _, data_root, checksum_path, _ = _build_one(tmp_path)
+    _, data_root, checksum_path, _ = _build_complete_source(tmp_path)
     _write_frame(
         data_root,
         scene="Scene02",
         variation="clone",
         camera="Camera_0",
-        frame_index=1,
-        rgb_value=10,
-    )
-    index_path = tmp_path / "alias-frames.jsonl"
-    _write_index(
-        index_path,
-        [
-            {
-                "scene": "Scene01",
-                "variation": "clone",
-                "camera": "Camera_0",
-                "frame_index": 0,
-            },
-            {
-                "scene": "Scene02",
-                "variation": "clone",
-                "camera": "Camera_0",
-                "frame_index": 1,
-            },
-        ],
+        frame_index=0,
+        rgb_value=9,
     )
 
     with pytest.raises(ValueError, match="duplicate RGB content hash"):
         build_vkitti2_source_manifest(
             data_root,
-            index_path,
             checksum_path,
             tmp_path / "alias.jsonl",
         )
+
+
+def test_rejects_incomplete_or_extra_canonical_frame_enumeration(
+    tmp_path: Path,
+) -> None:
+    records, data_root, checksum_path, _ = _build_complete_source(tmp_path)
+    removed_rgb = data_root / str(records[0]["rgb_path"])
+    removed_rgb.unlink()
+    with pytest.raises(ValueError, match="identities disagree with RGB"):
+        build_vkitti2_source_manifest(
+            data_root,
+            checksum_path,
+            tmp_path / "missing.jsonl",
+        )
+
+    _write_frame(
+        data_root,
+        scene=str(records[0]["scene_id"]),
+        variation=str(records[0]["variation"]),
+        camera=str(records[0]["camera_id"]),
+        frame_index=0,
+        rgb_value=1,
+    )
+    _write_frame(
+        data_root,
+        scene="Scene01",
+        variation="clone",
+        camera="Camera_0",
+        frame_index=1,
+        rgb_value=200,
+    )
+    with pytest.raises(ValueError, match="inconsistent frame enumeration"):
+        build_vkitti2_source_manifest(
+            data_root,
+            checksum_path,
+            tmp_path / "extra.jsonl",
+        )
+
+
+def test_training_pilot_rejects_a_subset_of_the_canonical_source(
+    tmp_path: Path,
+) -> None:
+    records, _, _, _ = _build_complete_source(tmp_path)
+
+    with pytest.raises(ValueError, match="complete canonical full source"):
+        _split_source_sha256(records[:-1])
 
 
 def test_scene_variations_cannot_cross_internal_splits() -> None:
@@ -267,7 +291,7 @@ def test_scene_variations_cannot_cross_internal_splits() -> None:
     assert all(len(splits) == 1 for splits in split_by_scene.values())
 
 
-def test_power_fallback_reads_hash_linked_coverage_decision(tmp_path: Path) -> None:
+def test_power_rejects_virtual_kitti_as_inferential_fallback(tmp_path: Path) -> None:
     manifest_hash = hashlib.sha256(b"manifest").hexdigest()
     coverage_path = tmp_path / "coverage.json"
     coverage_path.write_text(
@@ -295,17 +319,11 @@ def test_power_fallback_reads_hash_linked_coverage_decision(tmp_path: Path) -> N
         encoding="utf-8",
     )
 
-    selected, link = load_power_dataset_decision(
-        coverage_path,
-        manifest_sha256=manifest_hash,
-    )
-
-    assert selected == frozenset({"NYUv2", "Virtual KITTI 2"})
-    assert link["source"] == "frozen_coverage_audit"
-    assert (
-        link["coverage_decision_sha256"]
-        == hashlib.sha256(coverage_path.read_bytes()).hexdigest()
-    )
+    with pytest.raises(ValueError, match="unregistered dataset set"):
+        load_power_dataset_decision(
+            coverage_path,
+            manifest_sha256=manifest_hash,
+        )
     with pytest.raises(ValueError, match="bound to the power manifest"):
         load_power_dataset_decision(
             coverage_path,

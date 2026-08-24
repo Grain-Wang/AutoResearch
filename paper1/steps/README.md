@@ -16,7 +16,7 @@
 | --- | --- | --- | --- |
 | 001 主线范围 | DONE-DESIGN | 唯一主线锁为 CoVoL；Q-GeoRoute 停放 | 只有正式范围变更才能切主线 |
 | 002 最近邻审计 | DONE-DESIGN | 增补 MRUF、DeferredSeg、Regression Deferral、Density-Ratio Post-Hoc L2D；覆盖机制已撤回新颖性 | 首次 GPU 实验前再检索一次最新近邻 |
-| 003 干预数据 | FEASIBILITY-CODE-READY / REMOTE-DATA-GATE-PENDING | 本地 96 项回归通过；NYUv2+KITTI 是唯一 inferential 组合，VKITTI2 固定为 synthetic auxiliary 且 source adapter 强制 canonical full-directory enumeration；完整 intervention builder 尚未实现 | 仅在远程 `whr` 准备 NYUv2/KITTI official-training 数据并跑 CPU coverage/detectability；任一失败即 STOP，不进 005 |
+| 003 干预数据 | FEASIBILITY-GATE-STOP / CORPUS-NOT-BUILT | 远程 CPU official-training pilot：NYUv2 500/500 eligible、105779 pairs、156 clusters，PASS；KITTI 0 eligible local-oracle rows，FAIL；决策为 `STOP_TWO_DATASET_CLAIM`，确定性 replay 同哈希，power 被阻断 | 保留 NYUv2 单数据集可行性与 KITTI image-level sensitivity；若要恢复 Claim-M，必须先经方向确认引入另一个满足同一 provenance/coverage 且 ≥20 独立 clusters 的真实 outdoor dataset |
 | 004 缺陷复现 | PENDING | 已拆为 004-A H-sensitivity 与 004-B H-fallback-defect；前者依赖 003，后者依赖 005 | 不再用 TR2M 单 checkpoint 声称 H-defect |
 | 005 冻结专家 | IN-PROGRESS | OOF stacking plan/cache 审计代码完成；同构 D0/D1、负控制和真实 cache 未完成 | 实现 PyTorch 模型并产出 OOF/final checkpoints/cache |
 | 006 语义增量 | PENDING | Claim-F 改为 B-direct/C-direct/C-permuted；Main 使用 outer-5/inner-4 nested OOF | 两个 direct/permuted AUROC/HV cluster-CI 下界均 >0 |
@@ -30,7 +30,7 @@
 
 ## 当前不能声称的内容
 
-- 已有 split/OOF/features/metrics/bootstrap 基础代码及单元测试，但尚无真实数据 JSONL、checkpoint、缺陷复现、结果表、置信区间或 latency。
+- 已有 Step003 真实 training-only source/pilot/coverage 负门禁和 split/OOF/features/metrics/bootstrap 基础代码，但尚无 intervention JSONL、checkpoint、缺陷复现、方法结果表、置信区间或 latency。
 - 尚未证明文本语义有超出普通专家选择的预测力。
 - 尚未实现冻结公平 `D0/D1` 或最终 router。
 - 尚未达到强 CCF-C，也未进入 Paper Build。

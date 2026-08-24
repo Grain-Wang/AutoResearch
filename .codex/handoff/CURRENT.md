@@ -1,13 +1,13 @@
 # AutoResearch 当前接续状态
 
-> **2026-08-24 Step003 Round-6 P0 修复状态（优先于下方旧内容）**
+> **2026-08-24 Step003 真实可行性门禁最终状态（优先于下方旧内容）**
 >
-> - 当前分支仍为 `grain_paper1`。Step003 正式 inferential 数据集固定为 NYUv2+KITTI；已删除 `GO_LOCAL_CLAIMS_NYUV2_VKITTI2`，KITTI coverage 失败统一返回 `STOP_TWO_DATASET_CLAIM`，VKITTI2 永久标记为 `synthetic_structured_auxiliary_only`。
-> - VKITTI2 source adapter 已改为扫描官方解压目录的完整 scene/variation/camera/frame 与 RGB/depth/class/instance/textgt 对齐关系，不再接受外部 frame index；canonical full-source hash 与总行数会在 pilot builder 中复核，截取子集不能通过。
-> - Step003 队列入口统一改为 `python -m paper1.experiments.covol.<module>`，修复从仓库根目录直接执行时的包导入失败。队列 validate/dry-run 显示 6 个启用任务均为 CPU。
-> - 本地证据：`ruff check .` 通过；所有 Python 文件逐文件 Black check 通过；`paper1` 为 96 passed，`tools` 为 44 passed，Step003 定向测试为 31 passed。Black 26.5.1 在网络文件系统上按目录批量检查会无输出挂起，因此用相同配置逐文件完成检查。
-> - 远程只读盘点确认：授权 `whr` 工作区与隔离 Python 3.12 环境存在，但 NYUv2/KITTI 原始数据和 active training pilot 配置尚不存在。尚未产生真实 coverage/detectability 结果或新科学事实。
-> - 当前科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M UNVERIFIED**，未达到 Paper Candidate。下一原子动作是同步已验证修复、停止不再需要的旧 GPU canary，然后只用 CPU 自动准备 official-training 数据并运行 Step003 feasibility gate。
+> - 当前分支为 `grain_paper1`；数据合同修复提交为 `435240e`。Step003 inferential 组合固定为 NYUv2+KITTI；VKITTI2 只能是 `synthetic_structured_auxiliary_only`，adapter 必须从完整官方解压目录生成 canonical source，不能接受外部挑帧列表。
+> - 已在授权的远程 `whr` 使用 Python 3.12.13 和 CPU-only 队列准备 official-training 数据；未访问 official benchmark test，未使用 GPU，旧 GPU canary 已停止。远程 Ruff、Black、97 个 paper1 tests 与 training pilot builder 均通过。
+> - 固定 pilot 为每数据集 500 图、300/100/100 split。NYUv2 有 500 eligible images、105779 eligible pairs、156 independent eligible clusters，coverage PASS；当前冻结 KITTI RGB source 没有可信 local instance-mask/depth oracle，三项均为 0，coverage FAIL。
+> - 正式决策为 `STOP_TWO_DATASET_CLAIM`。KITTI 只保留 `image_level_sensitivity_only`；调度器将 conditional detectability 标为 BLOCKED，因此没有 power artifact、Step005 或 intervention corpus 任务。独立 replay 的 manifest、split audit、coverage CSV/JSON 全部逐字节同哈希。
+> - 可移植结果位于 `paper1/results/covol/annotation_coverage.{csv,json}` 与 `step003_feasibility_gate.json`，不含机器路径或认证信息；原始数据、cache、active 配置和队列状态只留在远程未入 Git。
+> - 科学状态为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M STOPPED_FOR_CURRENT_TWO_DATASET_BRANCH**，不是 Paper Candidate。NYUv2 单数据集 PASS 不能外推跨域 Claim-M；若要恢复该主张，必须先明确选择另一个满足相同 provenance/coverage 且至少 20 个独立 clusters 的真实 outdoor dataset。当前停止，不自动进入 Step005。
 
 > **2026-08-24 `grain_paper1` 工具精简覆盖状态（优先于下方全部旧内容）**
 >

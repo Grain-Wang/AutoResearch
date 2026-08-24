@@ -2,7 +2,9 @@
 
 ## Status
 
-`FEASIBILITY-CODE-READY, REMOTE DATA GATE PENDING`。NYUv2/KITTI source adapters、training-only pilot builder、frozen metric protocol、20-grid cluster conditional-detectability audit 与 provenance verifier 已实现；Virtual KITTI 2 adapter 只支持 synthetic structured auxiliary analysis。完整 intervention/caption corpus builder 尚未实现，因此本轮只判定数据可行性，不把整个 Step 003 标为完成。真实 coverage/detectability 尚未生成，不存在科学结论。
+`FEASIBILITY-GATE-STOP, CORPUS NOT BUILT`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但冻结的 KITTI RGB source 没有可信 local instance mask/depth oracle，因而 two-dataset gate 返回 `STOP_TWO_DATASET_CLAIM`。调度器按合同阻断 conditional detectability，未生成 power artifact，未启动 GPU、Step 005 或 official test。完整 intervention/caption corpus builder 尚未实现，因此整个 Step 003 仍不标为完成。
+
+可移植证据见 [`annotation_coverage.json`](../results/covol/annotation_coverage.json)、[`annotation_coverage.csv`](../results/covol/annotation_coverage.csv) 与 [`step003_feasibility_gate.json`](../results/covol/step003_feasibility_gate.json)。1000-row pilot 与独立 replay 的 manifest、split audit、coverage CSV/JSON 均逐字节同哈希。
 
 ## Canary sampling
 
@@ -94,13 +96,13 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 - VKITTI2 的天气、视角与双相机渲染全部按基础 `SceneXX` 连成同一 `cluster_id`。官方只有 5 个基础场景，因此它固定为 `synthetic_structured_auxiliary_only`，只能作描述统计、结构化 stress test 和定性分析，不得给跨场景尾部风险或第二数据集 inferential claim。
 - VKITTI2 adapter 不接受外部 frame list；它扫描官方解压目录，要求完整 scene/variation/camera/frame 与 RGB/depth/class/instance/textgt 模态对齐，生成 canonical full-source hash 后才允许固定哈希 pilot selection。
 
-随后对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次模拟。它只估计“给定预设 score/loss 分布时的条件检出能力”，不包含模型训练、超参数搜索、captioner 或阈值学习误差，不能称为端到端 study power。主场景 conditional detectability 必须 ≥0.80；formal failure 只有在 dataset-decision/manifest/split-audit/implementation/grid/seed/5,000 simulations/20 scenarios 全部 hash-linked 时才允许扩大 independent internal-test scenes。
+只有 coverage 返回 `GO_LOCAL_CLAIMS_NYUV2_KITTI` 后，才对 20 组预注册 prevalence、scene 内相关系数和 effect size 配置各运行 5,000 次模拟。它只估计“给定预设 score/loss 分布时的条件检出能力”，不包含模型训练、超参数搜索、captioner 或阈值学习误差，不能称为端到端 study power。主场景 conditional detectability 必须 ≥0.80；formal failure 只有在 dataset-decision/manifest/split-audit/implementation/grid/seed/5,000 simulations/20 scenarios 全部 hash-linked 时才允许扩大 independent internal-test scenes。当前 coverage 已 STOP，所以该模拟按预注册规则未运行。
 
 本机允许运行 Ruff、Black、Pytest 与微型合成 adapter 测试；不得把合成测试写成科学结果。真实下载、coverage 与 conditional-detectability 只在授权 Linux `whr/AutoResearch` 中执行；这些任务均为 CPU-only，不等待或占用 GPU。archive、RGB、cache 和含机器路径的 manifest 不提交 Git。
 
 ## Expected artifacts
 
-本轮 feasibility gate 必须生成 source manifest、pilot manifest、split audit、coverage 与 conditional-detectability artifacts。下列 intervention/caption artifacts 属于 gate 通过后的 Step-003 corpus subphase，不在本轮完成范围内：
+本轮 feasibility gate 必须生成 source manifest、pilot manifest、split audit 与 coverage；conditional-detectability 只在 coverage PASS 时生成。当前 coverage STOP，故 power artifact 有意不存在。下列 intervention/caption artifacts 属于 gate 通过后的 Step-003 corpus subphase，不在本轮完成范围内：
 
 - `paper1/experiments/covol/build_interventions.py`
 - `paper1/experiments/covol/audit_annotation_coverage.py`
@@ -135,4 +137,4 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 9. null_diagnostic 与四个 local families 完全分离；
 10. annotation coverage 通过，且主门禁 conditional detectability ≥0.80；否则记录 hash-linked STOP 与增加 independent scenes 的建议，不自动放宽阈值或改用 VKITTI2。
 
-本轮 feasibility gate 仅验收 training-only provenance、500/500 pilot、coverage、conditional-detectability 与 PASS/STOP 决策。完整 intervention corpus 的第 1--9 项仍未完成；在其完成前步骤 005 和正式 004-B 均不得开始。
+本轮 feasibility gate 已验收 training-only provenance、500/500 pilot、coverage 与 STOP 决策；conditional-detectability 被正确阻断。完整 intervention corpus 的第 1--9 项仍未完成；当前两数据集分支停止，步骤 005 和正式 004-B 均不得开始。

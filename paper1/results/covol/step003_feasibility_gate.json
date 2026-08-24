@@ -1,0 +1,115 @@
+{
+  "schema_version": "covol-step003-feasibility-gate-v1",
+  "recorded_date": "2026-08-24",
+  "code_commit": "435240e18fd4fbcc4685b2a5ef43e9824f5d4636",
+  "authorization_scope": "STEP003_ONLY_NOT_STEP005_OR_OFFICIAL_TEST",
+  "execution": {
+    "workspace": "whr",
+    "python_version": "3.12.13",
+    "cpu_only": true,
+    "gpu_used": false,
+    "official_test_accessed": false,
+    "queue_task_status": {
+      "qa_ruff": "PASSED",
+      "qa_black": "PASSED",
+      "qa_pytest": "PASSED_97",
+      "step003_build_training_pilot": "PASSED",
+      "step003_coverage": "FAILED_EXPECTED_GATE_EXIT_2",
+      "step003_conditional_detectability": "BLOCKED_BY_COVERAGE"
+    }
+  },
+  "sources": {
+    "NYUv2": {
+      "scope": "official_training_only",
+      "official_labeled_mat_sha256": "2d724b0c0ab358aa1ce5df855e5bd14a2279ab7202efe22f32a30d612dcb86aa",
+      "official_splits_mat_sha256": "6e081404491a8bfba2f066beaa9713ef6046f9007aa5f799f2a350506a580cee",
+      "source_manifest_records": 795,
+      "source_manifest_sha256": "9dfae04a27b46d4e8fcded1ffac1bad104886aa4dc782e26ace4a07677c3da3a"
+    },
+    "KITTI": {
+      "scope": "frozen_official_training_subset",
+      "repository_revision": "a35b64295a395d9adc5988beda226f88922364b1",
+      "canonical_training_list": "splits/kitti_eigen_train_files_with_gt.txt",
+      "canonical_training_list_sha256": "3655308ee4a017094dc620402db3fc587d769cfbfa9a16c6d0f8de6dcbe109ec",
+      "download_transport": "hf-mirror.com after the primary endpoint timed out; pinned revision and file hashes were still enforced",
+      "source_manifest_records": 500,
+      "source_manifest_sha256": "168d8663d73a0ed9e75742985515afc4c4a5f5a613bd2f658bcc72a10c0bc3e1"
+    }
+  },
+  "pilot": {
+    "seed": 20260821,
+    "selection_stage": "PILOT_V1",
+    "record_count": 1000,
+    "manifest_sha256": "df03c3c8d2a1e1334ec51f8c54f039b7100e721ff9908cb4a059eadc2a92b998",
+    "split_audit_sha256": "78e5f1eff5ec5c64c0e1dde716f1dd40cdf308d9ead29885fdc35bc3904755b3",
+    "split_counts_per_dataset": {
+      "train": 300,
+      "dev": 100,
+      "internal_test": 100
+    },
+    "independent_cluster_counts": {
+      "NYUv2": {
+        "train": 89,
+        "dev": 33,
+        "internal_test": 34
+      },
+      "KITTI": {
+        "train": 5,
+        "dev": 5,
+        "internal_test": 20
+      }
+    }
+  },
+  "coverage": {
+    "status": "FAIL",
+    "decision": "STOP_TWO_DATASET_CLAIM",
+    "local_claim_datasets": [
+      "NYUv2"
+    ],
+    "kitti_role": "image_level_sensitivity_only",
+    "virtual_kitti2_role": "synthetic_structured_auxiliary_only",
+    "datasets": {
+      "NYUv2": {
+        "gate_pass": true,
+        "images": 500,
+        "eligible_images": 500,
+        "eligible_pairs": 105779,
+        "independent_eligible_clusters": 156
+      },
+      "KITTI": {
+        "gate_pass": false,
+        "images": 500,
+        "eligible_images": 0,
+        "eligible_pairs": 0,
+        "independent_eligible_clusters": 0,
+        "reason": "the frozen RGB source provides no trusted local instance-mask or depth oracle"
+      }
+    },
+    "remote_artifact_sha256": {
+      "annotation_coverage_csv": "9104efb8fc5758b8372a49e08842ac6787c13373f9eb6705fa75f63a2dc3ed78",
+      "annotation_coverage_json": "ba2c256b606fb1ce5ea8569a5c31225a1de653c3a5ed1959a5ef5d9aed362fb3"
+    },
+    "tracked_portable_artifact_sha256": {
+      "annotation_coverage_csv_lf_normalized": "2a17c7e5b20276a0a2c7619769bb30e361f25d59895cc649e5838b8ff11bbd5a",
+      "annotation_coverage_json": "ba2c256b606fb1ce5ea8569a5c31225a1de653c3a5ed1959a5ef5d9aed362fb3"
+    }
+  },
+  "deterministic_replay": {
+    "status": "PASS_BYTE_IDENTICAL",
+    "image_manifest_sha256": "df03c3c8d2a1e1334ec51f8c54f039b7100e721ff9908cb4a059eadc2a92b998",
+    "split_audit_sha256": "78e5f1eff5ec5c64c0e1dde716f1dd40cdf308d9ead29885fdc35bc3904755b3",
+    "annotation_coverage_csv_sha256": "9104efb8fc5758b8372a49e08842ac6787c13373f9eb6705fa75f63a2dc3ed78",
+    "annotation_coverage_json_sha256": "ba2c256b606fb1ce5ea8569a5c31225a1de653c3a5ed1959a5ef5d9aed362fb3"
+  },
+  "conditional_detectability": {
+    "status": "NOT_RUN",
+    "reason": "blocked by STOP_TWO_DATASET_CLAIM",
+    "power_artifact_present": false
+  },
+  "scientific_status": {
+    "research_stage": "RESEARCH_OPPORTUNITY",
+    "claim_f": "UNVERIFIED",
+    "claim_m": "STOPPED_FOR_CURRENT_TWO_DATASET_BRANCH",
+    "paper_candidate": false
+  }
+}

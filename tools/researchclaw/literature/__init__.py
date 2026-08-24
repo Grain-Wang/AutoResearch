@@ -1,8 +1,7 @@
 """Real literature search and citation management for ResearchClaw.
 
-Provides API clients for Semantic Scholar and arXiv, plus unified search
-with deduplication and BibTeX generation.  All network I/O uses stdlib
-``urllib`` — **zero** extra pip dependencies.
+Provides API clients for OpenAlex, Semantic Scholar, and arXiv, plus unified
+search, deduplication, novelty checks, and citation verification.
 """
 
 from researchclaw.literature.models import Author, Paper

@@ -177,7 +177,7 @@ def _request_with_retry(
                 continue
 
             if exc.code in (500, 502, 503, 504):
-                wait = min(2 ** attempt, _MAX_WAIT_SEC)
+                wait = min(2**attempt, _MAX_WAIT_SEC)
                 jitter = random.uniform(0, wait * 0.2)
                 logger.warning(
                     "OpenAlex HTTP %d. Retry %d/%d in %.0fs...",
@@ -213,8 +213,7 @@ def _redact_url(url: str) -> str:
     parsed = urllib.parse.urlsplit(url)
     query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
     redacted = [
-        (key, "***" if key.lower() == "api_key" else value)
-        for key, value in query
+        (key, "***" if key.lower() == "api_key" else value) for key, value in query
     ]
     return urllib.parse.urlunsplit(
         parsed._replace(query=urllib.parse.urlencode(redacted))
@@ -299,7 +298,9 @@ def _parse_openalex_work(item: dict[str, Any]) -> Paper:
         url = openalex_id
 
     # Paper ID
-    paper_id = f"oalex-{openalex_id.split('/')[-1]}" if openalex_id else f"oalex-{title[:20]}"
+    paper_id = (
+        f"oalex-{openalex_id.split('/')[-1]}" if openalex_id else f"oalex-{title[:20]}"
+    )
 
     return Paper(
         paper_id=paper_id,

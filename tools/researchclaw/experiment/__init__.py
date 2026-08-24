@@ -1,4 +1,4 @@
-"""Experiment execution — sandbox, runner, git manager."""
+"""Real local and SSH experiment execution."""
 
 from researchclaw.experiment.factory import create_sandbox
 from researchclaw.experiment.sandbox import (

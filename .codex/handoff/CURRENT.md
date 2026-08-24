@@ -1,5 +1,24 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-24 `grain_paper1` 工具精简覆盖状态（优先于下方全部旧内容）**
+>
+> - 已从 `chore/integrate-tools-and-paper1` 的 `e90be8b` 创建并切换到 `grain_paper1`。`tools/` 现在只保留根 `AGENTS.md` 约束的通用科研核心：16 阶段产物契约与门禁、真实公共文献检索、本地/密钥 SSH 实验执行、协作式 GPU 队列和 PDF 文献转换。
+> - 已硬删除旧 LLM 产品层、外部 agents/skills、网站与前端、HITL、MCP、语音、Overleaf、ARC benchmark、Docker/Colab/模拟执行、营销资源和对应测试；旧 CLI 不保留兼容占位。工作流仅在阶段 4 调用真实学术 API、阶段 13 执行真实实验，其余阶段只验证科研负责人提供的证据产物，不生成假模板、假引用或假结果。
+> - 每次工作区/阶段执行会发现并记录最近的权威 `AGENTS.md` 哈希。阶段 5/8/10 强制验证 `PASS|STOP` 门禁及工作区内的真实 evidence 路径；阶段 16 只接受 `STOP|REFINE|PIVOT|PAPER_CANDIDATE`。SSH 强制非交互密钥认证、保留主机密钥检查、最多 4 GPU、唯一远程目录和结束清理。
+> - 当前本地验证：`ruff check .` 通过；`black --check .` 在 `tools/` 检查 40 文件、在 `paper1/` 检查 36 文件通过；精简后工具测试 `44 passed`，`paper1` 回归 `92 passed`；CLI tools list/init/status、GPU queue validate/dry-run 与 `git diff --check` 通过。未在本轮连接或改变远程服务器。
+> - 下方 GPU 队列远端状态是前一轮最后一次核对结果，不代表本轮重新查询。队列实现和 paper1 示例已并入本次精简，但正式任务仍只能在真实输入和对应执行入口就绪后启动。
+> - 这些变化只改进科研执行与治理，不新增科学事实。科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M UNVERIFIED**，未达到 Paper Candidate；下一研究动作仍是取得合法真实输入并通过 Step003 coverage/power gate。
+
+> **2026-08-24 GPU 队列与远端部署旧覆盖状态**
+>
+> - 当时分支为 `chore/integrate-tools-and-paper1`，修改基线为 `e90be8b`。已新增通用的 `researchclaw gpu-queue`：SQLite 持久状态、依赖/gate 阻断、失败重试、进程组超时、输出哈希、同账户文件锁、重启恢复和 drain 停止。
+> - 冻结的协作式 GPU 策略为：无 compute PID、显存使用 `<1024 MiB`、利用率 `<5%`，每 30 秒采样且连续 20 次才算空闲；随机退避后二次检查；只运行独立单卡任务且最多并发 2 个；不终止或抢占其他用户进程。
+> - `paper1/configs/covol/remote_queue.example.yaml` 只排队 QA 与 Step003 manifest/coverage/power gate。Steps005--008 尚无训练执行入口，不能提前加入正式队列；真实输入未就绪时也不能启动主队列。
+> - 远端已在 `~/whr/paper1` 下建立隔离的数据、缓存、产物、运行、队列和 Python 3.12 环境，代码与私有绝对路径配置已部署；配置 `validate`/`dry-run` 成功，dry-run 未创建状态库。远端 Ruff、Black 和 `paper1` 的 92 个测试通过。
+> - 节点没有 `tmux`，已使用 `screen` 启动独立的单任务 CUDA canary 队列。检查时三张 GPU 均有其他计算进程，所以 canary 正确保持 `PENDING`，没有占用 GPU；达到连续 10 分钟严格空闲后才会执行极小张量计算并自动退出。
+> - 本地新增范围 Ruff/Black 通过；队列与 CLI 目标测试 `23 passed`，`paper1` 回归 `92 passed`，`git diff --check` 通过。仓库级 `tools/` 仍有既存 lint/format/缺失模块债务，未在本任务中扩大修改。
+> - 这些结果只证明调度器和现有研究协议可执行，不是科学证据。科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M UNVERIFIED**，未达到 Paper Candidate；下一研究动作仍是取得合法真实输入并通过 Step003 coverage/power gate。
+
 > **2026-08-22 Round-5 最新覆盖状态（优先于本文全部旧内容）**
 >
 > - 已从远端 fast-forward 到审稿基线 `ba4bf48`，新增意见为 `paper1/responce_from_reviewer/review_round5.md`；本轮回复为 `response_round5.md`。

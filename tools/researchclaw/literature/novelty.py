@@ -19,7 +19,6 @@ Usage
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 from datetime import datetime, timezone
@@ -371,8 +370,6 @@ def _assess_novelty(
     # Take top-5 most similar
     top = similar_papers[:5]
     max_sim = max(p["similarity"] for p in top)
-    avg_sim = sum(p["similarity"] for p in top) / len(top)
-
     # High-citation papers with high similarity are more concerning
     high_cite_overlap = sum(
         1 for p in top if p["similarity"] >= 0.4 and p.get("citation_count", 0) >= 50

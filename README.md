@@ -24,10 +24,10 @@ AutoResearch 是最外层的主仓库和自主科研工作区，由仓库级
 
 ## 跨机器继续 Codex 工作
 
-当前完整研究状态位于 `chore/integrate-tools-and-paper1` 分支；在合并到默认分支前，另一台机器应显式克隆该分支：
+当前精简后的研究状态位于 `grain_paper1` 分支；在合并到默认分支前，另一台机器应显式克隆该分支：
 
 ```powershell
-git clone -b chore/integrate-tools-and-paper1 git@github.com:Grain-Wang/AutoResearch.git
+git clone -b grain_paper1 git@github.com:Grain-Wang/AutoResearch.git
 cd AutoResearch
 codex -C .
 ```
@@ -79,7 +79,7 @@ Windows PowerShell 可使用 `.\.venv\Scripts\Activate.ps1` 激活环境；macOS
 
 ## 开始使用工具箱
 
-先复制配置模板并填写实际使用的 LLM 与实验执行方式。`config.yaml` 可能包含
+先复制配置模板并填写文献检索与真实实验执行方式。`config.yaml` 可能包含
 本地路径或凭据，不应提交：
 
 ```powershell
@@ -95,8 +95,7 @@ researchclaw tools status --run-dir ../paper1/steps/my-run
 `design`。每次运行都会发现并注入根目录 `AGENTS.md`；可在阶段产物中的
 `agents_context.json` 核对规则来源和摘要。
 
-完整的工具命令、阶段输入输出和回滚规则见
-[`RESEARCHCLAW_AGENTS.md`](tools/RESEARCHCLAW_AGENTS.md)，详细配置见
+完整的工具命令、阶段输入输出和门禁格式见
 [`tools README`](tools/README.md)。研究问题、文献、实验记录和论文材料应保存在
 外层主仓库的 `paper*/` 研究目录中，而不是把 `tools/` 当作研究项目目录。
 

@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "snapshot_time": "2026-08-22T12:00:00+08:00",
+  "snapshot_time": "2026-08-24T17:59:37+08:00",
   "snapshot_kind": "sanitized_portable_handoff",
   "entrypoint": ".codex/handoff/CURRENT.md",
   "history": ".codex/handoff/TRANSCRIPT.md",
   "repository": {
     "canonical_root": "AutoResearch",
     "remote": "git@github.com:Grain-Wang/AutoResearch.git",
-    "branch": "chore/integrate-tools-and-paper1",
-    "base_commit": "ba4bf48",
+    "branch": "grain_paper1",
+    "base_commit": "e90be8b",
     "default_branch_at_snapshot": "main"
   },
   "codex": {
@@ -28,10 +28,10 @@
     "claim_m": "UNVERIFIED"
   },
   "last_verified": {
-    "base_commit": "ba4bf48",
-    "pytest": "92 passed (paper1 local synthetic/code QA)",
-    "ruff": "passed",
-    "black": "passed",
+    "base_commit": "e90be8b",
+    "pytest": "44 passed (tools) + 92 passed (paper1 protocol/code QA)",
+    "ruff": "passed for repository",
+    "black": "passed for tools and paper1",
     "git_diff_check": "passed",
     "scientific_results_generated": false
   },

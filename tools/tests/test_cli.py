@@ -1,40 +1,37 @@
-"""Tests for CLI setup helpers."""
+"""Tests for the deliberately small public CLI."""
 
-from __future__ import annotations
+from pathlib import Path
 
-from unittest.mock import MagicMock, patch
+import pytest
 
-from researchclaw import cli
-
-
-def test_install_opencode_uses_which_resolved_npm_path():
-    mock_result = MagicMock()
-    mock_result.returncode = 0
-
-    with patch(
-        "researchclaw.cli.shutil.which",
-        return_value=r"C:\Program Files\nodejs\npm.cmd",
-    ), patch("researchclaw.cli.subprocess.run", return_value=mock_result) as run_mock:
-        assert cli._install_opencode() is True
-
-    run_mock.assert_called_once()
-    assert run_mock.call_args.args[0][0] == r"C:\Program Files\nodejs\npm.cmd"
+from researchclaw.cli import build_parser, main
 
 
-def test_install_opencode_returns_false_when_npm_missing():
-    with patch("researchclaw.cli.shutil.which", return_value=None):
-        assert cli._install_opencode() is False
+@pytest.mark.parametrize("removed", ["run", "serve", "skills", "web", "voice"])
+def test_removed_product_commands_are_not_parseable(removed: str) -> None:
+    parser = build_parser()
+
+    with pytest.raises(SystemExit):
+        parser.parse_args([removed])
 
 
-def test_is_opencode_installed_uses_which_resolved_path():
-    mock_result = MagicMock()
-    mock_result.returncode = 0
+def test_tools_init_records_authoritative_policy(tmp_path: Path) -> None:
+    repository = tmp_path / "repo"
+    repository.mkdir()
+    (repository / "AGENTS.md").write_text("policy\n", encoding="utf-8")
+    run_dir = repository / "paper1" / "run"
 
-    with patch(
-        "researchclaw.cli.shutil.which",
-        return_value=r"C:\Users\tester\AppData\Roaming\npm\opencode.cmd",
-    ), patch("researchclaw.cli.subprocess.run", return_value=mock_result) as run_mock:
-        assert cli._is_opencode_installed() is True
+    exit_code = main(
+        [
+            "tools",
+            "init",
+            "--run-dir",
+            str(run_dir),
+            "--topic",
+            "test algorithm",
+        ]
+    )
 
-    run_mock.assert_called_once()
-    assert run_mock.call_args.args[0][0].endswith("opencode.cmd")
+    assert exit_code == 0
+    assert (run_dir / "tools.json").is_file()
+    assert (run_dir / "AGENTS.md").read_text(encoding="utf-8") == "policy\n"

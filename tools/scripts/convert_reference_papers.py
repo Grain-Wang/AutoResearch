@@ -12,11 +12,8 @@ from pathlib import Path
 
 import pymupdf
 
-
 _REFERENCE_HEADING = re.compile(r"^(?:\d+(?:\.\d+)*\.?\s+)?references$", re.I)
-_NUMBERED_HEADING = re.compile(
-    r"^(\d+(?:\.\d+)*\.?)\s+([A-Z][^.!?]{1,100})$"
-)
+_NUMBERED_HEADING = re.compile(r"^(\d+(?:\.\d+)*\.?)\s+([A-Z][^.!?]{1,100})$")
 _KNOWN_HEADING = re.compile(
     r"^(abstract|introduction|related work|background|method|methodology|"
     r"approach|experiments?|experimental setup|results?|discussion|"
@@ -215,10 +212,14 @@ def convert_pdf(pdf_path: Path, output_path: Path) -> ConversionStats:
         "extraction_quality": quality,
         "converter": f"PyMuPDF-{pymupdf.__version__}",
     }
-    metadata_lines = ["---"] + [
-        f"{key}: {json.dumps(value, ensure_ascii=False)}"
-        for key, value in frontmatter.items()
-    ] + ["---"]
+    metadata_lines = (
+        ["---"]
+        + [
+            f"{key}: {json.dumps(value, ensure_ascii=False)}"
+            for key, value in frontmatter.items()
+        ]
+        + ["---"]
+    )
     markdown = (
         "\n".join(metadata_lines)
         + f"\n\n# {title}\n\n"

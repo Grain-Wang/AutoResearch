@@ -1,13 +1,13 @@
 """Experiment harness — immutable evaluation infrastructure.
 
 This file is injected into the sandbox project directory at execution time.
-The LLM-generated experiment code should import and use this harness for:
+Experiment code can import and use this harness for:
 - Time budget management (should_stop)
 - Metric reporting (report_metric)
 - Result finalization (finalize)
 - NaN/divergence detection (built-in)
 
-This file is NOT editable by the LLM agent — it provides a trust boundary
+The staged project cannot overwrite this file; it provides a trust boundary
 for metric reporting, inspired by karpathy/autoresearch's immutable prepare.py.
 """
 
@@ -20,7 +20,7 @@ import time
 class ExperimentHarness:
     """Immutable experiment infrastructure for time and metric management."""
 
-    def __init__(self, time_budget: int = 120):
+    def __init__(self, time_budget: int = 120) -> None:
         self._start = time.time()
         self._time_budget = max(1, int(time_budget))
         self._metrics: dict[str, float] = {}
@@ -70,7 +70,10 @@ class ExperimentHarness:
             try:
                 value = float(value)
             except (TypeError, ValueError):
-                print(f"WARNING: Cannot convert {name}={value!r} to float", file=sys.stderr)
+                print(
+                    f"WARNING: Cannot convert {name}={value!r} to float",
+                    file=sys.stderr,
+                )
                 return
 
         if not self.check_value(value, name):

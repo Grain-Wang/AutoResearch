@@ -1,12 +1,4 @@
-"""Stage I/O contracts for the 16-stage experiment pipeline.
-
-Each StageContract declares:
-  - input_files: artifacts this stage reads (produced by prior stages)
-  - output_files: artifacts this stage must produce
-  - dod: Definition of Done — human-readable acceptance criterion
-  - error_code: unique error identifier for diagnostics
-  - max_retries: how many times the stage may be retried on failure
-"""
+"""Artifact contracts for the sixteen-stage research workflow."""
 
 from __future__ import annotations
 
@@ -17,141 +9,112 @@ from researchclaw.pipeline.stages import Stage
 
 @dataclass(frozen=True)
 class StageContract:
+    """Required prior artifacts and outputs for one stage."""
+
     stage: Stage
     input_files: tuple[str, ...]
     output_files: tuple[str, ...]
-    dod: str
-    error_code: str
-    max_retries: int = 1
-    collider_output_files: tuple[str, ...] = ()
+    definition_of_done: str
+    executes: bool = False
 
 
 CONTRACTS: dict[Stage, StageContract] = {
-    # Phase A: Research Scoping
     Stage.TOPIC_INIT: StageContract(
-        stage=Stage.TOPIC_INIT,
-        input_files=(),
-        output_files=("goal.md", "hardware_profile.json"),
-        dod="SMART goal statement with topic, scope, and constraints",
-        error_code="E01_INVALID_GOAL",
-        max_retries=0,
+        Stage.TOPIC_INIT,
+        (),
+        ("goal.md", "hardware_profile.json"),
+        "A scoped research goal and recorded compute constraints.",
     ),
     Stage.PROBLEM_DECOMPOSE: StageContract(
-        stage=Stage.PROBLEM_DECOMPOSE,
-        input_files=("goal.md",),
-        output_files=("problem_tree.md",),
-        dod=">=3 prioritized sub-questions identified",
-        error_code="E02_DECOMP_FAIL",
+        Stage.PROBLEM_DECOMPOSE,
+        ("goal.md",),
+        ("problem_tree.md",),
+        "Prioritized algorithmic questions with falsifiable probes.",
     ),
-    # Phase B: Literature Discovery
     Stage.SEARCH_STRATEGY: StageContract(
-        stage=Stage.SEARCH_STRATEGY,
-        input_files=("problem_tree.md",),
-        output_files=("search_plan.yaml", "sources.json", "queries.json"),
-        dod=">=2 search strategies defined with verified data sources",
-        error_code="E03_STRATEGY_BAD",
+        Stage.SEARCH_STRATEGY,
+        ("problem_tree.md",),
+        ("search_plan.yaml", "queries.json"),
+        "Queries target recent direct neighbors and explicit algorithmic gaps.",
     ),
     Stage.LITERATURE_COLLECT: StageContract(
-        stage=Stage.LITERATURE_COLLECT,
-        input_files=("search_plan.yaml",),
-        output_files=("candidates.jsonl",),
-        dod=">=N candidate papers collected from specified sources",
-        error_code="E04_COLLECT_EMPTY",
-        max_retries=2,
+        Stage.LITERATURE_COLLECT,
+        ("queries.json",),
+        ("candidates.jsonl",),
+        "Real scholarly API results are recorded and deduplicated.",
+        executes=True,
     ),
     Stage.LITERATURE_SCREEN: StageContract(
-        stage=Stage.LITERATURE_SCREEN,
-        input_files=("candidates.jsonl",),
-        output_files=("shortlist.jsonl",),
-        dod="Relevance + quality dual screening completed and approved",
-        error_code="E05_GATE_REJECT",
-        max_retries=0,
+        Stage.LITERATURE_SCREEN,
+        ("candidates.jsonl",),
+        ("shortlist.jsonl", "gate.json"),
+        "At most five research opportunities pass the documented gate.",
     ),
     Stage.KNOWLEDGE_EXTRACT: StageContract(
-        stage=Stage.KNOWLEDGE_EXTRACT,
-        input_files=("shortlist.jsonl",),
-        output_files=("cards/",),
-        dod="Structured knowledge card per shortlisted paper",
-        error_code="E06_EXTRACT_FAIL",
+        Stage.KNOWLEDGE_EXTRACT,
+        ("shortlist.jsonl",),
+        ("cards/",),
+        "Each neighbor has an evidence-linked method and limitation card.",
     ),
-    # Phase C: Knowledge Synthesis & Defect Baseline
     Stage.SYNTHESIS: StageContract(
-        stage=Stage.SYNTHESIS,
-        input_files=("cards/",),
-        output_files=("synthesis.md",),
-        dod="Topic clusters + >=2 research gaps identified",
-        error_code="E07_SYNTHESIS_WEAK",
+        Stage.SYNTHESIS,
+        ("cards/",),
+        ("synthesis.md",),
+        "The baseline assumption, gap, and non-equivalent solution paths are clear.",
     ),
     Stage.BASELINE_REPRODUCE: StageContract(
-        stage=Stage.BASELINE_REPRODUCE,
-        input_files=("synthesis.md",),
-        output_files=("defect_report.md", "reproduce/"),
-        dod="Baseline defect minimally reproduced with evidence, or refuted",
-        error_code="E08_BASELINE_REPRO_FAIL",
-        max_retries=0,
+        Stage.BASELINE_REPRODUCE,
+        ("synthesis.md",),
+        ("defect_report.md", "reproduce/", "gate.json"),
+        "A real algorithmic defect is reproduced or the direction is stopped.",
     ),
     Stage.HYPOTHESIS_GEN: StageContract(
-        stage=Stage.HYPOTHESIS_GEN,
-        input_files=("synthesis.md", "defect_report.md"),
-        output_files=("hypotheses.md",),
-        dod=">=2 falsifiable research hypotheses on confirmed defects",
-        error_code="E09_HYP_INVALID",
+        Stage.HYPOTHESIS_GEN,
+        ("defect_report.md",),
+        ("hypotheses.md",),
+        "Mechanistically distinct, falsifiable algorithm hypotheses are ranked.",
     ),
-    # Phase D: Experiment Design
     Stage.EXPERIMENT_DESIGN: StageContract(
-        stage=Stage.EXPERIMENT_DESIGN,
-        input_files=("hypotheses.md",),
-        output_files=("exp_plan.yaml",),
-        dod="Experiment plan with baselines, ablations, metrics approved",
-        error_code="E10_GATE_REJECT",
-        max_retries=0,
+        Stage.EXPERIMENT_DESIGN,
+        ("hypotheses.md",),
+        ("exp_plan.yaml", "gate.json"),
+        "Novelty, killer baselines, ablations, outcomes, and budgets are frozen.",
     ),
     Stage.CODE_GENERATION: StageContract(
-        stage=Stage.CODE_GENERATION,
-        input_files=("exp_plan.yaml",),
-        output_files=("experiment/", "experiment_spec.md"),
-        collider_output_files=("collider_plan.md",),
-        dod="Multi-file experiment project + spec document",
-        error_code="E11_CODEGEN_FAIL",
-        max_retries=2,
+        Stage.CODE_GENERATION,
+        ("exp_plan.yaml",),
+        ("experiment/", "experiment_spec.md"),
+        "Command-line experiment code reproduces the frozen design.",
     ),
     Stage.RESOURCE_PLANNING: StageContract(
-        stage=Stage.RESOURCE_PLANNING,
-        input_files=("exp_plan.yaml",),
-        output_files=("schedule.json",),
-        dod="Resource schedule with GPU/time estimates",
-        error_code="E12_SCHED_CONFLICT",
+        Stage.RESOURCE_PLANNING,
+        ("experiment/", "exp_plan.yaml"),
+        ("schedule.json",),
+        "An executable, seeded task schedule stays within the compute budget.",
     ),
-    # Phase E: Experiment Execution
     Stage.EXPERIMENT_RUN: StageContract(
-        stage=Stage.EXPERIMENT_RUN,
-        input_files=("schedule.json", "experiment/"),
-        output_files=("runs/",),
-        dod="All scheduled experiment runs completed with artifacts",
-        error_code="E13_RUN_FAIL",
-        max_retries=2,
+        Stage.EXPERIMENT_RUN,
+        ("experiment/", "schedule.json"),
+        ("runs/", "run_summary.json"),
+        "Every scheduled real task has logs, exit status, and metrics.",
+        executes=True,
     ),
     Stage.ITERATIVE_REFINE: StageContract(
-        stage=Stage.ITERATIVE_REFINE,
-        input_files=("runs/",),
-        output_files=("refinement_log.json", "experiment_final/"),
-        dod="Edit-run-eval loop converged or max iterations reached",
-        error_code="E14_REFINE_FAIL",
-        max_retries=2,
+        Stage.ITERATIVE_REFINE,
+        ("run_summary.json",),
+        ("refinement_log.json", "experiment_final/"),
+        "Mechanism diagnosis justifies each retained algorithm iteration.",
     ),
-    # Phase F: Analysis & Decision
     Stage.RESULT_ANALYSIS: StageContract(
-        stage=Stage.RESULT_ANALYSIS,
-        input_files=("runs/",),
-        output_files=("analysis.md",),
-        dod="Metrics analyzed with statistical tests and conclusions",
-        error_code="E15_ANALYSIS_ERR",
+        Stage.RESULT_ANALYSIS,
+        ("run_summary.json", "refinement_log.json"),
+        ("analysis.md",),
+        "Strong baselines, uncertainty, ablations, efficiency, and failures are analyzed.",
     ),
     Stage.RESEARCH_DECISION: StageContract(
-        stage=Stage.RESEARCH_DECISION,
-        input_files=("analysis.md",),
-        output_files=("decision.md",),
-        dod="PROCEED/PIVOT decision with evidence-based justification",
-        error_code="E16_DECISION_FAIL",
+        Stage.RESEARCH_DECISION,
+        ("analysis.md",),
+        ("decision.json", "decision.md"),
+        "A supported STOP/REFINE/PIVOT/PAPER_CANDIDATE decision is recorded.",
     ),
 }

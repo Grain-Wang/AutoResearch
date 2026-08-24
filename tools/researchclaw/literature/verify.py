@@ -20,6 +20,7 @@ All network I/O uses stdlib ``urllib`` — zero extra pip dependencies.
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import re
 import time
@@ -29,9 +30,9 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Sequence
+from pathlib import Path
 
-from researchclaw.literature.models import Author, Paper
+from researchclaw.literature.models import Paper
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +61,6 @@ class CitationResult:
     method: str  # "arxiv_id" | "doi" | "title_search" | "skipped"
     details: str = ""
     matched_paper: Paper | None = None
-    relevance_score: float | None = None  # 0.0–1.0, set by LLM relevance check
 
     def to_dict(self) -> dict[str, object]:
         d: dict[str, object] = {
@@ -71,8 +71,6 @@ class CitationResult:
             "method": self.method,
             "details": self.details,
         }
-        if self.relevance_score is not None:
-            d["relevance_score"] = round(self.relevance_score, 2)
         if self.matched_paper:
             d["matched_paper"] = {
                 "title": self.matched_paper.title,
@@ -474,11 +472,13 @@ def verify_by_openalex(title: str) -> CitationResult | None:
 
     Returns *None* only on network failure (allows fallthrough to S2).
     """
-    params = urllib.parse.urlencode({
-        "filter": "title.search:" + title.replace(",", " ").replace(":", " "),
-        "per_page": "5",
-        "mailto": _OPENALEX_EMAIL,
-    })
+    params = urllib.parse.urlencode(
+        {
+            "filter": "title.search:" + title.replace(",", " ").replace(":", " "),
+            "per_page": "5",
+            "mailto": _OPENALEX_EMAIL,
+        }
+    )
     url = f"{_OPENALEX_API}?{params}"
 
     try:
@@ -549,10 +549,7 @@ def verify_by_openalex(title: str) -> CitationResult | None:
 # Verification result cache (avoids re-verifying known papers)
 # ---------------------------------------------------------------------------
 
-import hashlib
-from pathlib import Path
-
-_CACHE_DIR = Path.home() / ".cache" / "researchclaw" / "citation_verify"
+_CACHE_DIR = Path(".researchclaw_cache") / "citation_verify"
 
 
 def _cache_key(title: str) -> str:
@@ -705,9 +702,9 @@ def verify_citations(
     report = VerificationReport(total=len(entries))
 
     # Adaptive delays: OpenAlex/CrossRef can be queried much faster than arXiv
-    _DELAY_ARXIV = inter_verify_delay       # arXiv: conservative (1.5s default)
-    _DELAY_CROSSREF = 0.3                   # CrossRef: 50 req/s polite pool
-    _DELAY_OPENALEX = 0.2                   # OpenAlex: 10K/day
+    _DELAY_ARXIV = inter_verify_delay  # arXiv: conservative (1.5s default)
+    _DELAY_CROSSREF = 0.3  # CrossRef: 50 req/s polite pool
+    _DELAY_OPENALEX = 0.2  # OpenAlex: 10K/day
     api_call_count = 0
 
     # BUG-22: Global timeout — stop verifying after 5 minutes total
@@ -720,19 +717,23 @@ def verify_citations(
             logger.warning(
                 "Verification timeout (%.0fs). Marking remaining %d/%d "
                 "citations as SKIPPED.",
-                _VERIFY_TIMEOUT_SEC, len(entries) - i, len(entries),
+                _VERIFY_TIMEOUT_SEC,
+                len(entries) - i,
+                len(entries),
             )
             for remaining_entry in entries[i:]:
                 _rkey = remaining_entry.get("key", f"unknown_{i}")
                 _rtitle = remaining_entry.get("title", "")
-                report.results.append(CitationResult(
-                    cite_key=_rkey,
-                    title=_rtitle,
-                    status=VerifyStatus.SKIPPED,
-                    confidence=0.0,
-                    method="skipped",
-                    details="Verification timeout exceeded",
-                ))
+                report.results.append(
+                    CitationResult(
+                        cite_key=_rkey,
+                        title=_rtitle,
+                        status=VerifyStatus.SKIPPED,
+                        confidence=0.0,
+                        method="skipped",
+                        details="Verification timeout exceeded",
+                    )
+                )
                 report.skipped += 1
             break
 
@@ -768,7 +769,9 @@ def verify_citations(
                 report.hallucinated += 1
             else:
                 report.skipped += 1
-            logger.debug("[cache] verify HIT [%s] %r → %s", key, title[:50], cached.status.value)
+            logger.debug(
+                "[cache] verify HIT [%s] %r → %s", key, title[:50], cached.status.value
+            )
             continue
 
         result: CitationResult | None = None
@@ -847,7 +850,6 @@ def verify_citations(
                 method="skipped",
                 details="All verification methods failed (network error?)",
             )
-
 
         result = CitationResult(
             cite_key=key,

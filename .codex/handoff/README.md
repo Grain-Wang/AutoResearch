@@ -9,10 +9,10 @@ OpenAI 官方文档说明，`codex resume` 用于恢复本机保存的聊天；�
 
 ## 在另一台机器继续
 
-当前接续包位于 `chore/integrate-tools-and-paper1` 分支。远程默认分支仍是较早的 `main`，因此需要显式克隆该分支：
+当前接续包位于 `grain_paper1` 分支。远程默认分支仍是较早的 `main`，因此需要显式克隆该分支：
 
 ```powershell
-git clone -b chore/integrate-tools-and-paper1 git@github.com:Grain-Wang/AutoResearch.git
+git clone -b grain_paper1 git@github.com:Grain-Wang/AutoResearch.git
 cd AutoResearch
 codex -C .
 ```
@@ -21,7 +21,7 @@ codex -C .
 
 ```powershell
 git fetch origin
-git switch chore/integrate-tools-and-paper1
+git switch grain_paper1
 git pull --ff-only
 codex -C .
 ```

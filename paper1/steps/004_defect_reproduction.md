@@ -2,7 +2,7 @@
 
 ## Status
 
-`PENDING 003 AND 005`。该步骤拆成两个不能混写的假设。
+`BLOCKED-BY-003-CORPUS-AND-005`。该步骤拆成两个不能混写的假设。NYUv2 coverage PASS 只说明局部 oracle 可用；intervention corpus 尚未构建，因此 004-A 也没有可运行输入。004-B 还额外依赖公平 D0/D1 与实体级 OOF cache。shared CUDA canary 不构成上述任一输入。
 
 ## 004-A H-sensitivity
 
@@ -13,7 +13,7 @@
 - 只证明 caption sensitivity，不证明 fallback necessity；
 - 结果必须标注 `diagnostic-only`，不得写成 `D1 vs D0` regret。
 
-003 数据就绪后即可运行本项。
+003 的 NYUv2 intervention corpus 与 predicate-clean/corrupted captions 就绪后才可运行本项；若正式范围仍未缩窄，结果只能标为单数据集 diagnostic。
 
 ## 004-B H-fallback-defect
 

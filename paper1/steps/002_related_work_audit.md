@@ -68,7 +68,7 @@
 | 待验证主张 | 必要实验 | 失败后处理 |
 | --- | --- | --- |
 | Claim-F：文本—区域语义在控制视觉难度和候选差异后仍有任务有效的增量预测力 | 同模型/同目标 `C-direct−B-direct` 与 `C-direct−C-permuted`；AUROC/HV scene-cluster CI | 任一门禁失败即删除语义增量主张 |
-| Claim-M：固定 clean utility 下的局部尾部 regret 决策优于相同输入和风险目标的标准方法 | Main-PR 必须同时击败 Risk-L2D-C、TIGER-style LOO、regression surrogate、density-ratio、dense-coherence 和 LOO-uncertainty；主判据为 dev-frozen `CVaR/WorstOf3@Retention>=0.80` | 任一直接方法差值 CI 下界不大于 0 时删除算法贡献，仅保留 Claim-F（若成立） |
+| Claim-M：固定 clean utility 下的局部尾部 regret 决策优于相同输入和风险目标的标准方法 | Main-PR 必须同时击败 Risk-L2D-C、TIGER-style LOO、regression surrogate、density-ratio、dense-coherence 和 LOO-uncertainty；主判据为 per-seed dev retention LCB 冻结后的 cluster-balanced `CVaR/WorstOf3@Dev-Ret>=0.80` 与 seed×cluster CI | 任一直接方法差值 CI 下界不大于 0、任一 seed 方向相反或 test retention 点估计低于 0.80 时删除算法贡献，仅保留 Claim-F（若成立） |
 | region replacement 有必要 | global vs 8×8/16×16/32×32；局部错误 mask | 若 global 相同则删除区域机制 |
 
 cross-fitting、partial residualization、CVaR、coverage control、dense defer、leave-one-out contribution teacher、language-guided frozen-expert routing、continuous regression defer 和 frozen-expert post-hoc scoring 均不再作为独立贡献。唯一可能的方法贡献是固定 clean utility 下的同任务双候选局部尾部 regret 决策同时击败全部 faithful/matched direct baselines；这必须由步骤 007/008 支持。

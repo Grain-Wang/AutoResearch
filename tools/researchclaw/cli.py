@@ -9,7 +9,7 @@ from researchclaw.tools_cli import TOOLS_STEPS, cmd_tools
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Build the two-command public CLI."""
+    """Build the compact public CLI."""
 
     parser = argparse.ArgumentParser(prog="researchclaw", description=__doc__)
     subparsers = parser.add_subparsers(dest="command")
@@ -37,6 +37,14 @@ def build_parser() -> argparse.ArgumentParser:
     queue_parser.add_argument("--state", default="queue-state.sqlite")
     queue_parser.add_argument("--dry-run", action="store_true")
     queue_parser.add_argument("--json", action="store_true")
+
+    remote_parser = subparsers.add_parser(
+        "remote", help="Safely inspect a key-authenticated research server"
+    )
+    remote_parser.add_argument(
+        "remote_action", choices=("check", "connect", "snapshot", "show")
+    )
+    remote_parser.add_argument("--profile", default=".local-deps/ssh/a800.yaml")
     return parser
 
 
@@ -52,6 +60,10 @@ def main(argv: list[str] | None = None) -> int:
             from researchclaw.gpu_queue.cli import cmd_gpu_queue
 
             return cmd_gpu_queue(args)
+        if args.command == "remote":
+            from researchclaw.remote_cli import cmd_remote
+
+            return cmd_remote(args)
         parser.print_help()
         return 0
     except (FileNotFoundError, OSError, RuntimeError, TypeError, ValueError) as error:

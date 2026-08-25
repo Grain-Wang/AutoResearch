@@ -22,6 +22,7 @@ def _write_config(
     *,
     idle_samples: int = 1,
     max_parallel_gpu_tasks: int = 2,
+    report_path: Path | None = None,
 ) -> Path:
     path = tmp_path / "queue.yaml"
     path.write_text(
@@ -29,6 +30,9 @@ def _write_config(
             {
                 "version": 1,
                 "run_root": str(tmp_path / "runs"),
+                **(
+                    {"report_path": str(report_path)} if report_path is not None else {}
+                ),
                 "scheduler": {
                     "poll_interval_seconds": 0.01,
                     "idle_samples": idle_samples,
@@ -37,6 +41,7 @@ def _write_config(
                     "max_parallel_gpu_tasks": max_parallel_gpu_tasks,
                     "max_parallel_cpu_tasks": 2,
                     "random_backoff_seconds": 0,
+                    "shared_memory_reserve_mib": 4096,
                 },
                 "tasks": tasks,
             },
@@ -75,6 +80,20 @@ def _idle_gpu(index: int) -> GpuSnapshot:
         uuid=f"GPU-{index}",
         memory_used_mib=10,
         utilization_percent=0,
+        memory_total_mib=81920,
+        memory_free_mib=81910,
+    )
+
+
+def _busy_gpu(index: int, *, memory_free_mib: int) -> GpuSnapshot:
+    return GpuSnapshot(
+        index=index,
+        uuid=f"GPU-{index}",
+        memory_used_mib=81920 - memory_free_mib,
+        utilization_percent=100,
+        memory_total_mib=81920,
+        memory_free_mib=memory_free_mib,
+        compute_pids=(1000 + index,),
     )
 
 
@@ -110,7 +129,7 @@ def test_queue_config_rejects_multigpu_task(tmp_path: Path) -> None:
 
 def test_probe_gpus_joins_processes_by_uuid() -> None:
     outputs = (
-        "0, GPU-a, 500, 2\n1, GPU-b, 2000, 7\n",
+        "0, GPU-a, 81920, 500, 81420, 2\n" "1, GPU-b, 81920, 2000, 79920, 7\n",
         "GPU-b, 123\nGPU-b, 456\n",
     )
     with patch("researchclaw.gpu_queue.gpu._run_nvidia_smi", side_effect=outputs):
@@ -118,6 +137,28 @@ def test_probe_gpus_joins_processes_by_uuid() -> None:
 
     assert snapshots[0].compute_pids == ()
     assert snapshots[1].compute_pids == (123, 456)
+    assert snapshots[0].memory_total_mib == 81920
+    assert snapshots[1].memory_free_mib == 79920
+
+
+def test_shared_gpu_task_requires_declared_memory(tmp_path: Path) -> None:
+    task = _python_write_task("shared", "result.txt", gpu_count=1)
+    task["allocation_mode"] = "shared"
+
+    with pytest.raises(ValueError, match="requires memory_required_mib"):
+        QueueConfig.load(_write_config(tmp_path, [task]))
+
+
+def test_comparison_group_requires_shared_and_exclusive_pair(tmp_path: Path) -> None:
+    task = _python_write_task("shared", "result.txt", gpu_count=1)
+    task.update(
+        allocation_mode="shared",
+        memory_required_mib=1024,
+        comparison_group="experiment",
+    )
+
+    with pytest.raises(ValueError, match="requires exactly one shared"):
+        QueueConfig.load(_write_config(tmp_path, [task]))
 
 
 def test_idle_tracker_requires_consecutive_samples() -> None:
@@ -238,6 +279,34 @@ def test_scheduler_runs_cpu_dependencies_and_hashes_outputs(tmp_path: Path) -> N
     assert json.loads(records[0].output_hashes_json or "{}")
 
 
+def test_scheduler_atomically_writes_private_markdown_report(tmp_path: Path) -> None:
+    report_path = tmp_path / "GPU_EXPERIMENT_STATUS.md"
+    config = QueueConfig.load(
+        _write_config(
+            tmp_path,
+            [_python_write_task("experiment", "result.json")],
+            report_path=report_path,
+        )
+    )
+    with QueueState(tmp_path / "state.sqlite") as state:
+        scheduler = QueueScheduler(config, state, sleep=lambda _seconds: None)
+        initial_report = report_path.read_text(encoding="utf-8")
+        assert "**WAITING**" in initial_report
+        assert "Run directory: not created yet" in initial_report
+
+        assert scheduler.run() == 0
+
+    final_report = report_path.read_text(encoding="utf-8")
+    assert "**PASSED**" in final_report
+    assert "| experiment | - | - | - | PASSED | 1 |" in final_report
+    assert "allocation.json" in final_report
+    assert "stdout.log" in final_report
+    assert "result.json" in final_report
+    assert "SHA256" in final_report
+    assert "write_text('ok')" not in final_report
+    assert oct(report_path.stat().st_mode & 0o777) == "0o600"
+
+
 def test_scheduler_assigns_physical_gpu_in_environment(tmp_path: Path) -> None:
     output = "assigned-gpu.txt"
     task = {
@@ -269,6 +338,83 @@ def test_scheduler_assigns_physical_gpu_in_environment(tmp_path: Path) -> None:
 
     assert record.gpu_index == 2
     assert (tmp_path / output).read_text(encoding="utf-8") == "2"
+
+
+def test_scheduler_runs_shared_and_exclusive_comparison_separately(
+    tmp_path: Path,
+) -> None:
+    tasks: list[dict[str, object]] = []
+    command = [
+        sys.executable,
+        "-c",
+        (
+            "import os; from pathlib import Path; "
+            "Path(os.environ['RESEARCHCLAW_RUN_DIR'], 'result.txt').write_text("
+            "os.environ['RESEARCHCLAW_GPU_ALLOCATION_MODE'])"
+        ),
+    ]
+    for mode in ("shared", "exclusive"):
+        task = {
+            "id": f"experiment-{mode}",
+            "command": command,
+            "cwd": ".",
+            "gpu_count": 1,
+            "allocation_mode": mode,
+            "memory_required_mib": 1024,
+            "comparison_group": "experiment",
+            "run_outputs": ["result.txt"],
+            "timeout_seconds": 10,
+        }
+        tasks.append(task)
+    config = QueueConfig.load(_write_config(tmp_path, tasks))
+    snapshots = (_busy_gpu(0, memory_free_mib=30000), _idle_gpu(1))
+    with QueueState(tmp_path / "state.sqlite") as state:
+        scheduler = QueueScheduler(
+            config,
+            state,
+            gpu_probe=lambda: snapshots,
+            sleep=lambda _seconds: None,
+            random_uniform=lambda _low, _high: 0,
+        )
+        assert scheduler.run() == 0
+        records = {record.task_id: record for record in state.records()}
+
+    assert records["experiment-shared"].gpu_index == 0
+    assert records["experiment-exclusive"].gpu_index == 1
+    shared_run_dir = Path(records["experiment-shared"].run_dir or "")
+    exclusive_run_dir = Path(records["experiment-exclusive"].run_dir or "")
+    assert (shared_run_dir / "result.txt").read_text(encoding="utf-8") == "shared"
+    assert (exclusive_run_dir / "result.txt").read_text(encoding="utf-8") == "exclusive"
+    shared_allocation = json.loads(
+        (shared_run_dir / "allocation.json").read_text(encoding="utf-8")
+    )
+    assert shared_allocation["coexisting_compute_process_count"] == 1
+    assert shared_allocation["memory_free_mib"] == 30000
+    assert oct(shared_run_dir.stat().st_mode & 0o777) == "0o700"
+    for private_file in (
+        shared_run_dir / "allocation.json",
+        shared_run_dir / "result.txt",
+        shared_run_dir / "stdout.log",
+        shared_run_dir / "stderr.log",
+        shared_run_dir / "completion.json",
+    ):
+        assert oct(private_file.stat().st_mode & 0o777) == "0o600"
+
+
+def test_shared_task_waits_when_free_memory_lacks_reserve(tmp_path: Path) -> None:
+    task = _python_write_task("shared", "result.txt", gpu_count=1)
+    task.update(allocation_mode="shared", memory_required_mib=8192)
+    config = QueueConfig.load(_write_config(tmp_path, [task]))
+    with QueueState(tmp_path / "state.sqlite") as state:
+        scheduler = QueueScheduler(
+            config,
+            state,
+            gpu_probe=lambda: (_busy_gpu(0, memory_free_mib=12000),),
+            sleep=lambda _seconds: None,
+            random_uniform=lambda _low, _high: 0,
+        )
+        assert scheduler.tick() is False
+        assert state.record("shared").status is TaskStatus.PENDING
 
 
 def test_scheduler_limits_parallel_gpu_tasks_to_two(tmp_path: Path) -> None:
@@ -441,4 +587,7 @@ def test_worker_environment_does_not_mutate_parent(tmp_path: Path) -> None:
     assert os.environ.get("GPU_QUEUE_TEST_VARIABLE") == original
     worker_spec = json.loads((run_dir / "worker-spec.json").read_text(encoding="utf-8"))
     assert worker_spec["env"] == {}
-    assert worker_spec["env_keys"] == ["GPU_QUEUE_TEST_VARIABLE"]
+    assert worker_spec["env_keys"] == [
+        "GPU_QUEUE_TEST_VARIABLE",
+        "RESEARCHCLAW_RUN_DIR",
+    ]

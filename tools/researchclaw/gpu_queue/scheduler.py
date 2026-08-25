@@ -14,7 +14,13 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 
 from researchclaw.gpu_queue.gpu import GpuSnapshot, IdleTracker, probe_gpus
-from researchclaw.gpu_queue.models import GateCondition, QueueConfig, TaskConfig
+from researchclaw.gpu_queue.models import (
+    GateCondition,
+    GpuAllocationMode,
+    QueueConfig,
+    TaskConfig,
+)
+from researchclaw.gpu_queue.report import write_queue_report
 from researchclaw.gpu_queue.state import (
     TERMINAL_STATUSES,
     QueueState,
@@ -39,8 +45,19 @@ def render_queue_plan(config: QueueConfig) -> str:
             f"max {config.scheduler.max_parallel_gpu_tasks} tasks"
         ),
     ]
+    if config.report_path is not None:
+        lines.append(f"Report: {config.report_path}")
     for task in config.tasks:
-        resource = "CPU" if task.gpu_count == 0 else "1 GPU"
+        if task.gpu_count == 0:
+            resource = "CPU"
+        else:
+            mode = task.allocation_mode or GpuAllocationMode.EXCLUSIVE
+            memory = (
+                ""
+                if task.memory_required_mib is None
+                else f", {task.memory_required_mib} MiB requested"
+            )
+            resource = f"1 GPU ({mode.value}{memory})"
         dependencies = ",".join(task.depends_on) or "none"
         command = " ".join(config.expanded_command(task))
         lines.append(
@@ -135,6 +152,7 @@ class QueueScheduler:
         self.idle_tracker = IdleTracker(config.scheduler.idle_samples)
         self._workers: dict[int, subprocess.Popen[bytes]] = {}
         self.state.register_tasks(config.tasks)
+        self._write_report()
 
     def render_plan(self) -> str:
         """Render the executable DAG without launching tasks."""
@@ -145,6 +163,16 @@ class QueueScheduler:
         return {
             record.task_id: record for record in self.state.records(self.task_order)
         }
+
+    def _write_report(self) -> None:
+        if self.config.report_path is None:
+            return
+        write_queue_report(
+            self.config.report_path,
+            self.config,
+            self.state.path,
+            self.state.records(self.task_order),
+        )
 
     def _completion_path(self, record: TaskRecord) -> Path | None:
         if record.run_dir is None:
@@ -166,7 +194,7 @@ class QueueScheduler:
         return path.resolve()
 
     def _validate_success(
-        self, task: TaskConfig
+        self, task: TaskConfig, record: TaskRecord
     ) -> tuple[bool, str | None, dict[str, str]]:
         output_hashes: dict[str, str] = {}
         for raw_output in task.required_outputs:
@@ -174,6 +202,19 @@ class QueueScheduler:
             if not output.exists():
                 return False, f"required output is missing: {output}", {}
             output_hashes[str(output)] = sha256_path(output)
+        if task.run_outputs:
+            if record.run_dir is None:
+                return False, "run directory is missing from queue state", {}
+            run_root = Path(record.run_dir).resolve()
+            for raw_output in task.run_outputs:
+                output = (run_root / raw_output).resolve()
+                try:
+                    output.relative_to(run_root)
+                except ValueError:
+                    return False, f"run output escapes run directory: {output}", {}
+                if not output.exists():
+                    return False, f"run output is missing: {output}", {}
+                output_hashes[str(output)] = sha256_path(output)
         if task.gate is not None:
             gate_path = self._task_path(task, task.gate.artifact)
             gate_passed, gate_error = evaluate_gate(gate_path, task.gate)
@@ -206,7 +247,7 @@ class QueueScheduler:
                 validation_error: str | None = None
                 if passed:
                     passed, validation_error, output_hashes = self._validate_success(
-                        task
+                        task, record
                     )
                 error_text = completion_error or validation_error
                 if passed:
@@ -291,7 +332,9 @@ class QueueScheduler:
                 ready.append(task)
         return tuple(ready)
 
-    def _launch_task(self, task: TaskConfig, *, gpu_index: int | None) -> None:
+    def _launch_task(
+        self, task: TaskConfig, *, gpu_snapshot: GpuSnapshot | None
+    ) -> None:
         cwd = self.config.resolve_task_cwd(task)
         if not cwd.is_dir():
             raise FileNotFoundError(f"task {task.task_id} cwd does not exist: {cwd}")
@@ -303,17 +346,57 @@ class QueueScheduler:
             / f"attempt-{attempt:03d}-{time.time_ns()}"
         )
         run_dir.mkdir(parents=True, exist_ok=False)
+        run_dir.chmod(0o700)
         command = self.config.expanded_command(task)
         environment = self.config.expanded_env(task)
+        gpu_index = None if gpu_snapshot is None else gpu_snapshot.index
         if task.seed is not None:
             environment["RESEARCHCLAW_SEED"] = str(task.seed)
         if gpu_index is not None:
             environment["CUDA_VISIBLE_DEVICES"] = str(gpu_index)
             environment["RESEARCHCLAW_ASSIGNED_GPU"] = str(gpu_index)
+            environment["RESEARCHCLAW_GPU_ALLOCATION_MODE"] = str(
+                task.allocation_mode or GpuAllocationMode.EXCLUSIVE
+            )
+            if task.memory_required_mib is not None:
+                environment["RESEARCHCLAW_MEMORY_REQUIRED_MIB"] = str(
+                    task.memory_required_mib
+                )
+            if task.comparison_group is not None:
+                environment["RESEARCHCLAW_COMPARISON_GROUP"] = task.comparison_group
+        environment["RESEARCHCLAW_RUN_DIR"] = str(run_dir)
         worker_environment = os.environ.copy()
         worker_environment.update(environment)
         spec_path = run_dir / "worker-spec.json"
         completion_path = run_dir / "completion.json"
+        allocation_path = run_dir / "allocation.json"
+        allocation_payload: dict[str, object] = {"resource": "cpu"}
+        if gpu_snapshot is not None:
+            allocation_payload = {
+                "resource": "gpu",
+                "allocation_mode": str(
+                    task.allocation_mode or GpuAllocationMode.EXCLUSIVE
+                ),
+                "comparison_group": task.comparison_group,
+                "gpu_index": gpu_snapshot.index,
+                "gpu_uuid": gpu_snapshot.uuid,
+                "memory_total_mib": gpu_snapshot.memory_total_mib,
+                "memory_used_mib": gpu_snapshot.memory_used_mib,
+                "memory_free_mib": gpu_snapshot.memory_free_mib,
+                "memory_required_mib": task.memory_required_mib,
+                "shared_memory_reserve_mib": (
+                    self.config.scheduler.shared_memory_reserve_mib
+                    if task.allocation_mode is GpuAllocationMode.SHARED
+                    else None
+                ),
+                "utilization_percent": gpu_snapshot.utilization_percent,
+                "coexisting_compute_process_count": len(gpu_snapshot.compute_pids),
+            }
+        allocation_path.write_text(
+            json.dumps(allocation_payload, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+        allocation_path.chmod(0o600)
         spec_path.write_text(
             json.dumps(
                 {
@@ -324,6 +407,13 @@ class QueueScheduler:
                     "env_keys": sorted(environment),
                     "timeout_seconds": task.timeout_seconds,
                     "gpu_index": gpu_index,
+                    "allocation_mode": (
+                        None
+                        if task.allocation_mode is None
+                        else task.allocation_mode.value
+                    ),
+                    "comparison_group": task.comparison_group,
+                    "memory_required_mib": task.memory_required_mib,
                     "seed": task.seed,
                 },
                 indent=2,
@@ -331,12 +421,15 @@ class QueueScheduler:
             ),
             encoding="utf-8",
         )
+        spec_path.chmod(0o600)
         stdout_path = run_dir / "stdout.log"
         stderr_path = run_dir / "stderr.log"
         with (
             stdout_path.open("ab") as stdout_handle,
             stderr_path.open("ab") as stderr_handle,
         ):
+            os.fchmod(stdout_handle.fileno(), 0o600)
+            os.fchmod(stderr_handle.fileno(), 0o600)
             worker = subprocess.Popen(
                 [
                     sys.executable,
@@ -362,7 +455,11 @@ class QueueScheduler:
             command=command,
             commit_sha=_git_commit(cwd),
         )
-        resource = "CPU" if gpu_index is None else f"GPU {gpu_index}"
+        resource = (
+            "CPU"
+            if gpu_index is None
+            else f"GPU {gpu_index} ({task.allocation_mode.value})"
+        )
         print(f"[RUNNING] {task.task_id} on {resource}; logs={run_dir}", flush=True)
 
     def _launch_cpu_tasks(self, ready: tuple[TaskConfig, ...]) -> None:
@@ -376,7 +473,7 @@ class QueueScheduler:
             if capacity <= 0 or self.state.drain_requested():
                 return
             try:
-                self._launch_task(task, gpu_index=None)
+                self._launch_task(task, gpu_snapshot=None)
             except (OSError, TypeError, ValueError) as error:
                 self.state.mark_terminal(
                     task.task_id,
@@ -394,6 +491,45 @@ class QueueScheduler:
             utilization_limit_percent=policy.utilization_limit_percent,
         )
 
+    def _has_shared_capacity(self, task: TaskConfig, snapshot: GpuSnapshot) -> bool:
+        if task.memory_required_mib is None:
+            raise ValueError(f"shared task {task.task_id} has no memory_required_mib")
+        return snapshot.has_capacity(
+            memory_required_mib=task.memory_required_mib,
+            reserve_mib=self.config.scheduler.shared_memory_reserve_mib,
+        )
+
+    def _eligible_snapshots(
+        self,
+        task: TaskConfig,
+        snapshots: tuple[GpuSnapshot, ...],
+        *,
+        excluded_indices: set[int],
+        strictly_idle_indices: set[int],
+    ) -> tuple[GpuSnapshot, ...]:
+        candidates = [
+            snapshot
+            for snapshot in snapshots
+            if snapshot.index not in excluded_indices
+            and (
+                snapshot.index in strictly_idle_indices
+                if task.allocation_mode is GpuAllocationMode.EXCLUSIVE
+                else self._has_shared_capacity(task, snapshot)
+            )
+        ]
+        if task.allocation_mode is GpuAllocationMode.SHARED:
+            candidates.sort(
+                key=lambda snapshot: (-snapshot.memory_free_mib, snapshot.index)
+            )
+        else:
+            candidates.sort(key=lambda snapshot: snapshot.index)
+        return tuple(candidates)
+
+    def _still_eligible(self, task: TaskConfig, snapshot: GpuSnapshot) -> bool:
+        if task.allocation_mode is GpuAllocationMode.SHARED:
+            return self._has_shared_capacity(task, snapshot)
+        return self._strictly_idle(snapshot)
+
     def _launch_gpu_tasks(self, ready: tuple[TaskConfig, ...]) -> None:
         gpu_ready_tasks = [task for task in ready if task.gpu_count == 1]
         if not gpu_ready_tasks or self.state.drain_requested():
@@ -409,15 +545,33 @@ class QueueScheduler:
             return
         snapshots = self.gpu_probe()
         policy = self.config.scheduler
-        idle_indices = self.idle_tracker.observe(
-            snapshots,
-            memory_used_limit_mib=policy.memory_used_limit_mib,
-            utilization_limit_percent=policy.utilization_limit_percent,
-            excluded_indices={int(index) for index in allocated},
+        strictly_idle_indices = set(
+            self.idle_tracker.observe(
+                snapshots,
+                memory_used_limit_mib=policy.memory_used_limit_mib,
+                utilization_limit_percent=policy.utilization_limit_percent,
+                excluded_indices={int(index) for index in allocated},
+            )
         )
-        for task, gpu_index in zip(gpu_ready_tasks, idle_indices, strict=False):
+        ordered_tasks = sorted(
+            gpu_ready_tasks,
+            key=lambda task: (
+                task.allocation_mode is GpuAllocationMode.SHARED,
+                self.task_order.index(task.task_id),
+            ),
+        )
+        for task in ordered_tasks:
             if capacity <= 0:
                 break
+            candidates = self._eligible_snapshots(
+                task,
+                snapshots,
+                excluded_indices={int(index) for index in allocated},
+                strictly_idle_indices=strictly_idle_indices,
+            )
+            if not candidates:
+                continue
+            gpu_index = candidates[0].index
             delay = self.random_uniform(0.0, policy.random_backoff_seconds)
             if delay > 0:
                 self.sleep(delay)
@@ -425,15 +579,16 @@ class QueueScheduler:
                 snapshot.index: snapshot for snapshot in self.gpu_probe()
             }
             second = second_snapshots.get(gpu_index)
-            if second is None or not self._strictly_idle(second):
+            if second is None or not self._still_eligible(task, second):
                 self.idle_tracker.reset(gpu_index)
                 print(
-                    f"[WAITING] GPU {gpu_index} changed during allocation backoff",
+                    f"[WAITING] GPU {gpu_index} no longer satisfies "
+                    f"{task.allocation_mode.value} allocation",
                     flush=True,
                 )
                 continue
             try:
-                self._launch_task(task, gpu_index=gpu_index)
+                self._launch_task(task, gpu_snapshot=second)
             except (OSError, TypeError, ValueError) as error:
                 self.state.mark_terminal(
                     task.task_id,
@@ -443,6 +598,7 @@ class QueueScheduler:
                 )
                 print(f"[FAILED] {task.task_id}: launch failed: {error}", flush=True)
             self.idle_tracker.reset(gpu_index)
+            allocated.add(gpu_index)
             capacity -= 1
 
     def tick(self) -> bool:
@@ -452,15 +608,19 @@ class QueueScheduler:
         self._block_failed_dependants()
         records = self._record_map()
         if all(record.status in TERMINAL_STATUSES for record in records.values()):
+            self._write_report()
             return True
         if self.state.drain_requested():
-            return not any(
+            finished = not any(
                 record.status is TaskStatus.RUNNING for record in records.values()
             )
+            self._write_report()
+            return finished
         ready = self._ready_tasks()
         self._launch_cpu_tasks(ready)
         ready = self._ready_tasks()
         self._launch_gpu_tasks(ready)
+        self._write_report()
         return False
 
     def run(self) -> int:

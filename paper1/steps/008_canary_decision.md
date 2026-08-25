@@ -2,7 +2,7 @@
 
 ## Status
 
-`PENDING`。本步骤只汇总冻结结果，不允许新增 trial、改阈值或换聚合口径。
+`BLOCKED-BY-STEP003`。本步骤只汇总冻结结果，不允许新增 trial、改阈值或换聚合口径。当前 `STOP_TWO_DATASET_CLAIM` 尚未解除；A800 shared CUDA canary 通过只证明执行环境可用，不能启动或替代本步骤。
 
 ## Claim-F
 
@@ -14,9 +14,12 @@
 
 证据来自 Main 与全部 direct killer baselines：
 
-- dev 上只在 clean gain retention ≥80% 的 thresholds 中选择 CVaR 最低者，并冻结该 threshold；
+- seeds `17/29/43` 各自产生 expert cache、router、dev threshold 与 internal-test outcome，不共享训练结果或 threshold；
+- 每个 seed 在 dev 上对 21 个 thresholds 运行 10,000 次 cluster bootstrap；只在 one-sided 95% clean-gain retention LCB ≥80% 的 thresholds 中选择 cluster-balanced CVaR 最低者，并冻结该 threshold；
 - 相对 always-D1 worst-of-3 regret 降低 ≥50%；
-- internal-test 上，Main-PR 相对 Risk-L2D-C、TIGER-style LOO、Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D 和 LOO-Uncertainty-Router 的 `CVaR@Ret≥0.80` 与 `WorstOf3@Ret≥0.80` 风险差 scene/drive-cluster CI 上界均 <0；
+- internal-test 上先报告冻结 threshold 的 retention 点估计与 two-sided 95% cluster CI；Main-PR 点估计 `<0.80` 时返回 `STOP_TEST_RETENTION_VIOLATION`，不继续判 Claim-M PASS；
+- internal-test 上，Main-PR 相对 Risk-L2D-C、TIGER-style LOO、Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D 和 LOO-Uncertainty-Router 的 `CVaR@Dev-Ret≥0.80` 与 `WorstOf3@Dev-Ret≥0.80` 风险差 paired seed×cluster hierarchical CI 上界均 <0，且三个 seeds 的 point direction 一致；
+- 主表使用 cluster-balanced estimand；image-weighted risk 只能作为 sensitivity；
 - Pareto hypervolume 只作为 secondary sensitivity，不再单独支持 Claim-M；
 - held-out captioner 与 held-out error family 方向一致；
 - region boundary artifact 未否定最终 gate 实现。
@@ -24,6 +27,12 @@
 - caption dropout、corruption augmentation、multi-caption ensemble 和 consistency filtering 均未支配 Main Pareto。
 
 任一 direct 或 robust expert baseline 缺失/不败时，Claim-M 标为 `UNSUPPORTED`，不得把 cross-fitting/CVaR/region routing 的组合命名成新算法贡献。
+
+## Frozen artifact lineage
+
+每个 method×seed 的 operating point 必须由 dev artifact 唯一解析。artifact 至少绑定 raw outcome table、coverage grid、expert cache、metric-spec version、minimum-clean-gain artifact、method config 与 code commit 的实际 SHA256。internal-test evaluator 必须打开并重算这些 hash，拒绝裸 `threshold_index`、跨 seed threshold 或任何不匹配的 outcome table。
+
+主 inference 的独立单位仍是 sequence/drive cluster。hierarchical bootstrap 外层对三个训练 seeds 等权有放回抽样，内层对完整 clusters 有放回抽样；左右方法复用相同 seed 与 cluster 索引。训练 seed 与 bootstrap seed 必须分字段记录。
 
 ## Natural-error relevance
 

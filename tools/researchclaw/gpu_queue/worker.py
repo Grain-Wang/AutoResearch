@@ -22,7 +22,9 @@ def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     temporary.write_text(
         json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8"
     )
+    temporary.chmod(0o600)
     temporary.replace(path)
+    path.chmod(0o600)
 
 
 def _terminate_process_group(
@@ -48,6 +50,7 @@ def _terminate_process_group(
 def run_worker(spec_path: Path, completion_path: Path) -> int:
     """Execute a task and always write a machine-readable completion record."""
 
+    os.umask(0o077)
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
     command = spec["command"]
     cwd = spec["cwd"]

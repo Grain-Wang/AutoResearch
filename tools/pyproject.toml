@@ -1,6 +1,6 @@
 [project]
 name = "researchclaw"
-version = "0.6.0"
+version = "0.7.0"
 description = "AGENTS-governed research execution toolbox"
 requires-python = ">=3.12,<3.13"
 dependencies = [

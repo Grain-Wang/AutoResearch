@@ -9,6 +9,7 @@
 - 16 阶段研究产物契约与关键门禁；
 - OpenAlex、Semantic Scholar 和 arXiv 公共文献检索；
 - 本地 Python 3.12 与密钥 SSH 的真实实验执行；
+- 严格主机指纹固定的远端状态检查与脱敏 Markdown 快照；
 - 无 Slurm 节点上的协作式、可恢复 GPU 队列；
 - PDF 文献到带页码锚点 Markdown 的可选转换脚本。
 
@@ -105,6 +106,11 @@ researchclaw gpu-queue status --state queue-state.sqlite
 ```
 
 GPU 队列是协作式调度器，不是跨账号强锁，也不会终止其他用户的进程。
+
+机器私有 SSH profile 配置完成后，可用 `researchclaw remote check` 做无写入
+连通检查，用 `researchclaw remote snapshot` 显式更新远端状态文件。具体的
+密钥限制、profile 和快捷命令见
+[Remote GPU Execution](docs/REMOTE_EXECUTION.md)。
 
 ## 质量检查
 

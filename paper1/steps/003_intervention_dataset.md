@@ -2,7 +2,9 @@
 
 ## Status
 
-`FEASIBILITY-GATE-STOP, CORPUS NOT BUILT`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但冻结的 KITTI RGB source 没有可信 local instance mask/depth oracle，因而 two-dataset gate 返回 `STOP_TWO_DATASET_CLAIM`。调度器按合同阻断 conditional detectability，未生成 power artifact，未启动 GPU、Step 005 或 official test。完整 intervention/caption corpus builder 尚未实现，因此整个 Step 003 仍不标为完成。
+`FEASIBILITY-GATE-STOP, CORPUS NOT BUILT`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但冻结的 KITTI RGB source 没有可信 local instance mask/depth oracle，因而 two-dataset gate 返回 `STOP_TWO_DATASET_CLAIM`。调度器按合同阻断 conditional detectability，未生成 power artifact，未启动 Step 005 或 official test。完整 intervention/caption corpus builder 尚未实现，因此整个 Step 003 仍不标为完成。
+
+之后单独运行的 A800 shared CUDA canary 只验证调度器能在剩余显存足够时安全启动极小张量任务并保存结果；它未读取 Step003 数据、未运行 D0/D1 或 router，不能计作 GPU scientific pilot，也不能解除本门禁。exclusive canary 排队已暂停，状态与配置保留。
 
 可移植证据见 [`annotation_coverage.json`](../results/covol/annotation_coverage.json)、[`annotation_coverage.csv`](../results/covol/annotation_coverage.csv) 与 [`step003_feasibility_gate.json`](../results/covol/step003_feasibility_gate.json)。1000-row pilot 与独立 replay 的 manifest、split audit、coverage CSV/JSON 均逐字节同哈希。
 

@@ -1,0 +1,14 @@
+version: 1
+
+ssh:
+  # This is an alias from an ignored OpenSSH config, never a hostname or address.
+  config: ../.local-deps/ssh/config
+  host: autoresearch-gpu
+
+snapshot:
+  remote_python: ~/whr/paper1/envs/py312/bin/python
+  root: ~/whr
+  output: ~/whr/A800_STATUS.md
+  max_depth: 2
+  recent_runs: 10
+  timeout_seconds: 90

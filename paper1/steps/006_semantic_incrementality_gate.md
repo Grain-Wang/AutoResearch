@@ -2,7 +2,7 @@
 
 ## Status
 
-`SPECIFIED, PENDING FAIR EXPERT CACHE`。本步骤先判断 Claim-F，不默认支持主方法。
+`SPECIFIED, BLOCKED-BY-STEP003-AND-FAIR-EXPERT-CACHE`。本步骤先判断 Claim-F，不默认支持主方法。Round6 要求的 extractor callables、seed-aware entity cache 与 hierarchical inference 均未实现；shared CUDA canary 不改变该状态。
 
 ## Frozen inputs
 
@@ -71,23 +71,24 @@ tie 不进入 AUROC/AUPRC 的二元标签，但保留在连续回归、Spearman 
 
 置换必须报告 caption length、全局 image-text similarity 与 target-region grounding 的 paired 差异；前两者标准化差异绝对值必须 `<0.1`，target grounding 必须显著下降。无法构造有效错配的 cluster 不静默保留，必须在 power gate 中处理。Main-PR 不参与 Claim-F 的语义信息判定。
 
-所有模型的最终列必须通过 `features.py`：除 intervention metadata 外，`ground_truth/depth_gt/target/label/advantage/a_p/d0_loss/d1_loss/oracle/test_metric` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和仓库相对 source path；SHA256 必须由本地文件重算。
+所有模型的最终列必须通过 `features.py`：除 intervention metadata 外，`ground_truth/depth_gt/target/label/advantage/a_p/d0_loss/d1_loss/oracle/test_metric` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和仓库相对 source path；SHA256 必须由本地文件重算。allowlist 中的 `candidate_features`、`caption_region_features` 与 `image_features` 必须是可 import 的真实 callable，且只能接收 `sanitize_feature_inputs` 返回的 mapping；当前文件尚未定义这些 callable，所以 feature firewall 仍是 `PARTIAL-CODE`。
 
 ## Threshold calibration and policy utility
 
 - 使用平均-rank 冻结的 trial 按上节 final-refit 规则拟合最终模型；
-- 只在独立 dev split 上把 score quantiles 冻结成 21 个 coverage thresholds（0%,5%,…,100%）；
+- seeds `17/29/43` 各自独立拟合模型，并只在独立 dev split 上把 score quantiles 冻结成 21 个 coverage thresholds（0%,5%,…,100%）；
+- 每个 seed 只有 one-sided 95% cluster-bootstrap retention LCB `>=0.80` 的 threshold 才可行；
 - internal-test 只应用冻结 thresholds，一次性计算，不重新校准。
 
-除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/两类 C-permuted 使用完全相同 thresholds 与 [metrics spec](metrics_spec.md) 生成 clean-gain retention–CVaR 曲线。
+除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/两类 C-permuted 使用完全相同的 per-seed threshold 协议与 [metrics spec](metrics_spec.md) 生成 cluster-balanced clean-gain retention–CVaR 曲线。主 CI 使用 paired seed×cluster hierarchical bootstrap，并逐 seed 要求方向一致；image-weighted 曲线只作 sensitivity。
 
 ## H-semantic decision
 
 Claim-F 仅在以下条件同时满足时通过：
 
-1. internal-test 上 `C-direct−B-direct` AUROC ≥0.03，scene/drive-cluster paired-bootstrap 95% CI 下界 >0；
-2. `C-direct−C-permuted-global/local` 的 AUROC 差值 cluster-CI 下界均 >0；
-3. C-direct 相对 B-direct 和两类 C-permuted 的 retention–CVaR Pareto hypervolume 差值 cluster-CI 下界均 >0；
+1. internal-test 上 `C-direct−B-direct` AUROC ≥0.03，paired seed×scene/drive-cluster bootstrap 95% CI 下界 >0，且逐 seed 方向一致；
+2. `C-direct−C-permuted-global/local` 的 AUROC 差值 seed×cluster CI 下界均 >0；
+3. C-direct 相对 B-direct 和两类 C-permuted 的 retention–CVaR Pareto hypervolume 差值 seed×cluster CI 下界均 >0；
 4. held-out captioner 和 held-out error family 上方向一致；
 5. 连续 advantage regression/Spearman 不与分类结论矛盾。
 
@@ -97,19 +98,20 @@ Claim-F 仅在以下条件同时满足时通过：
 
 ```text
 freeze split manifest, OOF/final expert cache, denylisted feature schema, tie band
-for outer_fold in SceneGroupKFold(K=5):
-    split outer-train into outer-fit/outer-validation by scene hash
-    for trial in 20 preregistered trials:
-        build inner SceneGroupKFold(K=4) nuisance OOF predictions
-        train residual branch only on inner-OOF residual targets
-        rank trial on outer-validation only
-    emit B-direct/C-direct/two C-permuted/Main-PR outer-OOF scores once
-choose trial by minimum mean outer-validation rank; tie by trial ID
-refit final direct models on all router-train
-refit final Main using full-train nuisance OOF targets, then full nuisance
-calibrate 21 coverage thresholds on independent dev
-evaluate frozen controls and Main once on internal_test
-paired-bootstrap scenes/drives 10,000 times with full metric recomputation
+for seed in [17, 29, 43]:
+    for outer_fold in ClusterGroupKFold(K=5):
+        split outer-train into outer-fit/outer-validation by cluster hash
+        for trial in 20 preregistered trials:
+            build inner ClusterGroupKFold(K=4) nuisance OOF predictions
+            train residual branch only on inner-OOF residual targets
+            rank trial on outer-validation only
+        emit B-direct/C-direct/two C-permuted/Main-PR outer-OOF scores once
+    choose trial by minimum mean outer-validation rank; tie by trial ID
+    refit final direct models on all router-train
+    refit final Main using full-train nuisance OOF targets, then full nuisance
+    calibrate 21 thresholds on independent dev using retention LCB
+    evaluate frozen controls and Main once on internal_test
+paired-bootstrap seed x whole sequence/drive clusters 10,000 times
 apply AUROC and Pareto-hypervolume gates
 ```
 

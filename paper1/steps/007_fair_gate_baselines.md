@@ -28,16 +28,17 @@ learned gates 必须：
 - 每个方法恰好 20 组预注册 trial；
 - 相同 early-stopping budget、fold/dev 数据和 metric implementation；
 - 输出逐列 feature schema hash；L2D-C、Risk-L2D-C 与 Main 的原始输入列必须逐项相等。
+- Risk-L2D-C 与 Main-PR 还必须共享 network、batch indices、cluster-balanced CVaR、clean constraint、dual/optimizer schedule、trial 与 threshold budget；唯一允许差异是 direct advantage target 与 inner-OOF partial-residual target，并由自动 contract test 验证；
 - 全部读取 Step 005 的 OOF expert cache；任何 in-sample cache 行使 baseline 和 Main 同时失效；
 - 全部 feature schema 通过 intervention-metadata denylist，不得读取模板、生成器、error family 或 split 标签；
-- 主表使用 scene/drive-cluster 10,000 次 paired bootstrap。
+- 主表使用 cluster-balanced estimand 与 10,000 次 paired seed×scene/drive-cluster hierarchical bootstrap；逐 seed 方向必须一致，image-weighted 只作 sensitivity。
 
 ## Artifact and grounding controls
 
 - text-only artifact classifier：只读原始 caption content，不读模板 ID 或 D0/D1 loss；
 - frozen VLM contradiction/grounding scorer：只读原图和 caption，不读 GT/候选 loss。
 
-它们在 held-out template、captioner 和 error family 上使用相同 coverage grid。若任一在 dev-frozen retention≥0.80 threshold 上达到 Main-PR 的 CVaR/WorstOf3，删除方法贡献；HV 只作 secondary。
+它们在 held-out template、captioner 和 error family 上使用相同 coverage grid。若任一在 dev retention one-sided 95% LCB≥0.80 后冻结的 threshold 上达到 Main-PR 的 `CVaR/WorstOf3@Dev-Ret≥0.80`，删除方法贡献；HV 只作 secondary。
 
 ## Robust expert killer baselines
 
@@ -54,7 +55,7 @@ learned gates 必须：
 
 - C 优于 B 只能支持语义信息增量；
 - Main 优于 L2D-C 但不优于 Risk-L2D-C，说明收益来自风险目标；
-- Claim-M 要求 Main-PR 相对 Risk-L2D-C、TIGER-style LOO 以及四个 direct published-method adaptations，在 dev-frozen retention≥0.80 threshold 上的 internal-test CVaR/WorstOf3 风险差 cluster-CI 上界均 <0；
+- Claim-M 要求 Main-PR 相对 Risk-L2D-C、TIGER-style LOO 以及四个 direct published-method adaptations，在 dev retention LCB≥0.80 后冻结的 threshold 上，其 internal-test `CVaR/WorstOf3@Dev-Ret≥0.80` 风险差 seed×cluster CI 上界均 <0；
 - published methods 各报告 `faithful` 与 `capacity-matched` 两版；±10% 参数规则只约束 matched 版，不能裁剪 faithful 公式；
 - 任一 direct baseline 缺失时 Claim-M 不得判定；
 - 参数、trial、feature schema 或 seed 缺失的 baseline 行视为未完成。

@@ -14,6 +14,8 @@ class GpuSnapshot:
     uuid: str
     memory_used_mib: int
     utilization_percent: int
+    memory_total_mib: int = 0
+    memory_free_mib: int = 0
     compute_pids: tuple[int, ...] = ()
 
     def is_idle(
@@ -29,6 +31,15 @@ class GpuSnapshot:
             and self.memory_used_mib < memory_used_limit_mib
             and self.utilization_percent < utilization_limit_percent
         )
+
+    def has_capacity(self, *, memory_required_mib: int, reserve_mib: int) -> bool:
+        """Return whether reported free memory covers a task and safety reserve."""
+
+        if memory_required_mib <= 0:
+            raise ValueError("memory_required_mib must be positive")
+        if reserve_mib < 0:
+            raise ValueError("reserve_mib must be nonnegative")
+        return self.memory_free_mib >= memory_required_mib + reserve_mib
 
 
 def _run_nvidia_smi(arguments: list[str]) -> str:
@@ -50,7 +61,7 @@ def probe_gpus() -> tuple[GpuSnapshot, ...]:
 
     gpu_output = _run_nvidia_smi(
         [
-            "--query-gpu=index,uuid,memory.used,utilization.gpu",
+            "--query-gpu=index,uuid,memory.total,memory.used,memory.free,utilization.gpu",
             "--format=csv,noheader,nounits",
         ]
     )
@@ -78,12 +89,14 @@ def probe_gpus() -> tuple[GpuSnapshot, ...]:
         if not line.strip():
             continue
         parts = [part.strip() for part in line.split(",")]
-        if len(parts) != 4:
+        if len(parts) != 6:
             raise RuntimeError(f"unexpected nvidia-smi GPU row: {line!r}")
         try:
             index = int(parts[0])
-            memory_used = int(parts[2])
-            utilization = int(parts[3])
+            memory_total = int(parts[2])
+            memory_used = int(parts[3])
+            memory_free = int(parts[4])
+            utilization = int(parts[5])
         except ValueError as error:
             raise RuntimeError(f"invalid numeric GPU row: {line!r}") from error
         snapshots.append(
@@ -92,6 +105,8 @@ def probe_gpus() -> tuple[GpuSnapshot, ...]:
                 uuid=parts[1],
                 memory_used_mib=memory_used,
                 utilization_percent=utilization,
+                memory_total_mib=memory_total,
+                memory_free_mib=memory_free,
                 compute_pids=tuple(sorted(pids_by_uuid.get(parts[1], ()))),
             )
         )

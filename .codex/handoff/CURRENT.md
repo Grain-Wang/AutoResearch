@@ -1,5 +1,27 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-25 Round6 回应与 GPU 排队暂停状态（优先于下方全部内容）**
+>
+> - Round6 的正式回应已更新为 `paper1/responce_from_reviewer/responce_round6.md`，`paper1/README.md` 已同步入口。回复逐项区分 `DONE-CODE`、`FROZEN-DESIGN`、`OPEN` 与 `BLOCKED-BY-STEP003`，没有把协议修改写成实现或科学结果。
+> - 统计与实验设计已冻结为：full-official-crop region weights；cluster-balanced 主 estimand；per-seed dev retention one-sided 95% LCB；internal-test retention/CI 与 `STOP_TEST_RETENTION_VIOLATION`；`CVaR/WorstOf3@Dev-Ret>=0.80`；三 seeds `17/29/43` 的 paired seed×cluster hierarchical bootstrap；实体级 OOF/cache/training-manifest 与 operating-point lineage；Main-PR/Risk-L2D-C 仅 target construction 不同的 executable contract。
+> - 上述 Round6 修订尚未进入 scalar objective、constrained evaluator、bootstrap、feature callables、OOF validator、PyTorch D0/D1/router 或 intervention builder。`steps/004/005/006/008` 已改为显式 blocked 状态，指标层改为 `ROUND6-CODE-REVISION-PENDING`。
+> - shared CUDA canary 已在 GPU 2 与 1 个既有 compute process 共存时 `PASSED/attempt=1`；约 47,577 MiB free，PyTorch `2.4.1+cu121` / CUDA 12.1，tensor sum 1024.0，约 2.85 s，peak allocated/reserved 约 0.0044/2.0 MiB。它只验证调度和环境，不是 D0/D1/router 或科学证据。
+> - 按用户指令，dual queue 已 graceful drain；后台 `screen` 已停止。exclusive job 保持 `PENDING/attempt=0`，shared job 与结果保持 `PASSED/attempt=1`，SQLite state、配置和结果均保留。后续可从同一 state 恢复，不会重复 shared job；恢复前仍须满足科学门禁与用户明确指令。
+> - 本轮交付前仓库级 Ruff 通过，所有 tracked/untracked Python 文件逐文件 Black check 通过，`tools/tests + paper1/tests` 合计 156 tests 通过，`git diff --check` 通过。首次 pytest 收集因本地 `PYTHONPATH` 未包含 `tools/` 失败，补齐仓库源路径后完整复跑通过；该环境入口问题没有被写成代码故障。
+> - 科学状态没有改变：**Research Opportunity / Claim-F UNVERIFIED / Claim-M STOPPED_FOR_CURRENT_TWO_DATASET_BRANCH**，不是 Paper Candidate。下一项能改变论文判断的动作仍是选择并通过合规真实 outdoor dataset 的 Step003，或正式缩窄为 NYUv2 单数据集 controlled stress-testing 后重新做 novelty/power gate；当前不启动更多 GPU 实验。
+
+> **2026-08-25 A800 安全快捷连接与状态快照（优先于下方远程连接旧内容）**
+>
+> - 当前分支为 `paper1`，基线提交为 `54feea1`。ResearchClaw 已升级为 0.7.0，并新增 `remote check|connect|snapshot|show`；机器私密 profile、项目专用 ED25519 私钥和 pinned known_hosts 全部位于已忽略的 `.local-deps/ssh/`，不得提交。
+> - 仓库根目录的私密快捷入口为 `.local-deps/ssh/a800 check|connect|snapshot|show`。`check` 和 `show` 只读；只有显式 `snapshot` 会原子更新 `~/whr/A800_STATUS.md`。通用配置格式与安全边界见 `tools/docs/REMOTE_EXECUTION.md`。
+> - 项目公钥已幂等加入授权 A800 的 `authorized_keys`，禁用 agent/端口/X11 转发与 user rc；客户端强制 key-only、严格主机指纹校验、唯一 identity 和清空转发。连续两次 `BatchMode=yes` 连接成功。旧私密 Markdown 中的密码按用户决定保留作人工应急，但新工具不会读取或回退使用它。
+> - 当前 `~/whr/A800_STATUS.md` 权限为 `0600`，记录服务器/GPU、Conda 与项目 Python、`whr` 摘要、QA、queue、result 和 checkpoint 状态；已核验不含地址、账号、密码、私钥、token 或本机绝对路径。`check` 前后文件 mtime 不变。
+> - 当前快照再次确认远端 97 项 paper1 tests、Ruff、Black 通过，Step003 为 `STOP_TWO_DATASET_CLAIM`，conditional detectability BLOCKED，checkpoint 为 0。此次工作只改进安全连接与状态可观测性，不新增科学证据；研究仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M STOPPED_FOR_CURRENT_TWO_DATASET_BRANCH**，不是 Paper Candidate。
+> - 2026-08-25 GPU 队列升级为显式双模式对照：`shared` 在 NVIDIA 报告剩余显存不少于任务声明峰值加 4096 MiB reserve 时允许与他人进程共存；`exclusive` 仍要求 4 次×30 秒连续满足无 compute PID、显存 `<1024 MiB`、利用率 `<5%`。同一 comparison group 必须恰有一对命令、输入、输出、seed 和声明显存一致的 shared/exclusive 任务；不终止或抢占其他用户进程。
+> - 双模式 CUDA canary 的 shared 分支已在有 1 个共存计算进程、剩余 47577 MiB 的卡上 `PASSED`：tensor sum `1024.0`，PyTorch `2.4.1+cu121`/CUDA `12.1`，任务峰值 allocated/reserved 分别约 `0.0044/2.0 MiB`。exclusive 分支曾在独立 `screen` 等待完整空闲窗口，现已按上方新状态 graceful drain。私密 `queue/GPU_EXPERIMENT_STATUS.md` 以 `0600` 原子更新状态、日志路径和产物 SHA256；每次运行目录以 `0700` 保存 allocation、completion、stdout/stderr 与结构化 result，文件默认 `0600`。该 canary 只证明调度和 CUDA 可执行，不是科学结果。
+> - 已显式刷新脱敏 `~/whr/A800_STATUS.md`，SHA256 为 `77f94bbafb2f841c8b90ebee37a50b0195ea99db38895e8c19ab51b660d86ec6`；其中可直接发现双模式报告和 SQLite 的 shared `PASSED` / exclusive `PENDING`，未包含凭据或机器绝对路径。
+> - A800 管理规则：需要 Conda 命令时显式加载管理员提供的初始化脚本，不修改 shell 启动文件；Conda 激活时禁止启动 VNC，未来如确需 VNC 必须先 deactivate；不执行系统更新；任何大下载、环境或实验前后检查家目录容量，优先保持低于 200G，绝不接近 400G。当前 `whr/paper1` 约 7.4G；完整家目录扫描超时，因此总用量尚未验证，不得误写为低于配额。
+
 > **2026-08-24 Step003 真实可行性门禁最终状态（优先于下方旧内容）**
 >
 > - 当前分支为 `grain_paper1`；数据合同修复提交为 `435240e`。Step003 inferential 组合固定为 NYUv2+KITTI；VKITTI2 只能是 `synthetic_structured_auxiliary_only`，adapter 必须从完整官方解压目录生成 canonical source，不能接受外部挑帧列表。

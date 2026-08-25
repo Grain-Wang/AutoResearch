@@ -31,6 +31,48 @@ ssh autoresearch-a800 'python3.12 --version; nvidia-smi -L'
 ResearchClaw 强制 `BatchMode=yes`，不会关闭 OpenSSH 主机密钥检查，也不支持在
 配置中保存密码。
 
+## 项目专用快捷连接
+
+需要由自动化科研负责人反复检查同一授权节点时，使用项目内已忽略的 SSH
+目录，而不是修改系统级 SSH 配置或自动化密码：
+
+```text
+.local-deps/ssh/
+├── a800                 # 私密快捷入口
+├── a800.yaml            # ResearchClaw remote profile
+├── a800_ed25519         # chmod 0600，不得提交
+├── a800_ed25519.pub
+├── config               # OpenSSH alias，不得提交
+└── known_hosts          # 经 SHA256 指纹核验的固定主机公钥
+```
+
+远端只向该公钥开放登录；`authorized_keys` 项禁用 agent、端口和 X11 转发以及
+user rc。客户端同时强制 `BatchMode=yes`、`PasswordAuthentication=no`、
+`KbdInteractiveAuthentication=no`、`StrictHostKeyChecking=yes`、
+`IdentitiesOnly=yes` 和 `ClearAllForwardings=yes`。不得设置
+`StrictHostKeyChecking=no`，也不得把密码放进参数、环境变量、日志或 Git。
+
+私密 profile 从 [`config.remote.example.yaml`](../config.remote.example.yaml)
+派生。完成一次性公钥安装后，仓库根目录下的快捷接口为：
+
+```bash
+.local-deps/ssh/a800 check
+.local-deps/ssh/a800 connect
+.local-deps/ssh/a800 snapshot
+.local-deps/ssh/a800 show
+```
+
+- `check` 只检查认证、Python、GPU 与 `whr`，不写远端；
+- `connect` 进入交互式终端；
+- `snapshot` 才会原子更新 `~/whr/A800_STATUS.md`；
+- `show` 只读取当前快照。
+
+状态采集器通过标准输入临时传到远端，不部署常驻脚本，不导入远端研究代码，
+也不分配 GPU。Markdown 使用权限 `0600`，只保留最新版本；写入失败时旧文件
+保持不变。内容包括系统/GPU、Conda 和项目 Python 环境、`whr` 两层目录摘要，
+并深入发现 `paper*/results`、`artifacts`、`runs` 和 `queue`。原始数据、缓存、
+密钥、token、`.env`、私密配置与符号链接目标不会展开或读取。
+
 ## 阶段 13 的 SSH 后端
 
 复制配置模板为已忽略的 `tools/config.yaml`：
@@ -98,9 +140,25 @@ researchclaw gpu-queue run \
   --dry-run
 ```
 
-默认 paper1 示例要求 20 次连续采样均满足：无 NVIDIA compute process、已用
-显存低于 1024 MiB、利用率低于 5%。采样间隔 30 秒，随机退避后再次确认，最多
-并行两个单 GPU 任务。启动后任务运行到结束，不会因其他账号随后占用而抢占。
+GPU 任务支持两种明确分离的分配模式。`exclusive` 要求 4 次连续采样均满足：
+无 NVIDIA compute process、已用显存低于 1024 MiB、利用率低于 5%；采样间隔
+30 秒（连续窗口共 2 分钟）。`shared` 允许存在其他 compute process，只要求
+NVIDIA 报告的剩余显存不少于任务的 `memory_required_mib` 加
+`shared_memory_reserve_mib`（默认 4096 MiB）。两种模式在随机退避后都会再次核对；
+均不终止或抢占其他用户进程，最多并行两个本队列单 GPU 任务。
+
+需要比较共享与完整空闲运行时，使用相同的 `comparison_group` 声明一对
+`shared`/`exclusive` 任务，并保持命令、配置、seed 和声明显存相同。队列会为两次
+运行建立不同目录，注入 `RESEARCHCLAW_GPU_ALLOCATION_MODE`，并写入
+`allocation.json`。共享运行可用于容量和吞吐诊断；受共租户干扰的耗时不得替代
+exclusive 运行作为论文正式计时。
+
+若配置了 `report_path`，调度器会在注册、启动和任务终态时原子更新权限为
+`0600` 的 Markdown 报告。报告汇总任务状态、GPU、时间、退出码、运行日志路径和
+声明产物的 SHA256，但不会复制命令、环境变量或原始日志内容。后续 SSH 会话可直接
+打开该文件，再按其中路径核对 `stdout.log`、`stderr.log`、`completion.json` 和实验产物。
+调度器创建的单次运行目录固定为 `0700`；worker 使用 `umask 077`，allocation、
+completion、日志和任务在运行目录内写出的结果默认仅当前账号可读。
 
 确认 dry-run 后，可在 `tmux` 中启动：
 

@@ -11,7 +11,7 @@
 3. [主研究方案](ideas/01_counterfactual_value_of_language_depth.md)
 4. [执行状态表](steps/README.md)
 5. [最新审稿意见](responce_from_reviewer/review_round6.md)
-6. [Round-6 回应](responce_from_reviewer/response_round6.md)
+6. [Round-6 回应](responce_from_reviewer/responce_round6.md)
 
 ## 执行顺序
 
@@ -21,7 +21,9 @@
 
 `004-sensitivity` 只测同一 `D1` 的 clean→corrupted 敏感性，可在 003 后用 TR2M checkpoint 提前运行，但不能替代正式 H-fallback-defect。
 
-当前已有 training-only split/source/coverage/conditional-detectability audits、OOF stacking plan、feature firewall、核心指标、dev-frozen constrained comparison 和 denominator-aware `cluster_id` bootstrap 代码。真实 Step003 CPU gate 已返回 `STOP_TWO_DATASET_CLAIM`：NYUv2 local coverage 通过，当前冻结 KITTI source 的 local mask/depth oracle coverage 为零，power 因而未运行。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。VKITTI2 固定为 synthetic structured auxiliary set，不能替代 KITTI 成为第二个 inferential dataset。该结果只判定当前数据分支不可行，不证明或否定路由算法本身。
+当前已有 training-only split/source/coverage/conditional-detectability audits，以及旧版 OOF stacking、feature firewall、image-weighted scalar metrics、dev point-retention selection 和 `cluster_id` bootstrap 代码。Round6 已冻结 full-crop weighting、cluster-balanced estimand、retention LCB、test-retention stop、seed×cluster inference 和实体级 artifact lineage，但这些修订尚未进入代码。真实 Step003 CPU gate 已返回 `STOP_TWO_DATASET_CLAIM`：NYUv2 local coverage 通过，当前冻结 KITTI source 的 local mask/depth oracle coverage 为零，power 因而未运行。任何前置 Gate 失败都先记录原因和 STOP/ITERATE 决策，不得跳过并直接训练完整方法。VKITTI2 固定为 synthetic structured auxiliary set，不能替代 KITTI 成为第二个 inferential dataset。该结果只判定当前数据分支不可行，不证明或否定路由算法本身。
+
+A800 shared CUDA canary 已通过，说明“剩余显存满足时启动并记录结果”的基础设施可用；它没有运行 D0/D1、router 或真实数据实验。exclusive scheduler 已暂停并保留 PENDING state，只有在科学门禁恢复且用户再次通知后才重启。
 
 ## 当前可运行检查
 

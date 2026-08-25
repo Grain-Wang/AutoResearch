@@ -1,5 +1,13 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-25 paper2 Proof-Carrying SPICE 文献与协议状态（paper2 分支）**
+>
+> - `paper2` 已完成首轮红队文献审计：29 篇高相关工作，14 篇合法公开 PDF 及对应 Markdown；来源和 SHA-256 记录于 `paper2/reference_papers_origin/SOURCES.md`。当前检索范围内未发现同时满足 transistor-level nonlinear transient、任意外部 producer、portable certificate、independent checker、离散 MNA 局部存在唯一性和 time-slab 组合的直接 prior art。
+> - 强重叠来自 DATE 2019/Nakaya 的 DC circuit Krawczyk、validated ODE 的唯一解/enclosure/接口传播、proof-carrying hardware/optimization 的 producer-checker 架构、Rump/Ogita 的 verified sparse algebra 以及 ADMS/OpenVAF。故方向只能评为 `Potentially novel`，不能声称 Krawczyk、time slab、proof-carrying 或 Verilog-A derivative generation 本身新颖。
+> - 收缩后的主线为 **BlockStamp-Cert**：固定 index-1、固定步长 Backward Euler、R/C/L/diode/Level-1 MOS；checker 独立重建 device-local interval stamps，验证不可信 sparse factor hints，并利用块下双对角时间 Jacobian 递推检查 slab Krawczyk 包含。BDF2、Trapezoidal、BSIM 和 Verilog-A interval backend 暂不进入最小门禁。
+> - 完整实验协议位于 `paper2/steps/002_complete_experiment_protocol.md`，依次执行 arithmetic canary、baseline defect、强简单 baseline、最小 BlockStamp、组合/规格、killer baseline/TCB、主实验、消融/鲁棒性和独立 replay。任何确认的 false accept 都立即 STOP Claim S。
+> - 科学状态为 **Research Opportunity PASS / Paper Candidate FAIL-UNVERIFIED**。下一原子动作仅是 Stage 0–2 和最小 BE diode/MOS probe；在 pointwise Krawczyk、dense slab、verified sparse kernel 和 strict rerun 下出现稳定结构性优势前，不得建设通用 Verilog-A 编译器或完整实验矩阵。
+
 > **2026-08-24 Step003 真实可行性门禁最终状态（优先于下方旧内容）**
 >
 > - 当前分支为 `grain_paper1`；数据合同修复提交为 `435240e`。Step003 inferential 组合固定为 NYUv2+KITTI；VKITTI2 只能是 `synthetic_structured_auxiliary_only`，adapter 必须从完整官方解压目录生成 canonical source，不能接受外部挑帧列表。

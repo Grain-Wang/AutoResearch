@@ -1,5 +1,28 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-25 paper2 Round-1 审稿改进状态（最高优先级）**
+>
+> - 已从 `origin/paper2` fast-forward 到 `26fe5f3`，审稿意见为
+>   `paper2/responce_from_reviewer/review_round1.md`；本轮回应与修改位于
+>   `response_round1.md` 及下述文件。
+> - `steps/003_formal_soundness_contract.md` 已把 Claim S 拆为 S-fixed/S-param，冻结统一
+>   参数区间量词、C1/interval-Jacobian、支持拓扑、factor operator 包含链、TCB 条件和
+>   局部离散 non-claims。`steps/006_selective_recovery_contract.md` 规定新 outgoing box
+>   只有被缓存 incoming assumption 包含时才允许复用后缀。
+> - Stage-0 新增 Decimal-directed binary64 区间后端（基本运算、exp/log/sqrt、hex
+>   round-trip）、diode 与受限 Level-1 NMOS interval stamps；跨 MOS 分支 box 返回
+>   `UNKNOWN`。精确/高精度性质测试与 recovery 场景共 `25 passed`，当前观测到 0 次
+>   containment violation；这只是实现 canary，不是完整 soundness 证明。
+> - `numerical_defect_cases.csv` 保留 24 个非篡改弱电导病态 MNA 样例，显示 residual
+>   threshold 可接受而解析 forward error 为 1 V，当前 Gate-1 仅为
+>   `PASS-CANARY / REAL-WORKLOAD-UNVERIFIED`。
+> - 定理级文献闭环认定 S-param、区间初值组合和 verified factor witness 均有直接方法
+>   先例，不能作为核心 novelty。剩余可证伪贡献仅是利用 device stamps 与时间块下双
+>   对角结构的隐式 Krawczyk operator recurrence 及其复杂度/wrapping 优势。
+> - 科学状态仍为 **Research Opportunity / Paper Candidate FAIL-UNVERIFIED**。下一原子
+>   动作是实现完全共享组件的 B2-strong 与小矩阵 BlockStamp recurrence/dense 交叉检查；
+>   killer baseline 下无可归因结构信号则停止 Claim E，不扩 SRAM/Verilog-A/第二 producer。
+
 > **2026-08-25 paper2 Proof-Carrying SPICE 文献与协议状态（paper2 分支）**
 >
 > - `paper2` 已完成首轮红队文献审计：29 篇高相关工作，14 篇合法公开 PDF 及对应 Markdown；来源和 SHA-256 记录于 `paper2/reference_papers_origin/SOURCES.md`。当前检索范围内未发现同时满足 transistor-level nonlinear transient、任意外部 producer、portable certificate、independent checker、离散 MNA 局部存在唯一性和 time-slab 组合的直接 prior art。

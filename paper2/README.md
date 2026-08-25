@@ -21,8 +21,12 @@ integration、proof-carrying computation 和 verified sparse algebra 的强重�
 
 ## 下一步
 
-1. 阅读并冻结[收缩后的研究方向](research/research_direction.md)。
-2. 按[完整实验流程](steps/002_complete_experiment_protocol.md)执行 Stage 0–2。
-3. 实现固定 Backward Euler 的最小 diode/MOS slab canary。
-4. 对比逐点 Krawczyk、dense slab、可靠稀疏内核与严格重跑。
-5. 只有出现稳定结构性优势后才进入完整 Paper Build。
+Round 1 已完成 S-fixed/S-param 形式化收缩、Stage-0 区间算术 canary、diode/Level-1
+MOS 分支 enclosure 测试、selective-recovery 依赖合同和一个病态被动 MNA 缺陷 canary。
+这些结果不证明 BlockStamp soundness 或效率。
+
+1. 实现与主方法共享全部组件的 B2-strong pointwise checker。
+2. 实现小矩阵 BlockStamp recurrence，并与显式 dense operator 逐元素交叉检查。
+3. 运行冻结的 diode/ring-oscillator slab probe 和四级 component ladder。
+4. 若结构性优势不能从稀疏性、器件局部性和时间递推中单独归因，则停止 Claim E。
+5. 只有 killer baseline 下出现稳定信号后才进入完整 Paper Build。

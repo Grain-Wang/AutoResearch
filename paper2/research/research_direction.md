@@ -46,7 +46,8 @@ Producer 可以提供但 checker 完全不信任：
 - 缩放向量和条件性提示；
 - 离散规格 monitor 的候选关键时间点。
 
-错误 hint 只能导致 `REJECT/UNKNOWN` 或额外计算，不能导致错误接受。
+在 checker TCB、输入语义绑定和区间后端正确的前提下，错误 hint 只能通过已验证的
+包含前提影响接受；故障注入只能测试实现，不能证明对任意错误均 sound。
 
 ### 3.2 Trusted checker reconstruction
 
@@ -96,10 +97,12 @@ Producer 与 checker 不共享器件 evaluator、Jacobian、收敛判断或稀�
 
 ## 5. Formal claims under test
 
-### Claim S: sound local discrete root certification
+### Claim S-fixed / S-param: sound local discrete root certification
 
-若 checker 对 slab (S) 返回 `ACCEPT`，则对所有被认证的 incoming interface states，
-声明的 tube 内存在唯一离散根，并且 slab 末状态包含于导出的 outgoing interval。
+`S-fixed` 对一个固定 incoming state 使用普通 Krawczyk 包含证明 tube 内的局部唯一根。
+更强的 `S-param` 必须用 incoming box 上统一的 residual 与 interval Jacobian enclosure，
+证明对每个 incoming state 都存在各自唯一的局部离散根，并由 outgoing box 包含全部末态。
+两者的量词、假设和 checker 义务见 `steps/003_formal_soundness_contract.md`。
 
 ### Claim C: compositional trajectory certification
 
@@ -113,8 +116,9 @@ slab Krawczyk 和独立高精度重算具有更好的检查时间—接受率—
 
 ### Claim R: safe selective recovery
 
-注入 producer 误差或放宽 producer 容差时，所有错误只能导致 checker 拒绝；只重算
-失败 slab 后的总成本低于完整严格重算，并保持最终已接受轨迹的 Claim S/C。
+注入 producer 误差或放宽 producer 容差时，checker 不接受已知错误样本。失败 slab
+重算后，只有新 outgoing enclosure 被下一 slab 的既有 incoming assumption 包含时才可
+复用其证书；否则后缀失效并重新检查。低于完整严格重算的成本仍是待验证假设。
 
 ### Claim P: discrete specification preservation
 
@@ -167,8 +171,11 @@ BLOCKSTAMP-CHECK(netlist, semantics, candidate, certificate):
 
 保守版本：
 
-> We study producer-agnostic certification of fixed-discretization nonlinear MNA
-> trajectories. Unlike prior DC interval verification and validated continuous-time
+> We study certification of fixed-discretization nonlinear MNA trajectories that is
+> independent of the trajectory-generation algorithm provided it satisfies a declared
+> certificate interface. Under a restricted BE/netlist semantics and a correct checker
+> TCB, the checker targets local roots of the discrete equations only.
+> Unlike prior DC interval verification and validated continuous-time
 > integration, the proposed checker reconstructs circuit semantics independently and
 > verifies untrusted sparse witnesses over compositional discrete time slabs.
 

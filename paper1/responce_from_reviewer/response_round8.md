@@ -2,7 +2,7 @@
 
 ## 总体结论
 
-Round 8 指出的首要问题是远端 `paper1` 缺少 Round 7 回应和对应增量。该问题已修复：Round 7/P0 实现提交为 `f88ff65`，本地 Depth Anything 锁定修复为 `04b28d2`，运行时 provenance 增补为 `65a4b3f`，均已推送到既有 `paper1` 分支；没有新建分支，也没有改变远端 `paper2`。历史文件名 `responce_round6.md`、`responce_round7.md` 已分别更正为 `response_round6.md`、`response_round7.md`。
+Round 8 指出的首要问题是远端 `paper1` 缺少 Round 7 回应和对应增量。该问题已修复：Round 7/P0 实现提交为 `f88ff65`，本地 Depth Anything 锁定修复为 `04b28d2`，运行时 provenance 增补为 `65a4b3f`，正式 004-A 结果与停止决定为 `9cd7dea`；这些提交均位于既有 `paper1` 分支。没有新建分支，也没有改变远端 `paper2`。历史文件名 `responce_round6.md`、`responce_round7.md` 已分别更正为 `response_round6.md`、`response_round7.md`。
 
 更重要的是，Round 8 要求的 004-A 已产生决定性负结果。预注册判据要求至少一个 conflict family 的 region AbsRel degradation 95% CI 下界大于 0，同时 semantic-preserving CI 包含 0。前半项满足，但 semantic-preserving 对照为 `0.001156 [0.000579, 0.001777]`，明确不含 0，因此返回 `STOP_H_SENSITIVITY`。我们据此停止 CoVoL，而不是继续训练 D0/D1、router 或选择性报告两个正向冲突族。
 
@@ -10,7 +10,7 @@ Round 8 指出的首要问题是远端 `paper1` 缺少 Round 7 回应和对应�
 
 | Round-8 P0 | 状态 | 可审计产物与结论 |
 | --- | --- | --- |
-| 同步 Round 7 回应和远端提交 | DONE | [`response_round7.md`](response_round7.md)；提交 `f88ff65`、`04b28d2`、`65a4b3f` 已在 `paper1` |
+| 同步 Round 7 回应和远端提交 | DONE | [`response_round7.md`](response_round7.md)；提交 `f88ff65`、`04b28d2`、`65a4b3f`、`9cd7dea` 位于 `paper1` |
 | 冻结 Step003 后范围 | DONE-DESIGN, SUPERSEDED-BY-004-A-STOP | [`015_post_step003_scope_decision.md`](../steps/015_post_step003_scope_decision.md) 选择 `RECOVER_TWO_REAL_DATASETS`；004-A 后该恢复路径不再授权 CoVoL |
 | 审计最多三个第二真实数据集 | BLOCKED-SOURCE-ACCESS | Cityscapes、ScanNet v2、Matterport3D 恰好三个候选均为 `PENDING_SOURCE_ACCESS`，不是 coverage FAIL；见 [`JSON`](../results/covol/second_dataset_candidate_audit.json) 与 [`CSV`](../results/covol/second_dataset_candidate_audit.csv) |
 | 生成 100 图 diagnostic corpus | DONE | 100 图、59 clusters、四族各 300 行，共 1200 local rows；null/global 各 100 行；machine-check 1200/1200 |

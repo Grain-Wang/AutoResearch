@@ -8,7 +8,7 @@
     "canonical_root": "AutoResearch",
     "remote": "https://github.com/Grain-Wang/AutoResearch.git",
     "branch": "paper1",
-    "base_commit": "65a4b3f2d05a6eec6f4562b0b0445f45cec0f81a",
+    "base_commit": "9cd7dea08fe17d69a88ee5b24c2719132b5245e2",
     "default_branch_at_snapshot": "main"
   },
   "codex": {
@@ -28,7 +28,7 @@
     "claim_m": "STOPPED_BY_H_SENSITIVITY_CONTROL"
   },
   "last_verified": {
-    "base_commit": "65a4b3f2d05a6eec6f4562b0b0445f45cec0f81a",
+    "base_commit": "9cd7dea08fe17d69a88ee5b24c2719132b5245e2",
     "pytest": "196 passed combined (tools + paper1 protocol/code QA)",
     "ruff": "passed for repository",
     "black": "passed for tools and paper1",

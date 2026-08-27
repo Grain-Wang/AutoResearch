@@ -2,13 +2,13 @@
 
 > **2026-08-27 Round7/Round8 P0 最终状态（优先于下方全部内容）**
 >
-> - 当前分支为 `paper1`，Round7/Round8 P0 代码与协议提交 `f88ff65`、Depth Anything 本地锁定修复 `04b28d2`、运行时 provenance `65a4b3f` 已推送。Round6/Round7 回应文件名已修正为 `response_round6.md`、`response_round7.md`；历史目录名因既有链接保留。本轮新增 `response_round8.md`。
+> - 当前分支为 `paper1`，Round7/Round8 P0 代码与协议提交 `f88ff65`、Depth Anything 本地锁定修复 `04b28d2`、运行时 provenance `65a4b3f`、正式 004-A 结果与停止决定 `9cd7dea`。Round6/Round7 回应文件名已修正为 `response_round6.md`、`response_round7.md`；历史目录名因既有链接保留。本轮新增 `response_round8.md`。
 > - post-Step003 历史选择为 `RECOVER_TWO_REAL_DATASETS`；Cityscapes、ScanNet v2、Matterport3D 恰好三个候选均为 `PENDING_SOURCE_ACCESS/BLOCKED_SOURCE_ACCESS`，不是 coverage FAIL。但 004-A 已触发更上游科学停止，故不再为 CoVoL 恢复第二数据集。
 > - NYUv2 diagnostic-only corpus 为 100 图、59 clusters、1200 local rows（四族各 300），machine-check 1200/1200；独立规则 parser 100/100，held-out-template text-only macro-F1 0.488，自动 surface-form 1200/1200；人类 naturalness 未评估。
 > - 004-A 已在单张 A800 上完成 100 图/1200 rows、10,000 次 cluster bootstrap。region AbsRel degradation：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。semantic-preserving CI 不含 0，违反预注册控制条件，正式状态为 `STOP_H_SENSITIVITY`。
 > - 逐行 CSV SHA256 为 `a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721`，summary SHA256 为 `e4a304b1e6c2d8db6b1b95a666fe7f9fb88e73c7200addc400aecb10b2ce4659`。summary 锁定 TR2M、Depth Anything、DINOv2、CLIP、NYUv2、代码、协议与运行时；环境为 Python 3.12.13、torch 2.5.0+cu121、CUDA 12.1、A800 80GB。
 > - 科学状态为 **CoVoL STOPPED_BY_H_SENSITIVITY_CONTROL / Claim-F STOPPED / Claim-M STOPPED / Paper Candidate 否**。不能选择性忽略 semantic-preserving 对照，也不能继续 004-B、005、006、007、008、D0/D1 或 router。Q-GeoRoute 仍 PARKED；下一步是重新形成至多五个通过 Research Opportunity Gate 的候选并更新唯一范围锁。
-> - 本轮最终本地 QA 与结果提交哈希将在交付前更新到此块及 `manifest.json`；此前已验证仓库 Ruff、tools/paper1 Black、196 tests 与 `git diff --check`。
+> - 最终本地 QA：仓库 Ruff 通过；tools/paper1 全部 Python 文件 Black 通过；`tools/tests + paper1/tests` 共 196 tests 通过；JSON/CSV 完整性、敏感信息扫描与 `git diff --check` 通过。
 
 > **2026-08-25 Round6 回应与 GPU 排队暂停状态（优先于下方全部内容）**
 >

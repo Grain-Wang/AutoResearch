@@ -2,7 +2,7 @@
 
 ## Status and boundary
 
-`SPECIFIED, ROUND6-REVISION-UNIMPLEMENTED, UNVERIFIED`。本文件是 CoVoL-Depth 的唯一优化目标规范；配置入口为 `configs/covol/baseline_contract.yaml` version 3。方法暂名 **Main-PR**（cross-fitted partial-residual router），不使用 `orthogonalized`、`causal` 或理论风险保证等术语。Round6 冻结的 full-crop weighting、cluster-balanced estimand、retention LCB 与 seed×cluster 合同尚未进入当前 scalar helper/evaluator，因此本文件不能被引用为“训练代码已完成”。
+`SPECIFIED, ROUND7-SCALAR-EVALUATOR-DONE-CODE, TRAINING-UNIMPLEMENTED, UNVERIFIED`。本文件是 CoVoL-Depth 的唯一优化目标规范；配置入口为 `configs/covol/baseline_contract.yaml` version 3。方法暂名 **Main-PR**（cross-fitted partial-residual router），不使用 `orthogonalized`、`causal` 或理论风险保证等术语。full-crop weighting、cluster-balanced estimand、per-seed retention LCB 与 test stop 已进入 scalar helper/evaluator；训练、真实 cache/outcome 和方法结果仍未实现，因此不能引用为“算法已完成”。
 
 TIGER 使用自然语言任务指令在多个冻结异构 VFM 特征之间做 token-level 融合，并用移除专家后的预测变化对齐 routing contribution。Main-PR 不学习任务指令、不融合 VFM feature，也不把 expert-exclusion contribution 当作新颖性；它只解决两个已冻结、同任务 metric-depth 候选之间的局部决策：在预注册 clean utility 下最小化受控 caption 错误的尾部 regret。该边界必须由 Risk-L2D-C、TIGER-style LOO、DeferredSeg、Regression-L2D 与 DR-L2D 对照共同否证。
 
@@ -103,7 +103,7 @@ w_{ir}=\frac{|M_{ir}|}{|M_i|},\qquad
 w_{i0}=1-\sum_r w_{ir}. \tag{7a}
 $$
 
-非 eligible residual mass `w_i0` 始终走 D0，所以其 regret 为 0。因而 `sum_r w_ir` 允许小于 1，且局部路由 regret 与 full-official-crop AbsRel difference 处于同一尺度；不得再用 eligible-region pixels 作分母。当前 `main_pr_objective.image_worst_variant_regret` 仍错误地要求 region 权重和为 1，必须在实现与“50% eligible、局部 regret 0.2、全图 regret 0.1”的单测完成后才能标为 `DONE-CODE`。
+非 eligible residual mass `w_i0` 始终走 D0，所以其 regret 为 0。因而 `sum_r w_ir` 允许小于 1，且局部路由 regret 与 full-official-crop AbsRel difference 处于同一尺度；不得再用 eligible-region pixels 作分母。`main_pr_objective.image_worst_variant_regret` 已实现该合同，并用“50% eligible、局部 regret 0.2、全图 regret 0.1”的单测锁定。
 
 上尾比例 `alpha=0.20` 的 cluster-balanced Rockafellar–Uryasev estimator 为
 
@@ -152,7 +152,7 @@ $$
 
 internal-test 对每个 seed 只评估一次对应 `tau*`，同时报告 retention 点估计与 two-sided 95% cluster CI。任一方法的 test retention 点估计 `<0.80` 时返回 `STOP_TEST_RETENTION_VIOLATION`，不得判 Claim-M PASS。正式风险列名为 `CVaR@Dev-Ret>=0.80` 与 `WorstOf3@Dev-Ret>=0.80`，明确约束是在 dev 上以 LCB 冻结；全曲线 hypervolume 与 image-weighted 指标仅为 secondary sensitivity。
 
-主方法差值使用 10,000 次 paired seed×cluster hierarchical bootstrap：先对三个训练 seeds 等权有放回抽样，再在每个被抽 seed 内对完整 sequence/drive clusters 有放回抽样，左右方法共享全部抽样索引，最后等权汇总 seed 差值。同时逐 seed 报告方向；任一 seed 方向相反时 Claim-M 不通过。
+三个训练 seeds 作为固定重复：每 seed 使用 10,000 次 paired cluster bootstrap，左右方法共享 cluster indices；逐 seed 报告风险差与 cluster CI，跨 seed 只报告三个点估计的 mean±sample SD，不报告 seed-population CI。任一 seed 点方向相反或任一 seed 未满足预注册 cluster-CI 门禁时 Claim-M 不通过。
 
 operating-point artifact 必须绑定 `seed`、raw outcome table、coverage grid、expert cache、metric-spec version、minimum-clean-gain artifact、method config 与 code commit 的实际 SHA256。internal-test evaluator 只能读取并验证该 artifact，不接受手工裸传 `threshold_index`。
 
@@ -173,8 +173,9 @@ for seed in [17, 29, 43]:
         retain only thresholds with one-sided retention LCB >= 0.80
     freeze this seed's tau* = feasible threshold with minimum dev CVaR
     apply tau* once to internal-test; audit retention point and CI
-paired-bootstrap seed x whole sequence/drive clusters
-require per-seed direction agreement and no test-retention STOP
+for each fixed seed, paired-bootstrap whole sequence/drive clusters
+report per-seed CI and cross-seed mean +/- SD; require all directions agree
+require no test-retention STOP
 report cluster-balanced CVaR/WorstOf3 primary; image-weighted/HV secondary
 ```
 

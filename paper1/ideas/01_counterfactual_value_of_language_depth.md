@@ -3,6 +3,7 @@
 ## 当前结论
 
 - **Research Opportunity，不是 Paper Candidate。**
+- **当前范围：`RECOVER_TWO_REAL_DATASETS / STOPPED_CURRENT_DATA_BRANCH`。** 原 `NYUv2 + current frozen KITTI source` 已停止；最多预注册审计 Cityscapes、ScanNet v2、Matterport3D，新的 Step003 authorization PASS 前不启动正式模型实验。
 - **这是仓库唯一主线。** Q-GeoRoute 仅在 Gate-0 否定本方向后启动。
 - 任务限定为：自动图像描述出现局部、可机器验证的语义错误时，在冻结的纯视觉候选 `D0` 与图文候选 `D1` 之间逐区域选择，无收益时回退到 `D0`。
 - “错误语言会损害深度”“长描述/细粒度文本”“冻结视觉骨干+语言校准”“通用 gate”均已被近邻覆盖，不作为贡献。
@@ -14,11 +15,11 @@
 ## 1. 可证伪假设
 
 1. **H-sensitivity（诊断）：** 同一 D1 的 corrupted caption 相对 clean caption 显著退化；可用 TR2M checkpoint，但不证明 fallback 必要。
-2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；正式 local claim 只能在 coverage 通过的 NYUv2/KITTI 上判定。KITTI 失败即停止双数据集 claim；Virtual KITTI 2 只作 synthetic structured auxiliary stress test。
-3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 的 advantage AUROC 和 retention–CVaR hypervolume cluster-CI 下界均 >0；Main-PR 不参与。
-4. **H-method / Claim-M：** dev 只在 clean gain retention ≥80% 的 thresholds 中选最低 CVaR，internal-test 上 Main-PR 相对 Risk-L2D-C、TIGER-style LOO、regression、density-ratio、dense-coherence 与 LOO-uncertainty baselines 的 CVaR/WorstOf3 风险差 cluster-CI 上界均 <0；HV 仅作 secondary。
+2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；原 NYUv2+当前 KITTI source 分支已 STOP，只有新的两个真实数据集 Step003 authorization PASS 后才能判定。Virtual KITTI 2 只作 synthetic structured auxiliary stress test。
+3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 在同一 dev-retention LCB constrained operating point 上的 CVaR/WorstOf3 逐 seed cluster-CI 均通过；Main-PR 不参与，hypervolume 只作 secondary。
+4. **H-method / Claim-M：** 每 seed 在 dev 只从 clean-gain retention one-sided 95% LCB ≥80% 的 thresholds 中选最低 cluster-balanced CVaR；internal-test 上 Main-PR 相对全部 direct killers 的 `CVaR/WorstOf3@Dev-Ret≥0.80` 风险差逐 seed cluster-CI 均同向为负；HV 仅作 secondary。
 
-正式依赖按 `003 → 005 → H-fallback-defect → H-semantic → H-method` 执行。H-sensitivity 可提前诊断，但不能替代公平 D0-relative defect。
+正式依赖按 `015 → second-dataset audit → new Step003 PASS → 005 → H-fallback-defect → H-semantic → H-method` 执行。H-sensitivity 可在 NYUv2 train-only diagnostic corpus 上提前运行，但不能替代公平 D0-relative defect。
 
 ## 2. 最近邻矩阵
 
@@ -167,4 +168,4 @@ heuristic baselines（always-D0/D1、oracle、CLIP、uncertainty、`|D1-D0|`）�
 
 ## 10. 下一步唯一动作
 
-先补齐真实 NYUv2/KITTI adapter、annotation coverage 与 power gate；随后用已实现的 `cache_oof_experts.py` 冻结 stacking plan，再执行 PyTorch 双候选、真实 OOF cache、`004-B → 006 → 007 → 008`。在 Claim-F 和 Claim-M 分别得到证据前，不扩展 Iris/Marigold、不启动 Q-GeoRoute，也不进入 Paper Build。
+执行 [015 post-Step003 scope decision](../steps/015_post_step003_scope_decision.md)：按冻结顺序审计三个真实第二数据集候选并完成当前 KITTI source gap audit；并行只在 NYUv2 official-train 固定 100 图上构建 diagnostic corpus、运行 004-A H-sensitivity。新 Step003 authorization PASS 前，不训练正式 D0/D1/router，不打开 dev/internal-test/official test，不启动 Q-GeoRoute，也不进入 Paper Build。

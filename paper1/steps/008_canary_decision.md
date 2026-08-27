@@ -2,15 +2,15 @@
 
 ## Status
 
-`BLOCKED-BY-STEP003`。本步骤只汇总冻结结果，不允许新增 trial、改阈值或换聚合口径。当前 `STOP_TWO_DATASET_CLAIM` 尚未解除；A800 shared CUDA canary 通过只证明执行环境可用，不能启动或替代本步骤。
+`STOPPED_CURRENT_DATA_BRANCH / BLOCKED-BY-NEW-STEP003-AUTHORIZATION`。本步骤只汇总冻结结果，不允许新增 trial、改阈值或换聚合口径。当前 `NYUv2 + frozen KITTI source` 已停止；新的第二真实数据集尚未通过 dry-run/full-pilot authorization。A800 shared CUDA canary 只证明执行环境可用，不能启动或替代本步骤。
 
 ## Claim-F
 
-证据只来自 Step 006 的固定宽度 `B-direct/C-direct/C-permuted-global/C-permuted-local` controls；Main-PR 不参与。`C-direct−B-direct` 与两类 `C-direct−C-permuted` 的 AUROC 和 policy hypervolume cluster-CI 双门都通过才标为 `SUPPORTED-INTERNAL`；任一失败即 `UNSUPPORTED`。仅 structured errors 通过时必须写成 `SUPPORTED-STRUCTURED-ONLY`。
+证据只来自 Step 006 的固定宽度 `B-direct/C-direct/C-permuted-global/C-permuted-local` controls；Main-PR 不参与。`C-direct−B-direct` 与两类 `C-direct−C-permuted` 的 AUROC 门和 dev-frozen constrained `CVaR/WorstOf3@Dev-LCB-Ret>=0.80` 门都通过才标为 `SUPPORTED-INTERNAL`；hypervolume 仅为 secondary。任一主门失败即 `UNSUPPORTED`。仅 structured errors 通过时必须写成 `SUPPORTED-STRUCTURED-ONLY`。
 
 ## Claim-M
 
-正式 local datasets 由 Step 003 coverage JSON 内 hash-linked 的 `claim_dataset_decision` 唯一冻结，且只能是 NYUv2+KITTI；power 与结果表都必须保存其 SHA256 和 dataset role。KITTI 失败即停止双数据集 Claim-M，VKITTI2 固定为 synthetic structured auxiliary set，不得在结果出现后择优替代。
+正式 local datasets 由新的 Step003 authorization 和其 hash-linked coverage JSON 唯一冻结，必须包含 NYUv2 与 `015` 预注册顺序中首个通过的真实候选；当前 frozen KITTI source 不在授权数据集中。power 与结果表都必须保存 SHA256 和 dataset role。VKITTI2 固定为 synthetic structured auxiliary set，不得在结果出现后择优替代。
 
 证据来自 Main 与全部 direct killer baselines：
 
@@ -18,7 +18,7 @@
 - 每个 seed 在 dev 上对 21 个 thresholds 运行 10,000 次 cluster bootstrap；只在 one-sided 95% clean-gain retention LCB ≥80% 的 thresholds 中选择 cluster-balanced CVaR 最低者，并冻结该 threshold；
 - 相对 always-D1 worst-of-3 regret 降低 ≥50%；
 - internal-test 上先报告冻结 threshold 的 retention 点估计与 two-sided 95% cluster CI；Main-PR 点估计 `<0.80` 时返回 `STOP_TEST_RETENTION_VIOLATION`，不继续判 Claim-M PASS；
-- internal-test 上，Main-PR 相对 Risk-L2D-C、TIGER-style LOO、Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D 和 LOO-Uncertainty-Router 的 `CVaR@Dev-Ret≥0.80` 与 `WorstOf3@Dev-Ret≥0.80` 风险差 paired seed×cluster hierarchical CI 上界均 <0，且三个 seeds 的 point direction 一致；
+- internal-test 上，Main-PR 相对 Risk-L2D-C、TIGER-style LOO、Regression-L2D、DR-PostHoc-L2D、Dense-Coherence-L2D 和 LOO-Uncertainty-Router 的 `CVaR@Dev-LCB-Ret≥0.80` 与 `WorstOf3@Dev-LCB-Ret≥0.80` 风险差在三个固定 seed 各自的 paired cluster CI 上界均 <0，且三个 seed 的 point direction 一致；
 - 主表使用 cluster-balanced estimand；image-weighted risk 只能作为 sensitivity；
 - Pareto hypervolume 只作为 secondary sensitivity，不再单独支持 Claim-M；
 - held-out captioner 与 held-out error family 方向一致；
@@ -32,7 +32,7 @@
 
 每个 method×seed 的 operating point 必须由 dev artifact 唯一解析。artifact 至少绑定 raw outcome table、coverage grid、expert cache、metric-spec version、minimum-clean-gain artifact、method config 与 code commit 的实际 SHA256。internal-test evaluator 必须打开并重算这些 hash，拒绝裸 `threshold_index`、跨 seed threshold 或任何不匹配的 outcome table。
 
-主 inference 的独立单位仍是 sequence/drive cluster。hierarchical bootstrap 外层对三个训练 seeds 等权有放回抽样，内层对完整 clusters 有放回抽样；左右方法复用相同 seed 与 cluster 索引。训练 seed 与 bootstrap seed 必须分字段记录。
+主 inference 的独立单位仍是 dataset-specific frozen cluster。三个训练 seed 是固定重复，各自对完整 clusters 做 paired bootstrap，左右方法复用相同 cluster 索引；逐 seed 报告 CI，跨 seed 仅报告 mean±sample SD，不生成 seed-population CI。训练 seed 与 bootstrap seed 必须分字段记录。
 
 ## Natural-error relevance
 

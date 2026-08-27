@@ -5,6 +5,8 @@ from paper1.experiments.covol.bootstrap import (
     PolicyImageOutcome,
     cluster_bootstrap_hypervolume_difference,
     cluster_bootstrap_indices,
+    cluster_bootstrap_retention,
+    summarize_fixed_seed_estimates,
 )
 
 
@@ -19,6 +21,7 @@ def _outcome(
     return PolicyImageOutcome(
         image_id=image_id,
         cluster_id=cluster_id,
+        training_seed=17,
         d0_clean_loss=1.0,
         d1_clean_loss=d1_clean_loss,
         routed_clean_losses=(clean_loss,),
@@ -114,3 +117,40 @@ def test_mixed_clean_gain_replicates_stop_without_crashing() -> None:
     assert result.ci_upper is None
     assert result.invalid_replicates > 0
     assert result.invalid_fraction > 0.05
+
+
+def test_retention_bootstrap_reports_one_sided_cluster_lower_bound() -> None:
+    outcomes = [
+        _outcome("a", "scene-a", clean_loss=0.8, corrupt_loss=1.0),
+        _outcome("b", "scene-b", clean_loss=0.8, corrupt_loss=1.0),
+    ]
+
+    result = cluster_bootstrap_retention(
+        outcomes,
+        threshold_index=0,
+        minimum_clean_gain=0.01,
+        replicates=100,
+        seed=17,
+    )
+
+    assert result.status == "PASS"
+    assert result.estimate == pytest.approx(1.0)
+    assert result.one_sided_lower == pytest.approx(1.0)
+    assert result.training_seed == 17
+
+
+def test_three_training_seeds_are_fixed_repeats_not_bootstrap_population() -> None:
+    result = summarize_fixed_seed_estimates(
+        {17: -0.3, 29: -0.1, 43: -0.2},
+        favorable_direction="negative",
+    )
+
+    assert result.mean == pytest.approx(-0.2)
+    assert result.sample_sd == pytest.approx(0.1)
+    assert result.direction_pass is True
+
+    reversed_seed = summarize_fixed_seed_estimates(
+        {17: -0.3, 29: 0.01, 43: -0.2},
+        favorable_direction="negative",
+    )
+    assert reversed_seed.direction_pass is False

@@ -1,0 +1,25 @@
+{
+  "code_commit": "a45925862bcd76c84ac38c6fc98da1e187f1146e",
+  "code_source": "https://github.com/BeileiCui/TR2M",
+  "depth_anything_checkpoint": {
+    "byte_count": 99219880,
+    "filename": "depth_anything_vits14.pth",
+    "sha256": "59afe57cfd9f4284deaf5b753d954723d7136ae842fba3e068ba03537ca1e60e",
+    "source": "https://github.com/LiheYoung/Depth-Anything"
+  },
+  "paper_source": "https://openaccess.thecvf.com/content/CVPR2026/html/Cui_TR2M_Transferring_Monocular_Relative_Depth_to_Metric_Depth_with_Language_CVPR_2026_paper.html",
+  "pending_dependencies": [
+    "DINOV2_VITL_ENCODER_WEIGHTS",
+    "CLIP_VIT_L14_ENCODER_WEIGHTS",
+    "NYUV2_RUNTIME_SOURCE_VERIFICATION",
+    "FULL_H_SENSITIVITY_EXECUTION"
+  ],
+  "schema_version": "covol-tr2m-release-audit-v1",
+  "scientific_evidence": "RELEASE_AND_FILE_INTEGRITY_ONLY_NO_MODEL_EFFECT",
+  "status": "CORE_WEIGHTS_HASH_LOCKED_RUNNER_READY_EXECUTION_PENDING",
+  "tr2m_checkpoint": {
+    "byte_count": 75854855,
+    "filename": "da_s_vitl_vitl.pth",
+    "sha256": "517790c6ca7ac0e8247bc43ae55c2b4ae8d0b6530156f6dc6b755227cadf5e2c"
+  }
+}

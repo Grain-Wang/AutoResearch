@@ -1,0 +1,28 @@
+{
+  "authorization_scope": "NYUV2_OFFICIAL_TRAIN_DIAGNOSTIC_ONLY",
+  "family_counts": {
+    "depth_relation_conflict": 300,
+    "local_entity_conflict": 300,
+    "semantic_preserving": 300,
+    "target_deletion": 300
+  },
+  "formal_train_dev_test_exclusion": true,
+  "global_output_sha256": "e8fdc15065fce5912a20a7bb3a8cd738cb00ec21b1e314b7ec59c2a415a42fa1",
+  "global_row_count": 100,
+  "independent_precision_status": "PENDING",
+  "local_output_sha256": "d52a80bc34b4d4fea07314f643ff2794b050248fdc66eb02247684ee7053b878",
+  "local_row_count": 1200,
+  "machine_check_pass_count": 1200,
+  "machine_check_pass_rate": 1.0,
+  "null_output_sha256": "afdbf177b34dbd0584c86a490425b09b742525b3ba5405717d7005606b3918af",
+  "null_row_count": 100,
+  "schema_version": "covol-diagnostic-intervention-audit-v1",
+  "scientific_evidence": "CORPUS_CONSTRUCTION_NOT_MODEL_EFFECT",
+  "selected_cluster_count": 59,
+  "selected_cluster_set_sha256": "b518b00c96c4e0ec5fe652b73938ad007205e7433d3f76dd7b2405f7f2b643bb",
+  "selected_image_count": 100,
+  "selected_image_set_sha256": "974f1e8888e75a46ce8b67bf3deb1fcb1b1300df958662280d87f5e22cdb9914",
+  "source_manifest_row_count": 1000,
+  "source_manifest_sha256": "df03c3c8d2a1e1334ec51f8c54f039b7100e721ff9908cb4a059eadc2a92b998",
+  "status": "PENDING_INDEPENDENT_PRECISION_AND_H_SENSITIVITY"
+}

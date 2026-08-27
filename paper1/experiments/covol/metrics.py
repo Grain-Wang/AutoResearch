@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections import Counter
 from collections.abc import Sequence
 from dataclasses import dataclass
 from statistics import fmean
@@ -14,8 +15,9 @@ class NoCleanGainError(ValueError):
 
 @dataclass(frozen=True)
 class Coverage:
-    """Micro and macro coverage over eligible regions."""
+    """Cluster-balanced primary coverage plus sensitivity summaries."""
 
+    cluster_balanced: float
     micro: float
     macro: float
 
@@ -36,6 +38,77 @@ def _finite(values: Sequence[float], *, name: str) -> list[float]:
     if any(not math.isfinite(value) for value in result):
         raise ValueError(f"{name} contains a non-finite value")
     return result
+
+
+def cluster_balanced_weights(cluster_ids: Sequence[str]) -> list[float]:
+    """Give every cluster equal mass and every image equal within-cluster mass."""
+
+    normalized = [str(value).strip() for value in cluster_ids]
+    if not normalized or any(not value for value in normalized):
+        raise ValueError("cluster_ids must contain nonempty strings")
+    counts = Counter(normalized)
+    cluster_count = len(counts)
+    return [1.0 / (cluster_count * counts[value]) for value in normalized]
+
+
+def weighted_mean(values: Sequence[float], weights: Sequence[float]) -> float:
+    """Return a finite weighted mean after normalizing nonnegative weights."""
+
+    normalized_values = _finite(values, name="values")
+    normalized_weights = _finite(weights, name="weights")
+    if len(normalized_values) != len(normalized_weights):
+        raise ValueError("values and weights length mismatch")
+    if any(weight < 0.0 for weight in normalized_weights):
+        raise ValueError("weights must be nonnegative")
+    total = sum(normalized_weights)
+    if total <= 0.0:
+        raise ValueError("weights must have positive total mass")
+    return (
+        sum(
+            value * weight
+            for value, weight in zip(
+                normalized_values,
+                normalized_weights,
+                strict=True,
+            )
+        )
+        / total
+    )
+
+
+def weighted_upper_tail_mean(
+    image_risks: Sequence[float],
+    sample_weights: Sequence[float],
+    *,
+    tail_fraction: float = 0.20,
+) -> float:
+    """Weighted empirical upper-tail CVaR with fractional boundary mass."""
+
+    risks = _finite(image_risks, name="image_risks")
+    weights = _finite(sample_weights, name="sample_weights")
+    if len(risks) != len(weights):
+        raise ValueError("image_risks and sample_weights length mismatch")
+    if any(weight < 0.0 for weight in weights):
+        raise ValueError("sample_weights must be nonnegative")
+    if not 0.0 < tail_fraction <= 1.0:
+        raise ValueError("tail_fraction must be in (0, 1]")
+    total = sum(weights)
+    if total <= 0.0:
+        raise ValueError("sample_weights must have positive total mass")
+    normalized = [weight / total for weight in weights]
+    remaining = tail_fraction
+    tail_sum = 0.0
+    for risk, weight in sorted(
+        zip(risks, normalized, strict=True),
+        key=lambda item: item[0],
+        reverse=True,
+    ):
+        included = min(weight, remaining)
+        tail_sum += included * risk
+        remaining -= included
+        if remaining <= 1e-15:
+            break
+    return tail_sum / tail_fraction
 
 
 def image_regrets(
@@ -61,6 +134,7 @@ def corruption_metrics(
     d0_losses: Sequence[float],
     routed_variant_losses: Sequence[Sequence[float]],
     *,
+    cluster_ids: Sequence[str],
     expected_variants: int = 3,
     tail_fraction: float = 0.20,
 ) -> CorruptionMetrics:
@@ -73,10 +147,17 @@ def corruption_metrics(
     image_mean_regret = [fmean(values) for values in regrets]
     image_worst_regret = [max(values) for values in regrets]
     positive_image_worst = [max(0.0, value) for value in image_worst_regret]
+    if len(cluster_ids) != len(regrets):
+        raise ValueError("cluster_ids and image losses length mismatch")
+    weights = cluster_balanced_weights(cluster_ids)
     return CorruptionMetrics(
-        mean_regret=fmean(image_mean_regret),
-        worst_of_n=fmean(image_worst_regret),
-        cvar=upper_tail_mean(positive_image_worst, tail_fraction=tail_fraction),
+        mean_regret=weighted_mean(image_mean_regret, weights),
+        worst_of_n=weighted_mean(image_worst_regret, weights),
+        cvar=weighted_upper_tail_mean(
+            positive_image_worst,
+            weights,
+            tail_fraction=tail_fraction,
+        ),
     )
 
 
@@ -97,11 +178,15 @@ def upper_tail_mean(
 def coverage(
     selected_d1: Sequence[Sequence[bool]],
     eligible: Sequence[Sequence[bool]],
+    *,
+    cluster_ids: Sequence[str],
 ) -> Coverage:
-    """Compute coverage using eligible regions as the only denominator."""
+    """Compute cluster-balanced primary and micro/macro sensitivity coverage."""
 
     if not selected_d1 or len(selected_d1) != len(eligible):
         raise ValueError("selected_d1 and eligible must have equal nonzero length")
+    if len(cluster_ids) != len(selected_d1):
+        raise ValueError("cluster_ids and image rows length mismatch")
 
     total_selected = 0
     total_eligible = 0
@@ -126,7 +211,9 @@ def coverage(
         total_eligible += eligible_count
         image_coverages.append(selected_count / eligible_count)
 
+    image_weights = cluster_balanced_weights(cluster_ids)
     return Coverage(
+        cluster_balanced=weighted_mean(image_coverages, image_weights),
         micro=total_selected / total_eligible,
         macro=fmean(image_coverages),
     )
@@ -137,6 +224,7 @@ def clean_gain_retention(
     d1_clean_losses: Sequence[float],
     routed_clean_losses: Sequence[float],
     *,
+    cluster_ids: Sequence[str],
     clean_gain_ci_lower: float,
 ) -> float:
     """Return aggregate clean-gain retention or raise STOP_NO_CLEAN_GAIN."""
@@ -146,13 +234,16 @@ def clean_gain_retention(
     routed = _finite(routed_clean_losses, name="routed_clean_losses")
     if len(d0) != len(d1) or len(d0) != len(routed):
         raise ValueError("clean loss arrays must have equal length")
+    if len(cluster_ids) != len(d0):
+        raise ValueError("cluster_ids and clean loss arrays length mismatch")
     if clean_gain_ci_lower <= 0.0:
         raise NoCleanGainError("STOP_NO_CLEAN_GAIN")
 
-    baseline_gain = fmean(d0) - fmean(d1)
+    weights = cluster_balanced_weights(cluster_ids)
+    baseline_gain = weighted_mean(d0, weights) - weighted_mean(d1, weights)
     if baseline_gain <= 0.0:
         raise NoCleanGainError("STOP_NO_CLEAN_GAIN")
-    routed_gain = fmean(d0) - fmean(routed)
+    routed_gain = weighted_mean(d0, weights) - weighted_mean(routed, weights)
     return routed_gain / baseline_gain
 
 

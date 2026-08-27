@@ -23,6 +23,25 @@ def test_objective_matches_reported_worst_complete_variant() -> None:
     assert risk != pytest.approx(2.0)
 
 
+def test_full_crop_residual_mass_stays_on_d0() -> None:
+    risk = image_worst_variant_regret(
+        [1.0],
+        [[1.2], [0.8], [1.1]],
+        region_weights=[0.5],
+    )
+
+    assert risk == pytest.approx(0.1, abs=1e-12)
+
+
+def test_region_weights_cannot_exceed_full_crop_mass() -> None:
+    with pytest.raises(ValueError, match="cannot exceed"):
+        image_worst_variant_regret(
+            [1.0, 1.0],
+            [[1.1, 1.1]],
+            region_weights=[0.6, 0.5],
+        )
+
+
 def test_standard_lagrangian_and_signed_dual_update_are_consistent() -> None:
     multiplier = 0.5
     violating_sequence = []

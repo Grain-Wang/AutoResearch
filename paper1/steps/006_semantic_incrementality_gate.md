@@ -2,7 +2,7 @@
 
 ## Status
 
-`SPECIFIED, BLOCKED-BY-STEP003-AND-FAIR-EXPERT-CACHE`。本步骤先判断 Claim-F，不默认支持主方法。Round6 要求的 extractor callables、seed-aware entity cache 与 hierarchical inference 均未实现；shared CUDA canary 不改变该状态。
+`SPECIFIED, BLOCKED-BY-STEP003-AND-FAIR-EXPERT-CACHE`。本步骤先判断 Claim-F，不默认支持主方法。三类 extractor callables 与 seed-aware entity-cache validator 已完成合成测试；真实 checkpoint/cache、controls 和 outcome 尚不存在。三个 seed 按固定重复而非 seed-population bootstrap 处理；shared CUDA canary 不改变该状态。
 
 ## Frozen inputs
 
@@ -71,7 +71,7 @@ tie 不进入 AUROC/AUPRC 的二元标签，但保留在连续回归、Spearman 
 
 置换必须报告 caption length、全局 image-text similarity 与 target-region grounding 的 paired 差异；前两者标准化差异绝对值必须 `<0.1`，target grounding 必须显著下降。无法构造有效错配的 cluster 不静默保留，必须在 power gate 中处理。Main-PR 不参与 Claim-F 的语义信息判定。
 
-所有模型的最终列必须通过 `features.py`：除 intervention metadata 外，`ground_truth/depth_gt/target/label/advantage/a_p/d0_loss/d1_loss/oracle/test_metric` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和仓库相对 source path；SHA256 必须由本地文件重算。allowlist 中的 `candidate_features`、`caption_region_features` 与 `image_features` 必须是可 import 的真实 callable，且只能接收 `sanitize_feature_inputs` 返回的 mapping；当前文件尚未定义这些 callable，所以 feature firewall 仍是 `PARTIAL-CODE`。
+所有模型的最终列必须通过 `features.py`：除 intervention metadata 外，`ground_truth/depth_gt/target/label/advantage/a_p/d0_loss/d1_loss/oracle/test_metric` 及其 one-hot/embedding 派生列全部禁止。每列记录 source fields、source function、source kind 和仓库相对 source path；SHA256 必须由本地文件重算。allowlist 中的 `candidate_features`、`caption_region_features` 与 `image_features` 已定义为可 import 的真实 callable，只接受 allowlisted/sanitized mapping，额外 GT 字段会硬失败；真实 runtime schema 尚待正式 cache 生成。
 
 ## Threshold calibration and policy utility
 
@@ -80,15 +80,15 @@ tie 不进入 AUROC/AUPRC 的二元标签，但保留在连续回归、Spearman 
 - 每个 seed 只有 one-sided 95% cluster-bootstrap retention LCB `>=0.80` 的 threshold 才可行；
 - internal-test 只应用冻结 thresholds，一次性计算，不重新校准。
 
-除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/两类 C-permuted 使用完全相同的 per-seed threshold 协议与 [metrics spec](metrics_spec.md) 生成 cluster-balanced clean-gain retention–CVaR 曲线。主 CI 使用 paired seed×cluster hierarchical bootstrap，并逐 seed 要求方向一致；image-weighted 曲线只作 sensitivity。
+除 AUROC/AUPRC/Spearman 外，B-direct/C-direct/两类 C-permuted 使用完全相同的 per-seed threshold 协议与 [metrics spec](metrics_spec.md)。每 seed 只在 dev retention LCB 可行集合中冻结最低 CVaR operating point；internal-test 主政策指标为该冻结点的 cluster-balanced `CVaR/WorstOf3@Dev-LCB-Ret>=0.80`，hypervolume 与 image-weighted 曲线仅作 sensitivity。每 seed 分别给 cluster CI，三 seed 只报告 mean±SD 并要求点方向一致。
 
 ## H-semantic decision
 
 Claim-F 仅在以下条件同时满足时通过：
 
-1. internal-test 上 `C-direct−B-direct` AUROC ≥0.03，paired seed×scene/drive-cluster bootstrap 95% CI 下界 >0，且逐 seed 方向一致；
-2. `C-direct−C-permuted-global/local` 的 AUROC 差值 seed×cluster CI 下界均 >0；
-3. C-direct 相对 B-direct 和两类 C-permuted 的 retention–CVaR Pareto hypervolume 差值 seed×cluster CI 下界均 >0；
+1. internal-test 上每 seed 的 `C-direct−B-direct` AUROC ≥0.03，paired scene/drive-cluster bootstrap 95% CI 下界 >0，且三个固定 seed 方向一致；
+2. 每 seed 的 `C-direct−C-permuted-global/local` AUROC 差值 cluster CI 下界均 >0；
+3. C-direct 相对 B-direct 和两类 C-permuted 在各自 dev-frozen constrained operating point 上的 internal-test `CVaR/WorstOf3@Dev-LCB-Ret>=0.80` 风险差 cluster CI 上界均 <0，且无 test-retention STOP；HV 只作 secondary sensitivity，不是通过门；
 4. held-out captioner 和 held-out error family 上方向一致；
 5. 连续 advantage regression/Spearman 不与分类结论矛盾。
 
@@ -111,8 +111,9 @@ for seed in [17, 29, 43]:
     refit final Main using full-train nuisance OOF targets, then full nuisance
     calibrate 21 thresholds on independent dev using retention LCB
     evaluate frozen controls and Main once on internal_test
-paired-bootstrap seed x whole sequence/drive clusters 10,000 times
-apply AUROC and Pareto-hypervolume gates
+for each fixed seed, paired-bootstrap whole sequence/drive clusters 10,000 times
+apply AUROC and dev-frozen constrained-risk gates; report HV only as sensitivity
+report three-seed mean +/- SD and require direction agreement
 ```
 
 ## Expected artifacts

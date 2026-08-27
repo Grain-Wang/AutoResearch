@@ -761,6 +761,7 @@ def _policy_outcomes_from_scores(
             PolicyImageOutcome(
                 image_id=f"simulation-image-{image_index}",
                 cluster_id=f"simulation-cluster-{clusters[image_index]}",
+                training_seed=0,
                 d0_clean_loss=d0_loss,
                 d1_clean_loss=d1_loss,
                 routed_clean_losses=routed_clean_losses,
@@ -963,6 +964,7 @@ def simulate_power_scenario(
         dev_always_d1_cvar = corruption_metrics(
             dev_expert_losses[0],
             dev_expert_losses[2],
+            cluster_ids=[f"simulation-cluster-{value}" for value in dev_clusters],
             expected_variants=3,
         ).cvar
         reference_cvar = fixed_reference_cvar(

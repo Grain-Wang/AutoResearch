@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
+import math
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -57,6 +59,138 @@ ALLOWED_SOURCE_FUNCTIONS = {
     },
 }
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+
+
+def _require_registered_inputs(
+    inputs: Mapping[str, Any],
+    *,
+    source_function: str,
+) -> None:
+    contract = ALLOWED_SOURCE_FUNCTIONS[source_function]
+    unexpected = sorted(set(inputs) - set(contract["source_fields"]))
+    if unexpected:
+        raise ValueError(
+            f"extractor received fields outside its allowlist: {unexpected}"
+        )
+
+
+def _numeric_values(value: Any, *, name: str) -> list[float]:
+    if isinstance(value, bool):
+        return [float(value)]
+    if isinstance(value, (int, float)):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise ValueError(f"{name} contains a non-finite value")
+        return [numeric]
+    if isinstance(value, Mapping):
+        values: list[float] = []
+        for key in sorted(value, key=str):
+            values.extend(_numeric_values(value[key], name=f"{name}.{key}"))
+        return values
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        values = []
+        for index, item in enumerate(value):
+            values.extend(_numeric_values(item, name=f"{name}[{index}]"))
+        return values
+    if hasattr(value, "tolist"):
+        return _numeric_values(value.tolist(), name=name)
+    raise ValueError(f"{name} must contain only numeric values")
+
+
+def _mean(values: Sequence[float]) -> float:
+    if not values:
+        raise ValueError("numeric feature source must not be empty")
+    return sum(values) / len(values)
+
+
+def _norm(values: Sequence[float]) -> float:
+    return math.sqrt(sum(value * value for value in values))
+
+
+def candidate_features(inputs: Mapping[str, Any]) -> dict[str, float]:
+    """Extract deterministic candidate-only depth and uncertainty summaries."""
+
+    function = "paper1.experiments.covol.features.candidate_features"
+    _require_registered_inputs(inputs, source_function=function)
+    features: dict[str, float] = {}
+    flattened: dict[str, list[float]] = {}
+    for field in sorted(inputs):
+        values = _numeric_values(inputs[field], name=field)
+        flattened[field] = values
+        features[f"{field}_mean"] = _mean(values)
+        features[f"{field}_l1_mean"] = _mean([abs(value) for value in values])
+    if "d0_depth" in flattened and "d1_depth" in flattened:
+        d0 = flattened["d0_depth"]
+        d1 = flattened["d1_depth"]
+        if len(d0) != len(d1):
+            raise ValueError("d0_depth and d1_depth must have identical shapes")
+        features["candidate_depth_disagreement_l1"] = _mean(
+            [abs(left - right) for left, right in zip(d0, d1, strict=True)]
+        )
+    return features
+
+
+def caption_region_features(inputs: Mapping[str, Any]) -> dict[str, float]:
+    """Extract caption-content and region-alignment summaries without metadata."""
+
+    function = "paper1.experiments.covol.features.caption_region_features"
+    _require_registered_inputs(inputs, source_function=function)
+    features: dict[str, float] = {}
+    caption = inputs.get("raw_caption")
+    if caption is not None:
+        if not isinstance(caption, str):
+            raise ValueError("raw_caption must be a string")
+        features["caption_token_count"] = float(len(caption.split()))
+        features["caption_character_count"] = float(len(caption))
+    embeddings: dict[str, list[float]] = {}
+    for field in ("caption_embedding", "region_embedding"):
+        if field in inputs:
+            values = _numeric_values(inputs[field], name=field)
+            embeddings[field] = values
+            features[f"{field}_norm"] = _norm(values)
+    if len(embeddings) == 2:
+        left = embeddings["caption_embedding"]
+        right = embeddings["region_embedding"]
+        if len(left) != len(right):
+            raise ValueError("caption and region embeddings must have equal length")
+        denominator = _norm(left) * _norm(right)
+        features["caption_region_cosine"] = (
+            sum(a * b for a, b in zip(left, right, strict=True)) / denominator
+            if denominator > 0.0
+            else 0.0
+        )
+    if "region_mask" in inputs:
+        mask = _numeric_values(inputs["region_mask"], name="region_mask")
+        if any(value < 0.0 or value > 1.0 for value in mask):
+            raise ValueError("region_mask values must be in [0, 1]")
+        features["region_mask_coverage"] = _mean(mask)
+    return features
+
+
+def image_features(inputs: Mapping[str, Any]) -> dict[str, float]:
+    """Extract image-only summaries from pixels, embeddings, or statistics."""
+
+    function = "paper1.experiments.covol.features.image_features"
+    _require_registered_inputs(inputs, source_function=function)
+    features: dict[str, float] = {}
+    for field in ("rgb", "image_embedding"):
+        if field in inputs:
+            values = _numeric_values(inputs[field], name=field)
+            mean = _mean(values)
+            features[f"{field}_mean"] = mean
+            features[f"{field}_std"] = math.sqrt(
+                _mean([(value - mean) ** 2 for value in values])
+            )
+            if field == "image_embedding":
+                features["image_embedding_norm"] = _norm(values)
+    if "image_statistics" in inputs:
+        statistics = inputs["image_statistics"]
+        if not isinstance(statistics, Mapping):
+            raise ValueError("image_statistics must be a numeric mapping")
+        for key in sorted(statistics, key=str):
+            values = _numeric_values(statistics[key], name=f"image_statistics.{key}")
+            features[f"image_stat_{_normalize_name(key)}"] = _mean(values)
+    return features
 
 
 def _normalize_name(value: object) -> str:
@@ -118,6 +252,12 @@ def validate_feature_schema(
             raise ValueError(
                 f"feature {name!r} uses unregistered source_function "
                 f"{source_function!r}"
+            )
+        module_name, function_name = source_function.rsplit(".", maxsplit=1)
+        extractor = getattr(importlib.import_module(module_name), function_name, None)
+        if not callable(extractor):
+            raise ValueError(
+                f"feature {name!r} source_function is not an importable callable"
             )
         if function_contract["source_kind"] != source_kind:
             raise ValueError(

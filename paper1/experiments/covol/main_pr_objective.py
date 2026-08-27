@@ -26,13 +26,10 @@ def image_worst_variant_regret(
     weights = _finite(region_weights, name="region_weights")
     if len(d0) != len(weights):
         raise ValueError("region_weights and d0_region_losses length mismatch")
-    if any(weight < 0.0 for weight in weights) or not math.isclose(
-        sum(weights),
-        1.0,
-        rel_tol=0.0,
-        abs_tol=1e-12,
-    ):
-        raise ValueError("region_weights must be nonnegative and sum to one")
+    if any(weight < 0.0 for weight in weights):
+        raise ValueError("region_weights must be nonnegative")
+    if sum(weights) > 1.0 + 1e-12:
+        raise ValueError("region_weights cannot exceed full-crop mass one")
     variant_regrets: list[float] = []
     for variant_index, raw_variant in enumerate(routed_variant_region_losses):
         variant = _finite(raw_variant, name=f"variant[{variant_index}]")

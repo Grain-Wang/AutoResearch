@@ -1,0 +1,24 @@
+{
+  "audit_method": "INDEPENDENT_RULE_PARSER_STRATIFIED_STABLE_HASH_SAMPLE",
+  "audited_row_count": 100,
+  "audited_row_set_sha256": "d365b9a2899ef59880f10f68be0377a3e4bfc26f7480cee022cae21d03c8821d",
+  "family_audited_counts": {
+    "depth_relation_conflict": 25,
+    "local_entity_conflict": 25,
+    "semantic_preserving": 25,
+    "target_deletion": 25
+  },
+  "family_pass_counts": {
+    "depth_relation_conflict": 25,
+    "local_entity_conflict": 25,
+    "semantic_preserving": 25,
+    "target_deletion": 25
+  },
+  "minimum_precision": 0.95,
+  "naturalness_audit_status": "PENDING_NOT_ESTIMATED_BY_RULE_PARSER",
+  "pass_count": 100,
+  "predicate_precision": 1.0,
+  "schema_version": "covol-diagnostic-independent-audit-v1",
+  "scientific_evidence": "PREDICATE_VALIDITY_ONLY_NOT_CAPTION_NATURALNESS_OR_MODEL_EFFECT",
+  "status": "PASS_PREDICATE_PRECISION_NATURALNESS_PENDING"
+}

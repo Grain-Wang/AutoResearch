@@ -1,0 +1,284 @@
+{
+  "predicate": {
+    "audit_method": "INDEPENDENT_RULE_PARSER_STRATIFIED_STABLE_HASH_SAMPLE",
+    "audited_row_count": 100,
+    "audited_row_set_sha256": "d365b9a2899ef59880f10f68be0377a3e4bfc26f7480cee022cae21d03c8821d",
+    "family_audited_counts": {
+      "depth_relation_conflict": 25,
+      "local_entity_conflict": 25,
+      "semantic_preserving": 25,
+      "target_deletion": 25
+    },
+    "family_pass_counts": {
+      "depth_relation_conflict": 25,
+      "local_entity_conflict": 25,
+      "semantic_preserving": 25,
+      "target_deletion": 25
+    },
+    "minimum_precision": 0.95,
+    "naturalness_audit_status": "PENDING_NOT_ESTIMATED_BY_RULE_PARSER",
+    "pass_count": 100,
+    "predicate_precision": 1.0,
+    "schema_version": "covol-diagnostic-independent-audit-v1",
+    "scientific_evidence": "PREDICATE_VALIDITY_ONLY_NOT_CAPTION_NATURALNESS_OR_MODEL_EFFECT",
+    "status": "PASS_PREDICATE_PRECISION_NATURALNESS_PENDING"
+  },
+  "schema_version": "covol-intervention-validity-v1",
+  "scientific_evidence": "PRE_MODEL_AUTOMATED_VALIDITY_ONLY_NOT_HUMAN_NATURALNESS_OR_MODEL_EFFECT",
+  "status": "PASS_AUTOMATED_VALIDITY_HUMAN_NATURALNESS_UNASSESSED",
+  "surface_form": {
+    "human_naturalness_status": "NOT_ASSESSED",
+    "minimum_pass_rate": 0.99,
+    "pass_count": 1200,
+    "pass_rate": 1.0,
+    "row_count": 1200,
+    "status": "PASS_AUTOMATED_SURFACE_FORM_HUMAN_NATURALNESS_UNASSESSED",
+    "unique_normalized_caption_count": 902,
+    "unique_normalized_caption_rate": 0.7516666666666667
+  },
+  "text_artifact": {
+    "aggregate": {
+      "accuracy": 0.49916666666666665,
+      "confusion": {
+        "depth_relation_conflict->depth_relation_conflict": 0,
+        "depth_relation_conflict->local_entity_conflict": 100,
+        "depth_relation_conflict->semantic_preserving": 200,
+        "depth_relation_conflict->target_deletion": 0,
+        "local_entity_conflict->depth_relation_conflict": 1,
+        "local_entity_conflict->local_entity_conflict": 199,
+        "local_entity_conflict->semantic_preserving": 100,
+        "local_entity_conflict->target_deletion": 0,
+        "semantic_preserving->depth_relation_conflict": 200,
+        "semantic_preserving->local_entity_conflict": 0,
+        "semantic_preserving->semantic_preserving": 100,
+        "semantic_preserving->target_deletion": 0,
+        "target_deletion->depth_relation_conflict": 0,
+        "target_deletion->local_entity_conflict": 0,
+        "target_deletion->semantic_preserving": 0,
+        "target_deletion->target_deletion": 300
+      },
+      "macro_f1": 0.48753875506797045,
+      "per_family": {
+        "depth_relation_conflict": {
+          "f1": 0.0,
+          "false_negative": 300,
+          "false_positive": 201,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        },
+        "local_entity_conflict": {
+          "f1": 0.664440734557596,
+          "false_negative": 101,
+          "false_positive": 100,
+          "precision": 0.6655518394648829,
+          "recall": 0.6633333333333333,
+          "true_positive": 199
+        },
+        "semantic_preserving": {
+          "f1": 0.28571428571428575,
+          "false_negative": 200,
+          "false_positive": 300,
+          "precision": 0.25,
+          "recall": 0.3333333333333333,
+          "true_positive": 100
+        },
+        "target_deletion": {
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 300
+        }
+      }
+    },
+    "folds": [
+      {
+        "accuracy": 0.4975,
+        "confusion": {
+          "depth_relation_conflict->depth_relation_conflict": 0,
+          "depth_relation_conflict->local_entity_conflict": 0,
+          "depth_relation_conflict->semantic_preserving": 100,
+          "depth_relation_conflict->target_deletion": 0,
+          "local_entity_conflict->depth_relation_conflict": 1,
+          "local_entity_conflict->local_entity_conflict": 99,
+          "local_entity_conflict->semantic_preserving": 0,
+          "local_entity_conflict->target_deletion": 0,
+          "semantic_preserving->depth_relation_conflict": 100,
+          "semantic_preserving->local_entity_conflict": 0,
+          "semantic_preserving->semantic_preserving": 0,
+          "semantic_preserving->target_deletion": 0,
+          "target_deletion->depth_relation_conflict": 0,
+          "target_deletion->local_entity_conflict": 0,
+          "target_deletion->semantic_preserving": 0,
+          "target_deletion->target_deletion": 100
+        },
+        "held_out_variant": 0,
+        "macro_f1": 0.49874371859296485,
+        "per_family": {
+          "depth_relation_conflict": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 101,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "local_entity_conflict": {
+            "f1": 0.9949748743718593,
+            "false_negative": 1,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 0.99,
+            "true_positive": 99
+          },
+          "semantic_preserving": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "target_deletion": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "true_positive": 100
+          }
+        },
+        "test_row_count": 400,
+        "training_row_count": 800
+      },
+      {
+        "accuracy": 0.5,
+        "confusion": {
+          "depth_relation_conflict->depth_relation_conflict": 0,
+          "depth_relation_conflict->local_entity_conflict": 100,
+          "depth_relation_conflict->semantic_preserving": 0,
+          "depth_relation_conflict->target_deletion": 0,
+          "local_entity_conflict->depth_relation_conflict": 0,
+          "local_entity_conflict->local_entity_conflict": 0,
+          "local_entity_conflict->semantic_preserving": 100,
+          "local_entity_conflict->target_deletion": 0,
+          "semantic_preserving->depth_relation_conflict": 0,
+          "semantic_preserving->local_entity_conflict": 0,
+          "semantic_preserving->semantic_preserving": 100,
+          "semantic_preserving->target_deletion": 0,
+          "target_deletion->depth_relation_conflict": 0,
+          "target_deletion->local_entity_conflict": 0,
+          "target_deletion->semantic_preserving": 0,
+          "target_deletion->target_deletion": 100
+        },
+        "held_out_variant": 1,
+        "macro_f1": 0.41666666666666663,
+        "per_family": {
+          "depth_relation_conflict": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "local_entity_conflict": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "semantic_preserving": {
+            "f1": 0.6666666666666666,
+            "false_negative": 0,
+            "false_positive": 100,
+            "precision": 0.5,
+            "recall": 1.0,
+            "true_positive": 100
+          },
+          "target_deletion": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "true_positive": 100
+          }
+        },
+        "test_row_count": 400,
+        "training_row_count": 800
+      },
+      {
+        "accuracy": 0.5,
+        "confusion": {
+          "depth_relation_conflict->depth_relation_conflict": 0,
+          "depth_relation_conflict->local_entity_conflict": 0,
+          "depth_relation_conflict->semantic_preserving": 100,
+          "depth_relation_conflict->target_deletion": 0,
+          "local_entity_conflict->depth_relation_conflict": 0,
+          "local_entity_conflict->local_entity_conflict": 100,
+          "local_entity_conflict->semantic_preserving": 0,
+          "local_entity_conflict->target_deletion": 0,
+          "semantic_preserving->depth_relation_conflict": 100,
+          "semantic_preserving->local_entity_conflict": 0,
+          "semantic_preserving->semantic_preserving": 0,
+          "semantic_preserving->target_deletion": 0,
+          "target_deletion->depth_relation_conflict": 0,
+          "target_deletion->local_entity_conflict": 0,
+          "target_deletion->semantic_preserving": 0,
+          "target_deletion->target_deletion": 100
+        },
+        "held_out_variant": 2,
+        "macro_f1": 0.5,
+        "per_family": {
+          "depth_relation_conflict": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "local_entity_conflict": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "true_positive": 100
+          },
+          "semantic_preserving": {
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_positive": 0
+          },
+          "target_deletion": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "true_positive": 100
+          }
+        },
+        "test_row_count": 400,
+        "training_row_count": 800
+      }
+    ],
+    "input_features": "RAW_INTERVENTION_TEXT_ONLY",
+    "maximum_macro_f1": 0.6,
+    "model": "MULTINOMIAL_NB_WORD_UNIGRAM_LAPLACE_1",
+    "row_count": 1200,
+    "schema_version": "covol-text-artifact-control-v1",
+    "scientific_evidence": "TEMPLATE_ARTIFACT_CONTROL_NOT_CAPTION_NATURALNESS_OR_MODEL_EFFECT",
+    "split": "LEAVE_ONE_VARIANT_TEMPLATE_PER_FAMILY_OUT",
+    "status": "PASS_TEXT_ARTIFACT_CONTROL"
+  }
+}

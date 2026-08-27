@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "snapshot_time": "2026-08-25T16:00:23+08:00",
+  "snapshot_time": "2026-08-27T20:00:00+08:00",
   "snapshot_kind": "sanitized_portable_handoff",
   "entrypoint": ".codex/handoff/CURRENT.md",
   "history": ".codex/handoff/TRANSCRIPT.md",
@@ -8,7 +8,7 @@
     "canonical_root": "AutoResearch",
     "remote": "https://github.com/Grain-Wang/AutoResearch.git",
     "branch": "paper1",
-    "base_commit": "54feea1",
+    "base_commit": "16aa4ce99cc5ed838d92b60124c67fe06ac749c9",
     "default_branch_at_snapshot": "main"
   },
   "codex": {
@@ -25,15 +25,15 @@
     "stage": "Research Opportunity",
     "paper_candidate": false,
     "claim_f": "UNVERIFIED",
-    "claim_m": "STOPPED_FOR_CURRENT_TWO_DATASET_BRANCH"
+    "claim_m": "STOPPED_CURRENT_DATA_BRANCH"
   },
   "last_verified": {
-    "base_commit": "54feea1",
-    "pytest": "156 passed combined (tools + paper1 protocol/code QA)",
+    "base_commit": "16aa4ce99cc5ed838d92b60124c67fe06ac749c9",
+    "pytest": "196 passed combined (tools + paper1 protocol/code QA)",
     "ruff": "passed for repository",
     "black": "passed for tools and paper1",
     "git_diff_check": "passed",
-    "scientific_results_generated": false,
+    "scientific_results_generated": "diagnostic corpus, predicate precision, held-out-template artifact and automated surface-form audits only; no model effect",
     "a800_key_only_checks": "2 passed",
     "a800_status_snapshot": "refreshed; mode 0600; sanitized; sha256 77f94bbafb2f841c8b90ebee37a50b0195ea99db38895e8c19ab51b660d86ec6",
     "gpu_canary_queue": "scheduler drained/stopped; shared PASSED attempt 1; exclusive retained PENDING attempt 0"

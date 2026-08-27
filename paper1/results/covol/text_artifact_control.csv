@@ -1,0 +1,4 @@
+held_out_variant,training_row_count,test_row_count,macro_f1,accuracy
+0,800,400,0.49874371859296485,0.4975
+1,800,400,0.41666666666666663,0.5
+2,800,400,0.5,0.5

@@ -5,7 +5,10 @@ from pathlib import Path
 
 import pytest
 from paper1.experiments.covol.features import (
+    candidate_features,
+    caption_region_features,
     feature_schema_payload,
+    image_features,
     sanitize_feature_inputs,
     validate_feature_schema,
 )
@@ -106,3 +109,35 @@ def test_runtime_sanitizer_hides_unrequested_ground_truth_fields() -> None:
     )
 
     assert sanitized == {"d0_depth": [1.0], "d1_depth": [2.0]}
+    assert candidate_features(sanitized) == {
+        "candidate_depth_disagreement_l1": 1.0,
+        "d0_depth_l1_mean": 1.0,
+        "d0_depth_mean": 1.0,
+        "d1_depth_l1_mean": 2.0,
+        "d1_depth_mean": 2.0,
+    }
+
+
+def test_callable_extractors_reject_raw_leakage_and_compute_content_features() -> None:
+    with pytest.raises(ValueError, match="outside its allowlist"):
+        candidate_features({"d0_depth": [1.0], "ground_truth": [1.0]})
+
+    semantic = caption_region_features(
+        {
+            "raw_caption": "chair beside table",
+            "caption_embedding": [1.0, 0.0],
+            "region_embedding": [1.0, 0.0],
+            "region_mask": [1, 0, 1, 0],
+        }
+    )
+    visual = image_features(
+        {
+            "image_embedding": [3.0, 4.0],
+            "image_statistics": {"brightness": 0.4},
+        }
+    )
+
+    assert semantic["caption_region_cosine"] == pytest.approx(1.0)
+    assert semantic["region_mask_coverage"] == pytest.approx(0.5)
+    assert visual["image_embedding_norm"] == pytest.approx(5.0)
+    assert visual["image_stat_brightness"] == pytest.approx(0.4)

@@ -2,7 +2,7 @@
 
 ## Status
 
-`BLOCKED-BY-STEP003, DESIGN-IN-PROGRESS`。现有 stacking plan/cache validator 只能审计 scene-level 计划，尚未满足 Round6 的 sequence/drive-cluster、seed/control/checkpoint 实体绑定合同；PyTorch 双候选、训练和真实 cache 也未完成。当前 `STOP_TWO_DATASET_CLAIM` 下不得启动本步骤，A800 shared CUDA canary 通过不改变该门禁。不再等待 TR2M 训练代码，也不把 TR2M released checkpoint 当正式双候选。
+`BLOCKED-BY-STEP003, ENTITY-CACHE-VALIDATOR-DONE-CODE`。stacking plan 已改用 frozen `cluster_id`，cache 主键已扩展到 `(dataset,image_id,seed,candidate_id,control_type)`；validator 会打开并重算 checkpoint/config/training-manifest/cache 文件哈希，核对 config/cache entity identity 与 checkpoint lineage，并以实际 training manifest 拒绝 prediction-cluster overlap。三 seeds×D0/D1×main/twin/shuffled 的完整合成覆盖与篡改测试已通过。PyTorch 双候选、真实训练/checkpoint/cache 尚未完成；当前正式入口读取 Step003 authorization 并固定 exit 3。A800 shared CUDA canary 不改变门禁。
 
 ## Shared-backbone contract
 
@@ -20,11 +20,11 @@
 
 ## Sequence/drive-cluster OOF stacking contract
 
-- router-train 的 frozen `cluster_id` 固定为 5 folds；NYUv2 的 scene–sequence connected component 与 KITTI drive 不能拆分。第 k 个 D0/D1 只在“全部 official-training clusters 减去 router-dev、internal-test 和 fold-k”上训练，并只预测 fold-k；
+- router-train 的 frozen `cluster_id` 固定为 5 folds；NYUv2 的 scene–sequence connected component 与每个数据集 adapter 定义的物理采集 cluster 不能拆分。第 k 个 D0/D1 只在“全部 official-training clusters 减去 router-dev、internal-test 和 fold-k”上训练，并只预测 fold-k；
 - 另训练 final D0/D1：使用全部 official-training clusters 减去 router-dev/internal-test，只预测 router-dev 和 internal-test；
 - router-train 的 advantage label 只能来自对应 OOF experts；禁止任何 in-sample expert prediction 进入 router、nuisance、tie band 或 threshold；
-- `cache_oof_experts.py` 当前只能生成 `PLANNED_NOT_TRAINED` 的旧 scene-level 计划；它不是 checkpoint 或真实 cache，不得作为本合同已完成的证据；
-- 正式 cache 的主键为 `(dataset,image_id,seed,candidate_id,control_type)`。`seed` 只允许 `17/29/43`；`candidate_id` 至少覆盖 D0/D1；`control_type` 覆盖 formal、image-twin 与 shuffled-caption；
+- `cache_oof_experts.py` 可生成 cluster-level `PLANNED_NOT_TRAINED` v2 计划并审计实体级真实文件；计划本身仍不是 checkpoint 或真实 cache，不得作为模型完成证据；
+- 正式 cache 的主键为 `(dataset,image_id,seed,candidate_id,control_type)`。`seed` 只允许 `17/29/43`；`candidate_id` 覆盖 D0/D1；`control_type` 冻结为 main、twin 与 shuffled；
 - 每行必须记录 `cluster_id`、OOF/final scope、checkpoint path/SHA256、config path/SHA256、expert-training-manifest path/SHA256、code commit、cache path/SHA256。validator 必须打开 repository/remote-workspace 内的实际文件重算 SHA256，不能只检查 JSON 中是否存在 64 位字符串；
 - 每个 router image×seed×required candidate/control 恰有一行，对应 prediction cluster 不在 training cluster set。任一交集、缺行、重复、路径越界、文件缺失或实际 hash 不同均硬失败。
 
@@ -68,7 +68,7 @@ D1 的 predicate-clean caption 缺失率必须为 0；同一 seed/scope/control 
 5. 两 expert 的层名、shape、参数量和 FiLM 位置逐项一致；
 6. 两 expert 输出 shape/mask 一致；
 7. 保存/重载后输出绝对误差 <`1e-6`；
-8. OOF cache 的每个 prediction scene 不在对应 training-scene hash set；
+8. OOF cache 的每个 prediction cluster 不在对应 training-cluster hash set；
 9. manifest 记录 seed、candidate/control identity、checkpoint、训练数据、代码 commit 和配置的实际 SHA256，并由 validator 重算；
 10. 三个 seeds 的 OOF/final formal、twins 与 shuffled-caption 行覆盖完整且无重复。
 
@@ -87,4 +87,4 @@ D1 的 predicate-clean caption 缺失率必须为 0；同一 seed/scope/control 
 - `paper1/artifacts/covol/expert_cache_manifest.json`
 - `paper1/results/covol/expert_negative_controls.csv`
 
-远程 A800 的 shared CUDA canary 已确认 PyTorch/CUDA 执行链可用，但它没有加载真实数据或模型。真实训练、checkpoint、cache 和 negative-control 结果均为 PENDING；exclusive queue 已暂停并保留状态。现有 OOF 代码只锁定旧 scene-level 数据依赖并防止一部分 stacking 泄漏，不能满足本轮新增的实体级审计。
+远程 A800 的 shared CUDA canary 已确认 PyTorch/CUDA 执行链可用，但它没有加载真实数据或模型。真实训练、checkpoint、cache 和 negative-control 结果均为 PENDING；exclusive queue 已暂停并保留状态。当前 OOF v2 代码只证明合同可执行和篡改可拦截，不构成真实 stacking 证据。

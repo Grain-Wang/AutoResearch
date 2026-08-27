@@ -1,0 +1,30 @@
+{
+  "schema_version": "covol-step003-authorization-v1",
+  "scope_choice": "RECOVER_TWO_REAL_DATASETS",
+  "status": "BLOCKED",
+  "decision": "STOPPED_CURRENT_DATA_BRANCH",
+  "blocked_exit_code": 3,
+  "source_coverage": {
+    "path": "paper1/results/covol/annotation_coverage.json",
+    "sha256": "ba2c256b606fb1ce5ea8569a5c31225a1de653c3a5ed1959a5ef5d9aed362fb3"
+  },
+  "formal_claim_datasets": [],
+  "actions": {
+    "second_dataset_audit": true,
+    "kitti_oracle_gap_audit": true,
+    "nyuv2_diagnostic_corpus": true,
+    "nyuv2_h_sensitivity": true,
+    "step004_b": false,
+    "step005": false,
+    "step006": false,
+    "step007": false,
+    "step008": false,
+    "official_test": false
+  },
+  "scientific_status": {
+    "claim_f": "BLOCKED_CURRENT_DATA_BRANCH",
+    "claim_m": "STOPPED_CURRENT_DATA_BRANCH",
+    "paper_candidate": false
+  },
+  "note": "A nonempty local_claim_datasets array in a failed coverage artifact never authorizes formal downstream work."
+}

@@ -1,0 +1,4 @@
+dataset,order,status,source_revision_lock,license_contract,manifest_sha256,sample_size,eligible_images,eligible_pairs,independent_eligible_clusters,projected_full_pilot_eligible_images,projected_full_pilot_eligible_pairs,failure_counts_json
+Cityscapes,1,PENDING_SOURCE_ACCESS,PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD,Cityscapes terms; non-commercial research; account-gated download,,,,,,,,
+ScanNet_v2,2,PENDING_SOURCE_ACCESS,PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD,ScanNet terms; institutional-email request and signed agreement,,,,,,,,
+Matterport3D,3,PENDING_SOURCE_ACCESS,PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD,Matterport3D terms; academic access agreement,,,,,,,,

@@ -23,7 +23,7 @@
 
 | 主张 | 允许的最强表述 | 唯一支持门禁 | 失败动作 |
 | --- | --- | --- | --- |
-| Claim-F（科学） | predicate-clean/错误条件下，原始文本—区域语义具有任务有效的增量预测信息 | 固定宽度同模型/同目标 C-direct−B-direct 与两类 C-direct−C-permuted 的 AUROC/HV cluster-CI 下界均 >0 | 删除语义增量与自然部署外推 |
+| Claim-F（科学） | predicate-clean/错误条件下，原始文本—区域语义具有任务有效的增量预测信息 | 固定宽度同模型/同目标 C-direct−B-direct 与两类 C-direct−C-permuted 在每个固定 seed 的 AUROC 和 dev-frozen constrained-risk cluster-CI 均通过；HV 仅 secondary | 删除语义增量与自然部署外推 |
 | Claim-M（方法） | 固定 clean utility 下的局部尾部 regret 决策优于相同 OOF experts、合法特征和预算的 direct defer 方法 | dev 冻结 retention≥0.80 的最低 CVaR threshold；internal-test 上 Main-PR 相对 Risk-L2D-C、TIGER-style LOO 及 faithful/matched published adaptations 的 CVaR/WorstOf3 风险差 cluster-CI 上界均 <0 | 删除算法贡献；不得用 Claim-F 代替 |
 
 ## 结果出现前允许的主张

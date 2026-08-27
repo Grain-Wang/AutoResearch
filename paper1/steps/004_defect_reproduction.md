@@ -2,7 +2,7 @@
 
 ## Status
 
-`BLOCKED-BY-003-CORPUS-AND-005`。该步骤拆成两个不能混写的假设。NYUv2 coverage PASS 只说明局部 oracle 可用；intervention corpus 尚未构建，因此 004-A 也没有可运行输入。004-B 还额外依赖公平 D0/D1 与实体级 OOF cache。shared CUDA canary 不构成上述任一输入。
+`004-A AUTOMATED-VALIDITY-PASS / PENDING-MODEL-EXECUTION; 004-B BLOCKED`。该步骤拆成两个不能混写的假设。NYUv2 diagnostic 已有 100 图、59 clusters、1200 local rows且 machine-check 100%；独立规则解析器的分层样本为 100/100 predicate pass。held-out-template text-only macro-F1 为 0.488，自动 surface-form 为 1200/1200，但这不估计人类自然度。TR2M core 与 relative-depth checkpoint 已锁定哈希，可续跑 batch runner 已实现；DINOv2/CLIP 的运行时哈希和实际 004-A 执行仍待完成，因此还没有 H-sensitivity 结果。004-B 额外依赖新的两真实数据集 authorization、公平 D0/D1 与真实实体级 OOF cache。shared CUDA canary 不构成上述任一输入。
 
 ## 004-A H-sensitivity
 
@@ -13,11 +13,11 @@
 - 只证明 caption sensitivity，不证明 fallback necessity；
 - 结果必须标注 `diagnostic-only`，不得写成 `D1 vs D0` regret。
 
-003 的 NYUv2 intervention corpus 与 predicate-clean/corrupted captions 就绪后才可运行本项；若正式范围仍未缩窄，结果只能标为单数据集 diagnostic。
+当前 diagnostic predicate-clean/corrupted captions、predicate precision、held-out-template text artifact control 和自动 surface-form audit 已就绪；released core checkpoint 和 Depth Anything ViT-S checkpoint 的 revision、字节数与 SHA256 见 [`tr2m_release_audit.json`](../results/covol/tr2m_release_audit.json)。runner 每完成一图原子写入 12 行、只接受完整且与 frozen corpus identity 一致的续跑 CSV，并在结束时锁定 CLIP/DINO 权重哈希。结果只能标为 NYUv2 training-only diagnostic。
 
 ## 004-B H-fallback-defect
 
-数据集组合先读取 `dataset_fallback_decision.yaml`：只有 NYUv2 与 KITTI coverage 都通过时才进入正式双数据集缺陷复现。KITTI local coverage 失败时返回 `STOP_TWO_DATASET_CLAIM`；VKITTI2 只作 synthetic structured auxiliary analysis，不能替代 KITTI。
+数据集组合必须读取新的 Step003 authorization：只有 NYUv2 与 `015` 顺序中首个真实候选 full-pilot coverage 都通过时才进入正式双数据集缺陷复现。当前 frozen KITTI source 已停止；VKITTI2 只作 synthetic structured auxiliary analysis，不能替代真实候选。
 
 问题：corrupted `D1` 是否比独立训练、冻结且公平的 `D0` 更差？
 
@@ -34,7 +34,7 @@ $$
 
 缺任一项时脚本必须输出 `BLOCKED_MISSING_FAIR_EXPERT` 并退出非零。
 
-H-fallback-defect 仅当至少一个局部错误族在冻结的 NYUv2+KITTI 两个 internal-test 数据集上，其 cluster-mean regret 95% CI 下界均大于 0 才通过。VKITTI2、null_diagnostic 和 global swap 不进入该门禁。
+H-fallback-defect 仅当至少一个局部错误族在新 authorization 冻结的两个真实 internal-test 数据集上，其 cluster-mean regret 95% CI 下界均大于 0 才通过。VKITTI2、null_diagnostic 和 global swap 不进入该门禁。
 
 ## Natural error motivation audit
 

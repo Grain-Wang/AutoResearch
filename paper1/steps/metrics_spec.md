@@ -2,7 +2,7 @@
 
 ## Status and implementation
 
-`ROUND6-SPEC-FROZEN, CODE-REVISION-PENDING`。已有 image-weighted 标量公式实现位于 `metrics.py` 与 `bootstrap.py`，NYUv2 official crop/valid-depth adapter 位于 `build_nyuv2_source_manifest.py`；但 Round6 冻结的 full-crop local-risk weighting、cluster-balanced primary estimand、retention LCB、test-retention stop 和 seed×cluster inference 尚未实现。因此指标层不能继续整体标为 `DONE-CODE`，真实 AUROC、CI 和结果表也均不存在。
+`ROUND7-STATISTICAL-HELPERS-DONE-CODE, FORMAL RESULTS BLOCKED`。`main_pr_objective.py`、`metrics.py`、`bootstrap.py` 与 `constrained_evaluation.py` 已实现 full-crop local-risk weighting、cluster-balanced primary estimand、weighted CVaR、per-seed retention LCB、test-retention stop 和 lineage-bound operating-point artifact，并有手算/合成回归测试。三个训练 seed 现按固定重复解释，不做 seed-population bootstrap。训练器、真实 outcome table、AUROC、CI 和正式结果表仍不存在，因此该状态不是科学结果完成。
 
 ## Input shapes and statistical unit
 
@@ -128,7 +128,7 @@ hypervolume 只计算 reference point 内非支配矩形的并集。加入/删�
 
 每个 denominator `<=delta_clean` 的 replicate 记为 invalid，不能静默删除或使整次 bootstrap 抛异常。invalid 比例超过 5% 时不生成 CI，并返回 `STOP_UNSTABLE_CLEAN_GAIN`；否则同时报告 valid/invalid replicate 数与比例。
 
-三训练 seeds 的主差值使用 paired seed×cluster hierarchical bootstrap：外层对 seeds `17/29/43` 等权有放回抽样，内层在每个被抽 seed 中对完整 clusters 有放回抽样，左右方法共享所有索引；同时逐 seed 报告差值并要求方向一致。实现仍待加入 `bootstrap.py`。禁止只对最终 Pareto points 做近似重采样，也禁止用 image/patch 数替代独立 cluster 数。
+三个训练 seeds `17/29/43` 是预注册的固定重复，不代表从训练随机性总体抽出的充分样本。每 seed 独立训练、冻结 threshold，并分别运行 paired cluster bootstrap；结果表逐 seed 报告点差值与 cluster CI，再报告三个点估计的 mean±sample SD。主结论要求三 seed 点方向一致且每个 seed 各自满足预注册 cluster-CI 门禁，不生成或解释 seed-population CI。若未来把训练 seed 扩到至少 5 个，必须在读取结果前另行冻结 seed-level inference。禁止只对最终 Pareto points 做近似重采样，也禁止用 image/patch 数替代独立 cluster 数。
 
 ## Hand-calculated cases
 
@@ -138,4 +138,4 @@ hypervolume 只计算 reference point 内非支配矩形的并集。加入/删�
 4. 两个数值相同但 scene 不同的样本：方法 L 的 `retention=1,CVaR=0`，方法 R 的 `retention=0.5,CVaR=0.2`，reference `(0,1)`；每次 cluster bootstrap 的 HV 差均为 0.6。
 5. eligible region 覆盖 full official crop 的 50%，该 region 的 routed-minus-D0 loss 为 0.2，其余像素固定走 D0，则 full-image regret 必须为 0.1，而不是 0.2。
 
-现有单元测试覆盖 dominated points、duplicate retention、候选集合不改变 reference、cluster 成员共同重采样和 replicate 内指标重算；它们尚未覆盖本轮新增的第 5 项、weighted CVaR、retention LCB、test-retention stop 或 seed×cluster bootstrap。正式 metrics regression 使用绝对误差 `<1e-8`。
+现有单元测试覆盖 dominated points、duplicate retention、候选集合不改变 reference、full-crop 50% weighting、cluster-size imbalance、weighted CVaR fractional boundary、cluster 成员共同重采样、replicate 内指标重算、retention LCB 和 test-retention stop。固定三 seed 不做 hierarchical bootstrap；正式 metrics regression 使用绝对误差 `<1e-8`。

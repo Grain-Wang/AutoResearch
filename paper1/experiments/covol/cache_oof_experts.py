@@ -1,4 +1,4 @@
-"""Plan and audit scene-group out-of-fold expert stacking caches."""
+"""Plan and audit cluster-OOF expert caches with entity-level file lineage."""
 
 from __future__ import annotations
 
@@ -6,11 +6,21 @@ import argparse
 import hashlib
 import json
 from collections import defaultdict
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+try:
+    from paper1.experiments.covol.step003_authorization import (
+        require_action_authorized,
+    )
+except ModuleNotFoundError:  # Direct script consumers in this directory.
+    from step003_authorization import require_action_authorized  # type: ignore
+
 ROUTER_SPLITS = frozenset({"train", "dev", "internal_test"})
+FORMAL_TRAINING_SEEDS = (17, 29, 43)
+FORMAL_CANDIDATE_IDS = ("D0", "D1")
+FORMAL_CONTROL_TYPES = ("main", "twin", "shuffled")
 
 
 def _stable_hash(*parts: object) -> str:
@@ -18,8 +28,16 @@ def _stable_hash(*parts: object) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def _scene_hash(dataset: str, scene_id: str) -> str:
-    return _stable_hash("scene", dataset, scene_id)
+def _cluster_hash(dataset: str, cluster_id: str) -> str:
+    return _stable_hash("cluster", dataset, cluster_id)
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -40,28 +58,35 @@ def _router_records(
 ) -> list[dict[str, str]]:
     normalized: list[dict[str, str]] = []
     seen_images: set[tuple[str, str]] = set()
-    scene_splits: dict[tuple[str, str], str] = {}
-
+    cluster_splits: dict[tuple[str, str], str] = {}
     for index, record in enumerate(records):
         dataset = str(record.get("dataset", "")).strip()
         image_id = str(record.get("image_id", "")).strip()
         scene_id = str(record.get("scene_id", "")).strip()
+        cluster_id = str(record.get("cluster_id", scene_id)).strip()
         split = str(record.get("split", "")).strip()
-        if not dataset or not image_id or not scene_id or split not in ROUTER_SPLITS:
+        if (
+            not dataset
+            or not image_id
+            or not scene_id
+            or not cluster_id
+            or split not in ROUTER_SPLITS
+        ):
             raise ValueError(f"router record {index} has invalid required fields")
         image_key = (dataset, image_id)
         if image_key in seen_images:
             raise ValueError(f"duplicate router image: {image_key}")
-        scene_key = (dataset, scene_id)
-        prior_split = scene_splits.setdefault(scene_key, split)
+        cluster_key = (dataset, cluster_id)
+        prior_split = cluster_splits.setdefault(cluster_key, split)
         if prior_split != split:
-            raise ValueError(f"router scene crosses splits: {scene_key}")
+            raise ValueError(f"router cluster crosses splits: {cluster_key}")
         seen_images.add(image_key)
         normalized.append(
             {
                 "dataset": dataset,
                 "image_id": image_id,
                 "scene_id": scene_id,
+                "cluster_id": cluster_id,
                 "split": split,
             }
         )
@@ -70,20 +95,21 @@ def _router_records(
     return normalized
 
 
-def _official_training_scenes(
+def _official_training_clusters(
     records: Iterable[Mapping[str, Any]],
 ) -> dict[str, set[str]]:
-    scenes: dict[str, set[str]] = defaultdict(set)
+    clusters: dict[str, set[str]] = defaultdict(set)
     for index, record in enumerate(records):
         dataset = str(record.get("dataset", "")).strip()
         scene_id = str(record.get("scene_id", "")).strip()
+        cluster_id = str(record.get("cluster_id", scene_id)).strip()
         official_split = str(record.get("official_split", "")).strip()
-        if not dataset or not scene_id or official_split != "train":
+        if not dataset or not cluster_id or official_split != "train":
             raise ValueError(f"official training record {index} is invalid")
-        scenes[dataset].add(scene_id)
-    if not scenes:
+        clusters[dataset].add(cluster_id)
+    if not clusters:
         raise ValueError("official training manifest must not be empty")
-    return scenes
+    return clusters
 
 
 def _hash_set(values: Iterable[str]) -> str:
@@ -108,12 +134,12 @@ def build_stacking_plan(
     n_folds: int = 5,
     seed: int = 20260821,
 ) -> dict[str, Any]:
-    """Build expert-train and prediction scopes for leakage-free stacking."""
+    """Build cluster-disjoint OOF and final expert prediction scopes."""
 
     if n_folds < 2:
         raise ValueError("n_folds must be at least 2")
     router = _router_records(router_manifest)
-    official_scenes = _official_training_scenes(official_training_manifest)
+    official_clusters = _official_training_clusters(official_training_manifest)
     by_dataset: dict[str, list[dict[str, str]]] = defaultdict(list)
     for record in router:
         by_dataset[record["dataset"]].append(record)
@@ -121,84 +147,89 @@ def build_stacking_plan(
     experts: list[dict[str, Any]] = []
     predictions: list[dict[str, Any]] = []
     for dataset in sorted(by_dataset):
-        if dataset not in official_scenes:
-            raise ValueError(f"{dataset}: no official training scenes")
+        if dataset not in official_clusters:
+            raise ValueError(f"{dataset}: no official training clusters")
         records = by_dataset[dataset]
-        split_scenes = {
+        split_clusters = {
             split: {
-                record["scene_id"] for record in records if record["split"] == split
+                record["cluster_id"] for record in records if record["split"] == split
             }
             for split in ROUTER_SPLITS
         }
-        router_scenes = set().union(*split_scenes.values())
-        missing = router_scenes - official_scenes[dataset]
+        router_clusters = set().union(*split_clusters.values())
+        missing = router_clusters - official_clusters[dataset]
         if missing:
             raise ValueError(
-                f"{dataset}: router scenes absent from official training pool"
+                f"{dataset}: router clusters absent from official training pool"
             )
-        train_scenes = split_scenes["train"]
-        if len(train_scenes) < n_folds:
+        train_clusters = split_clusters["train"]
+        if len(train_clusters) < n_folds:
             raise ValueError(
-                f"{dataset}: {len(train_scenes)} train scenes cannot fill "
+                f"{dataset}: {len(train_clusters)} train clusters cannot fill "
                 f"{n_folds} folds"
             )
-        forbidden_final = split_scenes["dev"] | split_scenes["internal_test"]
-        available_training = official_scenes[dataset] - forbidden_final
-        ordered_train_scenes = sorted(
-            train_scenes,
-            key=lambda scene: _stable_hash(dataset, seed, "oof-fold", scene),
+        forbidden_final = split_clusters["dev"] | split_clusters["internal_test"]
+        available_training = official_clusters[dataset] - forbidden_final
+        ordered_train_clusters = sorted(
+            train_clusters,
+            key=lambda cluster: _stable_hash(dataset, seed, "oof-fold", cluster),
         )
-        fold_scenes = {
-            fold: set(ordered_train_scenes[fold::n_folds]) for fold in range(n_folds)
+        fold_clusters = {
+            fold: set(ordered_train_clusters[fold::n_folds]) for fold in range(n_folds)
         }
 
         for fold in range(n_folds):
-            prediction_scenes = fold_scenes[fold]
-            training_scenes = available_training - prediction_scenes
+            prediction_clusters = fold_clusters[fold]
+            training_clusters = available_training - prediction_clusters
             expert_id = f"{dataset}:oof:{fold}"
+            training_hashes = sorted(
+                _cluster_hash(dataset, cluster) for cluster in training_clusters
+            )
             experts.append(
                 {
                     "dataset": dataset,
                     "expert_id": expert_id,
                     "prediction_scope": "oof",
                     "fold": fold,
-                    "training_scene_hashes": sorted(
-                        _scene_hash(dataset, scene) for scene in training_scenes
+                    "training_cluster_ids": sorted(training_clusters),
+                    "training_cluster_hashes": training_hashes,
+                    "training_cluster_set_sha256": _hash_set(training_hashes),
+                    "prediction_cluster_hashes": sorted(
+                        _cluster_hash(dataset, cluster)
+                        for cluster in prediction_clusters
                     ),
-                    "training_scene_set_sha256": _hash_set(
-                        _scene_hash(dataset, scene) for scene in training_scenes
-                    ),
-                    "prediction_scene_hashes": sorted(
-                        _scene_hash(dataset, scene) for scene in prediction_scenes
-                    ),
+                    "prediction_cluster_ids": sorted(prediction_clusters),
                 }
             )
 
         final_expert_id = f"{dataset}:final"
+        final_training_hashes = sorted(
+            _cluster_hash(dataset, cluster) for cluster in available_training
+        )
         experts.append(
             {
                 "dataset": dataset,
                 "expert_id": final_expert_id,
                 "prediction_scope": "final",
                 "fold": None,
-                "training_scene_hashes": sorted(
-                    _scene_hash(dataset, scene) for scene in available_training
+                "training_cluster_ids": sorted(available_training),
+                "training_cluster_hashes": final_training_hashes,
+                "training_cluster_set_sha256": _hash_set(final_training_hashes),
+                "prediction_cluster_hashes": sorted(
+                    _cluster_hash(dataset, cluster) for cluster in forbidden_final
                 ),
-                "training_scene_set_sha256": _hash_set(
-                    _scene_hash(dataset, scene) for scene in available_training
-                ),
-                "prediction_scene_hashes": sorted(
-                    _scene_hash(dataset, scene) for scene in forbidden_final
-                ),
+                "prediction_cluster_ids": sorted(forbidden_final),
             }
         )
 
-        scene_to_fold = {
-            scene: fold for fold, scenes in fold_scenes.items() for scene in scenes
+        cluster_to_fold = {
+            cluster: fold
+            for fold, clusters in fold_clusters.items()
+            for cluster in clusters
         }
         for record in records:
             if record["split"] == "train":
-                fold = scene_to_fold[record["scene_id"]]
+                fold = cluster_to_fold[record["cluster_id"]]
                 expert_id = f"{dataset}:oof:{fold}"
                 scope = "oof"
             else:
@@ -209,14 +240,14 @@ def build_stacking_plan(
                     **record,
                     "expert_id": expert_id,
                     "prediction_scope": scope,
-                    "scene_hash": _scene_hash(dataset, record["scene_id"]),
+                    "cluster_hash": _cluster_hash(dataset, record["cluster_id"]),
                 }
             )
 
     payload = {
-        "version": 1,
+        "version": 2,
         "status": "PLANNED_NOT_TRAINED",
-        "seed": seed,
+        "fold_assignment_seed": seed,
         "n_folds": n_folds,
         "experts": sorted(experts, key=lambda value: value["expert_id"]),
         "predictions": sorted(
@@ -230,8 +261,10 @@ def build_stacking_plan(
 
 
 def validate_stacking_plan(plan: Mapping[str, Any]) -> None:
-    """Hard-fail on expert/router scene leakage or duplicate predictions."""
+    """Hard-fail on expert/router cluster leakage or duplicate predictions."""
 
+    if plan.get("version") != 2:
+        raise ValueError("stacking plan must use version 2")
     experts_raw = plan.get("experts")
     predictions_raw = plan.get("predictions")
     if not isinstance(experts_raw, list) or not isinstance(predictions_raw, list):
@@ -241,12 +274,24 @@ def validate_stacking_plan(plan: Mapping[str, Any]) -> None:
         expert_id = str(expert.get("expert_id", ""))
         if not expert_id or expert_id in experts:
             raise ValueError("expert IDs must be unique and nonempty")
-        training = set(expert.get("training_scene_hashes", []))
-        prediction = set(expert.get("prediction_scene_hashes", []))
+        training = set(expert.get("training_cluster_hashes", []))
+        prediction = set(expert.get("prediction_cluster_hashes", []))
+        expected_training_hashes = {
+            _cluster_hash(str(expert.get("dataset", "")), str(cluster))
+            for cluster in expert.get("training_cluster_ids", [])
+        }
+        expected_prediction_hashes = {
+            _cluster_hash(str(expert.get("dataset", "")), str(cluster))
+            for cluster in expert.get("prediction_cluster_ids", [])
+        }
+        if training != expected_training_hashes or prediction != (
+            expected_prediction_hashes
+        ):
+            raise ValueError(f"{expert_id}: raw cluster IDs and hashes disagree")
         if training & prediction:
-            raise ValueError(f"{expert_id}: training/prediction scene leakage")
-        if str(expert.get("training_scene_set_sha256", "")) != _hash_set(training):
-            raise ValueError(f"{expert_id}: training scene hash-set mismatch")
+            raise ValueError(f"{expert_id}: training/prediction cluster leakage")
+        if str(expert.get("training_cluster_set_sha256", "")) != _hash_set(training):
+            raise ValueError(f"{expert_id}: training cluster hash-set mismatch")
         experts[expert_id] = expert
 
     seen_images: set[tuple[str, str]] = set()
@@ -260,11 +305,11 @@ def validate_stacking_plan(plan: Mapping[str, Any]) -> None:
         if expert_id not in experts:
             raise ValueError(f"{image_key}: unknown expert {expert_id!r}")
         expert = experts[expert_id]
-        scene_hash = str(prediction.get("scene_hash", ""))
-        if scene_hash in set(expert.get("training_scene_hashes", [])):
-            raise ValueError(f"{image_key}: predicted scene was used for training")
-        if scene_hash not in set(expert.get("prediction_scene_hashes", [])):
-            raise ValueError(f"{image_key}: scene absent from prediction scope")
+        cluster_hash = str(prediction.get("cluster_hash", ""))
+        if cluster_hash in set(expert.get("training_cluster_hashes", [])):
+            raise ValueError(f"{image_key}: predicted cluster was used for training")
+        if cluster_hash not in set(expert.get("prediction_cluster_hashes", [])):
+            raise ValueError(f"{image_key}: cluster absent from prediction scope")
         split = str(prediction.get("split", ""))
         expected_scope = "oof" if split == "train" else "final"
         if prediction.get("prediction_scope") != expected_scope:
@@ -277,41 +322,154 @@ def validate_stacking_plan(plan: Mapping[str, Any]) -> None:
         raise ValueError("plan_sha256 mismatch")
 
 
+def _resolve_bound_file(
+    repository_root: Path,
+    row: Mapping[str, Any],
+    *,
+    prefix: str,
+) -> Path:
+    relative = Path(str(row.get(f"{prefix}_path", "")).strip())
+    if not str(relative) or relative.is_absolute():
+        raise ValueError(f"{prefix}_path must be repository-relative")
+    root = repository_root.resolve(strict=True)
+    resolved = (root / relative).resolve(strict=True)
+    try:
+        resolved.relative_to(root)
+    except ValueError as error:
+        raise ValueError(f"{prefix}_path escapes repository root") from error
+    if not resolved.is_file():
+        raise ValueError(f"missing {prefix} file: {relative}")
+    expected = str(row.get(f"{prefix}_sha256", ""))
+    if _file_sha256(resolved) != expected:
+        raise ValueError(f"{prefix} file SHA256 mismatch")
+    return resolved
+
+
+def _json_object(path: Path, *, name: str) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"{name} file must contain a JSON object")
+    return value
+
+
+def _validate_identity(
+    value: Mapping[str, Any],
+    *,
+    expected: Mapping[str, Any],
+    fields: Sequence[str],
+    name: str,
+) -> None:
+    for field in fields:
+        if value.get(field) != expected.get(field):
+            raise ValueError(f"{name} identity mismatch for {field}")
+
+
 def validate_expert_cache_manifest(
     plan: Mapping[str, Any],
     cache_manifest: Mapping[str, Any],
+    *,
+    repository_root: Path,
+    training_seeds: Sequence[int] = FORMAL_TRAINING_SEEDS,
+    candidate_ids: Sequence[str] = FORMAL_CANDIDATE_IDS,
+    control_types: Sequence[str] = FORMAL_CONTROL_TYPES,
 ) -> None:
-    """Validate actual cache rows against a previously frozen stacking plan."""
+    """Open and hash every entity-level checkpoint/config/cache dependency."""
 
     validate_stacking_plan(plan)
+    if cache_manifest.get("schema_version") != "covol-expert-cache-v2":
+        raise ValueError("cache manifest must use covol-expert-cache-v2")
     if cache_manifest.get("plan_sha256") != plan.get("plan_sha256"):
         raise ValueError("cache manifest references a different stacking plan")
+    code_commit = str(cache_manifest.get("code_commit", ""))
+    if len(code_commit) != 40 or any(
+        char not in "0123456789abcdef" for char in code_commit
+    ):
+        raise ValueError("cache manifest requires a full lowercase code commit")
     rows = cache_manifest.get("predictions")
     if not isinstance(rows, list):
         raise ValueError("cache manifest predictions must be a list")
-    expected = {(row["dataset"], row["image_id"]): row for row in plan["predictions"]}
-    seen: set[tuple[str, str]] = set()
+    planned = {(row["dataset"], row["image_id"]): row for row in plan["predictions"]}
+    expected_keys = {
+        (dataset, image_id, seed, candidate_id, control_type)
+        for dataset, image_id in planned
+        for seed in training_seeds
+        for candidate_id in candidate_ids
+        for control_type in control_types
+    }
+    experts = {row["expert_id"]: row for row in plan["experts"]}
+    seen: set[tuple[str, str, int, str, str]] = set()
+    identity_fields = (
+        "dataset",
+        "seed",
+        "candidate_id",
+        "control_type",
+        "expert_id",
+    )
     for row in rows:
-        key = (str(row.get("dataset", "")), str(row.get("image_id", "")))
-        if key in seen or key not in expected:
-            raise ValueError("cache predictions must match plan exactly once")
-        if row.get("expert_id") != expected[key]["expert_id"]:
-            raise ValueError(f"{key}: cache used an unexpected expert")
-        if row.get("scene_hash") != expected[key]["scene_hash"]:
-            raise ValueError(f"{key}: cache scene hash mismatch")
-        for field in ("d0_cache_sha256", "d1_cache_sha256"):
-            value = str(row.get(field, ""))
-            if len(value) != 64 or any(
-                char not in "0123456789abcdef" for char in value
-            ):
-                raise ValueError(f"{key}: invalid {field}")
+        seed = row.get("seed")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise ValueError("cache seed must be an integer")
+        key = (
+            str(row.get("dataset", "")),
+            str(row.get("image_id", "")),
+            seed,
+            str(row.get("candidate_id", "")),
+            str(row.get("control_type", "")),
+        )
+        if key in seen or key not in expected_keys:
+            raise ValueError("cache entity key is duplicate or outside frozen coverage")
+        prediction = planned[(key[0], key[1])]
+        for field in ("expert_id", "cluster_id", "cluster_hash"):
+            if row.get(field) != prediction.get(field):
+                raise ValueError(f"{key}: cache {field} mismatch")
+
+        checkpoint_path = _resolve_bound_file(repository_root, row, prefix="checkpoint")
+        config_path = _resolve_bound_file(repository_root, row, prefix="config")
+        training_path = _resolve_bound_file(
+            repository_root, row, prefix="training_manifest"
+        )
+        cache_path = _resolve_bound_file(repository_root, row, prefix="cache")
+        config = _json_object(config_path, name="config")
+        _validate_identity(config, expected=row, fields=identity_fields, name="config")
+        if config.get("code_commit") != code_commit:
+            raise ValueError("config code commit mismatch")
+        if config.get("checkpoint_sha256") != _file_sha256(checkpoint_path):
+            raise ValueError("config/checkpoint lineage mismatch")
+        if config.get("training_manifest_sha256") != _file_sha256(training_path):
+            raise ValueError("config/training-manifest lineage mismatch")
+
+        training_rows = _read_jsonl(training_path)
+        training_cluster_hashes = {
+            _cluster_hash(key[0], str(item.get("cluster_id", "")).strip())
+            for item in training_rows
+            if str(item.get("dataset", "")).strip() == key[0]
+            and str(item.get("cluster_id", "")).strip()
+        }
+        expected_training = set(
+            experts[str(row["expert_id"])]["training_cluster_hashes"]
+        )
+        if training_cluster_hashes != expected_training:
+            raise ValueError("training manifest cluster set differs from frozen plan")
+        if str(row["cluster_hash"]) in training_cluster_hashes:
+            raise ValueError("prediction cluster appears in expert training manifest")
+
+        cache = _json_object(cache_path, name="cache")
+        _validate_identity(
+            cache,
+            expected=row,
+            fields=(*identity_fields, "image_id", "cluster_id"),
+            name="cache",
+        )
+        if cache.get("checkpoint_sha256") != _file_sha256(checkpoint_path):
+            raise ValueError("cache/checkpoint lineage mismatch")
         seen.add(key)
-    if seen != set(expected):
-        raise ValueError("cache manifest is missing planned predictions")
+    if seen != expected_keys:
+        raise ValueError("cache manifest is missing frozen entity predictions")
 
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--authorization", type=Path, required=True)
     parser.add_argument("--router-manifest", type=Path, required=True)
     parser.add_argument("--official-training-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -322,6 +480,7 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = _parse_args()
+    require_action_authorized(args.authorization, action="step005")
     plan = build_stacking_plan(
         _read_jsonl(args.router_manifest),
         _read_jsonl(args.official_training_manifest),

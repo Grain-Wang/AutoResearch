@@ -1,0 +1,49 @@
+{
+  "schema_version": "covol-second-dataset-candidates-v1",
+  "frozen_before_method_results": true,
+  "dry_run_sample_size": 50,
+  "projected_full_pilot_size": 500,
+  "minimum_projected_eligible_images": 150,
+  "minimum_projected_eligible_pairs": 300,
+  "minimum_independent_clusters": 20,
+  "minimum_valid_depth_mask_pixels": 32,
+  "selection_rule": "FIRST_PASS_IN_FROZEN_ORDER",
+  "candidates": [
+    {
+      "order": 1,
+      "dataset": "Cityscapes",
+      "domain": "real_outdoor",
+      "cluster_unit": "city",
+      "official_source_url": "https://www.cityscapes-dataset.com/dataset-overview/",
+      "official_tools_url": "https://github.com/mcordts/cityscapesscripts",
+      "source_release": "official fine train annotations plus disparity and camera packages",
+      "license_contract": "Cityscapes terms; non-commercial research; account-gated download",
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "dry_run_manifest": null
+    },
+    {
+      "order": 2,
+      "dataset": "ScanNet_v2",
+      "domain": "real_indoor_rgbd",
+      "cluster_unit": "physical_space_with_rescans_grouped",
+      "official_source_url": "https://www.scan-net.org/ScanNet/",
+      "official_tools_url": "https://github.com/ScanNet/ScanNet",
+      "source_release": "ScanNet v2 official train scans and filtered 2D label projections",
+      "license_contract": "ScanNet terms; institutional-email request and signed agreement",
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "dry_run_manifest": null
+    },
+    {
+      "order": 3,
+      "dataset": "Matterport3D",
+      "domain": "real_indoor_rgbd",
+      "cluster_unit": "building",
+      "official_source_url": "https://github.com/matterport/3d-dataset-tools",
+      "official_tools_url": "https://github.com/matterport/3d-dataset-tools",
+      "source_release": "Matterport3D academic release RGB, depth, and semantic region annotations",
+      "license_contract": "Matterport3D terms; academic access agreement",
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "dry_run_manifest": null
+    }
+  ]
+}

@@ -1,8 +1,19 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-27 Round7/Round8 P0 执行中状态（优先于下方全部内容）**
+>
+> - 当前分支为 `paper1`，已 fast-forward 到包含 Round8 审稿的 `d3528b8`；Round7 回应文件已修正为 `response_round7.md`，Round6 文件已修正为 `response_round6.md`，历史目录名因既有链接暂不改动。本轮 P0 尚未 commit 或 push。
+> - post-Step003 范围已冻结为 `RECOVER_TWO_REAL_DATASETS`。原 `NYUv2 + current frozen KITTI source` 继续为 `STOPPED_CURRENT_DATA_BRANCH`；Cityscapes、ScanNet v2、Matterport3D 恰好三个候选按预登记顺序审计。当前三个候选均为 `PENDING_SOURCE_ACCESS`，总体 `BLOCKED_SOURCE_ACCESS`，不能把缺少协议/下载权限写成 coverage FAIL。
+> - 新增机器授权 artifact 与共享 validator。当前 004-B/005/006/007/008 六类正式动作全部以 `BLOCKED_BY_STEP003`、exit 3 终止；非空 dataset 数组不能绕过失败 source coverage hash、status、decision 与 exact dataset match。
+> - 在已有 Step003 1000-row、official-training manifest 上实际构建 NYUv2 diagnostic-only corpus：稳定选择 100 图、59 clusters，生成 1200 local rows（四族各 300）、null/global 各 100，machine-check 1200/1200。独立规则 parser 为 100/100；held-out-template text-only macro-F1 为 0.488（上限 0.60），自动 surface-form 为 1200/1200；人类 naturalness 未评估。
+> - TR2M 官方代码 revision、released ScaleMap checkpoint 与 Depth Anything ViT-S checkpoint 已锁定文件大小和 SHA256；可续跑 batch runner 已实现并测试，会锁定运行时 DINOv2/CLIP 权重哈希。实际 004-A 尚未执行，没有 `sensitivity_diagnostic.csv` 或 GPU 科学结果。
+> - Round7 的 full-crop residual mass、cluster-balanced estimand、weighted CVaR、dev retention one-sided LCB、test retention stop、固定三 seed 重复、constrained Claim-F point、实体级 OOF/hash validator、operating-point lineage 和三项 feature callable 已进入代码与回归测试。正式 expert cache/model artifact 因门禁阻断而有意不存在。
+> - 当前本地 QA：仓库 Ruff 通过；`tools/` 与 `paper1/` 所有 Python 文件逐文件 Black check 通过；`tools/tests + paper1/tests` 共 196 tests 通过；`git diff --check` 通过。
+> - 科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M STOPPED_CURRENT_DATA_BRANCH**，不是 Paper Candidate。当前最能改变论文判断的动作是完成 NYUv2 training-only 004-A H-sensitivity；若全部局部族无稳定退化，则按预注册规则停止 CoVoL。第二真实数据集只有在责任人合法取得 source 后才继续 dry-run。exclusive queue 仍暂停，不自动恢复。
+
 > **2026-08-25 Round6 回应与 GPU 排队暂停状态（优先于下方全部内容）**
 >
-> - Round6 的正式回应已更新为 `paper1/responce_from_reviewer/responce_round6.md`，`paper1/README.md` 已同步入口。回复逐项区分 `DONE-CODE`、`FROZEN-DESIGN`、`OPEN` 与 `BLOCKED-BY-STEP003`，没有把协议修改写成实现或科学结果。
+> - Round6 的正式回应已更新为 `paper1/responce_from_reviewer/response_round6.md`，`paper1/README.md` 已同步入口。回复逐项区分 `DONE-CODE`、`FROZEN-DESIGN`、`OPEN` 与 `BLOCKED-BY-STEP003`，没有把协议修改写成实现或科学结果。
 > - 统计与实验设计已冻结为：full-official-crop region weights；cluster-balanced 主 estimand；per-seed dev retention one-sided 95% LCB；internal-test retention/CI 与 `STOP_TEST_RETENTION_VIOLATION`；`CVaR/WorstOf3@Dev-Ret>=0.80`；三 seeds `17/29/43` 的 paired seed×cluster hierarchical bootstrap；实体级 OOF/cache/training-manifest 与 operating-point lineage；Main-PR/Risk-L2D-C 仅 target construction 不同的 executable contract。
 > - 上述 Round6 修订尚未进入 scalar objective、constrained evaluator、bootstrap、feature callables、OOF validator、PyTorch D0/D1/router 或 intervention builder。`steps/004/005/006/008` 已改为显式 blocked 状态，指标层改为 `ROUND6-CODE-REVISION-PENDING`。
 > - shared CUDA canary 已在 GPU 2 与 1 个既有 compute process 共存时 `PASSED/attempt=1`；约 47,577 MiB free，PyTorch `2.4.1+cu121` / CUDA 12.1，tensor sum 1024.0，约 2.85 s，peak allocated/reserved 约 0.0044/2.0 MiB。它只验证调度和环境，不是 D0/D1/router 或科学证据。

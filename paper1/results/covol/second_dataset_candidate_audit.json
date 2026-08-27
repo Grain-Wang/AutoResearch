@@ -1,0 +1,32 @@
+{
+  "candidates": [
+    {
+      "dataset": "Cityscapes",
+      "license_contract": "Cityscapes terms; non-commercial research; account-gated download",
+      "order": 1,
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "status": "PENDING_SOURCE_ACCESS"
+    },
+    {
+      "dataset": "ScanNet_v2",
+      "license_contract": "ScanNet terms; institutional-email request and signed agreement",
+      "order": 2,
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "status": "PENDING_SOURCE_ACCESS"
+    },
+    {
+      "dataset": "Matterport3D",
+      "license_contract": "Matterport3D terms; academic access agreement",
+      "order": 3,
+      "source_revision_lock": "PENDING_ARCHIVE_HASH_AFTER_AUTHORIZED_DOWNLOAD",
+      "status": "PENDING_SOURCE_ACCESS"
+    }
+  ],
+  "config_path": "paper1/configs/covol/second_dataset_candidates.yaml",
+  "config_sha256": "587959475e5c9d9fa8513e8b7ea0914a8508bd8066ee6ff30a83bdf39531653b",
+  "decision": "WAIT_FOR_PREREGISTERED_SOURCE_ACCESS",
+  "schema_version": "covol-second-dataset-audit-v1",
+  "scientific_evidence": "SOURCE_AND_COVERAGE_ONLY_NO_MODEL_RESULTS",
+  "selected_candidate": null,
+  "status": "BLOCKED_SOURCE_ACCESS"
+}

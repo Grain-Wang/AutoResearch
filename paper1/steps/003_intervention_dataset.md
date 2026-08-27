@@ -2,7 +2,9 @@
 
 ## Status
 
-`FEASIBILITY-GATE-STOP, CORPUS NOT BUILT`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但冻结的 KITTI RGB source 没有可信 local instance mask/depth oracle，因而 two-dataset gate 返回 `STOP_TWO_DATASET_CLAIM`。调度器按合同阻断 conditional detectability，未生成 power artifact，未启动 Step 005 或 official test。完整 intervention/caption corpus builder 尚未实现，因此整个 Step 003 仍不标为完成。
+`STOPPED_CURRENT_DATA_BRANCH, DIAGNOSTIC CORPUS CONSTRUCTED`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但当前冻结的 KITTI RGB source 未提供满足合同的 local instance-mask/depth oracle，因而旧 two-dataset gate返回 `STOP_TWO_DATASET_CLAIM`。这不证明 KITTI 数据族不可行。post-Step003 范围已选择 `RECOVER_TWO_REAL_DATASETS`；正式 Step005–008 继续阻断，但允许第二数据集/KITTI gap 审计和 NYUv2 official-train diagnostic/004-A。
+
+Round7 diagnostic 从原 1000-row manifest（SHA256 `df03c3b...b998`）的 NYUv2 router-train 部分稳定选择 100 图、59 个 frozen clusters，生成 `4 families × 3 variants × 100 = 1200` 个 local rows；四类各 300，machine-check 1200/1200。null/global 各单独保存 100 行。逐行文件保存在 Git 忽略的 `paper1/data/`，可移植计数与输出哈希见 [`diagnostic_intervention_audit.json`](../results/covol/diagnostic_intervention_audit.json)。独立规则解析器不读取 builder `passed` 字段，按稳定哈希每族抽 25 行并得到 100/100 predicate pass，见 [`diagnostic_independent_audit.json`](../results/covol/diagnostic_independent_audit.json)。该结果仍不估计 caption naturalness；global rows 仍是待跨 cluster 分配的 placeholder，004-A H-sensitivity 也尚未运行。
 
 之后单独运行的 A800 shared CUDA canary 只验证调度器能在剩余显存足够时安全启动极小张量任务并保存结果；它未读取 Step003 数据、未运行 D0/D1 或 router，不能计作 GPU scientific pilot，也不能解除本门禁。exclusive canary 排队已暂停，状态与配置保留。
 
@@ -93,8 +95,8 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 
 - 每数据集至少 150 张图具有 reliable mask 且目标内 ≥32 个 valid-depth pixels；
 - 每数据集至少 300 个实体对满足两个 mask 各 ≥32 valid-depth pixels 且 median-depth gap ≥10%；
-- KITTI 未达门禁时，正式 two-dataset Claim-M 直接返回 `STOP_TWO_DATASET_CLAIM`；KITTI 仅保留 image-level sensitivity，不能由 Virtual KITTI 2 挽救。
-- 分支唯一由 coverage JSON 中 hash-linked 的 `claim_dataset_decision` 决定；`power_analysis.py --coverage-decision ...` 只接受 `[NYUv2,KITTI]`。任何 STOP artifact 都不得启动正式双数据集 detectability。
+- 当前冻结 KITTI source 未达门禁时，旧 two-dataset Claim-M 返回 `STOP_TWO_DATASET_CLAIM`；它只能保留为 source-gap/image-level sensitivity 审计，不能由 Virtual KITTI 2 挽救。
+- 新分支唯一由 Step003 authorization 与 hash-linked coverage JSON 决定。任何 STOP/BLOCKED artifact 都不得启动正式双数据集 detectability；恢复时必须是 NYUv2 加 `015` 冻结顺序中首个 full-pilot PASS 的真实候选。
 - VKITTI2 的天气、视角与双相机渲染全部按基础 `SceneXX` 连成同一 `cluster_id`。官方只有 5 个基础场景，因此它固定为 `synthetic_structured_auxiliary_only`，只能作描述统计、结构化 stress test 和定性分析，不得给跨场景尾部风险或第二数据集 inferential claim。
 - VKITTI2 adapter 不接受外部 frame list；它扫描官方解压目录，要求完整 scene/variation/camera/frame 与 RGB/depth/class/instance/textgt 模态对齐，生成 canonical full-source hash 后才允许固定哈希 pilot selection。
 
@@ -104,7 +106,7 @@ VLM 只可生成表面语言，不可同时充当唯一 correctness judge。
 
 ## Expected artifacts
 
-本轮 feasibility gate 必须生成 source manifest、pilot manifest、split audit 与 coverage；conditional-detectability 只在 coverage PASS 时生成。当前 coverage STOP，故 power artifact 有意不存在。下列 intervention/caption artifacts 属于 gate 通过后的 Step-003 corpus subphase，不在本轮完成范围内：
+feasibility gate 已生成 source manifest、pilot manifest、split audit 与 coverage；conditional-detectability 只在 coverage PASS 时生成。当前 coverage STOP，故 power artifact 有意不存在。diagnostic-only local/null/global rows 已生成但不属于正式 corpus；下列其余正式 intervention/caption artifacts仍待新数据 authorization：
 
 - `paper1/experiments/covol/build_interventions.py`
 - `paper1/experiments/covol/audit_annotation_coverage.py`

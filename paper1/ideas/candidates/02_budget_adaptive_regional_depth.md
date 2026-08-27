@@ -2,8 +2,8 @@
 
 ## 状态
 
-`SELECTED_RESEARCH_OPPORTUNITY / V1_INVALID_METRIC_ALIGNMENT /
-V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。
+`SELECTED_RESEARCH_OPPORTUNITY / GO_ORACLE_ROUTABILITY_UNVERIFIED /
+ROUTER_KILLER_GATE_PENDING / NOT_PAPER_CANDIDATE`。
 
 ## 问题与最近邻缺口
 
@@ -68,11 +68,16 @@ edge、base-depth edge、2021 content-adaptive selection、uncertainty 和 oracl
 
 ## STOP and upgrade
 
-当前只执行 oracle canary。主门禁失败即归档该表述；通过只说明问题和动作空间存在，
+当前已完成 oracle canary。主门禁失败即归档该表述；通过只说明问题和动作空间存在，
 不说明可路由。只有 learned router 在 unseen scans 上恢复大部分 oracle headroom，且
 真实 latency/accuracy Pareto 超过全部 killer，才可能成为 Paper Candidate。
 
 v1 虽生成了原始 gate STOP，但 affine inverse-depth 在 outdoor 产生非正值并触发
 epsilon clipping，故该 STOP 已由 [Step 019](../../steps/019_bar_depth_v1_metric_audit.md)
-判为无效科学结论。v2 只修复为 positive median scale-only metric alignment；所有
-研究门禁与动作定义不变。
+判为无效科学结论。v2 只修复为 positive median scale-only metric alignment，并在
+预定义 `[0.1, 350]m` evaluation range 内计算误差；所有研究门禁与动作定义不变。
+
+v2 的有效结果通过全部 oracle gate：headroom 10.42% [7.03%, 13.15%]，25% budget
+capture 92.72% [88.25%, 97.54%]，primary reduction 9.66%
+[6.59%, 12.36%]。这把方向保留为 Research Opportunity，但不验证 router；下一出口
+见 [Step 021](../../steps/021_bar_depth_oracle_canary_v2_result.md)。

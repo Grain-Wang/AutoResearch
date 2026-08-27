@@ -4,12 +4,12 @@
 
 - CoVoL：`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`。自然 automatic-caption 问题未被 004-A 直接检验。
 - SR-VEP：`PARKED_BEFORE_CANARY / NO_REPOSITORY_SCIENTIFIC_RESULT`。
-- BAR-Depth：`SELECTED_RESEARCH_OPPORTUNITY / V1_INVALID_METRIC_ALIGNMENT / V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。
-- 当前唯一允许的科学动作：保持其余合同不变，运行 positive median scale-only v2 repair canary。
+- BAR-Depth：`SELECTED_RESEARCH_OPPORTUNITY / GO_ORACLE_ROUTABILITY_UNVERIFIED / ROUTER_KILLER_GATE_PENDING / NOT_PAPER_CANDIDATE`。
+- 当前唯一允许的科学动作：同预算 killer heuristics 与 scan-held-out router probe。
 
 | 步骤 | 状态 | 当前证据 | 允许的下一出口 |
 | --- | --- | --- | --- |
-| 001 主线范围 | BAR-DEPTH-ORACLE-CANARY | 用户显式换题；只授权 200 图 oracle canary | DIODE/model provenance |
+| 001 主线范围 | GO-ORACLE / ROUTER-GATE | v2 oracle gate 通过；仍非 Paper Candidate | killer + scan-held-out router |
 | 002 CoVoL 最近邻 | ARCHIVED-HISTORICAL-AUDIT | 原 depth/routing 最近邻保留 | 无 CoVoL 出口 |
 | 003 GT-template 干预数据 | ARCHIVED / HUMAN-NATURALNESS-NOT-ASSESSED | 100 图、59 clusters、1200 rows；machine/parser pass；逐 family artifact 检出 | 无；旧 pending 状态由 closure supersede |
 | 004 GT-template 缺陷 probe | STOP-H-SENSITIVITY | released TR2M；semantic-preserving CI 不含 0 | 无 004-B；只允许重放/审计 |
@@ -26,6 +26,8 @@
 | 017 历史机会门禁 | SUPERSEDED-SELECTION | 当时选择 SR-VEP；未运行即被显式换题取代 | 无并行出口 |
 | 018 BAR-Depth oracle v1 | INVALID-METRIC-ALIGNMENT | 2400 rows；raw gate STOP 被 metric-domain clipping 作废 | 不得解释 GO/STOP |
 | 019 v1 metric audit | DONE / INVALID-V1 | outdoor 157,380 clipped valid pixels；mean AbsRel 766.05 | 只允许 scale-only v2 repair |
+| 020 fixed-range v2 repair | DONE / VALID | 200 图、2400 rows；metric/provenance 合同完整 | 执行冻结 oracle gate |
+| 021 v2 oracle result | GO-ORACLE / ROUTABILITY-UNVERIFIED | headroom 10.42%；capture 92.72%；primary gain 9.66%，scan-CI 全过 | killer + scan-held-out router |
 
 ## CoVoL 执行安全
 
@@ -37,7 +39,8 @@
 
 - 不能把 GT-template 单模型 probe 外推成 automatic-caption 普遍结论。
 - 不能把探索性 difference-in-difference、显著性或 template slice 用来恢复 CoVoL。
-- 不能声称 BAR-Depth oracle headroom、router 可学习性或 latency 增益已成立。
+- 只能按 v2 冻结合同声称 BAR-Depth oracle headroom；不能声称 router 可学习性或
+  latency 增益已成立。
 - 不能称任何当前方向为 Paper Candidate、强 CCF-C 论文或完成的算法贡献。
 
 ## 记录要求

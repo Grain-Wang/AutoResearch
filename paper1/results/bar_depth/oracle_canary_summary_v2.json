@@ -1,0 +1,116 @@
+{
+  "base_metric_depth_range_clipped_pixel_count": 613463,
+  "bindings": {
+    "bootstrap_csv_sha256": "09ba1007c9f43534321ec74d4e369a25013089d1d8dc8a22d919644456dce71a",
+    "config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+    "implementation_canonical_sha256": "988613ac4dc4a35c9ad613f4f7524ff074cf806ff786a1dad68dcefc2b505d93",
+    "manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+    "model_source_revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "model_weights_sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378",
+    "raw_csv_sha256": "77d7b6b638a3663badd8eb724b4a70a9ce6511eeb9f1680494a357dbd05bfe90",
+    "raw_provenance_sha256": "11e6c60a660964736b3962806a8e4ee442ae379bb89c266d91d85906c46a8d1b"
+  },
+  "budget_count": 3,
+  "cluster_bootstrap_95ci": {
+    "base_gradient_capture_at_budget": {
+      "lower": 0.6263598871136017,
+      "upper": 0.8552380058942718
+    },
+    "combined_gradient_capture_at_budget": {
+      "lower": 0.565453465542916,
+      "upper": 0.8488222859667802
+    },
+    "oracle_absrel_relative_degradation": {
+      "lower": -0.13328290776395066,
+      "upper": -0.05511696219084672
+    },
+    "oracle_capture_at_budget": {
+      "lower": 0.8824673288299755,
+      "upper": 0.9754379728014541
+    },
+    "oracle_primary_reduction_ratio": {
+      "lower": 0.06590162700295857,
+      "upper": 0.12362505912625427
+    },
+    "positive_headroom_ratio": {
+      "lower": 0.07034441089840894,
+      "upper": 0.1314827144722616
+    },
+    "rgb_gradient_capture_at_budget": {
+      "lower": 0.3959213086255412,
+      "upper": 0.7374454571959351
+    },
+    "uniform_primary_reduction_ratio": {
+      "lower": 0.04938293563501591,
+      "upper": 0.11933223724048413
+    }
+  },
+  "domain_slices": {
+    "indoors": {
+      "base_gradient_capture_at_budget": 0.7520010520348205,
+      "combined_gradient_capture_at_budget": 0.7955048124907577,
+      "oracle_absrel_relative_degradation": -0.07015876086710082,
+      "oracle_capture_at_budget": 0.9959975064425266,
+      "oracle_primary_reduction_ratio": 0.10321385493818988,
+      "positive_headroom_ratio": 0.1036286278535435,
+      "rgb_gradient_capture_at_budget": 0.5941924802052381,
+      "uniform_primary_reduction_ratio": 0.07600952078901965
+    },
+    "outdoor": {
+      "base_gradient_capture_at_budget": 0.7152499463509384,
+      "combined_gradient_capture_at_budget": 0.6798367486064926,
+      "oracle_absrel_relative_degradation": -0.11747955079604949,
+      "oracle_capture_at_budget": 0.886200116893414,
+      "oracle_primary_reduction_ratio": 0.09262552984189934,
+      "positive_headroom_ratio": 0.10451987996413195,
+      "rgb_gradient_capture_at_budget": 0.5506373414340002,
+      "uniform_primary_reduction_ratio": 0.09579865082789875
+    }
+  },
+  "estimates": {
+    "base_gradient_capture_at_budget": 0.7289700664137158,
+    "combined_gradient_capture_at_budget": 0.7230185711500552,
+    "oracle_absrel_relative_degradation": -0.09716368941028772,
+    "oracle_capture_at_budget": 0.9271902677789703,
+    "oracle_primary_reduction_ratio": 0.09659965683382107,
+    "positive_headroom_ratio": 0.10418536538915563,
+    "rgb_gradient_capture_at_budget": 0.566897579654653,
+    "uniform_primary_reduction_ratio": 0.08837117621610102
+  },
+  "gate": {
+    "all_pass": true,
+    "checks": {
+      "global_absrel_safety": true,
+      "oracle_capture": true,
+      "oracle_primary_reduction": true,
+      "positive_headroom": true
+    },
+    "decision": "GO_ORACLE_ROUTABILITY_UNVERIFIED"
+  },
+  "heuristic_interpretation": "descriptive_only_not_a_trained_router",
+  "metric_definition": {
+    "boundary_weight": 5.0,
+    "metric_alignment": "positive_median_scale",
+    "oracle_selection": "up to three positive primary-utility regions per image",
+    "prediction_depth_range": [
+      0.1,
+      350.0
+    ],
+    "primary": "boundary_weighted_absrel"
+  },
+  "paper_candidate": false,
+  "region_row_count": 2400,
+  "router_claim": "UNVERIFIED",
+  "sample_count": 200,
+  "scan_count": 20,
+  "schema_version": 1,
+  "status": "GO_ORACLE_ROUTABILITY_UNVERIFIED",
+  "thresholds": {
+    "max_oracle_absrel_relative_degradation": 0.01,
+    "min_oracle_capture_at_budget": 0.7,
+    "min_oracle_primary_reduction_ratio": 0.02,
+    "min_positive_headroom_ratio": 0.03,
+    "require_cluster_ci_lower_bounds": true
+  },
+  "timing_interpretation": "shared_gpu_diagnostic_only"
+}

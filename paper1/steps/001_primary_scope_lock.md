@@ -4,17 +4,18 @@
 
 用户于 2026-08-27 明确将唯一研究主线切换为 **BAR-Depth：
 Budget-Adaptive Regional Refinement for High-Resolution Depth**。当前状态是
-`SELECTED_RESEARCH_OPPORTUNITY / V1_INVALID_METRIC_ALIGNMENT /
-V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。
+`SELECTED_RESEARCH_OPPORTUNITY / GO_ORACLE_ROUTABILITY_UNVERIFIED /
+ROUTER_KILLER_GATE_PENDING / NOT_PAPER_CANDIDATE`。
 
 v1 已完成但被 Step 019 判为 `INVALID_METRIC_ALIGNMENT`，因为 unconstrained affine
 inverse depth 在 outdoor 产生非正值后被 epsilon clipping。该输出不是科学 STOP。
-当前状态收紧为 `V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`；只允许在其余合同完全
-不变时改用 positive median scale-only metric alignment 重跑。
+fixed-range v2 已在其余合同不变时完成并通过 oracle gate；有效结果见 Step 021。
+这只恢复 Research Opportunity，当前只允许 killer heuristics 与 scan-held-out router
+probe，不允许把 oracle 当可部署算法或升级 Paper Candidate。
 
-本轮只授权一个 defect canary：在 DIODE validation 的 200 张公开高分辨率
+已完成的首个 defect canary 在 DIODE validation 的 200 张公开高分辨率
 RGB-D 图像上，冻结 Depth Anything V2-S，枚举每张图的 3×4 个区域细化动作，
-判断可改善误差是否足够大且集中到少量区域。该 canary 不训练 router，不声称
+判断可改善误差是否足够大且集中到少量区域。该 canary 未训练 router，不声称
 端到端加速，也不进入完整 Paper Build。
 
 协议、算法差异和停止阈值见
@@ -32,7 +33,7 @@ defect canary、媒体下载或模型训练发生前，被用户的显式方向�
 
 给定高分辨率 RGB 图像、冻结的低分辨率全图深度预测和最多 `B` 次区域细化预算，
 选择区域集合 `S` 并合并局部预测，使细节加权深度误差最小，同时约束全图误差与
-实际推理成本。当前 canary 仅验证 oracle 选择空间：
+实际推理成本。已完成的 canary 仅验证 oracle 选择空间：
 
 $$
 S_B^*=\arg\max_{|S|\le B}\sum_{i\in S}\max(\Delta E_i,0),

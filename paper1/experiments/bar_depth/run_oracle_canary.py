@@ -22,6 +22,7 @@ from .core import (
     gradient_score,
     highpass_refined_core,
     make_regions,
+    positive_median_scale_fit,
     prediction_error_maps,
     robust_affine_fit,
 )
@@ -223,12 +224,30 @@ def _process_sample(
     base_disparity = base_outputs[0].astype(np.float64)
     inverse_gt = np.zeros_like(depth)
     inverse_gt[valid] = 1.0 / depth[valid]
-    metric_scale, metric_shift = robust_affine_fit(
-        base_disparity[valid],
-        inverse_gt[valid],
-        trim_quantile=float(config["merge"]["affine_trim_quantile"]),
-        iterations=int(config["merge"]["affine_iterations"]),
+    alignment_variant = str(config["metric"].get("alignment_variant", "robust_affine"))
+    if alignment_variant == "robust_affine":
+        metric_scale, metric_shift = robust_affine_fit(
+            base_disparity[valid],
+            inverse_gt[valid],
+            trim_quantile=float(config["merge"]["affine_trim_quantile"]),
+            iterations=int(config["merge"]["affine_iterations"]),
+        )
+    elif alignment_variant == "positive_median_scale":
+        metric_scale, metric_shift = positive_median_scale_fit(
+            base_disparity[valid], inverse_gt[valid]
+        )
+    else:
+        raise ValueError(f"Unsupported metric alignment: {alignment_variant}")
+    if not bool(config["metric"].get("clip_prediction_to_evaluation_range", False)):
+        raise ValueError("Prediction depth range clipping must be explicitly enabled")
+    aligned_base_inverse = metric_scale * base_disparity + metric_shift
+    min_depth = float(config["metric"]["min_depth"])
+    max_depth = float(config["metric"]["max_depth"])
+    base_metric_clipped = valid & (
+        (aligned_base_inverse < 1.0 / max_depth)
+        | (aligned_base_inverse > 1.0 / min_depth)
     )
+    base_clipped_fraction = float(base_metric_clipped.sum() / valid.sum())
     base_error, _ = prediction_error_maps(
         base_disparity,
         depth,
@@ -236,6 +255,8 @@ def _process_sample(
         metric_scale=metric_scale,
         metric_shift=metric_shift,
         inverse_depth_epsilon=float(config["metric"]["inverse_depth_epsilon"]),
+        min_depth=min_depth,
+        max_depth=max_depth,
     )
     weights, boundary = depth_boundary_weights(
         depth,
@@ -267,6 +288,8 @@ def _process_sample(
             metric_scale=metric_scale,
             metric_shift=metric_shift,
             inverse_depth_epsilon=float(config["metric"]["inverse_depth_epsilon"]),
+            min_depth=min_depth,
+            max_depth=max_depth,
         )
         base_core_error = base_error[core_slice]
         core_weights = weights[core_slice]
@@ -313,6 +336,8 @@ def _process_sample(
         "boundary_pixel_count": int(boundary.sum()),
         "metric_scale": metric_scale,
         "metric_shift": metric_shift,
+        "base_metric_clipped_pixel_count": int(base_metric_clipped.sum()),
+        "base_metric_clipped_pixel_fraction": base_clipped_fraction,
     }
     return rows, diagnostics
 
@@ -443,6 +468,9 @@ def run_canary(
         ),
         "patch_forward_milliseconds_total": float(
             sum(float(row["patch_forward_milliseconds"]) for row in diagnostics)
+        ),
+        "base_metric_clipped_pixel_count_total": int(
+            sum(int(row["base_metric_clipped_pixel_count"]) for row in diagnostics)
         ),
         "timing_interpretation": "shared_gpu_diagnostic_only",
         "output_csv_sha256": file_digest(output_csv),

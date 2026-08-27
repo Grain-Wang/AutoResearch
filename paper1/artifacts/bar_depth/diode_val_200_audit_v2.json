@@ -1,0 +1,48 @@
+{
+  "archive": {
+    "md5": "5c895d09201b88973c8fe4552a67dd85",
+    "name": "val.tar.gz",
+    "size_bytes": 2774625282
+  },
+  "config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+  "dimensions": [
+    [
+      1024,
+      768
+    ]
+  ],
+  "domain_counts": {
+    "indoors": 100,
+    "outdoor": 100
+  },
+  "enumerated_record_count": 771,
+  "failures": [],
+  "manifest_canonical_sha256": "2d8f77c4bb9e416ca1502ea4acb09863bee1e9ea41dfefd13ede3cf478f57d9c",
+  "scan_count": 20,
+  "scan_counts": {
+    "indoors/scene_00019/scan_00183": 10,
+    "indoors/scene_00020/scan_00184": 10,
+    "indoors/scene_00020/scan_00185": 10,
+    "indoors/scene_00020/scan_00186": 10,
+    "indoors/scene_00020/scan_00187": 10,
+    "indoors/scene_00021/scan_00188": 10,
+    "indoors/scene_00021/scan_00189": 10,
+    "indoors/scene_00021/scan_00190": 10,
+    "indoors/scene_00021/scan_00191": 10,
+    "indoors/scene_00021/scan_00192": 10,
+    "outdoor/scene_00022/scan_00193": 10,
+    "outdoor/scene_00022/scan_00194": 10,
+    "outdoor/scene_00022/scan_00195": 10,
+    "outdoor/scene_00022/scan_00196": 10,
+    "outdoor/scene_00022/scan_00197": 10,
+    "outdoor/scene_00023/scan_00198": 10,
+    "outdoor/scene_00023/scan_00199": 10,
+    "outdoor/scene_00023/scan_00200": 10,
+    "outdoor/scene_00024/scan_00201": 10,
+    "outdoor/scene_00024/scan_00202": 10
+  },
+  "schema_version": 1,
+  "selected_record_count": 200,
+  "source_root_role": "external_diode_validation_root",
+  "status": "PASS"
+}

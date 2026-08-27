@@ -302,14 +302,20 @@ def analyze(
         "metric_definition": {
             "primary": config["metric"]["primary"],
             "boundary_weight": config["metric"]["boundary_weight"],
-            "metric_alignment": (
-                "one base-to-GT inverse-depth affine fit fixed for all "
-                "regional actions"
+            "metric_alignment": config["metric"].get(
+                "alignment_variant", "robust_affine"
             ),
             "oracle_selection": (
                 "up to three positive primary-utility regions per image"
             ),
+            "prediction_depth_range": [
+                config["metric"]["min_depth"],
+                config["metric"]["max_depth"],
+            ],
         },
+        "base_metric_depth_range_clipped_pixel_count": raw_provenance[
+            "base_metric_clipped_pixel_count_total"
+        ],
         "heuristic_interpretation": "descriptive_only_not_a_trained_router",
         "timing_interpretation": raw_provenance["timing_interpretation"],
         "bindings": {

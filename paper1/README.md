@@ -5,10 +5,11 @@
 CoVoL-Depth 已归档为 **`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`**。004-A 使用的是 NYUv2 GT entity/instance/median-depth 构造的确定性短模板，不是 automatic captions。semantic-preserving 控制也稳定变化，因此证据只支持“当前 GT-template probe 与 Main-PR 路径停止”，不支持“自动 caption 局部错误问题整体被否定”。004-B、公平 D0/D1、Claim-F、Claim-M、Main-PR、第二数据集恢复与 official test 均不得继续。
 
 用户于 2026-08-27 明确重新选择 **BAR-Depth：预算自适应区域深度细化**，状态为
-`V1_INVALID_METRIC_ALIGNMENT / V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。当前只在 DIODE validation 的
-200 张 1024×768 RGB-D 图像上验证区域细化收益是否足够大且集中；不训练 router，
-不主张加速。此前选中的 SR-VEP 在任何 canary 或数据获取前被停放，没有仓库自有
-科学结果。
+`GO_ORACLE_ROUTABILITY_UNVERIFIED / ROUTER_KILLER_GATE_PENDING /
+NOT_PAPER_CANDIDATE`。DIODE validation 200 图 v2 canary 的 headroom、25% budget
+capture 和 primary reduction 均以 scan-cluster CI 通过；这只证明区域收益存在且集中，
+尚未训练 router，也不主张加速。此前选中的 SR-VEP 在任何 canary 或数据获取前被
+停放，没有仓库自有科学结果。
 
 ## 阅读顺序
 
@@ -16,18 +17,20 @@ CoVoL-Depth 已归档为 **`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_
 2. [BAR-Depth 候选定义](ideas/candidates/02_budget_adaptive_regional_depth.md)
 3. [Oracle canary 协议](steps/018_bar_depth_oracle_canary.md)
 4. [v1 metric-domain 审计](steps/019_bar_depth_v1_metric_audit.md)
-5. [历史 Research Opportunity Gate](steps/017_research_opportunity_gate.md)
-6. [CoVoL 最终 closure](steps/016_covol_closure.md)
-7. [执行状态表](steps/README.md)
-8. [最新 Round-9 审稿意见](responce_from_reviewer/review_round9.md)
+5. [v2 repair 协议](steps/020_bar_depth_oracle_canary_v2.md)
+6. [v2 oracle 结果](steps/021_bar_depth_oracle_canary_v2_result.md)
+7. [历史 Research Opportunity Gate](steps/017_research_opportunity_gate.md)
+8. [CoVoL 最终 closure](steps/016_covol_closure.md)
+9. [执行状态表](steps/README.md)
+10. [最新 Round-9 审稿意见](responce_from_reviewer/review_round9.md)
 
 ## 执行边界
 
 CoVoL 原依赖链继续由全局 scientific gate 停止。BAR-Depth 当前唯一允许的科学动作
 是“官方 DIODE validation/模型锁定 → 200 图 oracle utility 枚举 → 冻结 GO/STOP”。
-v1 因非法 metric-domain clipping 不产生科学 GO/STOP；当前只允许保持其余合同不变的
-positive median scale-only v2 repair。oracle gate 前不训练 router，不建设多尺度通用
-框架。SR-VEP 不并行执行。
+v1 因非法 metric-domain clipping 不产生科学 GO/STOP；fixed-range v2 已通过 oracle
+gate。当前下一步只允许同预算 killer heuristics 与 scan-held-out router probe，不建设
+多尺度通用框架，也不进入完整 Paper Build。SR-VEP 不并行执行。
 
 ## CoVoL 科学事实与解释限制
 
@@ -62,6 +65,6 @@ scientific-gate 的第二条命令必须返回 `STOPPED_BY_H_SENSITIVITY` 和 ex
 
 - 不能声称 automatic-caption 问题已被 CoVoL diagnostic 普遍否定，也不能声称固定 paraphrases 有人类等价性或自然度。
 - 不能声称已训练 CoVoL D0/D1、router，或已验证 Claim-F/Claim-M。
-- 不能声称 BAR-Depth 已有集中 oracle headroom、可学习 router、实际加速或跨数据集
-  增益，也不能声称达到 Paper Candidate/强 CCF-C。
+- 只能在冻结 DIODE-200 / DAv2-S / fixed-range v2 合同内声称 oracle headroom 集中；
+  不能声称 router 可学习、实际加速、跨数据集增益或达到 Paper Candidate/强 CCF-C。
 - 不能把 QA、协议、hash、GPU availability 或代码量写成科学贡献。

@@ -33,9 +33,9 @@ domain slice 的 base-only 审计证明：v1 把 unconstrained affine-aligned in
 
 允许且必须执行一个 v2 repair canary：数据、200 图 manifest、模型、3×4 grid、patch
 merge、25% budget、主指标权重、bootstrap 和全部 GO/STOP 阈值保持不变；唯一变化是把
-image-level metric alignment 改为正值保持的 median scale-only alignment，并在运行时
-要求所有 base valid pixels 在 clipping 前均为正。该修复消除非法数值域，不利用 v1
-结果选择阈值、数据子集、grid、模型或 merge。
+image-level metric alignment 改为正值保持的 median scale-only alignment，并把预测
+深度截到预先定义的 `[0.1, 350]m` evaluation range。该修复消除 `1e6m` 伪深度，
+不利用 v1 结果选择阈值、数据子集、grid、模型或 merge。
 
-v2 结果之前，BAR-Depth 仍是 `RESEARCH_OPPORTUNITY / NOT_PAPER_CANDIDATE`，oracle
-headroom 和可路由性均未验证。
+后续 v2 已完成并通过 oracle gate；该结果不恢复 v1，也不改变 v1 无效性。有效结论
+见 [Step 021](021_bar_depth_oracle_canary_v2_result.md)，可路由性仍未验证。

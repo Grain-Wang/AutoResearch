@@ -125,6 +125,26 @@ def robust_affine_fit(
     return float(scale), float(shift)
 
 
+def positive_median_scale_fit(
+    source: np.ndarray, target: np.ndarray
+) -> tuple[float, float]:
+    """Fit a positive scale-only map using the ratio of positive medians."""
+    source_flat = np.asarray(source, dtype=np.float64).reshape(-1)
+    target_flat = np.asarray(target, dtype=np.float64).reshape(-1)
+    keep = (
+        np.isfinite(source_flat)
+        & np.isfinite(target_flat)
+        & (source_flat > 0)
+        & (target_flat > 0)
+    )
+    if int(keep.sum()) < 16:
+        raise ValueError("Too few positive finite values for median-scale alignment")
+    scale = float(np.median(target_flat[keep]) / np.median(source_flat[keep]))
+    if not np.isfinite(scale) or scale <= 0:
+        raise ValueError("Median-scale alignment did not produce a positive scale")
+    return scale, 0.0
+
+
 def depth_boundary_weights(
     depth: np.ndarray,
     valid_mask: np.ndarray,
@@ -230,13 +250,17 @@ def prediction_error_maps(
     metric_scale: float,
     metric_shift: float,
     inverse_depth_epsilon: float,
+    min_depth: float,
+    max_depth: float,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Convert relative disparity with a fixed alignment and return AbsRel maps."""
+    if not 0 < min_depth < max_depth:
+        raise ValueError("Invalid prediction depth evaluation range")
     aligned_inverse = np.maximum(
         metric_scale * disparity.astype(np.float64) + metric_shift,
         inverse_depth_epsilon,
     )
-    predicted_depth = 1.0 / aligned_inverse
+    predicted_depth = np.clip(1.0 / aligned_inverse, min_depth, max_depth)
     valid = np.asarray(valid_mask, dtype=bool) & np.isfinite(depth) & (depth > 0)
     error = np.zeros_like(depth, dtype=np.float64)
     error[valid] = np.abs(predicted_depth[valid] - depth[valid]) / depth[valid]

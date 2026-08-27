@@ -8,6 +8,7 @@ import hashlib
 import importlib
 import json
 import math
+import os
 import re
 import sys
 from collections import defaultdict
@@ -363,8 +364,14 @@ class Tr2mBatchPredictor:
             "encoder": "vits",
             "features": 64,
             "out_channels": [48, 96, 192, 384],
+            "localhub": True,
         }
-        self._depth = depth_module.DepthAnything(depth_config)
+        original_directory = Path.cwd()
+        try:
+            os.chdir(tr2m_root)
+            self._depth = depth_module.DepthAnything(depth_config)
+        finally:
+            os.chdir(original_directory)
         self._depth.load_state_dict(
             torch.load(depth_checkpoint, map_location="cpu", weights_only=True)
         )

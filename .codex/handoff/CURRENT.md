@@ -2,7 +2,7 @@
 
 > **2026-08-27 Round9 closure 与重新选题状态（优先于下方全部内容）**
 >
-> - 当前分支保持 `paper1`，没有新建分支，也没有改变远端 `paper2`。本轮先 `git pull --ff-only origin paper1`，从 `8ffd8fe` fast-forward 到远端审稿提交 `c12f506`，新增 `review_round9.md`。本段记录的 closure/新选题变更在提交前应以实际 `git status` 为准。
+> - 当前分支保持 `paper1`，没有新建分支，也没有改变远端 `paper2`。本轮先 `git pull --ff-only origin paper1`，从 `8ffd8fe` fast-forward 到远端审稿提交 `c12f506`，新增 `review_round9.md`；closure 与新选题实现提交为 `b6c1b9a`。
 > - CoVoL 唯一最终状态为 `STOPPED_BY_H_SENSITIVITY_CONTROL / ARCHIVED_GT_TEMPLATE_PROBE_AND_MAIN_PR_PATH`。004-A 实际输入是从 NYUv2 GT class、instance mask 与 median depth 构造的确定性关系模板，不是 automatic captions；结果只停止当前 GT-template probe 与 Main-PR 路径，自然 automatic-caption 问题为 `UNTESTED`，human equivalence/naturalness 为 `NOT_ASSESSED`。
 > - 新增 global scientific gate，绑定原始 sensitivity CSV SHA `a2d45f...` 与 summary SHA `e4a304...`；`step004_b/step005/step006/step007/step008/official_test/second_dataset_recovery` 全 false，固定 exit code 4。二数据集候选审计、KITTI oracle 审计和 Step005 cache CLI 先检查该 gate；伪造历史 Step003 PASS 也不能绕过。
 > - 新增唯一 `covol_closure.json` 与 validator，当前校验 18 个 tracked artifacts、3 个 repo-local rebuildable inputs、0 个授权 action。旧 `diagnostic_intervention_audit.json` 的 `PENDING_INDEPENDENT_PRECISION_AND_H_SENSITIVITY` 和历史 Step003 authorization 保留原文件，由 closure 显式 supersede。

@@ -1,26 +1,40 @@
 # 001 Primary Scope Lock
 
-## Current branch state
+## Current state
 
-`STOPPED_BY_H_SENSITIVITY_CONTROL`。004-A 在 100 张 NYUv2 official-train diagnostic 图像上发现两个冲突族有正向 region AbsRel sensitivity，但 semantic-preserving 对照同样稳定退化（95% CI `[0.000579, 0.001777]`），违反预注册的冲突特异性条件。该上游否证结果停止整个 CoVoL 主张；第二真实数据集、Step003 authorization 或更多模型实验不能自动恢复本方向。
+当前唯一选择的 Research Opportunity 是 **SR-VEP：Source-Residualized Video-Grounded Emotion Preference**，状态为 `SELECTED_RESEARCH_OPPORTUNITY / DEFECT_CANARY_PENDING / NOT_PAPER_CANDIDATE`。它研究 EmoPrefer/MER-Prefer judge 是否通过生成器风格先验而非音视频情绪证据做偏好判断，以及能否用 same-generator video matching、折外 source residualization 和 worst-group pairwise optimization 改善 grounded preference。
 
-## Task
+该选择只授权 CPU defect canary：获取官方公开 annotation tables 与许可文本、固定 hash、重跑五折 content-blind/source-prior probe。CPU gate 通过前不下载受限媒体、不启动 GPU、不实现完整训练器。量化门禁和最近邻见 [017 Research Opportunity Gate](017_research_opportunity_gate.md)，算法假设见 [SR-VEP candidate](../ideas/candidates/01_source_residualized_emotion_preference.md)。
 
-自动图像 caption 含局部、可机器验证的语义错误时，在两个冻结 metric-depth 候选之间逐区域选择，并在语言候选无经验收益的区域回退到纯视觉候选。
+## CoVoL archive boundary
 
-## Input
+CoVoL 的最终状态是 `ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`。004-A 实际使用 NYUv2 GT class/instance/median-depth 构造的确定性关系短模板，而不是 automatic captions。semantic-preserving 控制也稳定变化，违反预注册停止条件。因此只停止当前 GT-template probe 和 Main-PR 贡献路径；它不证明自然 automatic-caption 错误整体不存在或无害。
 
-RGB 图像 `I`、自动 caption `c`、冻结纯视觉候选 `D0(I)`、冻结图文候选 `D1(I,c)`；训练期可用 metric-depth GT 构造区域经验优势，推理期不可用 GT。
+CoVoL 的 Step004-B、Step005–008、official test 与第二数据集恢复全部禁止。历史 Step003 authorization 不能恢复它；所有入口还必须通过绑定 sensitivity CSV/summary SHA 的最终 scientific gate。完整证据边界见 [016 CoVoL Closure](016_covol_closure.md)。
 
-## Primary Claim
+## SR-VEP task
 
-| Claim | 状态 | 唯一证据 | 支持条件 |
-| --- | --- | --- | --- |
-| Claim-F：控制视觉难度与候选差异后，原始文本—区域语义仍有增量 advantage 预测力 | STOPPED_BY_H_SENSITIVITY_CONTROL | Step 006 结果有意不存在；上游 004-A 对照已否定继续执行的前提 | 不在 CoVoL 范围内恢复；新问题需另做范围与机会门禁 |
-| Claim-M：固定 clean utility 下的局部尾部 regret router 优于获得相同 OOF experts 与合法 zC 特征的直接 defer 方法 | STOPPED_BY_H_SENSITIVITY_CONTROL | Step 007/008 结果有意不存在；上游 004-A 对照已否定继续执行的前提 | 不在 CoVoL 范围内恢复；不得用协议或代码结果替代算法证据 |
+输入为视频/音频 `v` 与两条开放式 emotion descriptions `(d1,d2)`，目标是预测人类偏好，同时验证决策是否依赖与原视频匹配的情绪证据，而不是 generator identity、长度、candidate order 或 source-pair win-rate。
 
-cross-fitting、partial residualization、CVaR、clean constraint、dense defer、language-guided frozen-expert routing、leave-one-out contribution teacher、continuous regression defer 和 frozen-expert post-hoc scoring 均已被先行工作覆盖，不能单独列为创新。唯一待否证差异由 [014 objective spec](014_objective_and_algorithm_spec.md) 定义。
+当前唯一待复现缺陷来自近期外部报告：content-blind source/length probe 接近 LoRA audio-visual judge，generator identity 又高度可从描述文本恢复。仓库尚未独立产生该事实。若 source recovery <95%，content-blind 与对称 Omni LoRA 相差 >5 pp，或官方数据/许可无法稳定获得，则方向停止。
 
-## Falsification
+## Candidate algorithm difference
 
-004-A 的 semantic-preserving 对照已触发预注册停止规则，因此后续 H-fallback-defect、Claim-F 和 Claim-M 不再执行。该负结果不得通过事后修改对照、阈值或 family 选择来改写。Q-GeoRoute 或任何新方向只能在记录正式范围变更、更新最近邻并重新通过 Research Opportunity Gate 后启动。
+候选方法不把普通 DPO、LoRA、对抗去偏或 group-DRO 单独当贡献。其可证伪差异是：
+
+1. 在同一 generator 内，用 coarse-emotion-matched 的 cross-video negatives 识别 `video-description` evidence margin，使 generator style 在配对内抵消；
+2. 用严格 cross-fitted nuisance model 残差化 generator-pair/length/style propensity，验证 fold 不参与 nuisance 拟合；
+3. 在 generator-pair × prior-agreement 环境上优化 worst-group pairwise risk，并保持 candidate-order consistency；
+4. 只把原视频相对 matched video-swap 的 margin 当操作性 grounding，不声称恢复人类偏好的因果真值。
+
+## Upgrade gate
+
+SR-VEP 只有在下列条件同时满足时才能成为 Paper Candidate：
+
+- CPU defect canary 独立复现；
+- 冻结 Omni correct-match AUROC >0.65，说明存在可恢复的音视频—描述匹配信号；
+- 500-pair、两折 prototype 的 counter-stereotypical WAF 相对对称 Omni LoRA 至少 +8 pp，matched video-swap margin 至少 +0.10，aggregate WAF 下降不超过 3 pp；
+- 在相同 split/预算下超过 Style-audit ODIN、MJ1-style grounded verifier 与 EAPO augmentation；
+- 改进不依赖 source name、长度、candidate order、额外模型数量或读取 test label。
+
+当前这些条件均未验证，算法 claim 不成立。

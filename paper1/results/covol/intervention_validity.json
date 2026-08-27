@@ -25,7 +25,7 @@
   },
   "schema_version": "covol-intervention-validity-v1",
   "scientific_evidence": "PRE_MODEL_AUTOMATED_VALIDITY_ONLY_NOT_HUMAN_NATURALNESS_OR_MODEL_EFFECT",
-  "status": "PASS_AUTOMATED_VALIDITY_HUMAN_NATURALNESS_UNASSESSED",
+  "status": "LIMITED_BY_FAMILY_TEXT_ARTIFACTS_HUMAN_NATURALNESS_UNASSESSED",
   "surface_form": {
     "human_naturalness_status": "NOT_ASSESSED",
     "minimum_pass_rate": 0.99,
@@ -280,5 +280,334 @@
     "scientific_evidence": "TEMPLATE_ARTIFACT_CONTROL_NOT_CAPTION_NATURALNESS_OR_MODEL_EFFECT",
     "split": "LEAVE_ONE_VARIANT_TEMPLATE_PER_FAMILY_OUT",
     "status": "PASS_TEXT_ARTIFACT_CONTROL"
+  },
+  "text_artifact_per_family": {
+    "families": {
+      "depth_relation_conflict": {
+        "aggregate": {
+          "accuracy": 0.33416666666666667,
+          "auroc": 0.18518518518518517,
+          "f1": 0.0024968789013732834,
+          "false_negative": 299,
+          "false_positive": 500,
+          "precision": 0.001996007984031936,
+          "recall": 0.0033333333333333335,
+          "true_positive": 1
+        },
+        "folds": [
+          {
+            "accuracy": 0.25,
+            "auroc": 0.0,
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 200,
+            "held_out_variant": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 0
+          },
+          {
+            "accuracy": 0.2525,
+            "auroc": 0.3333333333333333,
+            "f1": 0.0066445182724252485,
+            "false_negative": 99,
+            "false_positive": 200,
+            "held_out_variant": 1,
+            "precision": 0.004975124378109453,
+            "recall": 0.01,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 1
+          },
+          {
+            "accuracy": 0.5,
+            "auroc": 0.3333333333333333,
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "held_out_variant": 2,
+            "precision": 0.0,
+            "recall": 0.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 0
+          }
+        ],
+        "surface_statistics": {
+          "character_length": {
+            "maximum": 95.0,
+            "mean": 69.88,
+            "median": 68.0,
+            "minimum": 59.0,
+            "q25": 65.0,
+            "q75": 75.0
+          },
+          "token_count": {
+            "maximum": 15.0,
+            "mean": 12.623333333333333,
+            "median": 13.0,
+            "minimum": 12.0,
+            "q25": 12.0,
+            "q75": 13.0
+          },
+          "token_edit_distance_from_clean": {
+            "maximum": 11.0,
+            "mean": 4.303333333333334,
+            "median": 2.0,
+            "minimum": 2.0,
+            "q25": 2.0,
+            "q75": 8.0
+          }
+        }
+      },
+      "local_entity_conflict": {
+        "aggregate": {
+          "accuracy": 0.83,
+          "auroc": 0.7037037037037037,
+          "f1": 0.6622516556291391,
+          "false_negative": 100,
+          "false_positive": 104,
+          "precision": 0.6578947368421053,
+          "recall": 0.6666666666666666,
+          "true_positive": 200
+        },
+        "folds": [
+          {
+            "accuracy": 0.99,
+            "auroc": 1.0,
+            "f1": 0.9803921568627451,
+            "false_negative": 0,
+            "false_positive": 4,
+            "held_out_variant": 0,
+            "precision": 0.9615384615384616,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          },
+          {
+            "accuracy": 0.5,
+            "auroc": 0.3333333333333333,
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "held_out_variant": 1,
+            "precision": 0.0,
+            "recall": 0.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 0
+          },
+          {
+            "accuracy": 1.0,
+            "auroc": 1.0,
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "held_out_variant": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          }
+        ],
+        "surface_statistics": {
+          "character_length": {
+            "maximum": 95.0,
+            "mean": 69.47,
+            "median": 66.0,
+            "minimum": 62.0,
+            "q25": 64.0,
+            "q75": 76.0
+          },
+          "token_count": {
+            "maximum": 15.0,
+            "mean": 12.5,
+            "median": 12.0,
+            "minimum": 12.0,
+            "q25": 12.0,
+            "q75": 13.0
+          },
+          "token_edit_distance_from_clean": {
+            "maximum": 12.0,
+            "mean": 4.386666666666667,
+            "median": 2.0,
+            "minimum": 1.0,
+            "q25": 1.0,
+            "q75": 9.0
+          }
+        }
+      },
+      "semantic_preserving": {
+        "aggregate": {
+          "accuracy": 0.5825,
+          "auroc": 0.5174962962962963,
+          "f1": 0.2853067047075607,
+          "false_negative": 200,
+          "false_positive": 301,
+          "precision": 0.24937655860349128,
+          "recall": 0.3333333333333333,
+          "true_positive": 100
+        },
+        "folds": [
+          {
+            "accuracy": 0.5,
+            "auroc": 0.3333333333333333,
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "held_out_variant": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 0
+          },
+          {
+            "accuracy": 0.7475,
+            "auroc": 1.0,
+            "f1": 0.6644518272425249,
+            "false_negative": 0,
+            "false_positive": 101,
+            "held_out_variant": 1,
+            "precision": 0.4975124378109453,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          },
+          {
+            "accuracy": 0.5,
+            "auroc": 0.6574666666666666,
+            "f1": 0.0,
+            "false_negative": 100,
+            "false_positive": 100,
+            "held_out_variant": 2,
+            "precision": 0.0,
+            "recall": 0.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 0
+          }
+        ],
+        "surface_statistics": {
+          "character_length": {
+            "maximum": 95.0,
+            "mean": 72.88,
+            "median": 75.0,
+            "minimum": 59.0,
+            "q25": 66.0,
+            "q75": 77.0
+          },
+          "token_count": {
+            "maximum": 15.0,
+            "mean": 12.956666666666667,
+            "median": 13.0,
+            "minimum": 12.0,
+            "q25": 13.0,
+            "q75": 13.0
+          },
+          "token_edit_distance_from_clean": {
+            "maximum": 13.0,
+            "mean": 5.983333333333333,
+            "median": 8.0,
+            "minimum": 0.0,
+            "q25": 0.0,
+            "q75": 9.0
+          }
+        }
+      },
+      "target_deletion": {
+        "aggregate": {
+          "accuracy": 1.0,
+          "auroc": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_positive": 300
+        },
+        "folds": [
+          {
+            "accuracy": 1.0,
+            "auroc": 1.0,
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "held_out_variant": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          },
+          {
+            "accuracy": 1.0,
+            "auroc": 1.0,
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "held_out_variant": 1,
+            "precision": 1.0,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          },
+          {
+            "accuracy": 1.0,
+            "auroc": 1.0,
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "held_out_variant": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "test_row_count": 400,
+            "training_row_count": 800,
+            "true_positive": 100
+          }
+        ],
+        "surface_statistics": {
+          "character_length": {
+            "maximum": 64.0,
+            "mean": 35.586666666666666,
+            "median": 31.0,
+            "minimum": 27.0,
+            "q25": 29.0,
+            "q75": 44.0
+          },
+          "token_count": {
+            "maximum": 10.0,
+            "mean": 6.193333333333333,
+            "median": 5.0,
+            "minimum": 5.0,
+            "q25": 5.0,
+            "q75": 8.0
+          },
+          "token_edit_distance_from_clean": {
+            "maximum": 10.0,
+            "mean": 7.43,
+            "median": 8.0,
+            "minimum": 6.0,
+            "q25": 6.0,
+            "q75": 8.0
+          }
+        }
+      }
+    },
+    "families_exceeding_threshold": [
+      "target_deletion",
+      "local_entity_conflict"
+    ],
+    "maximum_family_f1": 0.6,
+    "model": "ONE_VS_REST_MULTINOMIAL_NB_WORD_UNIGRAM_LAPLACE_1",
+    "schema_version": "covol-text-artifact-control-per-family-v1",
+    "split": "LEAVE_ONE_VARIANT_TEMPLATE_PER_FAMILY_OUT",
+    "status": "FAMILY_ARTIFACT_DETECTED"
   }
 }

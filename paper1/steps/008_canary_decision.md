@@ -1,8 +1,8 @@
-# 008 Canary Decision
+# 008 Canary Decision — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Status
 
-`STOPPED-BY-004-A-H-SENSITIVITY-CONTROL`。本步骤只保留冻结协议，不允许新增 trial、改阈值或换聚合口径。004-A 的 semantic-preserving region AbsRel degradation CI 不包含 0，已停止 CoVoL；新的第二真实数据集或 Step003 authorization 不能恢复 Claim-F/Claim-M。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。本步骤只保留历史冻结协议，不允许新增 trial、改阈值或换聚合口径。004-A 的 semantic-preserving region AbsRel degradation CI 不包含 0，已停止当前 GT-template probe 与 Main-PR 路径；新的第二真实数据集或 Step003 authorization 不能恢复 Claim-F/Claim-M。
 
 ## Claim-F
 

@@ -1,0 +1,157 @@
+{
+  "actions": {
+    "official_test": false,
+    "second_dataset_recovery": false,
+    "step004_b": false,
+    "step005": false,
+    "step006": false,
+    "step007": false,
+    "step008": false
+  },
+  "decision": "ARCHIVE_GT_TEMPLATE_PROBE_AND_MAIN_PR_PATH",
+  "evidence_commit": "9cd7dea08fe17d69a88ee5b24c2719132b5245e2",
+  "rebuildable_external_inputs": [
+    {
+      "path": "paper1/data/covol/diagnostic_interventions.jsonl",
+      "rebuildable": true,
+      "role": "licensed_gt_template_corpus",
+      "sha256": "d52a80bc34b4d4fea07314f643ff2794b050248fdc66eb02247684ee7053b878"
+    },
+    {
+      "path": "paper1/data/covol/diagnostic_global.jsonl",
+      "rebuildable": true,
+      "role": "diagnostic_global_control",
+      "sha256": "e8fdc15065fce5912a20a7bb3a8cd738cb00ec21b1e314b7ec59c2a415a42fa1"
+    },
+    {
+      "path": "paper1/data/covol/diagnostic_null.jsonl",
+      "rebuildable": true,
+      "role": "diagnostic_null_control",
+      "sha256": "afdbf177b34dbd0584c86a490425b09b742525b3ba5405717d7005606b3918af"
+    }
+  ],
+  "runtime_lock": {
+    "cuda_runtime": "12.1",
+    "device_name": "NVIDIA A800 80GB PCIe",
+    "python": "3.12.13",
+    "torch": "2.5.0+cu121"
+  },
+  "schema_version": "covol-closure-manifest-v1",
+  "scientific_scope": {
+    "actual_input": "DETERMINISTIC_NYUV2_GT_RELATION_TEMPLATES",
+    "automatic_caption_question": "UNTESTED",
+    "human_naturalness": "NOT_ASSESSED",
+    "supported_statement": "On this deterministic GT-relation-template corpus, released TR2M did not meet the preregistered conflict-specificity gate; the current GT-template probe and Main-PR path stop."
+  },
+  "source_manifest_lineage": {
+    "availability": "NOT_PRESENT_IN_PORTABLE_CHECKOUT",
+    "row_count": 1000,
+    "sha256": "df03c3c8d2a1e1334ec51f8c54f039b7100e721ff9908cb4a059eadc2a92b998",
+    "verification_artifact": "paper1/results/covol/annotation_coverage.json"
+  },
+  "status": "STOPPED_BY_H_SENSITIVITY_CONTROL",
+  "supersedes": [
+    {
+      "path": "paper1/results/covol/diagnostic_intervention_audit.json",
+      "prior_status": "PENDING_INDEPENDENT_PRECISION_AND_H_SENSITIVITY",
+      "reason": "Independent validity and 004-A are complete; the historical artifact is retained unchanged."
+    },
+    {
+      "path": "paper1/artifacts/covol/step003_authorization.json",
+      "prior_status": "BLOCKED_CURRENT_DATA_BRANCH",
+      "reason": "The final scientific stop has priority over historical Step003 permissions."
+    }
+  ],
+  "tracked_artifacts": [
+    {
+      "path": "paper1/artifacts/covol/covol_scientific_gate.json",
+      "role": "scientific_gate",
+      "sha256": "e46794a7e7f9d793ad59bcd7136bb40347d4ca86b11f9252bf8d28da1bf4b02c"
+    },
+    {
+      "path": "paper1/artifacts/covol/step003_authorization.json",
+      "role": "historical_step003_gate",
+      "sha256": "17cdfbb893802fc8e81bb5677ed37c0b46c36ce5849f63051c00073d297cb1e5"
+    },
+    {
+      "path": "paper1/results/covol/annotation_coverage.json",
+      "role": "source_manifest_verification",
+      "sha256": "ba2c256b606fb1ce5ea8569a5c31225a1de653c3a5ed1959a5ef5d9aed362fb3"
+    },
+    {
+      "path": "paper1/results/covol/diagnostic_intervention_audit.json",
+      "role": "historical_corpus_audit",
+      "sha256": "78750f7810107c9ce53f516d994cdc1e316ff4d9824adc493404dd9efd1dcc2b"
+    },
+    {
+      "path": "paper1/results/covol/diagnostic_independent_audit.json",
+      "role": "independent_predicate_audit",
+      "sha256": "69f151331ff4fb24817630d6f39c7cb5acb3b513f3b1b6dfbb88fc6e1b5e623a"
+    },
+    {
+      "path": "paper1/results/covol/intervention_validity.json",
+      "role": "intervention_validity",
+      "sha256": "c02706a105f2f2b95e5df2505b68a81841169c307fa75c0dd05148b06da74d86"
+    },
+    {
+      "path": "paper1/results/covol/text_artifact_control_per_family.csv",
+      "role": "family_artifact_control",
+      "sha256": "8f4b6e99f8f00f631c27411927cdfec9c683f295629f160c7bd49dbee7da573c"
+    },
+    {
+      "path": "paper1/results/covol/tr2m_release_audit.json",
+      "role": "released_model_audit",
+      "sha256": "43e43e48a24ee80c6737177b8f40c68eb90c8e7399ddd9a651f64994b9cc9772"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_diagnostic.csv",
+      "role": "sensitivity_rows",
+      "sha256": "a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_diagnostic_summary.json",
+      "role": "sensitivity_summary",
+      "sha256": "e4a304b1e6c2d8db6b1b95a666fe7f9fb88e73c7200addc400aecb10b2ce4659"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_difference_in_difference.json",
+      "role": "direct_postmortem",
+      "sha256": "a4e02e6f06c76e58c37aef5347b5bfb74edf99f8d93d6f59b21d274f24d0fa4b"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_difference_in_difference.csv",
+      "role": "direct_postmortem_table",
+      "sha256": "e8b2e5a891ad862883a1ca0879f71b81a18c1852e0223cdb46d7032b953e2fc1"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_practical_effect.json",
+      "role": "practical_effects_postmortem",
+      "sha256": "6e479f77571b308125c3736fef1c805fb811a001269ce4304534a5b03f14e511"
+    },
+    {
+      "path": "paper1/results/covol/sensitivity_practical_effect.csv",
+      "role": "practical_effects_table",
+      "sha256": "9e4403ae5e69930c42e766eb0127c1877e8798f28ad6bc75b17e66da1f80c8db"
+    },
+    {
+      "path": "paper1/experiments/covol/run_sensitivity_diagnostic.py",
+      "role": "sensitivity_runner",
+      "sha256": "dcbb4ba45cf2b4f050025afc8c6302e1339266e70642c69f086b40e9d1456560"
+    },
+    {
+      "path": "paper1/experiments/covol/analyze_sensitivity_postmortem.py",
+      "role": "postmortem_runner",
+      "sha256": "7364203c36ea8a8d1d894d5333d49ee3db76ee1f266f6222acc04eb90691d5c8"
+    },
+    {
+      "path": "paper1/steps/016_covol_closure.md",
+      "role": "closure_note",
+      "sha256": "023de51131aa6c475a2ec1839db374b8707ee4db5fa03b7edfaf41959c77aa3f"
+    },
+    {
+      "path": "paper1/archive/covol_negative_result.md",
+      "role": "negative_result_note",
+      "sha256": "8646d02d101935024f45e7702f99263aff4bbd81a3e4e612729c81b979cf0af0"
+    }
+  ]
+}

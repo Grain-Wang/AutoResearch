@@ -1,0 +1,22 @@
+{
+  "actions": {
+    "official_test": false,
+    "second_dataset_recovery": false,
+    "step004_b": false,
+    "step005": false,
+    "step006": false,
+    "step007": false,
+    "step008": false
+  },
+  "decision": "ARCHIVE_GT_TEMPLATE_PROBE_AND_MAIN_PR_PATH",
+  "evidence": {
+    "csv_path": "paper1/results/covol/sensitivity_diagnostic.csv",
+    "csv_sha256": "a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721",
+    "summary_path": "paper1/results/covol/sensitivity_diagnostic_summary.json",
+    "summary_sha256": "e4a304b1e6c2d8db6b1b95a666fe7f9fb88e73c7200addc400aecb10b2ce4659"
+  },
+  "note": "This gate stops the current annotation-derived GT-template probe and Main-PR contribution path. It does not claim that natural automatic-caption errors are universally absent or harmless.",
+  "schema_version": "covol-scientific-gate-v1",
+  "status": "STOPPED_BY_H_SENSITIVITY_CONTROL",
+  "stopped_exit_code": 4
+}

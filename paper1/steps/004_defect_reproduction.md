@@ -2,7 +2,7 @@
 
 ## Status
 
-`004-A STOP_H_SENSITIVITY; 004-B STOPPED_BY_004-A`。该步骤拆成两个不能混写的假设。NYUv2 diagnostic 有 100 图、59 clusters、1200 local rows，machine-check 为 1200/1200；独立规则解析器的分层样本为 100/100 predicate pass。held-out-template text-only macro-F1 为 0.488，自动 surface-form 为 1200/1200，但这不估计人类自然度。锁定 TR2M、Depth Anything、DINOv2 与 CLIP 权重后，004-A 已完成 10,000 次 paired cluster bootstrap。两个冲突族有正向区域 AbsRel 信号，但 semantic-preserving 对照也稳定退化，违反预注册的特异性门槛。因此停止 CoVoL 问题主张，004-B 不再运行。
+`004-A STOP_H_SENSITIVITY; 004-B STOPPED_BY_004-A`。该步骤拆成两个不能混写的假设。NYUv2 diagnostic 有 100 图、59 clusters、1200 local rows，machine-check 为 1200/1200；独立规则解析器的分层样本为 100/100 predicate pass。实际文本由 GT entity/depth 构造，不是 automatic captions；自动 surface-form 通过也不估计人类等价性或自然度。锁定 TR2M、Depth Anything、DINOv2 与 CLIP 权重后，004-A 已完成 10,000 次 paired cluster bootstrap。两个冲突族有正向区域 AbsRel 信号，但 semantic-preserving 对照也稳定退化，违反预注册的特异性门槛。因此只停止当前 GT-template probe 与 Main-PR 路径，004-B 不再运行；自然 automatic-caption 问题未被直接检验。
 
 ## 004-A H-sensitivity
 

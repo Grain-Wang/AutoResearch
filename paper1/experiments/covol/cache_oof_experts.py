@@ -11,11 +11,15 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from paper1.experiments.covol.step003_authorization import (
-        require_action_authorized,
+    from paper1.experiments.covol.scientific_gate import (
+        DEFAULT_SCIENTIFIC_GATE,
+        require_covol_action_authorized,
     )
 except ModuleNotFoundError:  # Direct script consumers in this directory.
-    from step003_authorization import require_action_authorized  # type: ignore
+    from scientific_gate import (  # type: ignore
+        DEFAULT_SCIENTIFIC_GATE,
+        require_covol_action_authorized,
+    )
 
 ROUTER_SPLITS = frozenset({"train", "dev", "internal_test"})
 FORMAL_TRAINING_SEEDS = (17, 29, 43)
@@ -470,6 +474,7 @@ def validate_expert_cache_manifest(
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--authorization", type=Path, required=True)
+    parser.add_argument("--scientific-gate", type=Path, default=DEFAULT_SCIENTIFIC_GATE)
     parser.add_argument("--router-manifest", type=Path, required=True)
     parser.add_argument("--official-training-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -480,7 +485,12 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = _parse_args()
-    require_action_authorized(args.authorization, action="step005")
+    require_covol_action_authorized(
+        step003_authorization_path=args.authorization,
+        scientific_gate_path=args.scientific_gate,
+        scientific_action="step005",
+        step003_action="step005",
+    )
     plan = build_stacking_plan(
         _read_jsonl(args.router_manifest),
         _read_jsonl(args.official_training_manifest),

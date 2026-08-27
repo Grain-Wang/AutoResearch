@@ -1,8 +1,8 @@
-# 011 Claim Language Revision
+# 011 Claim Language Revision — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Current status
 
-`COVOL-CLAIMS-STOPPED-BY-H-SENSITIVITY-CONTROL`。004-A 不支持冲突特异的 caption degradation，故以下 Claim-F/Claim-M 语言仅为历史预注册合同，不得作为待验证或已支持主张继续使用。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。004-A 只在确定性 GT-template corpus 上不支持预注册的冲突特异性，故以下 Claim-F/Claim-M 语言仅为历史预注册合同，不得作为待验证或已支持主张继续使用；automatic-caption 问题未被直接检验。
 
 ## 已完成替换
 

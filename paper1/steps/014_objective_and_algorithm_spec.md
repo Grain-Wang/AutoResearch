@@ -1,8 +1,8 @@
-# 014 Objective and Algorithm Specification
+# 014 Objective and Algorithm Specification — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Status and boundary
 
-`SPECIFIED, ROUND7-SCALAR-EVALUATOR-DONE-CODE, TRAINING-UNIMPLEMENTED, UNVERIFIED`。本文件是 CoVoL-Depth 的唯一优化目标规范；配置入口为 `configs/covol/baseline_contract.yaml` version 3。方法暂名 **Main-PR**（cross-fitted partial-residual router），不使用 `orthogonalized`、`causal` 或理论风险保证等术语。full-crop weighting、cluster-balanced estimand、per-seed retention LCB 与 test stop 已进入 scalar helper/evaluator；训练、真实 cache/outcome 和方法结果仍未实现，因此不能引用为“算法已完成”。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。本文件只保存 CoVoL-Depth 的历史优化目标规范；配置入口为 `configs/covol/baseline_contract.yaml` version 3。方法暂名 **Main-PR**（cross-fitted partial-residual router），但训练、真实 cache/outcome 和方法结果有意不存在。full-crop weighting、cluster-balanced estimand、per-seed retention LCB 与 test stop 的 helper QA 不是算法证据，任何 CoVoL 下游入口均由最终 scientific gate 阻断。
 
 TIGER 使用自然语言任务指令在多个冻结异构 VFM 特征之间做 token-level 融合，并用移除专家后的预测变化对齐 routing contribution。Main-PR 不学习任务指令、不融合 VFM feature，也不把 expert-exclusion contribution 当作新颖性；它只解决两个已冻结、同任务 metric-depth 候选之间的局部决策：在预注册 clean utility 下最小化受控 caption 错误的尾部 regret。该边界必须由 Risk-L2D-C、TIGER-style LOO、DeferredSeg、Regression-L2D 与 DR-L2D 对照共同否证。
 

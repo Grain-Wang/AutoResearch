@@ -1,8 +1,8 @@
-# 005 Repository-Owned Frozen Experts
+# 005 Repository-Owned Frozen Experts — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Status
 
-`STOPPED-BY-004-A, ENTITY-CACHE-VALIDATOR-DONE-CODE`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，本步骤不再训练 PyTorch 双候选或生成真实 checkpoint/cache。stacking plan、实体级主键和 hash/cluster-overlap validator 及其合成测试仅作为预注册实现记录保留。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。004-A 的 semantic-preserving 控制条件失败已停止当前 GT-template probe 与 Main-PR 路径，本步骤不再训练 PyTorch 双候选或生成真实 checkpoint/cache。stacking plan、实体级主键和 hash/cluster-overlap validator 及其合成测试仅作为历史预注册实现记录保留。
 
 ## Shared-backbone contract
 

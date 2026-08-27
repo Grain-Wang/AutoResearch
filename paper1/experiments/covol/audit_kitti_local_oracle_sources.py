@@ -15,11 +15,15 @@ from typing import Any
 import numpy as np
 
 try:
-    from paper1.experiments.covol.step003_authorization import (
-        require_action_authorized,
+    from paper1.experiments.covol.scientific_gate import (
+        DEFAULT_SCIENTIFIC_GATE,
+        require_covol_action_authorized,
     )
 except ModuleNotFoundError:  # Direct script consumers in this directory.
-    from step003_authorization import require_action_authorized  # type: ignore
+    from scientific_gate import (  # type: ignore
+        DEFAULT_SCIENTIFIC_GATE,
+        require_covol_action_authorized,
+    )
 
 FrameKey = tuple[str, str, int]
 
@@ -219,6 +223,7 @@ def _named_source(value: str) -> OracleSource:
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--authorization", type=Path, required=True)
+    parser.add_argument("--scientific-gate", type=Path, default=DEFAULT_SCIENTIFIC_GATE)
     parser.add_argument("--pilot-manifest", type=Path, required=True)
     parser.add_argument(
         "--depth-source", type=_named_source, action="append", required=True
@@ -232,7 +237,12 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = _parse_args()
-    require_action_authorized(args.authorization, action="kitti_oracle_gap_audit")
+    require_covol_action_authorized(
+        step003_authorization_path=args.authorization,
+        scientific_gate_path=args.scientific_gate,
+        scientific_action="second_dataset_recovery",
+        step003_action="kitti_oracle_gap_audit",
+    )
     results = audit_kitti_sources(
         _read_jsonl(args.pilot_manifest),
         args.depth_source,

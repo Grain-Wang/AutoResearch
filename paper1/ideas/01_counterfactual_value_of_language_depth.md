@@ -2,9 +2,10 @@
 
 ## 当前结论
 
-- **`STOPPED_BY_H_SENSITIVITY_CONTROL`，不是活跃 Research Opportunity，更不是 Paper Candidate。**
+- **`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`，不是活跃 Research Opportunity，更不是 Paper Candidate。**
 - **停止证据：** 004-A 的两个冲突族有正向 region AbsRel sensitivity，但 semantic-preserving 对照也稳定退化，95% CI `[0.000579, 0.001777]` 不包含 0；预注册的冲突特异性 Gate-0 因此失败。
-- **不再继续本方向。** 第二数据集审计、正式 D0/D1、Claim-F、Claim-M 与 Main-PR 均停止。Q-GeoRoute 仍为 PARKED，只有另行更新范围锁、最近邻和 Research Opportunity Gate 后才能成为新主线。
+- **不再继续本方向。** 第二数据集审计、正式 D0/D1、Claim-F、Claim-M 与 Main-PR 均停止。新的 SR-VEP 机会由独立的 Research Opportunity Gate 管理，不继承 CoVoL 证据。
+- **证据范围收缩。** 实际 004-A 输入是由 NYUv2 GT 实体、instance mask 与 median depth 生成的确定性关系模板，不是自动 caption。结果只停止当前 GT-template probe 与 Main-PR 路径；自然 automatic-caption 局部错误问题未被直接检验。
 - 任务限定为：自动图像描述出现局部、可机器验证的语义错误时，在冻结的纯视觉候选 `D0` 与图文候选 `D1` 之间逐区域选择，无收益时回退到 `D0`。
 - “错误语言会损害深度”“长描述/细粒度文本”“冻结视觉骨干+语言校准”“通用 gate”均已被近邻覆盖，不作为贡献。
 - 研究主张拆成两层：Claim-F 用固定宽度 direct/两类 permuted controls 检验语义是否有增量信息；Claim-M 检验固定 clean utility 下的局部 tail-regret router 是否优于获得相同 OOF experts 与合法 zC 特征的 direct defer baselines。
@@ -14,7 +15,7 @@
 
 ## 1. 可证伪假设
 
-1. **H-sensitivity（诊断）：`STOP_H_SENSITIVITY`。** local entity conflict 与 depth relation conflict 的 region AbsRel degradation CI 下界大于 0，但 semantic-preserving 对照 CI 不含 0，故结果不具冲突特异性，也不证明 fallback 必要。
+1. **H-sensitivity（诊断）：`STOP_H_SENSITIVITY`。** 在规则 GT-template corpus 上，local entity conflict 与 depth relation conflict 的 region AbsRel degradation CI 下界大于 0，但 semantic-preserving 对照 CI 不含 0，故结果不具预注册的冲突特异性，也不证明 fallback 必要。规则等价改写的人类等价性与自然度未评估。
 2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；原 NYUv2+当前 KITTI source 分支已 STOP，只有新的两个真实数据集 Step003 authorization PASS 后才能判定。Virtual KITTI 2 只作 synthetic structured auxiliary stress test。
 3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 在同一 dev-retention LCB constrained operating point 上的 CVaR/WorstOf3 逐 seed cluster-CI 均通过；Main-PR 不参与，hypervolume 只作 secondary。
 4. **H-method / Claim-M：** 每 seed 在 dev 只从 clean-gain retention one-sided 95% LCB ≥80% 的 thresholds 中选最低 cluster-balanced CVaR；internal-test 上 Main-PR 相对全部 direct killers 的 `CVaR/WorstOf3@Dev-Ret≥0.80` 风险差逐 seed cluster-CI 均同向为负；HV 仅作 secondary。
@@ -57,13 +58,13 @@
 
 ### 3.2 仓库自有实现路线
 
-上游固定为 `BeileiCui/TR2M@a45925862bcd76c84ac38c6fc98da1e187f1146e`。截至 2026-08-21，该仓库只释放评测代码和权重，README 仍声明训练代码待发布。因此：
+本节为 `ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。上游固定为 `BeileiCui/TR2M@a45925862bcd76c84ac38c6fc98da1e187f1146e`。截至 2026-08-21，该仓库只释放评测代码和权重，README 仍声明训练代码待发布。因此：
 
 - 发布 checkpoint 只用于 H-sensitivity；
 - 禁止用替换/置空文本冒充独立训练的 `D0`；
 - 不再等待上游训练代码；Step 005 直接实现 shared frozen DepthAnything backbone 与两个独立同构 metric heads；
 - H-fallback-defect 前必须完成 checkpoint/cache SHA、参数匹配和冻结梯度测试；
-- 本地环境尚无 PyTorch，因此 GPU 模型实现是下一原子动作，但研究路线不再依赖外部发布日期。
+- 不再实现 CoVoL GPU 模型；相关路线只保留为历史预注册记录。
 
 ## 4. 唯一区域 oracle
 

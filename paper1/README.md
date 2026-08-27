@@ -1,61 +1,57 @@
-# paper1：自动描述错误下的选择性深度候选路由
+# paper1：情感 MLLM 研究主线与 CoVoL 归档
 
 ## 当前状态
 
-CoVoL-Depth 已在预注册的 004-A 对照门禁上返回 **`STOP_H_SENSITIVITY`**，不能称为 Paper Candidate，也不再是活跃 Research Opportunity。两个冲突族的区域 AbsRel 退化 95% CI 下界虽大于 0，但 semantic-preserving 对照也稳定退化，故现有证据只支持 TR2M 对文本表面形式敏感，不支持“局部语义冲突特异地造成退化”。按照冻结规则，004-B、公平 D0/D1、Claim-F、Claim-M 与 Main-PR 均不得继续。第二数据集/KITTI gap 审计可作为已完成的数据可行性记录保留，但不能恢复 CoVoL。Q-GeoRoute 仍保持停放，只有另行更新范围锁和完成新的最近邻/机会门禁后才能启动。
+CoVoL-Depth 已归档为 **`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`**。004-A 使用的是 NYUv2 GT entity/instance/median-depth 构造的确定性短模板，不是 automatic captions。semantic-preserving 控制也稳定变化，因此证据只支持“当前 GT-template probe 与 Main-PR 路径停止”，不支持“自动 caption 局部错误问题整体被否定”。004-B、公平 D0/D1、Claim-F、Claim-M、Main-PR、第二数据集恢复与 official test 均不得继续。
+
+重新选题后，唯一选择的 Research Opportunity 是 **SR-VEP：Source-Residualized Video-Grounded Emotion Preference**，状态为 `DEFECT_CANARY_PENDING / NOT_PAPER_CANDIDATE`。它先检验 EmoPrefer/MER-Prefer judge 是否可通过 generator identity/length shortcut 接近 audio-visual judge，再尝试用 same-generator video matching、cross-fitted source residualization 与 worst-group pairwise optimization 恢复可验证的视频 grounding。当前只授权 CPU defect canary，尚无仓库自有科学结果或算法 claim。
 
 ## 阅读顺序
 
 1. [主线范围锁定](steps/001_primary_scope_lock.md)
-2. [最近邻审计](steps/002_related_work_audit.md)
-3. [主研究方案](ideas/01_counterfactual_value_of_language_depth.md)
-4. [执行状态表](steps/README.md)
-5. [Post-Step003 范围决策](steps/015_post_step003_scope_decision.md)
-6. [最新审稿意见](responce_from_reviewer/review_round8.md)
-7. [Round-8 回应](responce_from_reviewer/response_round8.md)
-8. [Round-7 回应](responce_from_reviewer/response_round7.md)
+2. [新 Research Opportunity Gate](steps/017_research_opportunity_gate.md)
+3. [SR-VEP 候选定义](ideas/candidates/01_source_residualized_emotion_preference.md)
+4. [CoVoL 最终 closure](steps/016_covol_closure.md)
+5. [执行状态表](steps/README.md)
+6. [最新 Round-9 审稿意见](responce_from_reviewer/review_round9.md)
+7. [Round-9 回应](responce_from_reviewer/response_round9.md)
 
-## 执行顺序
+## 执行边界
 
-原正式依赖链已被 004-A 停止。不得继续新的 Step003 恢复、005、004-B、006、007 或 008；这些协议只作为负结果可复现记录保留。任何新方向都必须先完成独立的 Research Opportunity Gate 和范围变更，不能复用 CoVoL 的未成立主张。
+CoVoL 原依赖链已被全局 scientific gate 停止。旧 Step003 authorization 即使被替换为 PASS，也不能绕过该门禁；Step004-B、005–008、official test 和数据恢复固定返回 exit code 4。SR-VEP 的执行顺序仅为“官方 annotation/许可审计 → CPU shortcut canary → grounded-signal canary → 最小 LoRA prototype”，任一量化门失败立即停止，不在 canary 前建设通用训练框架。
 
-training-only diagnostic 从 Step003 的 hash-linked 1000-row manifest 中稳定选择 100 图/59 clusters，生成四个 local families 各 300 行，共 1200 行，machine-check 通过率 100%；null/global 各 100 行且与 local rows 分离。可移植审计见 [diagnostic intervention audit](results/covol/diagnostic_intervention_audit.json)。独立规则解析器对每族稳定抽取 25 行，共 100/100 满足预注册 predicate 合同；只读 raw text 的 unigram classifier 按每族留一套模板测试，macro-F1 为 0.488，低于预注册 0.60 上限，见 [intervention validity audit](results/covol/intervention_validity.json)。自动 surface-form 检查 1200/1200 通过，但这不是人类自然度评估。
+## CoVoL 科学事实与解释限制
 
-004-A 已在 NYUv2 official-train diagnostic 上完成 100 图、1200 配对、59 clusters、10,000 次 cluster bootstrap。区域 AbsRel 退化为：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。由于预注册要求 semantic-preserving CI 包含 0，该结果返回 `STOP_H_SENSITIVITY`。逐行结果与运行时、权重、输入和代码哈希见 [CSV](results/covol/sensitivity_diagnostic.csv) 和 [summary](results/covol/sensitivity_diagnostic_summary.json)。
+training-only diagnostic 从 Step003 的 hash-linked 1000-row manifest 中稳定选择 100 图/59 clusters，生成四个 local families 各 300 行，共 1200 行。machine-check 为 1200/1200，独立规则 parser 分层抽取的 100/100 通过；这只验证规则模板合同。aggregate text-only macro-F1 为 0.488，但逐 family 审计检出 target deletion F1 1.000、local entity F1 0.662，状态为 `FAMILY_ARTIFACT_DETECTED`。自动 surface-form 1200/1200 通过，人类等价性/自然度仍为 `NOT_ASSESSED`。
 
-真实 Step003 CPU gate 已返回 `STOP_TWO_DATASET_CLAIM`：NYUv2 local-oracle feasibility 通过，**当前冻结 KITTI source 未提供满足合同的 local depth/mask oracle**，power 因而未运行。该结果不证明 KITTI 数据族不可行，也不证明 intervention corpus 或语言鲁棒性成立。当前最多审计 Cityscapes、ScanNet v2、Matterport3D 三个真实候选，并单独核对 KITTI depth/mask/frame 对齐缺口；VKITTI2 固定为 synthetic structured auxiliary set。
+004-A 的区域 AbsRel degradation 为：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。预注册要求 semantic-preserving CI 包含 0，故状态为 `STOP_H_SENSITIVITY`。探索性 conflict-minus-control、Holm correction、practical effects 与 leave-one-cluster-out 诊断不能反向恢复 STOP，见 [closure](steps/016_covol_closure.md)。
 
-所有正式 downstream 入口必须验证 [Step003 authorization](artifacts/covol/step003_authorization.json)，不能仅凭非空 `local_claim_datasets` 启动。当前正式步骤固定 exit code 3；只有 train-only diagnostic 与数据审计获得授权。
+真实 Step003 CPU gate 的历史状态为 `STOP_TWO_DATASET_CLAIM`：NYUv2 local-oracle feasibility 通过，当前冻结 KITTI source 未提供满足合同的 local depth/mask oracle。Cityscapes、ScanNet v2、Matterport3D 候选均为 `PENDING_SOURCE_ACCESS`，现在统一由 closure 标为 `SUPERSEDED_BY_H_STOP`，不再是活跃出口。
 
-TR2M 官方代码 revision、released ScaleMap checkpoint、Depth Anything ViT-S、DINOv2 ViT-L 与 CLIP ViT-L/14 权重均已完成 SHA256 锁定，见 [TR2M release audit](results/covol/tr2m_release_audit.json) 和 004-A summary。可续跑 runner 已通过合成回归测试；正式运行环境为 Python 3.12.13、PyTorch 2.5.0+cu121、NVIDIA A800 80GB PCIe。该 GPU 结果是诊断性负门禁，不是 D0 fallback 或 router 证据。
+所有 CoVoL downstream 入口必须先验证 [global scientific gate](artifacts/covol/covol_scientific_gate.json)，再验证历史 [Step003 authorization](artifacts/covol/step003_authorization.json)。最终 scientific gate 优先，当前所有下游 action 固定 exit code 4。唯一 hash-linked 当前状态由 [closure manifest](artifacts/covol/covol_closure.json) 给出；旧 `diagnostic_intervention_audit.json` 的 pending 字段保留历史原貌，不再解释当前状态。
 
-A800 shared CUDA canary 已通过，说明“剩余显存满足时启动并记录结果”的基础设施可用；它没有运行 D0/D1、router 或真实数据实验。exclusive scheduler 已暂停并保留 PENDING state，只有在科学门禁恢复且用户再次通知后才重启。
+## 可复现检查
 
-## 当前可运行检查
-
-本机允许执行 Ruff、Black、Pytest 和微型合成数据测试；真实逐行 manifest/intervention 保存在 Git 忽略目录，只提交不含机器路径的计数与哈希审计。Step003 真实门禁已在远程 `whr` 完成；下列命令只用于在保留的私有数据上重建相同 training-only manifest 和 QA，不代表允许越过 STOP。VKITTI2 adapter 仅服务合成结构化辅助分析。active 配置由 [training pilot example](configs/covol/training_pilot_manifest.example.json) 派生且不提交：
+本机允许执行 Ruff、Black、Pytest、closure validator 与微型合成测试。受许可约束的 NYUv2/MER media、模型权重、环境与 cache 均保存在 Git 忽略的仓库子目录，不提交或重分发。
 
 ```bash
-cd <remote-repository-root>
-conda run -n vlm python -m paper1.experiments.covol.build_training_pilot_manifest \
-  --config paper1/configs/covol/training_pilot_manifest.json \
-  --output paper1/data/covol/image_manifest.jsonl \
-  --audit paper1/data/covol/split_audit.json
+python -m paper1.experiments.covol.validate_covol_closure \
+  --manifest paper1/artifacts/covol/covol_closure.json
 
-conda run -n vlm python -m ruff check .
-conda run -n vlm python -m black --check .
-conda run -n vlm python -m pytest paper1/tests -q \
+python -m paper1.experiments.covol.scientific_gate \
+  --action step005
+
+python -m ruff check paper1
+python -m black --check paper1
+python -m pytest paper1/tests -q \
   --basetemp .local-deps/pytest-paper1
 ```
 
-Step 003 配置中出现 official-test manifest 会立即失败。`build_image_manifest.py` 仅用于 Step 008 完全冻结后的 test integrity audit，且必须显式传入 `--allow-official-test-read`；不得用它替代当前 training-only builder。
+scientific-gate 的第二条命令必须返回 `STOPPED_BY_H_SENSITIVITY` 和 exit code 4；这表示安全停止，不是 QA 失败。004-A 的完整重放命令、锁定运行时和字节级限制见 [016 closure](steps/016_covol_closure.md)。
 
-只有在数据分支经明确方向确认重新通过后，才可生成 router manifest 并冻结 OOF stacking 计划（仍不代表模型已训练）：
+## 当前不能声称
 
-```powershell
-conda run -n auto_research python paper1/experiments/covol/cache_oof_experts.py `
-  --authorization paper1/artifacts/covol/step003_authorization.json `
-  --router-manifest paper1/data/covol/image_manifest.jsonl `
-  --official-training-manifest paper1/data/source/official_train_all.jsonl `
-  --output paper1/artifacts/covol/expert_stacking_plan.json
-```
+- 不能声称 automatic-caption 问题已被 CoVoL diagnostic 普遍否定，也不能声称固定 paraphrases 有人类等价性或自然度。
+- 不能声称已训练 CoVoL D0/D1、router，或已验证 Claim-F/Claim-M。
+- 不能声称 SR-VEP 的外部 shortcut 数字已在本仓库复现、候选算法有效，或已经达到 Paper Candidate/强 CCF-C。
+- 不能把 QA、协议、hash、GPU availability 或代码量写成科学贡献。

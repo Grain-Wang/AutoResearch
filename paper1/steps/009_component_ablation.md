@@ -1,6 +1,6 @@
-# 009 Component and Boundary Ablation
+# 009 Component and Boundary Ablation — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
-状态：`SPECIFIED, NOT EXECUTED`。本步骤只在步骤 008 的 Claim-M 达到预注册门禁后执行；它不能补救失败的主实验。
+状态：`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED, NOT_EXECUTED`。Claim-M 的上游门禁已停止，本步骤不会执行；以下只保留历史消融协议。
 
 ## 目的
 

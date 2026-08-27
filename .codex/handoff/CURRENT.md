@@ -1,5 +1,18 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-27 Round9 closure 与重新选题状态（优先于下方全部内容）**
+>
+> - 当前分支保持 `paper1`，没有新建分支，也没有改变远端 `paper2`。本轮先 `git pull --ff-only origin paper1`，从 `8ffd8fe` fast-forward 到远端审稿提交 `c12f506`，新增 `review_round9.md`。本段记录的 closure/新选题变更在提交前应以实际 `git status` 为准。
+> - CoVoL 唯一最终状态为 `STOPPED_BY_H_SENSITIVITY_CONTROL / ARCHIVED_GT_TEMPLATE_PROBE_AND_MAIN_PR_PATH`。004-A 实际输入是从 NYUv2 GT class、instance mask 与 median depth 构造的确定性关系模板，不是 automatic captions；结果只停止当前 GT-template probe 与 Main-PR 路径，自然 automatic-caption 问题为 `UNTESTED`，human equivalence/naturalness 为 `NOT_ASSESSED`。
+> - 新增 global scientific gate，绑定原始 sensitivity CSV SHA `a2d45f...` 与 summary SHA `e4a304...`；`step004_b/step005/step006/step007/step008/official_test/second_dataset_recovery` 全 false，固定 exit code 4。二数据集候选审计、KITTI oracle 审计和 Step005 cache CLI 先检查该 gate；伪造历史 Step003 PASS 也不能绕过。
+> - 新增唯一 `covol_closure.json` 与 validator，当前校验 18 个 tracked artifacts、3 个 repo-local rebuildable inputs、0 个授权 action。旧 `diagnostic_intervention_audit.json` 的 `PENDING_INDEPENDENT_PRECISION_AND_H_SENSITIVITY` 和历史 Step003 authorization 保留原文件，由 closure 显式 supersede。
+> - 逐 family held-template-out text audit 检出 target deletion F1/AUROC `1.000/1.000`、local entity `0.662/0.704`，状态 `FAMILY_ARTIFACT_DETECTED`；aggregate macro-F1 0.488 不再单独判 PASS。双人盲审因根 `AGENTS.md` 禁止新增人工标注而未执行，没有用 AI/parser 冒充。
+> - 004-A 冻结 CSV 的探索性 matched postmortem 已完成并固定 `cannot_reverse_preregistered_stop=true`：local entity minus semantic control point `+0.000464`、CI 跨 0；depth relation约 `-0.000350`，family-level Holm-adjusted p 约 `0.1215`。practical artifact 报告 target mass、clean region error、absolute/relative/full-image effect 与 leave-one-cluster-out influence；target pixel mass median约 8.55%，cluster-balanced mean约 10.72%。
+> - Step005–009、011、014 已统一 `ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`，Step015 为 `SUPERSEDED_BY_H_STOP`；最终 8 节 closure 和 internal `Diagnostic Negative Result` note 已生成。
+> - 新 Research Opportunity Gate 审计恰好 5 个候选，只有 **SR-VEP（Source-Residualized Video-Grounded Emotion Preference）** 被选择，状态 `SELECTED_RESEARCH_OPPORTUNITY / DEFECT_CANARY_PENDING / NOT_PAPER_CANDIDATE`。它针对 EmoPrefer/MER-Prefer 的 generator-style shortcut，算法假设为 same-generator/coarse-emotion-matched video swaps 识别 AV evidence margin + cross-fitted source nuisance residualization + worst-generator-pair group-DRO。
+> - SR-VEP 的关键外部数字（content-blind judge、99.5% generator recovery）尚未在本仓库独立复现。当前唯一允许的科学动作是获取/hash-lock 官方 annotation tables 与许可文本，运行 CPU 五折 shortcut canary；CPU gate 通过前不获取受限媒体、不启动 GPU、不建设完整训练器。source recovery <95% 或 content-blind 与对称 Omni LoRA 差 >5 pp 即停止。
+> - 本轮验证：repository-level `ruff check .` 通过；所有 104 个 Python 文件逐文件 `black --check` 通过；`tools/tests + paper1/tests` 为 `209 passed`；closure validator、7 个 scientific actions exit 4、JSON、`git diff --check` 均通过。一次从 `paper1/` 直接运行 pytest 因既有测试使用 repo-relative path 收集失败，已从仓库根目录按正确入口完整复跑通过；不是代码故障。
+
 > **2026-08-27 Round7/Round8 P0 最终状态（优先于下方全部内容）**
 >
 > - 当前分支为 `paper1`，Round7/Round8 P0 代码与协议提交 `f88ff65`、Depth Anything 本地锁定修复 `04b28d2`、运行时 provenance `65a4b3f`、正式 004-A 结果与停止决定 `9cd7dea`。Round6/Round7 回应文件名已修正为 `response_round6.md`、`response_round7.md`；历史目录名因既有链接保留。本轮新增 `response_round8.md`。

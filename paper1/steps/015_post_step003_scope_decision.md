@@ -1,14 +1,14 @@
-# 015 Post-Step003 Scope Decision
+# 015 Post-Step003 Scope Decision — SUPERSEDED_BY_H_STOP
 
 ## Frozen decision
 
-历史冻结选择为 `RECOVER_TWO_REAL_DATASETS`，但 004-A 已在更上游的问题真实性/特异性门禁返回 `STOP_H_SENSITIVITY`。因此 CoVoL 当前最终状态为 `STOPPED_BY_H_SENSITIVITY_CONTROL`，新的 Step003 authorization 也不能自动恢复 Claim-F、Claim-M 或 Main-PR。
+历史冻结选择为 `RECOVER_TWO_REAL_DATASETS`，现在由最终 closure 标为 `SUPERSEDED_BY_H_STOP`。004-A 在确定性 GT-template probe 的上游特异性门禁返回 `STOP_H_SENSITIVITY`；新的 Step003 authorization 不能恢复当前 Main-PR 路径。该结果不直接检验自然 automatic captions。
 
 “第二个真实数据集”不再无条件要求 outdoor；跨室内/室外泛化也不作为当前贡献前提。选择标准只看真实采集、RGB 与 metric depth/local mask 可对齐、至少 20 个独立 clusters、许可可复现和固定 source revision。为保留更强跨环境证据，候选顺序仍优先检查 outdoor Cityscapes，但不能为此放宽任何门槛。
 
-## Preregistered candidate limit and order
+## Historical preregistered candidate limit and order
 
-最多审计以下三个真实数据集，顺序在读取任何 Main-PR、router 或 D0/D1 方法结果前冻结：
+以下三个真实数据集及顺序仅为被 supersede 的历史记录，不再授权 source access、下载或 dry-run：
 
 1. [`Cityscapes`](https://www.cityscapes-dataset.com/dataset-overview/)：真实 outdoor stereo；只接受 official-train fine annotations、官方 disparity 和 camera calibration 可共同解析的帧；cluster 为 city，不把 30-frame snippet 当独立 cluster。
 2. [`ScanNet v2`](https://www.scan-net.org/ScanNet/)：真实 indoor RGB-D sequences；只接受 official train scans 中 RGB、metric depth 与 filtered 2D instance/semantic projections 对齐的帧；cluster 为 physical space，不把同一空间的 rescans 当独立 cluster。
@@ -39,7 +39,7 @@ diagnostic corpus 与 H-sensitivity 只能回答“caption intervention 是否�
 
 机器执行入口必须读取 [`step003_authorization.json`](../artifacts/covol/step003_authorization.json)。仅 `status=PASS`、`decision=GO_LOCAL_CLAIMS_*`、两个及以上 formal datasets 与 source coverage artifact 全部一致时，正式 downstream action 才能返回 0；当前固定返回 `BLOCKED_BY_STEP003` 和 exit code 3。非空 `local_claim_datasets` 数组本身不构成授权。
 
-## Exit conditions
+## Historical exit conditions (not active)
 
 1. 某个候选通过 50-image dry-run 后，先完成 500-image training-only pilot 与 deterministic replay；只有完整 coverage PASS 才生成新的 Step003 authorization。
 2. 三候选全部失败时，Claim-M 正式停止。是否转为 `RESCOPE_NYUV2_ANALYSIS_ONLY` 需要新的范围决策，并同步删除算法 Paper Candidate gate。

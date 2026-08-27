@@ -1,8 +1,8 @@
-# 007 Fair Gate Baselines
+# 007 Fair Gate Baselines — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Status
 
-`STOPPED-BY-004-A`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，不再实现或运行本步骤的模型实验。以下公平合同仅作为预注册记录保留。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。004-A 的 semantic-preserving 控制条件失败已停止当前 GT-template probe 与 Main-PR 路径，不再实现或运行本步骤的模型实验。以下公平合同仅作为历史预注册记录保留。
 
 ## Heuristics
 

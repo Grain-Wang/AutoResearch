@@ -1,8 +1,8 @@
-# 006 Semantic Incrementality Gate
+# 006 Semantic Incrementality Gate — ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED
 
 ## Status
 
-`STOPPED-BY-004-A`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，Claim-F 不再执行。三类 extractor callables、seed-aware entity-cache validator 与统计合同仅作为预注册实现记录保留；真实 checkpoint/cache、controls 和 outcome 有意不存在。
+`ARCHIVED_PREREGISTRATION_NOT_AUTHORIZED`。004-A 的 semantic-preserving 控制条件失败已停止当前 GT-template probe 与 Main-PR 路径，Claim-F 不再执行。三类 extractor callables、seed-aware entity-cache validator 与统计合同仅作为历史预注册实现记录保留；真实 checkpoint/cache、controls 和 outcome 有意不存在。
 
 ## Frozen inputs
 

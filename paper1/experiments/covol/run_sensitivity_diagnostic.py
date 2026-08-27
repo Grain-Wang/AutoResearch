@@ -9,6 +9,7 @@ import importlib
 import json
 import math
 import os
+import platform
 import re
 import sys
 from collections import defaultdict
@@ -403,6 +404,17 @@ class Tr2mBatchPredictor:
         )
         self._scalemap.load_state_dict(state_dict)
         self._scalemap.eval()
+        self.runtime_provenance = {
+            "python": platform.python_version(),
+            "torch": str(torch.__version__),
+            "cuda_runtime": str(torch.version.cuda),
+            "device": str(self._device),
+            "device_name": (
+                torch.cuda.get_device_name(self._device)
+                if self._device.type == "cuda"
+                else platform.processor()
+            ),
+        }
 
     def _image_tensor(self, rgb: np.ndarray) -> Any:
         torch = self._torch
@@ -678,11 +690,15 @@ def run_diagnostic(args: argparse.Namespace) -> dict[str, Any]:
             "row_count": len(results),
             "cluster_count": len({row["cluster_id"] for row in results}),
             "intervention_sha256": _file_sha256(args.interventions),
+            "authorization_sha256": _file_sha256(args.authorization),
             "eval_protocol_sha256": _file_sha256(args.eval_protocol),
+            "release_audit_sha256": _file_sha256(args.release_audit),
+            "runner_sha256": _file_sha256(Path(__file__).resolve()),
             "nyuv2_labeled_sha256": _file_sha256(args.nyuv2_labeled),
             "tr2m_checkpoint_sha256": expected_tr2m,
             "depth_checkpoint_sha256": expected_depth,
             "encoder_weights": _encoder_weight_provenance(args.cache_root),
+            "runtime": predictor.runtime_provenance,
             "output_sha256": _file_sha256(args.output),
         }
     )

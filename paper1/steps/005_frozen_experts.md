@@ -2,7 +2,7 @@
 
 ## Status
 
-`BLOCKED-BY-STEP003, ENTITY-CACHE-VALIDATOR-DONE-CODE`。stacking plan 已改用 frozen `cluster_id`，cache 主键已扩展到 `(dataset,image_id,seed,candidate_id,control_type)`；validator 会打开并重算 checkpoint/config/training-manifest/cache 文件哈希，核对 config/cache entity identity 与 checkpoint lineage，并以实际 training manifest 拒绝 prediction-cluster overlap。三 seeds×D0/D1×main/twin/shuffled 的完整合成覆盖与篡改测试已通过。PyTorch 双候选、真实训练/checkpoint/cache 尚未完成；当前正式入口读取 Step003 authorization 并固定 exit 3。A800 shared CUDA canary 不改变门禁。
+`STOPPED-BY-004-A, ENTITY-CACHE-VALIDATOR-DONE-CODE`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，本步骤不再训练 PyTorch 双候选或生成真实 checkpoint/cache。stacking plan、实体级主键和 hash/cluster-overlap validator 及其合成测试仅作为预注册实现记录保留。
 
 ## Shared-backbone contract
 

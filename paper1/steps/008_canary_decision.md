@@ -2,7 +2,7 @@
 
 ## Status
 
-`STOPPED_CURRENT_DATA_BRANCH / BLOCKED-BY-NEW-STEP003-AUTHORIZATION`。本步骤只汇总冻结结果，不允许新增 trial、改阈值或换聚合口径。当前 `NYUv2 + frozen KITTI source` 已停止；新的第二真实数据集尚未通过 dry-run/full-pilot authorization。A800 shared CUDA canary 只证明执行环境可用，不能启动或替代本步骤。
+`STOPPED-BY-004-A-H-SENSITIVITY-CONTROL`。本步骤只保留冻结协议，不允许新增 trial、改阈值或换聚合口径。004-A 的 semantic-preserving region AbsRel degradation CI 不包含 0，已停止 CoVoL；新的第二真实数据集或 Step003 authorization 不能恢复 Claim-F/Claim-M。
 
 ## Claim-F
 

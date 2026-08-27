@@ -2,9 +2,9 @@
 
 ## 当前结论
 
-- **Research Opportunity，不是 Paper Candidate。**
-- **当前范围：`RECOVER_TWO_REAL_DATASETS / STOPPED_CURRENT_DATA_BRANCH`。** 原 `NYUv2 + current frozen KITTI source` 已停止；最多预注册审计 Cityscapes、ScanNet v2、Matterport3D，新的 Step003 authorization PASS 前不启动正式模型实验。
-- **这是仓库唯一主线。** Q-GeoRoute 仅在 Gate-0 否定本方向后启动。
+- **`STOPPED_BY_H_SENSITIVITY_CONTROL`，不是活跃 Research Opportunity，更不是 Paper Candidate。**
+- **停止证据：** 004-A 的两个冲突族有正向 region AbsRel sensitivity，但 semantic-preserving 对照也稳定退化，95% CI `[0.000579, 0.001777]` 不包含 0；预注册的冲突特异性 Gate-0 因此失败。
+- **不再继续本方向。** 第二数据集审计、正式 D0/D1、Claim-F、Claim-M 与 Main-PR 均停止。Q-GeoRoute 仍为 PARKED，只有另行更新范围锁、最近邻和 Research Opportunity Gate 后才能成为新主线。
 - 任务限定为：自动图像描述出现局部、可机器验证的语义错误时，在冻结的纯视觉候选 `D0` 与图文候选 `D1` 之间逐区域选择，无收益时回退到 `D0`。
 - “错误语言会损害深度”“长描述/细粒度文本”“冻结视觉骨干+语言校准”“通用 gate”均已被近邻覆盖，不作为贡献。
 - 研究主张拆成两层：Claim-F 用固定宽度 direct/两类 permuted controls 检验语义是否有增量信息；Claim-M 检验固定 clean utility 下的局部 tail-regret router 是否优于获得相同 OOF experts 与合法 zC 特征的 direct defer baselines。
@@ -14,12 +14,12 @@
 
 ## 1. 可证伪假设
 
-1. **H-sensitivity（诊断）：** 同一 D1 的 corrupted caption 相对 clean caption 显著退化；可用 TR2M checkpoint，但不证明 fallback 必要。
+1. **H-sensitivity（诊断）：`STOP_H_SENSITIVITY`。** local entity conflict 与 depth relation conflict 的 region AbsRel degradation CI 下界大于 0，但 semantic-preserving 对照 CI 不含 0，故结果不具冲突特异性，也不证明 fallback 必要。
 2. **H-fallback-defect（正式缺陷）：** OOF 公平训练并冻结的 D1 在至少一个局部错误族上比同一设置的 D0 更差；原 NYUv2+当前 KITTI source 分支已 STOP，只有新的两个真实数据集 Step003 authorization PASS 后才能判定。Virtual KITTI 2 只作 synthetic structured auxiliary stress test。
 3. **H-semantic / Claim-F：** `C-direct−B-direct` 与 `C-direct−C-permuted-global/local` 在同一 dev-retention LCB constrained operating point 上的 CVaR/WorstOf3 逐 seed cluster-CI 均通过；Main-PR 不参与，hypervolume 只作 secondary。
 4. **H-method / Claim-M：** 每 seed 在 dev 只从 clean-gain retention one-sided 95% LCB ≥80% 的 thresholds 中选最低 cluster-balanced CVaR；internal-test 上 Main-PR 相对全部 direct killers 的 `CVaR/WorstOf3@Dev-Ret≥0.80` 风险差逐 seed cluster-CI 均同向为负；HV 仅作 secondary。
 
-正式依赖按 `015 → second-dataset audit → new Step003 PASS → 005 → H-fallback-defect → H-semantic → H-method` 执行。H-sensitivity 可在 NYUv2 train-only diagnostic corpus 上提前运行，但不能替代公平 D0-relative defect。
+原正式依赖链已被 H-sensitivity 上游门禁停止。以下方法、基线和统计设计只作为预注册记录保留，不授权继续执行。
 
 ## 2. 最近邻矩阵
 
@@ -137,7 +137,7 @@ heuristic baselines（always-D0/D1、oracle、CLIP、uncertainty、`|D1-D0|`）�
 
 ### 升级为 Paper Candidate
 
-必须同时满足 H-fallback-defect、Claim-F、Claim-M；第二个 backbone 复现结论；natural-error predicate 有足够 verified 样本；最新近邻未发现同构方法。
+当前不能升级。H-sensitivity 的 semantic-preserving 控制条件已经失败，因此不再执行 H-fallback-defect、Claim-F 或 Claim-M。
 
 ### 停止或降级
 
@@ -166,6 +166,6 @@ heuristic baselines（always-D0/D1、oracle、CLIP、uncertainty、`|D1-D0|`）�
 6. 分布外错误无逐样本非退化保证。
 7. 双候选会增加延迟，本方向不应伪称效率方法。
 
-## 10. 下一步唯一动作
+## 10. 停止后的动作边界
 
-执行 [015 post-Step003 scope decision](../steps/015_post_step003_scope_decision.md)：按冻结顺序审计三个真实第二数据集候选并完成当前 KITTI source gap audit；并行只在 NYUv2 official-train 固定 100 图上构建 diagnostic corpus、运行 004-A H-sensitivity。新 Step003 authorization PASS 前，不训练正式 D0/D1/router，不打开 dev/internal-test/official test，不启动 Q-GeoRoute，也不进入 Paper Build。
+保留 004-A 的逐行负结果、权重哈希和协议，停止 CoVoL 的数据恢复与模型实验。下一研究动作不是调参或删除失败对照，而是重新做至多五个 Research Opportunities 的文献缺口、最小缺陷 probe 与算法路径审计；选择新主线前必须更新 [001 范围锁](../steps/001_primary_scope_lock.md)。

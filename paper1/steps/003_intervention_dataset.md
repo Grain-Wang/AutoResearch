@@ -2,9 +2,9 @@
 
 ## Status
 
-`STOPPED_CURRENT_DATA_BRANCH, DIAGNOSTIC CORPUS CONSTRUCTED`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但当前冻结的 KITTI RGB source 未提供满足合同的 local instance-mask/depth oracle，因而旧 two-dataset gate返回 `STOP_TWO_DATASET_CLAIM`。这不证明 KITTI 数据族不可行。post-Step003 范围已选择 `RECOVER_TWO_REAL_DATASETS`；正式 Step005–008 继续阻断，但允许第二数据集/KITTI gap 审计和 NYUv2 official-train diagnostic/004-A。
+`DIAGNOSTIC CORPUS CONSTRUCTED / COVOL STOPPED_BY_H_SENSITIVITY_CONTROL`。2026-08-24 在远程 `whr` 用 commit `435240e`、Python 3.12.13 和 CPU-only 队列完成 official-training pilot：NYUv2 coverage 通过，但当前冻结的 KITTI RGB source 未提供满足合同的 local instance-mask/depth oracle，因而旧 two-dataset gate返回 `STOP_TWO_DATASET_CLAIM`。这不证明 KITTI 数据族不可行。post-Step003 曾选择 `RECOVER_TWO_REAL_DATASETS`；随后 004-A 因 semantic-preserving 对照稳定退化而返回 `STOP_H_SENSITIVITY`，因此不再恢复第二数据集或 Step005–008。
 
-Round7 diagnostic 从原 1000-row manifest（SHA256 `df03c3b...b998`）的 NYUv2 router-train 部分稳定选择 100 图、59 个 frozen clusters，生成 `4 families × 3 variants × 100 = 1200` 个 local rows；四类各 300，machine-check 1200/1200。null/global 各单独保存 100 行。逐行文件保存在 Git 忽略的 `paper1/data/`，可移植计数与输出哈希见 [`diagnostic_intervention_audit.json`](../results/covol/diagnostic_intervention_audit.json)。独立规则解析器不读取 builder `passed` 字段，按稳定哈希每族抽 25 行并得到 100/100 predicate pass，见 [`diagnostic_independent_audit.json`](../results/covol/diagnostic_independent_audit.json)。该结果仍不估计 caption naturalness；global rows 仍是待跨 cluster 分配的 placeholder，004-A H-sensitivity 也尚未运行。
+Round7 diagnostic 从原 1000-row manifest（SHA256 `df03c3b...b998`）的 NYUv2 router-train 部分稳定选择 100 图、59 个 frozen clusters，生成 `4 families × 3 variants × 100 = 1200` 个 local rows；四类各 300，machine-check 1200/1200。null/global 各单独保存 100 行。逐行文件保存在 Git 忽略的 `paper1/data/`，可移植计数与输出哈希见 [`diagnostic_intervention_audit.json`](../results/covol/diagnostic_intervention_audit.json)。独立规则解析器不读取 builder `passed` 字段，按稳定哈希每族抽 25 行并得到 100/100 predicate pass，见 [`diagnostic_independent_audit.json`](../results/covol/diagnostic_independent_audit.json)。该结果仍不估计 caption naturalness；global rows 仍是未用于 004-A 的 placeholder。004-A 已运行并因控制条件失败停止主张。
 
 之后单独运行的 A800 shared CUDA canary 只验证调度器能在剩余显存足够时安全启动极小张量任务并保存结果；它未读取 Step003 数据、未运行 D0/D1 或 router，不能计作 GPU scientific pilot，也不能解除本门禁。exclusive canary 排队已暂停，状态与配置保留。
 

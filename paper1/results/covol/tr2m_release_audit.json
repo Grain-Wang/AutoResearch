@@ -7,16 +7,30 @@
     "sha256": "59afe57cfd9f4284deaf5b753d954723d7136ae842fba3e068ba03537ca1e60e",
     "source": "https://github.com/LiheYoung/Depth-Anything"
   },
-  "paper_source": "https://openaccess.thecvf.com/content/CVPR2026/html/Cui_TR2M_Transferring_Monocular_Relative_Depth_to_Metric_Depth_with_Language_CVPR_2026_paper.html",
-  "pending_dependencies": [
-    "DINOV2_VITL_ENCODER_WEIGHTS",
-    "CLIP_VIT_L14_ENCODER_WEIGHTS",
-    "NYUV2_RUNTIME_SOURCE_VERIFICATION",
-    "FULL_H_SENSITIVITY_EXECUTION"
+  "encoder_weights": [
+    {
+      "byte_count": 932768134,
+      "filename": "ViT-L-14.pt",
+      "sha256": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836",
+      "source": "https://openaipublic.azureedge.net/clip/models/b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836/ViT-L-14.pt"
+    },
+    {
+      "byte_count": 1217586395,
+      "filename": "dinov2_vitl14_pretrain.pth",
+      "sha256": "d5383ea8f4877b2472eb973e0fd72d557c7da5d3611bd527ceeb1d7162cbf428",
+      "source": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_pretrain.pth"
+    }
   ],
+  "execution_result": {
+    "output_sha256": "a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721",
+    "status": "STOP_H_SENSITIVITY",
+    "summary_sha256": "e4a304b1e6c2d8db6b1b95a666fe7f9fb88e73c7200addc400aecb10b2ce4659"
+  },
+  "paper_source": "https://openaccess.thecvf.com/content/CVPR2026/html/Cui_TR2M_Transferring_Monocular_Relative_Depth_to_Metric_Depth_with_Language_CVPR_2026_paper.html",
+  "pending_dependencies": [],
   "schema_version": "covol-tr2m-release-audit-v1",
-  "scientific_evidence": "RELEASE_AND_FILE_INTEGRITY_ONLY_NO_MODEL_EFFECT",
-  "status": "CORE_WEIGHTS_HASH_LOCKED_RUNNER_READY_EXECUTION_PENDING",
+  "scientific_evidence": "D1_CAPTION_SENSITIVITY_ONLY_NOT_D0_FALLBACK_OR_ROUTER_EFFECT",
+  "status": "EXECUTED_STOP_H_SENSITIVITY",
   "tr2m_checkpoint": {
     "byte_count": 75854855,
     "filename": "da_s_vitl_vitl.pth",

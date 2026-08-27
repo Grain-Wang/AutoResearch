@@ -1,0 +1,199 @@
+{
+  "authorization_sha256": "17cdfbb893802fc8e81bb5677ed37c0b46c36ce5849f63051c00073d297cb1e5",
+  "cluster_count": 59,
+  "control_ci_contains_zero": false,
+  "control_family": "semantic_preserving",
+  "dataset": "NYUv2",
+  "depth_checkpoint_sha256": "59afe57cfd9f4284deaf5b753d954723d7136ae842fba3e068ba03537ca1e60e",
+  "encoder_weights": [
+    {
+      "byte_count": 932768134,
+      "path_within_cache": "clip/ViT-L-14.pt",
+      "sha256": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836"
+    },
+    {
+      "byte_count": 1217586395,
+      "path_within_cache": "torchhub/checkpoints/dinov2_vitl14_pretrain.pth",
+      "sha256": "d5383ea8f4877b2472eb973e0fd72d557c7da5d3611bd527ceeb1d7162cbf428"
+    }
+  ],
+  "eval_protocol_sha256": "a2a39e31819342668e521924a26884faeeec59b687ee9ca75a8a8f21f574ce78",
+  "family_summaries": {
+    "depth_relation_conflict": {
+      "full_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260859,
+        "ci_lower": 3.0678618027404013e-05,
+        "ci_upper": 0.0005385342526813942,
+        "cluster_count": 59,
+        "point": 0.0002845893067633765,
+        "row_count": 300
+      },
+      "full_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260860,
+        "ci_lower": -7.278140048569881e-05,
+        "ci_upper": 0.00015301358531338678,
+        "cluster_count": 59,
+        "point": 3.867903543428597e-05,
+        "row_count": 300
+      },
+      "region_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260857,
+        "ci_lower": 0.00034736751146735074,
+        "ci_upper": 0.0012977716497489338,
+        "cluster_count": 59,
+        "point": 0.0008059503388559494,
+        "row_count": 300
+      },
+      "region_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260858,
+        "ci_lower": -0.00030655917005219545,
+        "ci_upper": 0.00013341636437335253,
+        "cluster_count": 59,
+        "point": -6.466489253987446e-05,
+        "row_count": 300
+      }
+    },
+    "local_entity_conflict": {
+      "full_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260849,
+        "ci_lower": -0.00047804219473867953,
+        "ci_upper": 0.0011145573054045983,
+        "cluster_count": 59,
+        "point": 0.0003518893559995754,
+        "row_count": 300
+      },
+      "full_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260850,
+        "ci_lower": -0.0008200881266125183,
+        "ci_upper": 0.0004127930743767483,
+        "cluster_count": 59,
+        "point": -0.00010445576756102338,
+        "row_count": 300
+      },
+      "region_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260847,
+        "ci_lower": 0.00019507100248497677,
+        "ci_upper": 0.0029034684250731223,
+        "cluster_count": 59,
+        "point": 0.0016197795191952294,
+        "row_count": 300
+      },
+      "region_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260848,
+        "ci_lower": -0.003474816388141752,
+        "ci_upper": 0.0007322565996276378,
+        "cluster_count": 59,
+        "point": -0.0009059438777908661,
+        "row_count": 300
+      }
+    },
+    "semantic_preserving": {
+      "full_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260829,
+        "ci_lower": 0.00010066733906686442,
+        "ci_upper": 0.0007773090097933839,
+        "cluster_count": 59,
+        "point": 0.0004367337922544365,
+        "row_count": 300
+      },
+      "full_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260830,
+        "ci_lower": 3.22486740980354e-07,
+        "ci_upper": 0.0002565475945582445,
+        "cluster_count": 59,
+        "point": 0.00011951858180036066,
+        "row_count": 300
+      },
+      "region_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260827,
+        "ci_lower": 0.0005791228617158725,
+        "ci_upper": 0.001777338372714603,
+        "cluster_count": 59,
+        "point": 0.001155877771651461,
+        "row_count": 300
+      },
+      "region_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260828,
+        "ci_lower": -0.0006697071250436969,
+        "ci_upper": 0.000184078306837969,
+        "cluster_count": 59,
+        "point": -0.00015551413627015774,
+        "row_count": 300
+      }
+    },
+    "target_deletion": {
+      "full_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260839,
+        "ci_lower": -0.00019903619547989335,
+        "ci_upper": 0.0007174318893518129,
+        "cluster_count": 59,
+        "point": 0.0002667857093037881,
+        "row_count": 300
+      },
+      "full_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260840,
+        "ci_lower": -0.0006079128735328012,
+        "ci_upper": 0.00015112572364702308,
+        "cluster_count": 59,
+        "point": -0.000196188461874538,
+        "row_count": 300
+      },
+      "region_abs_rel_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260837,
+        "ci_lower": -0.0011977512212168286,
+        "ci_upper": 0.0011093234329467184,
+        "cluster_count": 59,
+        "point": 5.524655064743698e-05,
+        "row_count": 300
+      },
+      "region_d1_degradation": {
+        "bootstrap_replicates": 10000,
+        "bootstrap_seed": 20260838,
+        "ci_lower": -0.0014141377400107935,
+        "ci_upper": 0.0005560209176389373,
+        "cluster_count": 59,
+        "point": -0.00033768105659480767,
+        "row_count": 300
+      }
+    }
+  },
+  "image_count": 100,
+  "intervention_sha256": "d52a80bc34b4d4fea07314f643ff2794b050248fdc66eb02247684ee7053b878",
+  "nyuv2_labeled_sha256": "2d724b0c0ab358aa1ce5df855e5bd14a2279ab7202efe22f32a30d612dcb86aa",
+  "output_sha256": "a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721",
+  "primary_metric": "REGION_ABS_REL_DEGRADATION",
+  "release_audit_sha256": "1134f9edd91697a1677a709d6f492f0a804a42ff4f17a14b050c6918294a9e9b",
+  "row_count": 1200,
+  "runner_sha256": "dcbb4ba45cf2b4f050025afc8c6302e1339266e70642c69f086b40e9d1456560",
+  "runtime": {
+    "cuda_runtime": "12.1",
+    "device": "cuda:2",
+    "device_name": "NVIDIA A800 80GB PCIe",
+    "python": "3.12.13",
+    "torch": "2.5.0+cu121"
+  },
+  "schema_version": "covol-h-sensitivity-summary-v1",
+  "scientific_evidence": "D1_CAPTION_SENSITIVITY_ONLY_NOT_D0_FALLBACK_OR_ROUTER_EFFECT",
+  "source_split": "official_train_diagnostic_only",
+  "status": "STOP_H_SENSITIVITY",
+  "supported_conflict_families": [
+    "local_entity_conflict",
+    "depth_relation_conflict"
+  ],
+  "tr2m_checkpoint_sha256": "517790c6ca7ac0e8247bc43ae55c2b4ae8d0b6530156f6dc6b755227cadf5e2c"
+}

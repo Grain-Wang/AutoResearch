@@ -4,7 +4,7 @@
 
 我们接受“当前仍未达到强 CCF-C，且尚未成为 Paper Candidate”的结论。本轮选择审稿人建议的 `RECOVER_TWO_REAL_DATASETS`，而不是在原 `NYUv2 + current frozen KITTI source` 上继续推进。原分支保持 `STOPPED_CURRENT_DATA_BRANCH`；Step 004-B、005、006、007、008 均由机器授权文件阻断。三个预登记真实候选目前都因需要数据协议或账户而处于 `PENDING_SOURCE_ACCESS`，这不是 coverage FAIL，也没有被写成科学负结果。
 
-本轮新增的真实证据仅限于 NYUv2 official-train diagnostic corpus：100 图、59 个独立 clusters、1200 个局部干预行，builder machine-check 为 1200/1200；另一个不读取 builder `passed` 字段的规则解析器按四族各 25 行稳定抽样，predicate precision 为 100/100。后续 P0 审计又得到 held-out-template text-only macro-F1 0.488（预注册上限 0.60）和自动 surface-form 1200/1200；人类自然度仍未评估。当前尚未运行 TR2M clean→corrupt，因此不能证明 H-sensitivity，更不能证明 fallback 或 Main-PR 有效。
+本轮新增的真实证据包括 NYUv2 official-train diagnostic corpus 与随后完成的 004-A：100 图、59 个独立 clusters、1200 个局部干预行，builder machine-check 为 1200/1200；另一个不读取 builder `passed` 字段的规则解析器按四族各 25 行稳定抽样，predicate precision 为 100/100。held-out-template text-only macro-F1 为 0.488（预注册上限 0.60），自动 surface-form 为 1200/1200；人类自然度仍未评估。TR2M clean→corrupt 已返回 `STOP_H_SENSITIVITY`：两个冲突族有正向区域 AbsRel 信号，但 semantic-preserving 对照也稳定退化，故不能证明冲突特异的 H-sensitivity，更不能证明 fallback 或 Main-PR 有效。
 
 ## 对核心问题的处理
 
@@ -28,7 +28,7 @@
 
 ### 4. 004-A checkpoint 与执行边界
 
-已锁定 TR2M 官方代码 commit、released ScaleMap checkpoint 及官方 Depth Anything ViT-S checkpoint 的文件大小与 SHA256，见 [`tr2m_release_audit.json`](../results/covol/tr2m_release_audit.json)。可续跑 batch runner 已实现并通过合成测试：同图一次提取视觉/相对深度特征、批处理 clean+12 captions、每图原子落盘，并在结束时写入 DINOv2/CLIP 实际权重哈希。真实执行仍待完成，因此当前没有 `sensitivity_diagnostic.csv`，也没有使用 CUDA canary 冒充模型结果。
+已锁定 TR2M 官方代码 commit、released ScaleMap checkpoint、官方 Depth Anything ViT-S、DINOv2 ViT-L 及 CLIP ViT-L/14 checkpoint 的文件大小与 SHA256，见 [`tr2m_release_audit.json`](../results/covol/tr2m_release_audit.json) 与 004-A summary。可续跑 batch runner 已实现并通过合成测试：同图一次提取视觉/相对深度特征、批处理 clean+12 captions、每图原子落盘。真实执行已在锁定运行环境中完成，生成 [`sensitivity_diagnostic.csv`](../results/covol/sensitivity_diagnostic.csv) 与 [`summary`](../results/covol/sensitivity_diagnostic_summary.json)。100 图、1200 rows、59 clusters 的预注册区域 AbsRel 结果为：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。由于 semantic-preserving CI 不包含 0，固定门禁失败；我们没有只挑选两个正向冲突族报告，也没有修改阈值。
 
 004-A 的固定否证门槛不变：至少一个局部错误族的 paired cluster-bootstrap mean degradation 95% CI 下界大于 0，同时 semantic-preserving CI 包含 0；否则停止 CoVoL 问题主张。该结果即使通过也只证明同一 D1 对 caption corruption 敏感，不证明 D0 fallback 必要。
 
@@ -51,14 +51,12 @@
 
 ## 当前主张状态
 
-- 研究阶段：`Research Opportunity`，不是 Paper Candidate。
-- Claim-F：`UNVERIFIED`。constrained operating-point 代码已经定义，但没有真实 D0/D1/router 结果。
-- Claim-M：`STOPPED_CURRENT_DATA_BRANCH`。尚未获得第二个真实数据集的合法 source，也没有新的 Step003 PASS authorization。
-- H-sensitivity：`PENDING_MODEL_EXECUTION`。predicate precision 与 held-out-template artifact control 通过；人类 naturalness 和 clean→corrupt 模型效应未验证。
-- 最强反方意见：当前可观测进展仍以 protocol/code 为主；如果 004-A 不能证明局部 caption corruption 造成稳定模型退化，整个 fallback 动机将被否定。即使 004-A 通过，第二真实数据集、公平 experts、killer baselines 和三 seed 稳定性仍可能消除 Main-PR 增益。
+- 研究阶段：CoVoL 为 `STOPPED_BY_H_SENSITIVITY_CONTROL`，不是活跃 Research Opportunity，也不是 Paper Candidate。
+- Claim-F：`STOPPED_BY_H_SENSITIVITY_CONTROL`；没有真实 D0/D1/router 结果，也不再执行。
+- Claim-M：`STOPPED_BY_H_SENSITIVITY_CONTROL`；第二数据集访问状态不再是恢复本方向的充分条件。
+- H-sensitivity：`STOP_H_SENSITIVITY`。冲突族信号存在，但 semantic-preserving 对照失败；人类 naturalness 仍未评估。
+- 最强反方意见：观测到的是一般文本表面形式敏感性，而不是局部语义冲突的特异效应；效应量也很小，不能支撑 fallback-aware router 的算法动机。
 
 ## 下一项真正改变论文判断的工作
 
-第一优先级是完成 004-A：锁定剩余 encoder 权重，构建一次加载、批量同图 caption 配对的 runner，在 NYUv2 training-only 100 图上生成 cluster-level H-sensitivity。它是当前成本最低、最直接的研究问题否证测试。
-
-第二优先级是在获得合规数据访问后，严格按冻结顺序运行三个真实候选的 50 图 dry-run 和 full training-only pilot。只有其中一个通过、Step003 authorization 变为 PASS，才允许训练公平 D0/D1、生成真实实体级 OOF cache 并进入 Claim-F/Claim-M。未满足这些条件前，不恢复 exclusive queue，也不启动正式 GPU 方法实验。
+004-A 已完成并否定当前问题的冲突特异性前提。下一项工作应是重新进行 Research Opportunity discovery：以近期近邻、可复现算法缺陷和非等价算法路径形成至多五个候选，再选择新主线。不得继续为 CoVoL 获取第二数据集、训练公平 experts、生成 OOF cache 或启动 Main-PR。

@@ -1,15 +1,14 @@
 # AutoResearch 当前接续状态
 
-> **2026-08-27 Round7/Round8 P0 执行中状态（优先于下方全部内容）**
+> **2026-08-27 Round7/Round8 P0 最终状态（优先于下方全部内容）**
 >
-> - 当前分支为 `paper1`，已 fast-forward 到包含 Round8 审稿的 `d3528b8`；Round7 回应文件已修正为 `response_round7.md`，Round6 文件已修正为 `response_round6.md`，历史目录名因既有链接暂不改动。本轮 P0 尚未 commit 或 push。
-> - post-Step003 范围已冻结为 `RECOVER_TWO_REAL_DATASETS`。原 `NYUv2 + current frozen KITTI source` 继续为 `STOPPED_CURRENT_DATA_BRANCH`；Cityscapes、ScanNet v2、Matterport3D 恰好三个候选按预登记顺序审计。当前三个候选均为 `PENDING_SOURCE_ACCESS`，总体 `BLOCKED_SOURCE_ACCESS`，不能把缺少协议/下载权限写成 coverage FAIL。
-> - 新增机器授权 artifact 与共享 validator。当前 004-B/005/006/007/008 六类正式动作全部以 `BLOCKED_BY_STEP003`、exit 3 终止；非空 dataset 数组不能绕过失败 source coverage hash、status、decision 与 exact dataset match。
-> - 在已有 Step003 1000-row、official-training manifest 上实际构建 NYUv2 diagnostic-only corpus：稳定选择 100 图、59 clusters，生成 1200 local rows（四族各 300）、null/global 各 100，machine-check 1200/1200。独立规则 parser 为 100/100；held-out-template text-only macro-F1 为 0.488（上限 0.60），自动 surface-form 为 1200/1200；人类 naturalness 未评估。
-> - TR2M 官方代码 revision、released ScaleMap checkpoint 与 Depth Anything ViT-S checkpoint 已锁定文件大小和 SHA256；可续跑 batch runner 已实现并测试，会锁定运行时 DINOv2/CLIP 权重哈希。实际 004-A 尚未执行，没有 `sensitivity_diagnostic.csv` 或 GPU 科学结果。
-> - Round7 的 full-crop residual mass、cluster-balanced estimand、weighted CVaR、dev retention one-sided LCB、test retention stop、固定三 seed 重复、constrained Claim-F point、实体级 OOF/hash validator、operating-point lineage 和三项 feature callable 已进入代码与回归测试。正式 expert cache/model artifact 因门禁阻断而有意不存在。
-> - 当前本地 QA：仓库 Ruff 通过；`tools/` 与 `paper1/` 所有 Python 文件逐文件 Black check 通过；`tools/tests + paper1/tests` 共 196 tests 通过；`git diff --check` 通过。
-> - 科学状态仍为 **Research Opportunity / Claim-F UNVERIFIED / Claim-M STOPPED_CURRENT_DATA_BRANCH**，不是 Paper Candidate。当前最能改变论文判断的动作是完成 NYUv2 training-only 004-A H-sensitivity；若全部局部族无稳定退化，则按预注册规则停止 CoVoL。第二真实数据集只有在责任人合法取得 source 后才继续 dry-run。exclusive queue 仍暂停，不自动恢复。
+> - 当前分支为 `paper1`，Round7/Round8 P0 代码与协议提交 `f88ff65`、Depth Anything 本地锁定修复 `04b28d2`、运行时 provenance `65a4b3f` 已推送。Round6/Round7 回应文件名已修正为 `response_round6.md`、`response_round7.md`；历史目录名因既有链接保留。本轮新增 `response_round8.md`。
+> - post-Step003 历史选择为 `RECOVER_TWO_REAL_DATASETS`；Cityscapes、ScanNet v2、Matterport3D 恰好三个候选均为 `PENDING_SOURCE_ACCESS/BLOCKED_SOURCE_ACCESS`，不是 coverage FAIL。但 004-A 已触发更上游科学停止，故不再为 CoVoL 恢复第二数据集。
+> - NYUv2 diagnostic-only corpus 为 100 图、59 clusters、1200 local rows（四族各 300），machine-check 1200/1200；独立规则 parser 100/100，held-out-template text-only macro-F1 0.488，自动 surface-form 1200/1200；人类 naturalness 未评估。
+> - 004-A 已在单张 A800 上完成 100 图/1200 rows、10,000 次 cluster bootstrap。region AbsRel degradation：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。semantic-preserving CI 不含 0，违反预注册控制条件，正式状态为 `STOP_H_SENSITIVITY`。
+> - 逐行 CSV SHA256 为 `a2d45fe96581d3234aa41d62c2a63f3e793f705e56c6054e9c8c3818111db721`，summary SHA256 为 `e4a304b1e6c2d8db6b1b95a666fe7f9fb88e73c7200addc400aecb10b2ce4659`。summary 锁定 TR2M、Depth Anything、DINOv2、CLIP、NYUv2、代码、协议与运行时；环境为 Python 3.12.13、torch 2.5.0+cu121、CUDA 12.1、A800 80GB。
+> - 科学状态为 **CoVoL STOPPED_BY_H_SENSITIVITY_CONTROL / Claim-F STOPPED / Claim-M STOPPED / Paper Candidate 否**。不能选择性忽略 semantic-preserving 对照，也不能继续 004-B、005、006、007、008、D0/D1 或 router。Q-GeoRoute 仍 PARKED；下一步是重新形成至多五个通过 Research Opportunity Gate 的候选并更新唯一范围锁。
+> - 本轮最终本地 QA 与结果提交哈希将在交付前更新到此块及 `manifest.json`；此前已验证仓库 Ruff、tools/paper1 Black、196 tests 与 `git diff --check`。
 
 > **2026-08-25 Round6 回应与 GPU 排队暂停状态（优先于下方全部内容）**
 >
@@ -113,19 +112,18 @@
 
 ## paper1 当前结论
 
-- 唯一主线：**CoVoL-Depth**，即在自动 caption 出现局部、可机器验证的语义错误时，在冻结的纯视觉候选 `D0` 与图文候选 `D1` 之间做选择性区域路由。
-- 当前等级：**Research Opportunity**，不是 Paper Candidate。
-- `Claim-F`（语义增量）和 `Claim-M`（路由方法增量）均为 `UNVERIFIED`。
-- 备用想法 Q-GeoRoute 为 `PARKED`；只有 CoVoL Gate-0 被证据否定且先更新范围锁定后才能启动。
-- 尚无 NYUv2/KITTI 真实数据、checkpoint、缺陷复现、置信区间、延迟或主结果表，因此不能声称任何科学增益。
+- 原主线 **CoVoL-Depth** 已由预注册 004-A 返回 `STOP_H_SENSITIVITY`，不再是活跃 Research Opportunity，也不是 Paper Candidate。
+- `Claim-F` 与 `Claim-M` 均为 `STOPPED_BY_H_SENSITIVITY_CONTROL`；不得继续 D0/D1、OOF、router、killer baseline 或第二数据集恢复。
+- 负结果支持 released TR2M 对表面文本改写的一般敏感性，但不支持局部语义冲突特异效应或 fallback/router 价值。
+- 备用想法 Q-GeoRoute 仍为 `PARKED`；CoVoL Gate-0 虽已否定，但尚未完成新范围、近期近邻和 Research Opportunity Gate，不能自动切换。
 
 主阅读入口：
 
 - `paper1/README.md`
 - `paper1/ideas/01_counterfactual_value_of_language_depth.md`
 - `paper1/steps/README.md`
-- `paper1/responce_from_reviewer/review_20260821_032352.md`
-- `paper1/responce_from_reviewer/response_20260821_032352.md`
+- `paper1/responce_from_reviewer/review_round8.md`
+- `paper1/responce_from_reviewer/response_round8.md`
 
 ## 已完成的可执行基础
 
@@ -140,10 +138,8 @@
 
 截至基线提交，`paper1` 共 22 个单元测试通过，Ruff、Black 和 Git diff 检查通过。这些检查只验证协议实现，不是科学证据。
 
-## 仍未完成
+## 因停止门禁而有意未执行
 
-- NYUv2/KITTI source adapters、真实 RGB manifest 和 `split_audit.json`；
-- annotation coverage 与 20-grid power simulation；
 - PyTorch 同构 `D0/D1`、OOF/final checkpoints 和真实 expert cache；
 - image-only twins 与 shuffled-caption control 结果；
 - outer/inner cross-fit router、AUROC 和 Claim-F controls；
@@ -152,13 +148,7 @@
 
 ## 下一原子动作
 
-先实现 NYUv2/KITTI source adapters 和 annotation-coverage audit，并在真实局部 mask/depth 可用率及 power 达标前禁止启动 A800 大规模 expert 训练。
-
-预注册回退：如果 KITTI 局部 oracle coverage 失败，切换到 Virtual KITTI 2 structured set；KITTI 只保留 image-level sensitivity/fallback。不要通过降低 coverage/power 门槛来强行继续。
-
-后续固定依赖链：
-
-`003 adapters/coverage/power → 005 scene-group OOF experts → 004-B fallback defect → 006 Claim-F → 007 killer baselines → 008 final canary`
+重新检索最新近邻并形成至多五个通过 Research Opportunity Gate 的候选：每个候选必须有可复现的算法缺陷、未被最近邻覆盖的非等价算法路径和低成本可证伪 probe。选择新主线前更新 `001_primary_scope_lock.md`；不得以事后修改 CoVoL 对照或阈值恢复旧链路。
 
 ## 环境与验证
 

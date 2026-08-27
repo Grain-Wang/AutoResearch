@@ -81,7 +81,7 @@ cross-fitting、partial residualization、CVaR、coverage control、dense defer�
 
 ## 审计决策
 
-- 主线保留为 Research Opportunity。
+- CoVoL 已因 004-A semantic-preserving 对照失败而停止，不再保留为活跃 Research Opportunity；本审计仅作为该负结果方向的先行工作记录。
 - 不主张“首次发现错误文本危害”“首次细粒度 caption 深度”“首次冻结视觉语言校准”或“首次 advantage gate”。
 - 不把 cross-fitting、partial residualization、CVaR 或 selective risk control 单独列为贡献，也不使用未定义的 orthogonalization 表述。
 - TIGER 已使“语言条件 + 冻结 experts + dense contribution routing”失去新颖空间；若 `014_objective_and_algorithm_spec.md` 的 clean-utility/tail-regret 差异不能在 direct baselines 上得到证据，Claim-M 降为 `ANALYSIS-ONLY`。

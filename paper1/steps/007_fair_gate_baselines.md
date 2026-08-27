@@ -2,7 +2,7 @@
 
 ## Status
 
-`SPECIFIED, PENDING REAL OOF CACHE`。公平性按 heuristic、learned router 与 independently-trained robust expert 分开处理。
+`STOPPED-BY-004-A`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，不再实现或运行本步骤的模型实验。以下公平合同仅作为预注册记录保留。
 
 ## Heuristics
 

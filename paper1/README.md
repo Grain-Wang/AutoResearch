@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-本研究仍是 **Research Opportunity**，不能称为 Paper Candidate。post-Step003 范围已冻结为 `RECOVER_TWO_REAL_DATASETS`，但原 `NYUv2 + current frozen KITTI source` 分支为 `STOPPED_CURRENT_DATA_BRANCH`；当前只允许第二数据集/KITTI gap 审计与 NYUv2 train-only diagnostic，不允许正式 D0/D1、Claim-F 或 Claim-M 实验。唯一研究问题仍是 CoVoL-Depth；Q-GeoRoute 保持停放。
+CoVoL-Depth 已在预注册的 004-A 对照门禁上返回 **`STOP_H_SENSITIVITY`**，不能称为 Paper Candidate，也不再是活跃 Research Opportunity。两个冲突族的区域 AbsRel 退化 95% CI 下界虽大于 0，但 semantic-preserving 对照也稳定退化，故现有证据只支持 TR2M 对文本表面形式敏感，不支持“局部语义冲突特异地造成退化”。按照冻结规则，004-B、公平 D0/D1、Claim-F、Claim-M 与 Main-PR 均不得继续。第二数据集/KITTI gap 审计可作为已完成的数据可行性记录保留，但不能恢复 CoVoL。Q-GeoRoute 仍保持停放，只有另行更新范围锁和完成新的最近邻/机会门禁后才能启动。
 
 ## 阅读顺序
 
@@ -12,23 +12,22 @@
 4. [执行状态表](steps/README.md)
 5. [Post-Step003 范围决策](steps/015_post_step003_scope_decision.md)
 6. [最新审稿意见](responce_from_reviewer/review_round8.md)
-7. [Round-7 回应](responce_from_reviewer/response_round7.md)
+7. [Round-8 回应](responce_from_reviewer/response_round8.md)
+8. [Round-7 回应](responce_from_reviewer/response_round7.md)
 
 ## 执行顺序
 
-正式主依赖链改为：
+原正式依赖链已被 004-A 停止。不得继续新的 Step003 恢复、005、004-B、006、007 或 008；这些协议只作为负结果可复现记录保留。任何新方向都必须先完成独立的 Research Opportunity Gate 和范围变更，不能复用 CoVoL 的未成立主张。
 
-`015 范围决策 → 第二数据集/KITTI gap 审计 → 新 Step003 PASS authorization → 005 sequence/drive-cluster OOF 公平专家 → 004-B fallback 正式缺陷复现 → 006 constrained Claim-F Gate → 007 faithful+matched killer baselines → 008 最终 canary`。
+training-only diagnostic 从 Step003 的 hash-linked 1000-row manifest 中稳定选择 100 图/59 clusters，生成四个 local families 各 300 行，共 1200 行，machine-check 通过率 100%；null/global 各 100 行且与 local rows 分离。可移植审计见 [diagnostic intervention audit](results/covol/diagnostic_intervention_audit.json)。独立规则解析器对每族稳定抽取 25 行，共 100/100 满足预注册 predicate 合同；只读 raw text 的 unigram classifier 按每族留一套模板测试，macro-F1 为 0.488，低于预注册 0.60 上限，见 [intervention validity audit](results/covol/intervention_validity.json)。自动 surface-form 检查 1200/1200 通过，但这不是人类自然度评估。
 
-`004-A sensitivity` 只测同一 `D1` 的 clean→corrupted 敏感性；现在允许在 NYUv2 official-train 固定 100 图 diagnostic corpus 上用 released checkpoint 提前运行，但不能替代正式 H-fallback-defect、Claim-F 或 Claim-M。
-
-training-only diagnostic 已从 Step003 的 hash-linked 1000-row manifest 中稳定选择 100 图/59 clusters，生成四个 local families 各 300 行，共 1200 行，machine-check 通过率 100%；null/global 各 100 行且与 local rows 分离。可移植审计见 [diagnostic intervention audit](results/covol/diagnostic_intervention_audit.json)。独立规则解析器对每族稳定抽取 25 行，共 100/100 满足预注册 predicate 合同；只读 raw text 的 unigram classifier 按每族留一套模板测试，macro-F1 为 0.488，低于预注册 0.60 上限，见 [intervention validity audit](results/covol/intervention_validity.json)。自动 surface-form 检查 1200/1200 通过，但这不是人类自然度评估；004-A H-sensitivity 仍待运行。
+004-A 已在 NYUv2 official-train diagnostic 上完成 100 图、1200 配对、59 clusters、10,000 次 cluster bootstrap。区域 AbsRel 退化为：semantic-preserving `0.001156 [0.000579, 0.001777]`、target deletion `0.000055 [-0.001198, 0.001109]`、local entity conflict `0.001620 [0.000195, 0.002903]`、depth relation conflict `0.000806 [0.000347, 0.001298]`。由于预注册要求 semantic-preserving CI 包含 0，该结果返回 `STOP_H_SENSITIVITY`。逐行结果与运行时、权重、输入和代码哈希见 [CSV](results/covol/sensitivity_diagnostic.csv) 和 [summary](results/covol/sensitivity_diagnostic_summary.json)。
 
 真实 Step003 CPU gate 已返回 `STOP_TWO_DATASET_CLAIM`：NYUv2 local-oracle feasibility 通过，**当前冻结 KITTI source 未提供满足合同的 local depth/mask oracle**，power 因而未运行。该结果不证明 KITTI 数据族不可行，也不证明 intervention corpus 或语言鲁棒性成立。当前最多审计 Cityscapes、ScanNet v2、Matterport3D 三个真实候选，并单独核对 KITTI depth/mask/frame 对齐缺口；VKITTI2 固定为 synthetic structured auxiliary set。
 
 所有正式 downstream 入口必须验证 [Step003 authorization](artifacts/covol/step003_authorization.json)，不能仅凭非空 `local_claim_datasets` 启动。当前正式步骤固定 exit code 3；只有 train-only diagnostic 与数据审计获得授权。
 
-TR2M 官方代码 revision、released ScaleMap checkpoint 与 Depth Anything ViT-S checkpoint 已完成 SHA256 锁定，见 [TR2M release audit](results/covol/tr2m_release_audit.json)。可续跑的批量诊断 runner 已实现并通过合成回归测试；DINOv2/CLIP encoder 权重需在首次真实执行时下载并由 runner 写入哈希。当前仍没有 `sensitivity_diagnostic.csv` 或 GPU 科学结果。
+TR2M 官方代码 revision、released ScaleMap checkpoint、Depth Anything ViT-S、DINOv2 ViT-L 与 CLIP ViT-L/14 权重均已完成 SHA256 锁定，见 [TR2M release audit](results/covol/tr2m_release_audit.json) 和 004-A summary。可续跑 runner 已通过合成回归测试；正式运行环境为 Python 3.12.13、PyTorch 2.5.0+cu121、NVIDIA A800 80GB PCIe。该 GPU 结果是诊断性负门禁，不是 D0 fallback 或 router 证据。
 
 A800 shared CUDA canary 已通过，说明“剩余显存满足时启动并记录结果”的基础设施可用；它没有运行 D0/D1、router 或真实数据实验。exclusive scheduler 已暂停并保留 PENDING state，只有在科学门禁恢复且用户再次通知后才重启。
 

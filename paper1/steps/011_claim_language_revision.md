@@ -1,5 +1,9 @@
 # 011 Claim Language Revision
 
+## Current status
+
+`COVOL-CLAIMS-STOPPED-BY-H-SENSITIVITY-CONTROL`。004-A 不支持冲突特异的 caption degradation，故以下 Claim-F/Claim-M 语言仅为历史预注册合同，不得作为待验证或已支持主张继续使用。
+
 ## 已完成替换
 
 | 旧表述 | 当前表述 | 原因 |
@@ -28,7 +32,7 @@
 
 ## 结果出现前允许的主张
 
-只允许写“提出待验证的 Claim-F/Claim-M、OOF 冻结候选协议和预注册门禁”。不得写“证明”“显著提高”“安全”“首次”或“优于”。上述统计组件与四类直接 routing 机制不得单独列为新颖性。
+停止前只允许写“提出待验证的 Claim-F/Claim-M、OOF 冻结候选协议和预注册门禁”；004-A 停止后只能报告该负门禁及其证据边界。不得写“证明”“显著提高”“安全”“首次”或“优于”。上述统计组件与四类直接 routing 机制不得单独列为新颖性。
 
 ## 结果出现后的更新规则
 

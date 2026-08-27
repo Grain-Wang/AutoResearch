@@ -2,7 +2,7 @@
 
 ## Status
 
-`SPECIFIED, BLOCKED-BY-STEP003-AND-FAIR-EXPERT-CACHE`。本步骤先判断 Claim-F，不默认支持主方法。三类 extractor callables 与 seed-aware entity-cache validator 已完成合成测试；真实 checkpoint/cache、controls 和 outcome 尚不存在。三个 seed 按固定重复而非 seed-population bootstrap 处理；shared CUDA canary 不改变该状态。
+`STOPPED-BY-004-A`。004-A 的 semantic-preserving 控制条件失败已停止 CoVoL，Claim-F 不再执行。三类 extractor callables、seed-aware entity-cache validator 与统计合同仅作为预注册实现记录保留；真实 checkpoint/cache、controls 和 outcome 有意不存在。
 
 ## Frozen inputs
 

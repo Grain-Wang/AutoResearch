@@ -1,5 +1,45 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-27 BAR-Depth 200 图 oracle canary（优先于下方全部内容）**
+>
+> - 当前分支保持 `paper1`，没有新建或推送分支。BAR-Depth v1 精确失败快照提交为
+>   `fb2770b`，有效 fixed-range v2 与结果提交为 `580f979`；本地分支相对
+>   `origin/paper1` ahead 5（含本接续更新提交）。
+> - 用户显式选择 **BAR-Depth：预算自适应区域深度细化**。SR-VEP 在任何 canary、
+>   annotation 或训练发生前停放；CoVoL closure 不变且不得恢复。
+> - DIODE validation 官方归档 MD5 `5c895d09201b88973c8fe4552a67dd85` 已在传输前后
+>   双重匹配。固定 manifest 从 771 个可用样本中选择 200 张：20 scans × 10，indoor /
+>   outdoor 各 100，全部 1024×768；v1/v2 manifest SHA256 均为
+>   `602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff`。
+> - 模型锁为官方 Depth Anything V2-S，源码 commit
+>   `a561b849ebae10a6f5ef49e26c83cbbcd36c71bf`，权重 SHA256
+>   `715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378`；自定义批处理
+>   preprocessing 与官方逐元素最大差为 0。共享 A800 timing 只作 diagnostic。
+> - v1 虽完成 200 图/2400 rows 并输出 raw STOP，但 Step019 证明其
+>   `INVALID_METRIC_ALIGNMENT`：outdoor 157,380 valid pixels 在 affine 后被 epsilon
+>   clipping，15/100 图受影响，mean AbsRel 被放大到 766.05。v1 不能解释为方向 STOP；
+>   原始 CSV/summary/bootstrap 和 pathology audit 均保留。
+> - v2 只把 metric alignment 修为 positive median scale-only，并把 prediction depth
+>   截到原本就冻结的 `[0.1,350]m` evaluation range；配置测试保证数据、模型、grid、
+>   merge、预算、bootstrap 与 gate 不变。v2 完成 200 图/2400 rows，全部 hash/provenance
+>   bindings 在本地复核通过。
+> - v2 决策为 `GO_ORACLE_ROUTABILITY_UNVERIFIED`：positive headroom 10.42%
+>   [7.03%,13.15%]；3/12-region capture 92.72% [88.25%,97.54%]；primary reduction
+>   9.66% [6.59%,12.36%]；ordinary AbsRel degradation −9.72%
+>   [−13.33%,−5.51%]。indoor/outdoor primary reduction 分别 10.32%/9.26%，不再由单域
+>   病态主导。fixed range clipping 为 613,463 / 138,659,335 valid pixels（0.4424%）。
+> - 科学状态仍是 `RESEARCH_OPPORTUNITY / ROUTER_KILLER_GATE_PENDING /
+>   NOT_PAPER_CANDIDATE`。最强反方是简单 base-depth gradient 已有 6.54% 净 primary
+>   reduction、positive-utility capture 72.90%；下一原子动作是同预算 random/RGB/base
+>   edge/2021 content-adaptive/uncertainty killers 与严格 scan-held-out utility router，
+>   未超过 killers 前不得进入完整 Paper Build。
+> - 当前结果入口：`paper1/steps/021_bar_depth_oracle_canary_v2_result.md`；机器 summary：
+>   `paper1/results/bar_depth/oracle_canary_summary_v2.json`。最终 QA：Ruff 全仓库通过，
+>   tools+paper1 为 `219 passed`，115 个 Python 文件逐文件 Black check 正常退出，JSON /
+>   CSV / hash / sensitive-path / `git diff --check` 全通过。当前 compiled Black 对目录级
+>   `black --check .` 会在打印“115 files unchanged”后不退出，故用逐文件等价检查取得
+>   exit 0；这是工具运行时问题，不是格式失败。
+
 > **2026-08-27 Round9 closure 与重新选题状态（优先于下方全部内容）**
 >
 > - 当前分支保持 `paper1`，没有新建分支，也没有改变远端 `paper2`。本轮先 `git pull --ff-only origin paper1`，从 `8ffd8fe` fast-forward 到远端审稿提交 `c12f506`，新增 `review_round9.md`；closure 与新选题实现提交为 `b6c1b9a`。

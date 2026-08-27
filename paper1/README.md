@@ -1,24 +1,33 @@
-# paper1：情感 MLLM 研究主线与 CoVoL 归档
+# paper1：BAR-Depth 研究主线与历史方向归档
 
 ## 当前状态
 
 CoVoL-Depth 已归档为 **`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`**。004-A 使用的是 NYUv2 GT entity/instance/median-depth 构造的确定性短模板，不是 automatic captions。semantic-preserving 控制也稳定变化，因此证据只支持“当前 GT-template probe 与 Main-PR 路径停止”，不支持“自动 caption 局部错误问题整体被否定”。004-B、公平 D0/D1、Claim-F、Claim-M、Main-PR、第二数据集恢复与 official test 均不得继续。
 
-重新选题后，唯一选择的 Research Opportunity 是 **SR-VEP：Source-Residualized Video-Grounded Emotion Preference**，状态为 `DEFECT_CANARY_PENDING / NOT_PAPER_CANDIDATE`。它先检验 EmoPrefer/MER-Prefer judge 是否可通过 generator identity/length shortcut 接近 audio-visual judge，再尝试用 same-generator video matching、cross-fitted source residualization 与 worst-group pairwise optimization 恢复可验证的视频 grounding。当前只授权 CPU defect canary，尚无仓库自有科学结果或算法 claim。
+用户于 2026-08-27 明确重新选择 **BAR-Depth：预算自适应区域深度细化**，状态为
+`V1_INVALID_METRIC_ALIGNMENT / V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。当前只在 DIODE validation 的
+200 张 1024×768 RGB-D 图像上验证区域细化收益是否足够大且集中；不训练 router，
+不主张加速。此前选中的 SR-VEP 在任何 canary 或数据获取前被停放，没有仓库自有
+科学结果。
 
 ## 阅读顺序
 
 1. [主线范围锁定](steps/001_primary_scope_lock.md)
-2. [新 Research Opportunity Gate](steps/017_research_opportunity_gate.md)
-3. [SR-VEP 候选定义](ideas/candidates/01_source_residualized_emotion_preference.md)
-4. [CoVoL 最终 closure](steps/016_covol_closure.md)
-5. [执行状态表](steps/README.md)
-6. [最新 Round-9 审稿意见](responce_from_reviewer/review_round9.md)
-7. [Round-9 回应](responce_from_reviewer/response_round9.md)
+2. [BAR-Depth 候选定义](ideas/candidates/02_budget_adaptive_regional_depth.md)
+3. [Oracle canary 协议](steps/018_bar_depth_oracle_canary.md)
+4. [v1 metric-domain 审计](steps/019_bar_depth_v1_metric_audit.md)
+5. [历史 Research Opportunity Gate](steps/017_research_opportunity_gate.md)
+6. [CoVoL 最终 closure](steps/016_covol_closure.md)
+7. [执行状态表](steps/README.md)
+8. [最新 Round-9 审稿意见](responce_from_reviewer/review_round9.md)
 
 ## 执行边界
 
-CoVoL 原依赖链已被全局 scientific gate 停止。旧 Step003 authorization 即使被替换为 PASS，也不能绕过该门禁；Step004-B、005–008、official test 和数据恢复固定返回 exit code 4。SR-VEP 的执行顺序仅为“官方 annotation/许可审计 → CPU shortcut canary → grounded-signal canary → 最小 LoRA prototype”，任一量化门失败立即停止，不在 canary 前建设通用训练框架。
+CoVoL 原依赖链继续由全局 scientific gate 停止。BAR-Depth 当前唯一允许的科学动作
+是“官方 DIODE validation/模型锁定 → 200 图 oracle utility 枚举 → 冻结 GO/STOP”。
+v1 因非法 metric-domain clipping 不产生科学 GO/STOP；当前只允许保持其余合同不变的
+positive median scale-only v2 repair。oracle gate 前不训练 router，不建设多尺度通用
+框架。SR-VEP 不并行执行。
 
 ## CoVoL 科学事实与解释限制
 
@@ -53,5 +62,6 @@ scientific-gate 的第二条命令必须返回 `STOPPED_BY_H_SENSITIVITY` 和 ex
 
 - 不能声称 automatic-caption 问题已被 CoVoL diagnostic 普遍否定，也不能声称固定 paraphrases 有人类等价性或自然度。
 - 不能声称已训练 CoVoL D0/D1、router，或已验证 Claim-F/Claim-M。
-- 不能声称 SR-VEP 的外部 shortcut 数字已在本仓库复现、候选算法有效，或已经达到 Paper Candidate/强 CCF-C。
+- 不能声称 BAR-Depth 已有集中 oracle headroom、可学习 router、实际加速或跨数据集
+  增益，也不能声称达到 Paper Candidate/强 CCF-C。
 - 不能把 QA、协议、hash、GPU availability 或代码量写成科学贡献。

@@ -2,39 +2,82 @@
 
 ## Current state
 
-当前唯一选择的 Research Opportunity 是 **SR-VEP：Source-Residualized Video-Grounded Emotion Preference**，状态为 `SELECTED_RESEARCH_OPPORTUNITY / DEFECT_CANARY_PENDING / NOT_PAPER_CANDIDATE`。它研究 EmoPrefer/MER-Prefer judge 是否通过生成器风格先验而非音视频情绪证据做偏好判断，以及能否用 same-generator video matching、折外 source residualization 和 worst-group pairwise optimization 改善 grounded preference。
+用户于 2026-08-27 明确将唯一研究主线切换为 **BAR-Depth：
+Budget-Adaptive Regional Refinement for High-Resolution Depth**。当前状态是
+`SELECTED_RESEARCH_OPPORTUNITY / V1_INVALID_METRIC_ALIGNMENT /
+V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`。
 
-该选择只授权 CPU defect canary：获取官方公开 annotation tables 与许可文本、固定 hash、重跑五折 content-blind/source-prior probe。CPU gate 通过前不下载受限媒体、不启动 GPU、不实现完整训练器。量化门禁和最近邻见 [017 Research Opportunity Gate](017_research_opportunity_gate.md)，算法假设见 [SR-VEP candidate](../ideas/candidates/01_source_residualized_emotion_preference.md)。
+v1 已完成但被 Step 019 判为 `INVALID_METRIC_ALIGNMENT`，因为 unconstrained affine
+inverse depth 在 outdoor 产生非正值后被 epsilon clipping。该输出不是科学 STOP。
+当前状态收紧为 `V2_REPAIR_REQUIRED / NOT_PAPER_CANDIDATE`；只允许在其余合同完全
+不变时改用 positive median scale-only metric alignment 重跑。
 
-## CoVoL archive boundary
+本轮只授权一个 defect canary：在 DIODE validation 的 200 张公开高分辨率
+RGB-D 图像上，冻结 Depth Anything V2-S，枚举每张图的 3×4 个区域细化动作，
+判断可改善误差是否足够大且集中到少量区域。该 canary 不训练 router，不声称
+端到端加速，也不进入完整 Paper Build。
 
-CoVoL 的最终状态是 `ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`。004-A 实际使用 NYUv2 GT class/instance/median-depth 构造的确定性关系短模板，而不是 automatic captions。semantic-preserving 控制也稳定变化，违反预注册停止条件。因此只停止当前 GT-template probe 和 Main-PR 贡献路径；它不证明自然 automatic-caption 错误整体不存在或无害。
+协议、算法差异和停止阈值见
+[BAR-Depth candidate](../ideas/candidates/02_budget_adaptive_regional_depth.md) 与
+[018 oracle canary](018_bar_depth_oracle_canary.md)。
 
-CoVoL 的 Step004-B、Step005–008、official test 与第二数据集恢复全部禁止。历史 Step003 authorization 不能恢复它；所有入口还必须通过绑定 sensitivity CSV/summary SHA 的最终 scientific gate。完整证据边界见 [016 CoVoL Closure](016_covol_closure.md)。
+## Superseded active opportunity
 
-## SR-VEP task
+SR-VEP 曾被 Gate-017 选为 Research Opportunity，但在任何 annotation 获取、CPU
+defect canary、媒体下载或模型训练发生前，被用户的显式方向变更取代。它现在是
+`PARKED_BEFORE_CANARY / NO_REPOSITORY_SCIENTIFIC_RESULT`，不得与 BAR-Depth 并行
+消耗研究预算；历史定义保留用于追溯，不能解释为缺陷已否定。
 
-输入为视频/音频 `v` 与两条开放式 emotion descriptions `(d1,d2)`，目标是预测人类偏好，同时验证决策是否依赖与原视频匹配的情绪证据，而不是 generator identity、长度、candidate order 或 source-pair win-rate。
+## BAR-Depth task
 
-当前唯一待复现缺陷来自近期外部报告：content-blind source/length probe 接近 LoRA audio-visual judge，generator identity 又高度可从描述文本恢复。仓库尚未独立产生该事实。若 source recovery <95%，content-blind 与对称 Omni LoRA 相差 >5 pp，或官方数据/许可无法稳定获得，则方向停止。
+给定高分辨率 RGB 图像、冻结的低分辨率全图深度预测和最多 `B` 次区域细化预算，
+选择区域集合 `S` 并合并局部预测，使细节加权深度误差最小，同时约束全图误差与
+实际推理成本。当前 canary 仅验证 oracle 选择空间：
+
+$$
+S_B^*=\arg\max_{|S|\le B}\sum_{i\in S}\max(\Delta E_i,0),
+\qquad
+\Delta E_i=E_i(D_0)-E_i(\operatorname{Merge}(D_0,D_i)).
+$$
+
+候选区域的写回支持互不重叠，因此 canary 中的区域效用可加；后续算法阶段才研究
+重叠、多尺度、成本不等和学习式边际效用。
 
 ## Candidate algorithm difference
 
-候选方法不把普通 DPO、LoRA、对抗去偏或 group-DRO 单独当贡献。其可证伪差异是：
+如果 oracle gate 通过，候选算法必须同时包含：
 
-1. 在同一 generator 内，用 coarse-emotion-matched 的 cross-video negatives 识别 `video-description` evidence margin，使 generator style 在配对内抵消；
-2. 用严格 cross-fitted nuisance model 残差化 generator-pair/length/style propensity，验证 fold 不参与 nuisance 拟合；
-3. 在 generator-pair × prior-agreement 环境上优化 worst-group pairwise risk，并保持 candidate-order consistency；
-4. 只把原视频相对 matched video-swap 的 margin 当操作性 grounding，不声称恢复人类偏好的因果真值。
+1. 从一次低分辨率全图前向中预测每个候选区域的误差下降与置信区间；
+2. 在真实预算下联合考虑收益、区域重叠冗余和不同尺度成本，而非固定网格或边缘阈值；
+3. 用全局相对深度作低频锚点，只把被选择区域的局部高频残差写回；
+4. 输出 accuracy–latency Pareto，并与 2021 content-adaptive patch selection、
+   PatchFusion、PRO 和全量网格细化等 killer baselines 同预算比较。
+
+仅做 saliency map、固定 Top-K、调整 tile size 或报告 FLOPs 不构成算法贡献。
+
+## Oracle canary gate
+
+预注册主门禁必须同时满足：
+
+- 恰好 200 张图、20 个 DIODE validation scans，每 scan 10 张；
+- 正向可细化 headroom 相对 base 细节加权 AbsRel 至少 3%；
+- 25% 区域预算捕获至少 70% 的全部正向 oracle utility；
+- 25% oracle 使细节加权 AbsRel 至少下降 2%；
+- 使用同一个 base metric alignment 时，全图普通 AbsRel 的相对劣化不超过 1%；
+- 上述前三个效应的 scan-cluster bootstrap 95% 下界仍越过阈值。
+
+任一条件失败则当前区域选择表述 `STOP`；不得通过改 grid、改模型、挑 indoor/outdoor
+切片或改 utility 权重反向恢复。若主 gate 通过但便宜启发式仍接近随机，只能记为
+`GO_ORACLE / ROUTABILITY_UNVERIFIED`，下一步先做严格 scan-held-out router probe。
+
+## Archive boundary
+
+CoVoL 的最终状态仍是
+`ARCHIVED_GT_TEMPLATE_PROBE_STOPPED_BY_H_SENSITIVITY_CONTROL`；所有旧 downstream
+入口继续由最终 scientific gate 停止。本次换题不修改、复活或重解释 CoVoL 结果。
 
 ## Upgrade gate
 
-SR-VEP 只有在下列条件同时满足时才能成为 Paper Candidate：
-
-- CPU defect canary 独立复现；
-- 冻结 Omni correct-match AUROC >0.65，说明存在可恢复的音视频—描述匹配信号；
-- 500-pair、两折 prototype 的 counter-stereotypical WAF 相对对称 Omni LoRA 至少 +8 pp，matched video-swap margin 至少 +0.10，aggregate WAF 下降不超过 3 pp；
-- 在相同 split/预算下超过 Style-audit ODIN、MJ1-style grounded verifier 与 EAPO augmentation；
-- 改进不依赖 source name、长度、candidate order、额外模型数量或读取 test label。
-
-当前这些条件均未验证，算法 claim 不成立。
+BAR-Depth 只有在 oracle gate、scan-held-out router、2021 patch-selection killer、
+跨数据集/跨 backbone、真实同步 latency 与组件消融均通过后，才允许升级为 Paper
+Candidate。当前没有算法增益、加速或投稿级 claim。

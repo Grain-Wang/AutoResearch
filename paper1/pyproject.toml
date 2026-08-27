@@ -10,6 +10,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+bar-depth = [
+    'opencv-python-headless>=4.10,<5',
+    'torch>=2.4',
+    'torchvision>=0.19',
+]
 dev = [
     'black>=24',
     'pytest>=8',

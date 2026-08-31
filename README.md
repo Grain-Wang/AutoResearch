@@ -12,6 +12,14 @@ AutoResearch 是最外层的主仓库和自主科研工作区，由仓库级
 工作流。当前融合后的有效流程为 16 个“选题到实验决策”阶段，不使用旧版论文
 写作阶段。
 
+## 当前活动项目与分支
+
+- **活动 Git 分支：`paper1`**。
+- **活动研究项目：`paper1_new/` 下的 BlockStamp-Cert / Proof-Carrying SPICE 新选题**。
+- `paper1/` 保留已停止的 CoVoL 历史与评审记录，不覆盖、不删除。
+- `paper2` 分支由其他工作流独立管理；本工作流只读取其冻结快照，不向该分支提交、回退或删除内容。
+- `paper1_new/` 的初始迁移来源、commit 与 tree SHA 见 [`paper1_new/MIGRATION.md`](paper1_new/MIGRATION.md)。
+
 ## 仓库结构
 
 | 路径 | 用途 |
@@ -19,15 +27,16 @@ AutoResearch 是最外层的主仓库和自主科研工作区，由仓库级
 | `AGENTS.md` | 整个仓库的权威研究与执行规则 |
 | `.codex/handoff/` | 脱敏的跨机器 Codex 状态与历史接续包 |
 | `tools/` | 可安装的 AutoResearchClaw 16 阶段研究实验工具箱 |
-| `paper1/` | 当前论文方向的研究资料与过程文件 |
+| `paper1/` | 已停止的 CoVoL 项目历史、实验和评审记录 |
+| `paper1_new/` | 当前活动的 BlockStamp-Cert 研究项目 |
 | `sshconfig.md` | 本地私密的服务器连接信息，禁止提交 |
 
 ## 跨机器继续 Codex 工作
 
-当前精简后的研究状态位于 `grain_paper1` 分支；在合并到默认分支前，另一台机器应显式克隆该分支：
+当前活动研究状态位于 `paper1` 分支；另一台机器应显式克隆该分支：
 
 ```powershell
-git clone -b grain_paper1 git@github.com:Grain-Wang/AutoResearch.git
+git clone -b paper1 git@github.com:Grain-Wang/AutoResearch.git
 cd AutoResearch
 codex -C .
 ```
@@ -35,7 +44,7 @@ codex -C .
 新会话会先遵循根目录 `AGENTS.md`。建议首条消息为：
 
 ```text
-读取 .codex/handoff/CURRENT.md，核对当前 Git 和仓库文件，然后从下一原子动作继续；只有需要追溯决策时才读取 TRANSCRIPT.md。
+读取 .codex/handoff/CURRENT.md，核对当前 Git 和仓库文件；当前活动项目根目录是 paper1_new/，所有新提交只写 paper1 分支。只有需要追溯决策时才读取 TRANSCRIPT.md。
 ```
 
 接续包不是原始 Codex session，也不包含认证信息。格式、读取顺序和安全边界见 [`.codex/handoff/README.md`](.codex/handoff/README.md)。
@@ -43,8 +52,8 @@ codex -C .
 ## 环境与依赖
 
 项目使用 **Python 3.12**。所有运行所需依赖都必须写入
-[`tools/pyproject.toml`](tools/pyproject.toml) 的依赖声明
-中，再由环境管理工具安装；不得只在本机安装而不留下可复现的依赖声明。
+[`tools/pyproject.toml`](tools/pyproject.toml) 或活动研究项目自身的依赖声明中，
+再由环境管理工具安装；不得只在本机安装而不留下可复现的依赖声明。
 环境目录、包缓存和其他依赖隔离产物不提交到 Git。
 
 ### 首选：Conda
@@ -86,8 +95,8 @@ Windows PowerShell 可使用 `.\.venv\Scripts\Activate.ps1` 激活环境；macOS
 cd tools
 Copy-Item config.researchclaw.example.yaml config.yaml
 researchclaw tools list
-researchclaw tools init --run-dir ../paper1/steps/my-run --topic "YOUR RESEARCH TOPIC" --config config.yaml
-researchclaw tools status --run-dir ../paper1/steps/my-run
+researchclaw tools init --run-dir ../paper1_new/steps/my-run --topic "YOUR RESEARCH TOPIC" --config config.yaml
+researchclaw tools status --run-dir ../paper1_new/steps/my-run
 ```
 
 推荐逐阶段调用 `researchclaw tools <step>`，检查每个阶段产物后再通过关键门禁。
@@ -97,7 +106,7 @@ researchclaw tools status --run-dir ../paper1/steps/my-run
 
 完整的工具命令、阶段输入输出和门禁格式见
 [`tools README`](tools/README.md)。研究问题、文献、实验记录和论文材料应保存在
-外层主仓库的 `paper*/` 研究目录中，而不是把 `tools/` 当作研究项目目录。
+外层主仓库的研究目录中；当前活动目录为 `paper1_new/`，而不是把 `tools/` 当作研究项目目录。
 
 ## A800 远程实验
 
@@ -118,6 +127,7 @@ Python 3.12 环境。实际主机、端口、账号、密码和私钥只能通�
 - 默认不使用付费服务，不对外提交 issue、PR、commit 或公开研究结果。
 - 新增代码必须可通过命令行重建实验，记录随机种子、配置与版本，并按
   `AGENTS.md` 要求执行 Ruff、Black 和 Pytest 检查。
+- 本工作流的 Git 写入目标固定为 `paper1`；不得写入 `paper2` 分支。
 - `sshconfig.md`、密码、令牌、私钥、`.env*`、本地配置、依赖环境、缓存、数据集、
   模型权重和大体积实验产物不得提交。真实访问凭据必须始终保留在仓库之外或
   已忽略的本地文件中。

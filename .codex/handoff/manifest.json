@@ -1,39 +1,45 @@
 {
-  "schema_version": 1,
-  "snapshot_time": "2026-08-24T17:59:37+08:00",
+  "schema_version": 2,
+  "snapshot_time": "2026-08-31T14:41:00+08:00",
   "snapshot_kind": "sanitized_portable_handoff",
   "entrypoint": ".codex/handoff/CURRENT.md",
   "history": ".codex/handoff/TRANSCRIPT.md",
   "repository": {
     "canonical_root": "AutoResearch",
     "remote": "git@github.com:Grain-Wang/AutoResearch.git",
-    "branch": "grain_paper1",
-    "base_commit": "e90be8b",
-    "default_branch_at_snapshot": "main"
-  },
-  "codex": {
-    "client": "vscode",
-    "cli_version": "0.148.0-alpha.15",
-    "contains_raw_session": false,
-    "contains_internal_messages": false,
-    "contains_tool_outputs": false,
-    "contains_authentication_material": false
+    "branch": "paper2",
+    "default_branch": "main"
   },
   "research": {
-    "active_project": "paper1",
-    "active_direction": "CoVoL-Depth",
+    "active_project": "paper2",
+    "active_direction": "BlockStamp-Cert",
+    "system_vision": "Proof-Carrying SPICE",
     "stage": "Research Opportunity",
+    "opportunity_gate": "PASS",
     "paper_candidate": false,
-    "claim_f": "UNVERIFIED",
-    "claim_m": "UNVERIFIED"
+    "paper_candidate_gate": "FAIL_UNVERIFIED",
+    "target": "strong CCF-B"
   },
+  "current_blockers": [
+    "proof operator C invertibility not yet closed in the formal contract",
+    "final directed-rounded arithmetic backend not implemented",
+    "complete fixed-step BE MNA microkernel not implemented",
+    "BlockStamp operator recurrence not implemented",
+    "B2-strong pointwise verified baseline not implemented",
+    "no nonlinear transient main experiment yet"
+  ],
+  "review_chain": [
+    "paper2/responce_from_reviewer/review_round1.md",
+    "paper2/responce_from_reviewer/review_round2.md",
+    "paper2/responce_from_reviewer/review_round3.md"
+  ],
+  "historical_notes": [
+    "paper2/research/notes/stage_assessment_before_ccfb_review.md"
+  ],
   "last_verified": {
-    "base_commit": "e90be8b",
-    "pytest": "44 passed (tools) + 92 passed (paper1 protocol/code QA)",
-    "ruff": "passed for repository",
-    "black": "passed for tools and paper1",
-    "git_diff_check": "passed",
-    "scientific_results_generated": false
+    "scientific_status": "Research Opportunity / Paper Candidate FAIL-UNVERIFIED",
+    "cleanup_note": "cross-project paper1/CoVoL handoff content removed from the paper2 branch",
+    "tests_rerun_during_cleanup": false
   },
   "redacted": [
     "credentials",

@@ -1,0 +1,41 @@
+{
+  "base_forward_milliseconds_total": 9586.990092881024,
+  "base_metric_clipped_pixel_count_total": 613463,
+  "contract": {
+    "config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+    "device": "cuda:0",
+    "implementation_canonical_sha256": "988613ac4dc4a35c9ad613f4f7524ff074cf806ff786a1dad68dcefc2b505d93",
+    "implementation_files_sha256": {
+      "__init__.py": "f398b7296f8d3528ef050b317e32a16809a688e0ff6109729e87dec20b840169",
+      "analyze_oracle_canary.py": "3a88d1df05e9b949a40a51a15a071d8dbe881615b07aff64fc1328313f32396e",
+      "build_diode_manifest.py": "79cb53c12dd2cd5346d3637aa182365864c923971c396808a2d7f47677d65b5e",
+      "core.py": "1a63ee11034c99770abeb45277d17fed998b01a4cb75db8fa0791f2c36051087",
+      "io_utils.py": "7055fad77c83e860a4d0396ce6f0c662e4977eab29ccd764a2ce2129e77154a5",
+      "run_oracle_canary.py": "1f9a5d2c762c91329d88f60424d278c1c9ede943c63f03b7fc83f86ff5158b74"
+    },
+    "manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+    "source_revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "weights_sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378"
+  },
+  "contract_sha256": "9cc201af27272f96458b3635b5d868519cf15cb691d2acafebff707e22c4338d",
+  "output_csv_sha256": "77d7b6b638a3663badd8eb724b4a70a9ce6511eeb9f1680494a357dbd05bfe90",
+  "patch_forward_milliseconds_total": 40275.0782025978,
+  "region_row_count": 2400,
+  "runtime": {
+    "cuda": "12.1",
+    "cuda_visible_devices": "2",
+    "device": "cuda:0",
+    "gpu": "NVIDIA A800 80GB PCIe",
+    "numpy": "2.5.1",
+    "opencv": "4.10.0",
+    "pillow": "12.3.0",
+    "python": "3.12.13",
+    "scipy": "1.18.0",
+    "torch": "2.5.0+cu121",
+    "torchvision": "0.20.0+cu121"
+  },
+  "sample_count": 200,
+  "schema_version": 1,
+  "status": "COMPLETE_RAW_ORACLE_ROWS",
+  "timing_interpretation": "shared_gpu_diagnostic_only"
+}

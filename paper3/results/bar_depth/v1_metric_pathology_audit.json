@@ -1,0 +1,38 @@
+{
+  "bindings": {
+    "config_sha256": "ae79a3be4cb5e7067f936616060b8fd69f580e28a6e0d0ef7d0398c5a869bd45",
+    "manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+    "model_source_revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "model_weights_sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378"
+  },
+  "domain_audit": {
+    "indoors": {
+      "absrel_error_sum_after_clipping": 5438061.677259064,
+      "epsilon_clipped_pixel_count": 0.0,
+      "epsilon_clipped_pixel_fraction": 0.0,
+      "image_count": 100.0,
+      "images_with_epsilon_clipping": 0.0,
+      "max_image_clipped_fraction": 0.0,
+      "mean_absrel_after_clipping": 0.06958022752040115,
+      "median_image_clipped_fraction": 0.0,
+      "nonpositive_pixel_count": 0.0,
+      "valid_pixel_count": 78155273.0
+    },
+    "outdoor": {
+      "absrel_error_sum_after_clipping": 46349250264.14741,
+      "epsilon_clipped_pixel_count": 157380.0,
+      "epsilon_clipped_pixel_fraction": 0.0026011476717050833,
+      "image_count": 100.0,
+      "images_with_epsilon_clipping": 15.0,
+      "max_image_clipped_fraction": 0.07479646046475708,
+      "mean_absrel_after_clipping": 766.0518770483113,
+      "median_image_clipped_fraction": 0.0,
+      "nonpositive_pixel_count": 157375.0,
+      "valid_pixel_count": 60504062.0
+    }
+  },
+  "invalidity_rule": "Any valid pixel with aligned inverse depth <= epsilon before metric clipping invalidates the v1 affine-to-AbsRel evaluation.",
+  "sample_count": 200,
+  "schema_version": 1,
+  "status": "INVALID_METRIC_ALIGNMENT"
+}

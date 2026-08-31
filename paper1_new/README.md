@@ -1,4 +1,6 @@
-# paper2：Proof-Carrying SPICE Research Opportunity
+# paper1_new：Proof-Carrying SPICE / BlockStamp-Cert Research Opportunity
+
+> **Canonical workflow:** 本项目当前位于远程 `paper1` 分支的 `paper1_new/` 目录。`paper2` 仅是本次初始快照的来源分支，并由其他工作流独立维护；本项目后续代码、实验、结果、response 与 review 均只写入 `paper1` 分支。迁移来源与哈希见 [`MIGRATION.md`](MIGRATION.md) 和 [`import_manifest.json`](import_manifest.json)。
 
 ## 当前状态
 
@@ -18,6 +20,16 @@ integration、proof-carrying computation 和 verified sparse algebra 的强重�
 - `tests/`：研究代码的自动化测试。
 - `results/`：可重建的实验结果与汇总。
 - `responce_from_reviewer/`：模拟评审意见与逐轮回应。
+
+## 当前路径约定
+
+从仓库根目录运行本项目时，项目根固定为 `paper1_new/`。对于当前采用顶层 `experiments` 包的脚本，使用：
+
+```bash
+PYTHONPATH=paper1_new python -m experiments.<module>
+```
+
+新产生的结果写入 `paper1_new/results/`，新评审写入 `paper1_new/responce_from_reviewer/`。历史文档中出现的 `paper2/...` 路径属于迁移前来源记录，不代表当前写入分支或活动根目录。
 
 ## 下一步
 

@@ -1,6 +1,6 @@
 # Proof-Carrying SPICE 文献检索与新颖性红队审计
 
-检索截止日期：2026-08-25（Asia/Shanghai）
+检索截止日期：2026-08-31（Asia/Shanghai）
 
 目标会场：DAC / CCF-A
 
@@ -15,8 +15,11 @@ SIAM、Springer、Elsevier 元数据、arXiv、作者主页与机构仓库，并
 Nakaya 2009、validated ODE/DAE、Rump verified numerics、AMS formal verification、
 proof-carrying computation、稀疏可靠线性代数和 Verilog-A 编译链做关键词与引文扩展。
 
-证据标记：`full-text` 表示已取得并检查公开全文；`abstract-only` 表示结论仅限正式
-摘要/元数据；`book` 表示依据出版商目录及经典专著，不声称逐页精读。本地 PDF
+证据标记：`full-text` 表示已取得并检查公开全文；既有条目的 `abstract-only` 是仅限
+摘要/元数据的旧标记；正式 Round 3 起细分为 `publisher-abstract`（只核验出版社摘要与
+书目信息）和 `institutional-metadata`（只核验作者主页或机构出版记录）。后三类均不
+支持定理编号、精确前提、公式等价或复杂度证明的断言。`book` 表示依据出版商目录及
+经典专著，不声称逐页精读。本地 PDF
 位于 `../reference_papers_origin/`，转换文本位于
 `../reference_papers_processed/`。双栏或字体编码导致转换器标为 `partial` 时，PDF
 仍是唯一权威来源。
@@ -43,6 +46,11 @@ proof-carrying computation、稀疏可靠线性代数和 Verilog-A 编译链做�
 | Kolev, Mladenov, [An Interval Method for Finding All Operating Points of Non-linear Resistive Circuits](https://doi.org/10.1002/cta.4490180302) (`abstract-only`) | 1990/IJCTA | 非线性电阻电路全部工作点 | 区间分析与分支 | DC 工作点集合包含/搜索 | 更早的 DC 区间电路 prior art | **Medium** |
 | Moore, Kearfott, Cloud, [Introduction to Interval Analysis](https://doi.org/10.1137/1.9780898717716) (`book`) | 2009/SIAM | 区间分析基础 | interval Newton、Krawczyk、向外舍入 | 条件式存在/唯一性与包含定理 | 全部数学基础；不能作为算法 novelty | **High** |
 | Rump, [Verification Methods: Rigorous Results Using Floating-Point Arithmetic](https://doi.org/10.1017/S096249291000005X) (`full-text`, §§2, 10–13) | 2010/Acta Numerica | 浮点上的可靠数值计算 | error-free transforms、区间法、线性/非线性验证 | 在明确浮点模型下的数学可靠界 | checker 算术、线性/非线性证书的基础 | **High** |
+| Chen, Hashimoto, [Verification methods for nonlinear equations with saddle point functions](https://doi.org/10.1016/S0377-0427(03)00570-3) (`publisher-abstract` + `institutional-metadata`) | 2003/Journal of Computational and Applied Mathematics 159(1), 13–24 | 具有鞍点函数的非线性方程 | 摘要所述的 Krawczyk 型区间算子分块分解 | 摘要称为 fast verification algorithm；本轮未核验具体定理 | 直接威胁“分块 Krawczyk/结构化非线性验证”这一宽泛 novelty；未核验到 transient MNA 或 BlockStamp 递推 | **High** |
+| Schwandt, [A truncated cyclic reduction algorithm for interval arithmetic tridiagonal systems of equations](https://doi.org/10.1080/00207168708803564) (`publisher-abstract` + `institutional-metadata`) | 1987/International Journal of Computer Mathematics 21(2), 161–184 | 区间系数三对角线性系统 | 截断 cyclic reduction，以廉价区间替代省略步骤并保持包含性 | 出版社摘要明确声称保持 inclusion；本轮未核验具体定理 | 直接威胁“带状区间递推/截断仍保包含”宽泛 claim | **High** |
+| Schwandt, [Cyclic Reduction for Tridiagonal Systems of Equations with Interval Coefficients on Vector Computers](https://doi.org/10.1137/0726039) (`publisher-abstract` + `institutional-metadata`) | 1989/SIAM Journal on Numerical Analysis 26(3), 661–680 | 区间系数三对角线性系统 | 面向向量机的 interval cyclic reduction | 摘要报告算法、数值行为和实验；本轮未核验具体定理 | 否定“interval cyclic reduction 首创”；不等同于非线性时域 MNA 证书 | **High** |
+| Schwandt, [Truncated interval arithmetic block cyclic reduction](https://doi.org/10.1016/0168-9274(89)90047-0) (`publisher-abstract` + `institutional-metadata`) | 1989/Applied Numerical Mathematics 5(6), 495–527 | 区间系数块三对角线性系统 | block cyclic reduction，并以廉价区间替代被截断计算 | 出版社摘要称保持 inclusion；本轮未核验具体定理 | 直接威胁“块带状区间递归/可靠截断”算法层 claim | **High** |
+| Frommer, Hashemi, [Verified error bounds for solutions of Sylvester matrix equations](https://doi.org/10.1016/j.laa.2010.12.002) (`publisher-abstract` + `institutional-metadata`) | 2012/Linear Algebra and its Applications 436(2), 405–420 | Sylvester 矩阵方程的可靠解包围 | Krawczyk 区间算子变体与 factorized preconditioner；摘要称可利用对角化/块对角化 | 摘要称稠密且可对角化时复杂度降至 cubic；本轮未核验定理前提与证明 | 直接威胁“因子化算子作用避免显式大逆/结构化降复杂度”宽泛 novelty | **High** |
 | Nedialkov, Jackson, Corliss, [Validated Solutions of Initial Value Problems for ODEs](https://doi.org/10.1016/S0096-3003(98)10083-8) (`abstract-only`) | 1999/AMC | ODE 初值问题的严格积分 | Taylor series、区间 remainder、wrapping 控制 | 成功时证明唯一解并给出真解包围 | 已覆盖“逐步唯一性+轨迹管道”的一般思想 | **High** |
 | Lin, Stadtherr, [Validated Solutions of IVPs for Parametric ODEs](https://doi.org/10.1016/j.apnum.2006.10.006) (`abstract-only`) | 2007/Applied Numerical Mathematics | 区间初值和参数下的 ODE 解集 | Taylor model/区间传播 | 对所有允许参数/初值给出验证包围 | 直接威胁参数化 slab 接口这一普通表述 | **High** |
 | Berz, Makino, [Verified Integration of ODEs and Flows Using Differential Algebraic Methods on High-Order Taylor Models](https://doi.org/10.1023/A:1024467732637) (`abstract-only`) | 1998/Reliable Computing | 长时间 ODE 严格积分与 wrapping | 高阶 Taylor models | 连续流严格包围 | time-slab/tube 组合的理论近邻 | **High** |
@@ -68,10 +76,23 @@ proof-carrying computation、稀疏可靠线性代数和 Verilog-A 编译链做�
 | Drzevitzky, Kastens, Platzner, [Proof-Carrying Hardware: Concept and Prototype Tool Flow](https://doi.org/10.1155/2010/180242) (`full-text available`) | 2010/IJRC | FPGA 模块在线验证 | SAT proof trace + 小 checker | 组合等价性证明 | 证明 producer/checker 接口不是新概念 | **Low** |
 | Hartong, Hedrich, Barke, [On Discrete Modeling and Model Checking for Nonlinear Analog Systems](https://doi.org/10.1007/3-540-45657-0_33) (`abstract-only`) | 2002/CAV | 非线性模拟系统形式验证 | 离散抽象/model checking | 抽象上的属性结论 | transient formal verification 经典近邻 | **Medium** |
 
-表中 29 篇没有一篇被判为 **Direct prior art**：没有证据显示其同时满足本文定义的
+表中 34 篇没有一篇被判为 **Direct prior art**：没有证据显示其同时满足本文定义的
 全部交集条件。这个“0 篇”是当前审计结果，不是领域不存在性证明。
 
-## 2. 最危险的 8 篇论文
+### 1.1 正式 Round 3 高威胁结构化数值先例：证据边界
+
+| 先例簇 | 本轮实际核验到的内容 | 尚未核验、不得声称的内容 | 对 BlockStamp 的当前裁决 |
+|---|---|---|---|
+| Chen–Hashimoto 2003 | [PolyU 机构记录](https://research.polyu.edu.hk/en/publications/verification-methods-for-nonlinear-equations-with-saddle-point-fu/)与[合作者主页](https://www.nakamura-u.ac.jp/~hashimot/paper.html)确认题名、作者、JCAM 159(1)、13–24、DOI；正式摘要明确写到 Krawczyk 型区间算子的 block decomposition | 未取得并逐式检查目标全文；不能声称某个定理的假设、结论或与 BlockStamp 算子等价 | “block-decomposed Krawczyk”不能作为贡献；BE transient MNA、device-local stamps、跨时间块下双对角递推和 portable checker 的差异仍待公式级核验 |
+| Schwandt 1987/1989 | [T&F 正式摘要](https://www.tandfonline.com/doi/abs/10.1080/00207168708803564)、[SIAM 正式摘要](https://epubs.siam.org/doi/10.1137/0726039)与[作者 TU Berlin 书目](https://page.math.tu-berlin.de/~schwandt/publikationen.html)确认 interval cyclic reduction、tridiagonal/block-tridiagonal、truncation 与 inclusion-preserving replacement 这条方法线；三个 DOI 如表 | 目标全文/定理均未逐条取得核验；不能把摘要中的 inclusion 描述扩展成任意 BlockStamp 非线性定理 | “区间带状/块带状递归”和“截断仍保持包含”均非新；只有电路器件 stamp、非线性 Krawczyk 组合、外部证书语法及精确新 recurrence 尚可作为待证差异 |
+| Frommer–Hashemi 2012 | [Elsevier 正式摘要](https://www.sciencedirect.com/science/article/pii/S0024379510006300)确认 Sylvester 方程、factorized preconditioner、Krawczyk 变体、稠密可对角化情形 cubic 复杂度和不可对角化时的 block diagonalization；[Wuppertal 记录](https://ai.uni-wuppertal.de/en/applied-computer-science-group/publications/2010/)确认 BUW-SC 2010/3 预印本 | 机构 PDF 本轮抓取超时，未完成目标全文和定理级核验；不能声称其因子化公式与 BlockStamp 不同，也不能引用未读定理号 | “factorized Krawczyk/避免显式巨型算子/结构降复杂度”不能作为贡献；Sylvester/Kronecker 结构与 BE-MNA 时间结构的精确区别仍是开放审计项 |
+
+页码差异说明：T&F 正式记录与 Schwandt 作者书目均给 1987 年 IJCM 论文为
+161–184；SIAM 1989 论文的参考文献列表误列为 161–186。本报告采用原刊页面和作者
+书目一致的 161–184。上述材料只完成方法描述级威胁确认，不完成 theorem-level
+non-overlap；因此正式 Round 3 后 novelty gate 明确保持 **`ITERATE`**。
+
+## 2. 最危险的既有工作簇
 
 ### 2.1 Akhter et al., DATE 2019
 
@@ -134,6 +155,33 @@ Verilog-A 到数值代码、Jacobian/导数和多模拟器接口已有成熟编�
 创新。若会议版包含编译器贡献，必须定义受限语言、数值/AD/interval 三语义一致性定理，
 并对 `limexp`、分支、状态、事件和不可微点给出拒绝或 sound enclosure 规则。
 
+### 2.9 Chen–Hashimoto 2003
+
+正式摘要已经把“基于 Krawczyk 型区间算子的 block decomposition 的快速非线性验证”
+置于 prior art。因而 BlockStamp 不能把 block Krawczyk、结构化预条件或比标准 Krawczyk
+更快作为孤立贡献。当前仍可能区分的是具体方程与 proof object：该先例的摘要对象是
+鞍点函数，并提到凸优化和离散定常 Navier–Stokes；本轮没有证据确认它处理 BE 瞬态
+MNA、器件局部 stamp、跨时间接口量词或可携带 checker。这个区别只到摘要级，未完成
+算子/定理逐式对照。
+
+### 2.10 Schwandt 1987/1989
+
+这一方法线比当前初稿所承认的威胁更强：正式摘要和作者书目明确覆盖区间三对角与块
+三对角 cyclic reduction，以及用廉价区间替代被省略计算且保持 inclusion 的截断版本。
+因此“沿带状结构递推”“用区间截断降低检查成本”“块递归保持包含”都必须降为 prior-art
+组件。尚未被这些摘要证据覆盖的是非线性 BE-MNA Krawczyk 义务、device-local stamp
+聚合、producer/checker 协议及 BlockStamp 的精确 recurrence；只有在取得全文并做公式级
+对照后，才能将后者写成差异而不是暂定假设。
+
+### 2.11 Frommer–Hashemi 2012
+
+Elsevier 摘要已经覆盖 factorized preconditioner 的 Krawczyk 变体，并在 Sylvester 方程
+的结构假设下把稠密复杂度降至 cubic；不可对角化情形还使用 block diagonalization。
+这直接否定“无需显式形成巨型逆/通过因子化算子降复杂度”作为 BlockStamp 首创。可能
+剩余的是不同结构：Sylvester/Kronecker 与 BE-MNA 的块下双对角时间耦合并不相同，但
+目标全文本轮未完成定理级核验，因此不能断言其公式不覆盖 BlockStamp，只能把精确
+operator/recurrence non-overlap 列为下一轮关闭项。
+
 ## 3. 核心问题：是否已有直接 Proof-Carrying SPICE？
 
 **当前检索范围内未发现。** 更准确地说，没有找到一项工作被证据确认同时具备：
@@ -149,9 +197,10 @@ Verilog-A 到数值代码、Jacobian/导数和多模拟器接口已有成熟编�
 
 但各组成部分几乎都有成熟 prior art：DC 晶体管区间验证（DATE 2019/Nakaya）、严格
 轨迹包围与接口传播（validated ODE）、模拟 transient 属性（reachability）、不可信
-producer 的证书架构（PCC/VIPR）、可靠稀疏线性核（Rump/Ogita）和 Verilog-A 编译
-（ADMS/OpenVAF）。因此当前证据支持的是“新交集和新结构化算法可能存在”，绝不支持
-“各个组件首次出现”。
+producer 的证书架构（PCC/VIPR）、分块/因子化 Krawczyk 与 interval block cyclic
+reduction（Chen–Hashimoto、Schwandt、Frommer–Hashemi）、可靠稀疏线性核
+（Rump/Ogita）和 Verilog-A 编译（ADMS/OpenVAF）。因此当前证据支持的是“新交集和
+新结构化算法可能存在”，绝不支持“各个组件首次出现”。
 
 ## 4. 与 DATE 2019 的逐项对比及 reviewer 攻击
 
@@ -194,7 +243,7 @@ producer 的证书架构（PCC/VIPR）、可靠稀疏线性核（Rump/Ogita）�
 
 ## 6. 当前新颖性判断
 
-**Potentially novel（有潜力，但必须收缩和算法化）。**
+**`ITERATE`（Potential / Unverified；有潜力，但尚未完成定理级 non-overlap）。**
 
 最安全的当前定位是：
 

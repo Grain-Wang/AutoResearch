@@ -10,13 +10,12 @@ import math
 from dataclasses import dataclass
 from enum import StrEnum
 
-from experiments.interval_backend import (
-    Interval,
-    IntervalResult,
-    IntervalStatus,
+from experiments.interval_backend import Interval, IntervalResult, IntervalStatus
+from experiments.rigorous_backend import (
     add,
     divide,
     exp,
+    expm1,
     multiply,
     subtract,
 )
@@ -82,24 +81,46 @@ def diode_interval(voltage: Interval, parameters: DiodeParameters) -> DiodeStamp
     if parameters.saturation_current <= 0.0 or parameters.thermal_voltage <= 0.0:
         return None
     exponent = _require(divide(voltage, Interval.point(parameters.thermal_voltage)))
+    exponential_minus_one = expm1(exponent)
+    if (
+        exponential_minus_one.status is not IntervalStatus.OK
+        or exponential_minus_one.interval is None
+    ):
+        return None
     exponential = exp(exponent)
     if exponential.status is not IntervalStatus.OK or exponential.interval is None:
         return None
-    shifted = _require(subtract(exponential.interval, Interval.point(1.0)))
-    current = _require(multiply(Interval.point(parameters.saturation_current), shifted))
-    scale = parameters.saturation_current / parameters.thermal_voltage
-    conductance = _require(multiply(Interval.point(scale), exponential.interval))
+    current = _require(
+        multiply(
+            Interval.point(parameters.saturation_current),
+            exponential_minus_one.interval,
+        )
+    )
+    scale = _require(
+        divide(
+            Interval.point(parameters.saturation_current),
+            Interval.point(parameters.thermal_voltage),
+        )
+    )
+    conductance = _require(multiply(scale, exponential.interval))
     return DiodeStamp(_widen_one_ulp(current), _widen_one_ulp(conductance))
 
 
 def _mos_region(vgs: Interval, vds: Interval, threshold: float) -> MosRegion | None:
     if vds.lower < 0.0:
         return None
-    if vgs.upper <= threshold:
+    overdrive_result = subtract(vgs, Interval.point(threshold))
+    if (
+        overdrive_result.status is not IntervalStatus.OK
+        or overdrive_result.interval is None
+    ):
+        return None
+    overdrive = overdrive_result.interval
+    if overdrive.upper <= 0.0:
         return MosRegion.CUTOFF
-    if vgs.lower > threshold and vds.upper < vgs.lower - threshold:
+    if overdrive.lower > 0.0 and vds.upper < overdrive.lower:
         return MosRegion.TRIODE
-    if vgs.lower > threshold and vds.lower >= vgs.upper - threshold:
+    if overdrive.lower > 0.0 and vds.lower >= overdrive.upper:
         return MosRegion.SATURATION
     return None
 

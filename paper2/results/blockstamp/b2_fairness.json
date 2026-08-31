@@ -1,0 +1,72 @@
+{
+  "all_required_hashes_present": false,
+  "all_shared_hashes_match": null,
+  "allowed_method_differences": [
+    "verification organization only"
+  ],
+  "attempted_cases": 217,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "command": "python3 -m experiments.run_mna_canary --steps 100 --step-size 1e-05",
+  "config_sha256": "669641c45567b339e9d903a95d0f93f8bb17c83bd0558b0582ad86e094f73e9d",
+  "confirmed_false_accepts": 0,
+  "dirty_worktree": true,
+  "easy_case_accepts": 200,
+  "failure_codes": [],
+  "fairness_manifest_sha256": "580ab4fb43ff24ea0fc2e9c7fd4cdef1de59bc5ddba4c210d8419683e0f56b64",
+  "first_failure": null,
+  "frozen_fields": {
+    "candidate": "independent analytic/Decimal root",
+    "midpoint_factor": "checker-side dense verified elimination",
+    "ordering": "normalized state layout",
+    "scaling": "identity",
+    "threads": 1,
+    "tube_radii": [
+      1e-09,
+      1e-12,
+      1e-12
+    ]
+  },
+  "generated_at_utc": "2026-08-31T07:24:39.389185+00:00",
+  "git_commit": "1fc3d6dd2eb2f38f7df2025fe27e9969017f40ae",
+  "input_sha256": "94466c9dcbd18a071986e31f58cc3e7a880e2a9a3e065e414cf6976ec2a0fe9a",
+  "known_bad_cases": 17,
+  "missing_for_b2_strong": [
+    "verified sparse kernel",
+    "component-matched BlockStamp circuit path",
+    "timing/RSS/certificate-byte ladder"
+  ],
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "random_seeds": {},
+  "schema_version": 1,
+  "shared_component_sha256": {
+    "arithmetic_backend": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "be_binding": "3124b84784a0b9998cf873e3a6430e6872e59507d5df281cdc183588af74d6cc",
+    "configuration": "669641c45567b339e9d903a95d0f93f8bb17c83bd0558b0582ad86e094f73e9d",
+    "device_semantics": "aed158ff8360d1e11e47cb64eca08cba96c835107f523b6f300f5a111bcfe8d9",
+    "mna_semantics": "3438faa8c0057210a61e1d44dbd4ab720fc6c07d97cf03998c5814756ffdb519",
+    "pointwise_checker": "2ee82ccb09ff263fd7da3ed6d13f5d3a8422a44e675b83b51884178405d506da"
+  },
+  "source_files_sha256": {
+    "configs/blockstamp/b2_canary.yaml": "669641c45567b339e9d903a95d0f93f8bb17c83bd0558b0582ad86e094f73e9d",
+    "experiments/checkers/be_step.py": "3124b84784a0b9998cf873e3a6430e6872e59507d5df281cdc183588af74d6cc",
+    "experiments/checkers/pointwise_krawczyk.py": "2ee82ccb09ff263fd7da3ed6d13f5d3a8422a44e675b83b51884178405d506da",
+    "experiments/devices/stamps.py": "aed158ff8360d1e11e47cb64eca08cba96c835107f523b6f300f5a111bcfe8d9",
+    "experiments/mna/fixed_be.py": "3438faa8c0057210a61e1d44dbd4ab720fc6c07d97cf03998c5814756ffdb519",
+    "experiments/mna/minimal_circuits.py": "4f638166b4dc3e60a2861257b4aa10fb49f9346f1308c63af66930e49bc02c93",
+    "experiments/mna/oracles.py": "47195183497af899aa139a08ee37fc0098217e59886bd87cb4571edca11898d4",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_mna_canary.py": "466892621527ebe3b1406dd53ed6cf47ad21a426abc99585707b470c011ace39"
+  },
+  "stage": "B2-CANARY-ONLY",
+  "status": "ITERATE",
+  "strong_baseline_status": "UNIMPLEMENTED-VERIFIED-SPARSE",
+  "supported_cases": 212,
+  "unsupported_cases": 5
+}

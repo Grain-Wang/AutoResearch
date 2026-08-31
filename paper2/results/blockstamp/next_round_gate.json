@@ -1,0 +1,83 @@
+{
+  "artifact_sha256": {
+    "arithmetic": "b081d91368cfe1e4fb4f30720a375a317bceaaac0fa3d506fad1a330402edf2e",
+    "b2_fairness": "75394dc847d80037f0311edc661540d062027d90163572e6660cb109d67c4d55",
+    "mna": "807bda6cfb1a86f9616ad0dfdfa857fdff19624fba08a2e79d915572dec00910",
+    "operator": "bb00b495e7deef95e4c3e02fce17b7a6c84d42ce40173d5f721bd2dadd32ca25"
+  },
+  "attempted_cases": 4,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "blockers": [
+    "THEOREM_LEVEL_NOVELTY_UNRESOLVED",
+    "B2_STRONG_UNIMPLEMENTED",
+    "COMPONENT_LADDER_NOT_RUN",
+    "MATCHED_NONLINEAR_M2_NOT_RUN"
+  ],
+  "claim_scope": "claim-separated next-round decision; no performance claim",
+  "command": "python3 -m experiments.run_next_round_gate",
+  "config_sha256": "60866b25bce0a1431f2c57dc0b455a3782f7493018f20912447e437188b4af7c",
+  "dirty_worktree": true,
+  "failure_codes": [],
+  "first_failure": null,
+  "generated_at_utc": "2026-08-31T07:37:26.195197+00:00",
+  "git_commit": "1fc3d6dd2eb2f38f7df2025fe27e9969017f40ae",
+  "input_sha256": "2d6e743d3a70dd7c2e722ace30d50e87d4bff31cf7fb14d16d139f087d0929cd",
+  "m0": {
+    "arithmetic_checks": {
+      "all_operations_present": true,
+      "artifact_pass": true,
+      "directed_rounding_declared": true,
+      "edge_budget_met": true,
+      "mpfr_256_or_stronger": true,
+      "random_budget_met": true,
+      "zero_containment_violations": true
+    },
+    "mna_checks": {
+      "artifact_pass": true,
+      "rc_and_diode_rc_100_steps": true,
+      "required_negative_families_present": true,
+      "wrong_history_sweep_present": true,
+      "zero_negative_false_accepts": true
+    },
+    "scope": "machine implementation evidence; theorem remains conditional",
+    "status": "PASS-CANARY"
+  },
+  "m1": {
+    "claim_i": "IMPLEMENTATION-CANARY-PASS",
+    "efficiency": "UNVERIFIED",
+    "novelty": "UNRESOLVED",
+    "operator_checks": {
+      "all_12_grid_cells_pass": true,
+      "artifact_pass": true,
+      "singular_case_fails_closed": true,
+      "zero_recursive_containment_violations": true
+    },
+    "status": "ITERATE"
+  },
+  "m2": {
+    "b2_strong_ready": false,
+    "component_ladder": "NOT-RUN",
+    "matched_nonlinear_probe": "NOT-RUN",
+    "status": "NOT-STARTED"
+  },
+  "paper_candidate": "FAIL-UNVERIFIED",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "random_seeds": {},
+  "research_opportunity": "PASS",
+  "schema_version": 1,
+  "source_files_sha256": {
+    "experiments/run_next_round_gate.py": "e186f32e877ab9b4f866b39a3e0df628fd8a10986801a89e10eb7081af0b052d",
+    "steps/003_formal_soundness_contract.md": "3c7b4fb4a45c2b6ef9f6d6667a12944552d3e0ea3c24557e9c13882e6e430d96",
+    "steps/007_blockstamp_operator_spec.md": "3b00dc2fa2b37ebae265cdda42c4d8b08e55437acb2c7e6619d96592cc9eac78",
+    "steps/008_next_round_gate.md": "60866b25bce0a1431f2c57dc0b455a3782f7493018f20912447e437188b4af7c"
+  },
+  "status": "ITERATE",
+  "supported_cases": 4,
+  "unsupported_cases": 0
+}

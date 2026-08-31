@@ -1,0 +1,349 @@
+{
+  "attempted_cases": 217,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "circuits": {
+    "diode_rc": {
+      "accepted": 100,
+      "checker_false_accepts": 0,
+      "circuit": "diode-rc-source",
+      "first_failure_step": null,
+      "jacobian_containment_violations": 0,
+      "jacobian_sample_count": 900,
+      "max_point_residual": 2.7762653205594464e-23,
+      "minimum_inclusion_margin": 9.999778782798785e-13,
+      "oracle": "Decimal-160 bisection bracket",
+      "oracle_bracket_outside_checker_image": 0,
+      "oracle_precision_bits": 531,
+      "oracle_precision_decimal_digits": 160,
+      "oracle_precision_kind": "finite Decimal",
+      "root_contained_steps": 100,
+      "root_excluded_steps": 0,
+      "seconds": 10.431029319000118,
+      "steps": 100,
+      "unknown": 0,
+      "unsupported": 0
+    },
+    "rc": {
+      "accepted": 100,
+      "checker_false_accepts": 0,
+      "circuit": "rc-source",
+      "first_failure_step": null,
+      "jacobian_containment_violations": 0,
+      "jacobian_sample_count": 900,
+      "max_point_residual": 2.6469779601696886e-23,
+      "minimum_inclusion_margin": 9.999778782798785e-13,
+      "oracle": "exact Fraction root",
+      "oracle_bracket_outside_checker_image": 0,
+      "oracle_precision_bits": null,
+      "oracle_precision_decimal_digits": null,
+      "oracle_precision_kind": "exact rational",
+      "root_contained_steps": 100,
+      "root_excluded_steps": 0,
+      "seconds": 0.5392645820002144,
+      "steps": 100,
+      "unknown": 0,
+      "unsupported": 0
+    }
+  },
+  "claim_scope": "restricted BE MNA and dense pointwise checker canary; not B2-strong",
+  "command": "python3 -m experiments.run_mna_canary --steps 100 --step-size 1e-05",
+  "config_sha256": "669641c45567b339e9d903a95d0f93f8bb17c83bd0558b0582ad86e094f73e9d",
+  "dirty_worktree": true,
+  "failure_codes": [],
+  "first_failure": null,
+  "generated_at_utc": "2026-08-31T07:24:39.389185+00:00",
+  "git_commit": "1fc3d6dd2eb2f38f7df2025fe27e9969017f40ae",
+  "input_sha256": "94466c9dcbd18a071986e31f58cc3e7a880e2a9a3e065e414cf6976ec2a0fe9a",
+  "negative_cases": {
+    "cases": 17,
+    "false_accepts": 0,
+    "records": [
+      {
+        "case_id": "wrong-history-0",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-1",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-2",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-3",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-4",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-5",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-6",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-7",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-8",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-9",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "root-excluding-tube",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "STRICT_INCLUSION_FAILED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "state-permutation-mismatch",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "STATE_PERMUTATION_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "singular-midpoint-operator",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "SINGULAR_OPERATOR",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "invalid-node-mapping",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "INVALID_TOPOLOGY",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "malformed-state-layout",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "STATE_DIMENSION_MISMATCH",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "unsupported-diode-domain-box",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "UNSUPPORTED_DEVICE_DOMAIN",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "mos-region-branch-crossing",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "UNSUPPORTED_BRANCH_CROSSING",
+        "oracle_root_in_tube": null
+      }
+    ]
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "random_seeds": {},
+  "schema_version": 1,
+  "semantics_sha256": "3438faa8c0057210a61e1d44dbd4ab720fc6c07d97cf03998c5814756ffdb519",
+  "source_files_sha256": {
+    "configs/blockstamp/b2_canary.yaml": "669641c45567b339e9d903a95d0f93f8bb17c83bd0558b0582ad86e094f73e9d",
+    "experiments/checkers/be_step.py": "3124b84784a0b9998cf873e3a6430e6872e59507d5df281cdc183588af74d6cc",
+    "experiments/checkers/pointwise_krawczyk.py": "2ee82ccb09ff263fd7da3ed6d13f5d3a8422a44e675b83b51884178405d506da",
+    "experiments/devices/stamps.py": "aed158ff8360d1e11e47cb64eca08cba96c835107f523b6f300f5a111bcfe8d9",
+    "experiments/mna/fixed_be.py": "3438faa8c0057210a61e1d44dbd4ab720fc6c07d97cf03998c5814756ffdb519",
+    "experiments/mna/minimal_circuits.py": "4f638166b4dc3e60a2861257b4aa10fb49f9346f1308c63af66930e49bc02c93",
+    "experiments/mna/oracles.py": "47195183497af899aa139a08ee37fc0098217e59886bd87cb4571edca11898d4",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_mna_canary.py": "466892621527ebe3b1406dd53ed6cf47ad21a426abc99585707b470c011ace39"
+  },
+  "state_layout_sha256": "cda806ec5d0e67ecdaa8b7ec0700d0571e0d1bcc9d49d13184f83e55f62aac63",
+  "status": "PASS",
+  "step_method": "fixed-step-backward-euler",
+  "step_size": 1e-05,
+  "steps": 100,
+  "steps_per_circuit": 100,
+  "supported_cases": 212,
+  "topology_sha256": "94466c9dcbd18a071986e31f58cc3e7a880e2a9a3e065e414cf6976ec2a0fe9a",
+  "trajectories": [
+    {
+      "accepted": 100,
+      "checker_false_accepts": 0,
+      "circuit": "rc-source",
+      "first_failure_step": null,
+      "jacobian_containment_violations": 0,
+      "jacobian_sample_count": 900,
+      "max_point_residual": 2.6469779601696886e-23,
+      "minimum_inclusion_margin": 9.999778782798785e-13,
+      "oracle": "exact Fraction root",
+      "oracle_bracket_outside_checker_image": 0,
+      "oracle_precision_bits": null,
+      "oracle_precision_decimal_digits": null,
+      "oracle_precision_kind": "exact rational",
+      "root_contained_steps": 100,
+      "root_excluded_steps": 0,
+      "seconds": 0.5392645820002144,
+      "steps": 100,
+      "unknown": 0,
+      "unsupported": 0
+    },
+    {
+      "accepted": 100,
+      "checker_false_accepts": 0,
+      "circuit": "diode-rc-source",
+      "first_failure_step": null,
+      "jacobian_containment_violations": 0,
+      "jacobian_sample_count": 900,
+      "max_point_residual": 2.7762653205594464e-23,
+      "minimum_inclusion_margin": 9.999778782798785e-13,
+      "oracle": "Decimal-160 bisection bracket",
+      "oracle_bracket_outside_checker_image": 0,
+      "oracle_precision_bits": 531,
+      "oracle_precision_decimal_digits": 160,
+      "oracle_precision_kind": "finite Decimal",
+      "root_contained_steps": 100,
+      "root_excluded_steps": 0,
+      "seconds": 10.431029319000118,
+      "steps": 100,
+      "unknown": 0,
+      "unsupported": 0
+    }
+  ],
+  "unsupported_cases": 5,
+  "violations": 0,
+  "wrong_history_audit": {
+    "cases": 17,
+    "false_accepts": 0,
+    "records": [
+      {
+        "case_id": "wrong-history-0",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-1",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-2",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-3",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-4",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-5",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-6",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-7",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-8",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "wrong-history-9",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "WRONG_BE_HISTORY_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "root-excluding-tube",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "STRICT_INCLUSION_FAILED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "state-permutation-mismatch",
+        "checker_verdict": "UNKNOWN",
+        "failure_code": "STATE_PERMUTATION_NOT_CERTIFIED",
+        "oracle_root_in_tube": false
+      },
+      {
+        "case_id": "singular-midpoint-operator",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "SINGULAR_OPERATOR",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "invalid-node-mapping",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "INVALID_TOPOLOGY",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "malformed-state-layout",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "STATE_DIMENSION_MISMATCH",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "unsupported-diode-domain-box",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "UNSUPPORTED_DEVICE_DOMAIN",
+        "oracle_root_in_tube": null
+      },
+      {
+        "case_id": "mos-region-branch-crossing",
+        "checker_verdict": "UNSUPPORTED",
+        "failure_code": "UNSUPPORTED_BRANCH_CROSSING",
+        "oracle_root_in_tube": null
+      }
+    ]
+  }
+}

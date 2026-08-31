@@ -1,0 +1,406 @@
+{
+  "attempted_cases": 400056,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "claim_scope": "directed-rounding implementation audit; not a formal MPFR proof",
+  "command": "python3 -m experiments.run_rigorous_backend --samples 50000 --seed 20260831",
+  "config_sha256": "b7427e51716c7850f3c3c516ec0a41f7b93d9f6aade73acde482a83583e322da",
+  "containment_violations": 0,
+  "dirty_worktree": true,
+  "edge_corpus": {
+    "containment_violations": 0,
+    "operations": {
+      "add": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "positive_subnormal",
+          "negative_subnormal",
+          "strong_cancellation",
+          "near_one_rounding",
+          "finite_overflow_frontier",
+          "positive_overflow",
+          "signed_zero_neighborhood"
+        ],
+        "failures": [],
+        "supported_cases": 6,
+        "unsupported_cases": 1
+      },
+      "div": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "subnormal_result",
+          "near_zero_denominator",
+          "negative_near_zero_denominator",
+          "zero_crossing_denominator",
+          "near_one_rounding",
+          "finite_overflow_frontier",
+          "positive_overflow"
+        ],
+        "failures": [],
+        "supported_cases": 4,
+        "unsupported_cases": 3
+      },
+      "exp": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "subnormal_underflow",
+          "finite_overflow_frontier",
+          "positive_overflow",
+          "exact_origin",
+          "cancellation_sensitive_small",
+          "rounding_probe_positive",
+          "rounding_probe_negative"
+        ],
+        "failures": [],
+        "supported_cases": 6,
+        "unsupported_cases": 1
+      },
+      "expm1": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "negative_saturation",
+          "finite_overflow_frontier",
+          "positive_overflow",
+          "exact_origin",
+          "cancellation_sensitive_small",
+          "rounding_probe_positive",
+          "rounding_probe_negative"
+        ],
+        "failures": [],
+        "supported_cases": 6,
+        "unsupported_cases": 1
+      },
+      "log": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "smallest_subnormal",
+          "largest_finite",
+          "domain_zero",
+          "domain_crossing",
+          "exact_one",
+          "cancellation_sensitive_near_one",
+          "rounding_probe"
+        ],
+        "failures": [],
+        "supported_cases": 5,
+        "unsupported_cases": 2
+      },
+      "mul": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "subnormal_underflow",
+          "negative_subnormal",
+          "signed_product",
+          "near_one_rounding",
+          "finite_overflow_frontier",
+          "positive_overflow",
+          "exact_zero"
+        ],
+        "failures": [],
+        "supported_cases": 6,
+        "unsupported_cases": 1
+      },
+      "sqrt": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "smallest_subnormal",
+          "largest_finite",
+          "domain_negative",
+          "domain_crossing",
+          "exact_zero",
+          "irrational_two",
+          "rounding_probe"
+        ],
+        "failures": [],
+        "supported_cases": 5,
+        "unsupported_cases": 2
+      },
+      "sub": {
+        "containment_violations": 0,
+        "edge_cases": 7,
+        "edge_families": [
+          "positive_subnormal",
+          "negative_subnormal",
+          "strong_cancellation",
+          "near_one_rounding",
+          "finite_overflow_frontier",
+          "positive_overflow",
+          "signed_zero_neighborhood"
+        ],
+        "failures": [],
+        "supported_cases": 6,
+        "unsupported_cases": 1
+      }
+    },
+    "total_cases": 56,
+    "version": 2
+  },
+  "failure_codes": [],
+  "first_failure": null,
+  "generated_at_utc": "2026-08-31T07:10:21.895422+00:00",
+  "git_commit": "1fc3d6dd2eb2f38f7df2025fe27e9969017f40ae",
+  "input_sha256": "7ef3d0e8b7204ec099fe5713d98a7e04380c9173850200a711cb61858d182816",
+  "operations": {
+    "add": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "positive_subnormal",
+        "negative_subnormal",
+        "strong_cancellation",
+        "near_one_rounding",
+        "finite_overflow_frontier",
+        "positive_overflow",
+        "signed_zero_neighborhood"
+      ],
+      "edge_supported_cases": 6,
+      "edge_unsupported_cases": 1,
+      "oracle_precision_bits": 8304,
+      "oracle_precision_decimal_digits": 2500,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 2.0211603580000883,
+      "supported_cases": 50006,
+      "unsupported_cases": 1
+    },
+    "div": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "subnormal_result",
+        "near_zero_denominator",
+        "negative_near_zero_denominator",
+        "zero_crossing_denominator",
+        "near_one_rounding",
+        "finite_overflow_frontier",
+        "positive_overflow"
+      ],
+      "edge_supported_cases": 4,
+      "edge_unsupported_cases": 3,
+      "oracle_precision_bits": 8304,
+      "oracle_precision_decimal_digits": 2500,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 3.5130052180002167,
+      "supported_cases": 50004,
+      "unsupported_cases": 3
+    },
+    "exp": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "subnormal_underflow",
+        "finite_overflow_frontier",
+        "positive_overflow",
+        "exact_origin",
+        "cancellation_sensitive_small",
+        "rounding_probe_positive",
+        "rounding_probe_negative"
+      ],
+      "edge_supported_cases": 6,
+      "edge_unsupported_cases": 1,
+      "oracle_decimal_digits": 220,
+      "oracle_precision_bits": 730,
+      "oracle_precision_decimal_digits": 220,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 19.52390713299974,
+      "supported_cases": 50006,
+      "unsupported_cases": 1
+    },
+    "expm1": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "negative_saturation",
+        "finite_overflow_frontier",
+        "positive_overflow",
+        "exact_origin",
+        "cancellation_sensitive_small",
+        "rounding_probe_positive",
+        "rounding_probe_negative"
+      ],
+      "edge_supported_cases": 6,
+      "edge_unsupported_cases": 1,
+      "oracle_decimal_digits": 220,
+      "oracle_precision_bits": 730,
+      "oracle_precision_decimal_digits": 220,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 18.978868473000148,
+      "supported_cases": 50006,
+      "unsupported_cases": 1
+    },
+    "log": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "smallest_subnormal",
+        "largest_finite",
+        "domain_zero",
+        "domain_crossing",
+        "exact_one",
+        "cancellation_sensitive_near_one",
+        "rounding_probe"
+      ],
+      "edge_supported_cases": 5,
+      "edge_unsupported_cases": 2,
+      "oracle_decimal_digits": 220,
+      "oracle_precision_bits": 730,
+      "oracle_precision_decimal_digits": 220,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 28.873406046000127,
+      "supported_cases": 50005,
+      "unsupported_cases": 2
+    },
+    "mul": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "subnormal_underflow",
+        "negative_subnormal",
+        "signed_product",
+        "near_one_rounding",
+        "finite_overflow_frontier",
+        "positive_overflow",
+        "exact_zero"
+      ],
+      "edge_supported_cases": 6,
+      "edge_unsupported_cases": 1,
+      "oracle_precision_bits": 8304,
+      "oracle_precision_decimal_digits": 2500,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 2.343759764000424,
+      "supported_cases": 50006,
+      "unsupported_cases": 1
+    },
+    "sqrt": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "smallest_subnormal",
+        "largest_finite",
+        "domain_negative",
+        "domain_crossing",
+        "exact_zero",
+        "irrational_two",
+        "rounding_probe"
+      ],
+      "edge_supported_cases": 5,
+      "edge_unsupported_cases": 2,
+      "oracle_decimal_digits": 600,
+      "oracle_precision_bits": 1993,
+      "oracle_precision_decimal_digits": 600,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 12.552295016000244,
+      "supported_cases": 50005,
+      "unsupported_cases": 2
+    },
+    "sub": {
+      "containment_violations": 0,
+      "edge_cases": 7,
+      "edge_containment_violations": 0,
+      "edge_failures": [],
+      "edge_families": [
+        "positive_subnormal",
+        "negative_subnormal",
+        "strong_cancellation",
+        "near_one_rounding",
+        "finite_overflow_frontier",
+        "positive_overflow",
+        "signed_zero_neighborhood"
+      ],
+      "edge_supported_cases": 6,
+      "edge_unsupported_cases": 1,
+      "oracle_precision_bits": 8304,
+      "oracle_precision_decimal_digits": 2500,
+      "random_cases": 50000,
+      "random_containment_violations": 0,
+      "random_supported_cases": 50000,
+      "random_unsupported_cases": 0,
+      "seconds": 2.202761365000697,
+      "supported_cases": 50006,
+      "unsupported_cases": 1
+    }
+  },
+  "oracle": {
+    "name": "Python Decimal independent expression",
+    "precision": {
+      "binary_decimal_digits": 2500,
+      "exp_decimal_digits": 220,
+      "expm1_decimal_digits": 220,
+      "log_decimal_digits": 220,
+      "sqrt_decimal_digits": 600
+    }
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "random_cases_per_operation": 50000,
+  "random_seeds": {
+    "add": 20260831,
+    "base": 20260831,
+    "div": 20260834,
+    "exp": 20260931,
+    "expm1": 20260932,
+    "log": 20260933,
+    "mul": 20260833,
+    "sqrt": 20260934,
+    "sub": 20260832
+  },
+  "rounding_modes": {
+    "lower": "RNDD",
+    "upper": "RNDU"
+  },
+  "schema_version": 1,
+  "source_files_sha256": {
+    "experiments/interval_backend.py": "4f5ea444783059891d987fb10ae9ae8528c5d80a30f36e9f3155072e2710350b",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_rigorous_backend.py": "5641747b0dc50d51e3c637af012c1011c83fc9956e1f16cab037e7f02e73cb84"
+  },
+  "status": "PASS",
+  "supported_cases": 400044,
+  "unsupported_cases": 12
+}

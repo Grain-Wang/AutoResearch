@@ -1,0 +1,20 @@
+{
+  "backend": "decimal-directed-binary64",
+  "binary_point_cases_per_operation": 10000,
+  "boundary_cases_per_operation": 7,
+  "containment_violations": 0,
+  "device_sampling": {
+    "diode_boxes": 1000,
+    "level1_mos_boxes_per_region": 1000,
+    "mos_cross_region_policy": "UNKNOWN"
+  },
+  "random_seeds": [17, 29, 43, 71],
+  "special_function_point_cases_per_function": 10000,
+  "status": "PASS_CANARY",
+  "unsupported_domains": [
+    "division_by_interval_containing_zero",
+    "log_nonpositive_interval",
+    "sqrt_negative_interval",
+    "level1_mos_cross_region_box"
+  ]
+}

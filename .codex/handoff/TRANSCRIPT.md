@@ -1,88 +1,102 @@
-# 脱敏会话历史
+# paper2 脱敏研究历史
 
-本文件是当前 Codex 会话的**压缩接续记录**，不是逐字转录。它保留用户目标、关键决定、已执行结果和研究状态变化，用于另一台机器追溯“为什么仓库变成现在这样”。当前事实必须以 Git、源码、测试和实验产物为准。
+本文件只记录 `paper2` / BlockStamp-Cert 的压缩研究历史，用于跨机器追溯“为什么 paper2 变成现在这样”。它不是原始会话导出，也不是科学证据。当前事实必须以 Git、源码、测试和实验产物为准。
 
-已删除或泛化：SSH 主机/端口/账号/密码/私钥、认证令牌、用户目录绝对路径、原始工具输出、系统/开发者提示、隐藏推理、原始 session ID 和本机应用数据库。仓库路径统一写作 `<REPO_ROOT>`。
+## 1. 方向起点：Proof-Carrying SPICE
 
-## 1. 主仓库与工具箱定位
+最初目标是：允许任意外部 transient simulator 产生候选轨迹与证书，再由较小的独立 checker 在声明的离散 MNA 语义下验证局部存在唯一性。系统愿景强调 producer 可以是 ngspice、Xyce、松容差/低精度求解器、FastSPICE 或学习型代理，而 checker 不信任其内部 Newton/Jacobian/终止条件。
 
-1. 用户要求移除原 `AutoResearchClaw` 子目录自身的 Git 仓库属性，并把最外层目录初始化为唯一 Git 仓库。
-2. 用户要求解读 `AGENTS.md` 与 AutoResearchClaw 的融合状态，并继续完成融合。
-3. 最终定位被明确为：最外层 `AutoResearch` 是主仓库和研究工作区；子目录后来重命名为 `tools/`，只作为通用工具箱，调用时必须发现、注入并服从根 `AGENTS.md`。
-4. 研究问题、文献、实验记录、结果和论文材料放在 `paper*/`；`tools/` 不拥有独立研究目标、规则或 Git 属性。
-5. 曾因 `AutoReasearch` 与 `AutoResearch` 拼写差异出现“不是 Git 仓库”的判断问题。规范名称已经锁定为 `AutoResearch`，不能重新创建错误拼写的第二仓库。
+## 2. 文献红队后第一次收缩
 
-## 2. Git、GitHub 与远程执行
+文献审计确认以下内容已有强先例：
 
-1. 用户遇到 `git push -u origin main` 弹出账号密码框。会话核对并转为 GitHub SSH remote；当前 remote 为 `git@github.com:Grain-Wang/AutoResearch.git`。
-2. 用户要求利用本地私密 SSH 配置检查远程服务器和 GPU。该步骤涉及的真实连接信息与设备原始清单不进入本记录；后续只允许从被忽略的 `sshconfig.md` 或其他私密渠道读取。
-3. 仓库文档补充了 A800 通用执行方式，但明确禁止提交真实主机、端口、账号、密码和私钥。
-4. 用户看到 GitHub 的 2FA 提示后，得到的结论是：这是账号安全要求，与当前 SSH push 是否成功是两件事；应在期限前启用 2FA。
-5. 当前研究与工具整合工作持续在 `chore/integrate-tools-and-paper1` 分支进行。远程默认 `main` 尚未合并这些工作。
+- Krawczyk/interval Newton；
+- transistor-level DC interval verification；
+- validated ODE/DAE 的严格轨迹包围与初值集合传播；
+- proof-carrying producer/certificate/checker 架构；
+- verified sparse linear algebra 与 factor verification；
+- Verilog-A 解析/代码生成/普通导数生成。
 
-## 3. 环境、依赖与文档
+因此 `Proof-Carrying SPICE` 被降为系统愿景，不能作为“首次提出”的 headline。
 
-1. 用户要求依赖环境不提交，但 clone 使用者必须知道如何安装依赖及如何连接 A800。
-2. 根 README 和工具文档已规定：所有需要的包必须写入依赖声明，不能只在某台机器临时安装。
-3. 首选 Python 3.12 Conda 环境 `auto_research`；次选在项目工具目录使用 `uv`。
-4. 已在本机创建 `auto_research` 环境并安装 PyMuPDF，用于 PDF 文本转换。本地环境本身不在 Git 中，另一台机器需要按 README 重建。
-5. 根目录已经有 `README.md`，用于声明最外层主仓库定位、工具箱用途、依赖安装、A800 通用流程和不得提交的敏感内容。
+## 3. 当前主线：BlockStamp-Cert
 
-## 4. 文献处理与想法形成
+主线收缩为：对 fixed-step Backward Euler nonlinear transient MNA，利用两类结构：
 
-1. 用户把原始参考论文放入 `paper1/reference_papers_origin/`，要求判断是否需要转换为省 token 的格式。
-2. 结论是转换为结构化 Markdown 更适合检索和按需阅读；处理后的论文位于 `paper1/reference_papers_processed/`，并有 manifest/README。
-3. 原始 PDF 按用户要求不提交，`.gitignore` 持续忽略 `paper1/reference_papers_origin/*.pdf`。
-4. 依据文献和 `AGENTS.md` 形成两个独立想法：
-   - `01_counterfactual_value_of_language_depth.md`，后来收敛为唯一主线 CoVoL-Depth；
-   - `02_query_adaptive_budgeted_geometry_routing.md`，后来降为 Q-GeoRoute Phase-0 备用方向。
-5. 随着最近邻审计推进，CoVoL 中“错误语言有害”“区域 defer”“连续 advantage”“冻结候选 post-hoc routing”等宽泛表述均不再被当作独立新颖性。
+1. **device-local stamp locality**；
+2. **block-lower-bidiagonal temporal Jacobian structure**。
 
-## 5. 三轮强 CCF-C 审查与改进
+目标是在严格区间语义下，不显式形成全 slab inverse/operator，而通过可验证的 block recurrence 计算 Krawczyk/interval inclusion 所需 operator action，并相对 component-matched pointwise/dense verified baselines 获得可归因的 runtime、memory、certificate-size 或 certification Pareto 优势。
 
-### 第一轮
+## 4. 已完成的研究步骤
 
-- 审稿文件：`review_20260821_013339.md`。
-- 主要结果：收紧 CoVoL 研究范围、主张语言、候选门禁、缺陷复现和公平比较协议。
-- 对应审稿与研究修改分别进入提交 `1e4ede8`、`e60ae26`。
+### Step 001 — Literature and Novelty Gate
 
-### 第二轮
+- 核验 DATE 2019 等 DC interval prior art；
+- 检索 validated ODE/DAE、AMS formal verification、proof-carrying computation、verified sparse algebra、Verilog-A compilation；
+- 结论：Research Opportunity PASS，但不是 Paper Candidate。
 
-- 审稿文件：`review_20260821_022250.md`。
-- 主要结果：移除 official test 开发污染；拆分 sensitivity 与正式 fallback defect；锁定同构 D0/D1 路线；分开 Claim-F/Claim-M；增加可运行 split/metrics 基础与更严格 gate。
-- 对应审稿与研究修改分别进入提交 `a070991`、`2475ac0`。
+### Step 002 — Experimental Protocol
 
-### 第三轮
+冻结 B0–B5、Stage 0–8、结果目录、随机种子、重复次数、失败样本保留和 end-to-end accounting。该文档是实验协议，不是实验结果。
 
-- 审稿文件：`review_20260821_032352.md`。
-- 主要问题：expert 训练内 prediction 污染 meta-router；Claim-F 同时改变语义输入和 residualization；特征可利用干预元数据；image bootstrap 与候选相关 HV reference 可能产生伪显著；缺少直接 deferral 和 robust expert killers。
-- 已完成的修正：scene-group OOF expert stacking plan/cache 审计、feature denylist/provenance、scene/drive cluster bootstrap、固定 HV reference、RGB/sequence/frame split 审计、Claim-F direct/permuted controls、outer-5/inner-4 cross-fit 协议及更强 baseline 合同。
-- 对应审稿与研究修改分别进入提交 `4d7686d`、`9d48060`。
-- 第三轮修改后共有 22 个单元测试通过；Ruff、Black 和 Git diff 检查通过，但没有生成真实科学结果。
+### Step 003 — Formal Soundness Contract
 
-## 6. 当前研究判断
+将 Claim S 拆为：
 
-1. CoVoL-Depth 仍是 Research Opportunity，不是 Paper Candidate。
-2. Claim-F 与 Claim-M 均未验证。
-3. Q-GeoRoute 保持 PARKED，不允许与 CoVoL 并行占用资源。
-4. 当前最强反对意见是：直接 regression/density-ratio/dense-coherence/LOO routers 或 robust single-expert training 可能解释全部收益。
-5. 下一动作必须先解决真实数据可用性：NYUv2/KITTI adapters、annotation coverage 和 power gate；在这些门禁通过前不得启动 A800 大规模训练。
+- `S-fixed`：固定 incoming state 下的局部唯一离散根；
+- `S-param`：incoming interval 中每个状态对应各自唯一的局部离散根。
 
-## 7. Git 历史检查点
+明确了局部唯一性、outgoing projection、组合条件与 TCB 边界。后续评审发现：proof operator `C` 的可逆性需要显式加入定理前提；现有 A5 尚未闭合该漏洞。
 
-| 提交 | 含义 |
-| --- | --- |
-| `6ef3982` | 初始化最外层主仓库 |
-| `0595044` | 融合工具箱与 paper1 材料 |
-| `1e4ede8` | 第一轮强 CCF-C 审查 |
-| `e60ae26` | 第一轮研究范围与验证门禁修正 |
-| `a070991` | 第二轮强 CCF-C 审查 |
-| `2475ac0` | 第二轮协议与指标强化 |
-| `4d7686d` | 第三轮强 CCF-C 审查 |
-| `9d48060` | 第三轮 OOF stacking、控制与统计修正 |
+### Step 004 — Theorem Prior-Art Closure
 
-## 8. 本次跨机器接续决定
+进一步确认：parameterized Krawczyk、initial-set propagation、verified factor witness 不是 headline novelty。后续阶段审计还识别了 block-Krawczyk、interval banded/cyclic-reduction 与 factorized verified-computation 等高威胁近邻。
 
-用户先要求提供方案，随后批准执行。最终选择是提交脱敏的 `CURRENT.md`、本历史和 manifest，并由 `AGENTS.md` 自动引导新会话读取；明确拒绝提交原始 JSONL、`auth.json`、日志或 SQLite 状态库。
+### Step 005 — Baseline Defect Canary
 
-因此，另一台机器获得的是可核验的项目上下文和决策历史，而不是对本机 Codex 聊天存储的非官方移植。
+构造弱电导病态 MNA，展示小 residual 与大 forward error 可以分离。状态严格限定为：
+
+`PASS-CANARY / REAL-WORKLOAD-UNVERIFIED`
+
+它不证明成熟 SPICE 中该问题普遍发生。
+
+### Step 006 — Selective Recovery Contract
+
+定义 dependency-safe recovery：失败 slab 重算后，只有新 outgoing enclosure 被下一 slab 的 cached incoming assumption 包含时才允许复用后缀；否则从首次 containment failure 起重新检查。
+
+## 5. 已有实现 canary
+
+- `paper2/experiments/interval_backend.py`：Decimal-based binary64 interval canary；不是最终 rigorous backend。
+- `paper2/experiments/devices/stamps.py`：diode 与受限 Level-1 NMOS interval stamps；跨工作区间 fail closed。
+- `paper2/experiments/recovery.py`：一维 interval containment recovery canary。
+- `paper2/experiments/generate_numerical_defects.py`：解析 motivation artifact；当前 float32/float64 只是标签，checker verdict 仍未真实执行。
+
+## 6. 正式评审历史
+
+- `review_round1.md`：指出 S-param 量词、recovery 依赖、器件分支、B2 公平性和 TCB 缺口。
+- `response_round1.md`：完成 S-fixed/S-param 收缩、Stage-0 arithmetic/device canary、baseline-defect canary 与 recovery contract。
+- `review_round2.md`：指出 Decimal transcendental 不足以支撑严格 soundness、device oracle common-mode risk、baseline-defect generator 仍是解析表、BlockStamp/B2 尚未出现。
+- 一个无研究增量的阶段性技术评估曾错误进入 reviewer-round 链；其有用结论已移至 `paper2/research/notes/stage_assessment_before_ccfb_review.md`。
+- `review_round3.md`：按强 CCF-B 标准重新评估，确认方向本身具有 CCF-B 上限，但 Paper Candidate 仍未通过。
+
+## 7. 当前最重要的研究事实
+
+1. 问题定义和 non-claims 已较清楚。
+2. 当前最大数学阻断项是 `C` 的可逆性与最终 operator 定义。
+3. 当前最大实现阻断项是缺少真正 directed-rounded arithmetic backend 与完整 BE MNA microkernel。
+4. 当前最大创新性阻断项是 BlockStamp recurrence 尚未实现，无法判断是否只是标准 block forward substitution。
+5. 当前最大实验阻断项是 B2-strong、dense slab、BlockStamp 和 nonlinear transient probe 都尚未出现。
+6. 当前状态仍是 **Research Opportunity / Paper Candidate FAIL-UNVERIFIED**。
+
+## 8. 下一步冻结顺序
+
+1. 修正 `C` 可逆性 theorem/contract；
+2. 实现 rigorous directed-rounding backend；
+3. 实现 R/C/source/diode 的 fixed-step BE MNA；
+4. 实现 BlockStamp operator recurrence + dense-equivalence oracle；
+5. 实现 B2-strong；
+6. 跑 component ladder；
+7. 跑 diode-RC + 3-stage ring oscillator 最小 probe。
+
+在这些门禁通过前，不扩张到 SRAM、BSIM、通用 Verilog-A、第二 producer 或工业大规模网表。

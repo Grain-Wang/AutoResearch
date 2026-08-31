@@ -1,0 +1,33 @@
+{
+  "adaptation": "official thresholded-Sobel local/global density ratio evaluated on the frozen 3x4 BAR target cells",
+  "official_repository": "https://github.com/compphoto/BoostingMonocularDepth.git",
+  "official_revision": "fa16de03ec985c74aa4a0109b7235d78a4e598e7",
+  "official_run_sha256": "2b1b020d65a164fa7523320ec36e1f20dbe43a7987155e2b2629ae3abc1c0921",
+  "official_utils_sha256": "f8cd1e6b6f4954bc1e7f2aa42d74c31f4ca72dd69c96373aac033e6420b16d15",
+  "records": [
+    {
+      "max_absolute_score_difference": 0.0,
+      "ranking_identical": true,
+      "sample_name": "sample1.png",
+      "sample_sha256": "8956a401dc134d2b2391fdf4e061c59f585717e58ad96774704079b49d830fd4",
+      "top3_region_ids": [
+        0,
+        6,
+        3
+      ]
+    },
+    {
+      "max_absolute_score_difference": 0.0,
+      "ranking_identical": true,
+      "sample_name": "sample2.jpg",
+      "sample_sha256": "e4acea23127240eeb4dec96ea12bf72241cb05b4b1fa07f51a896d48ee76c3ca",
+      "top3_region_ids": [
+        10,
+        8,
+        11
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "status": "PASS"
+}

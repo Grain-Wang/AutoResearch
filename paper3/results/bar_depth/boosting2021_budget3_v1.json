@@ -1,0 +1,186 @@
+{
+  "bindings": {
+    "config_sha256": "f2fccb0c766ad21a65a901ed5be99cb7c41c3a94cf53d604bc4ef31b51ffbda6",
+    "fidelity_audit_sha256": "426091cde2aef387b03fedc0a38ccc4985f839c5d7b75396c5c471f315c518e7",
+    "implementation_sha256": "8fd95f230931632c8091c223dbb30c680eb5d5918d72b098669b2d63b6534048",
+    "input_csv_sha256": "77d7b6b638a3663badd8eb724b4a70a9ce6511eeb9f1680494a357dbd05bfe90",
+    "output_csv_sha256": "5ab04b524ea77fbe6ffd70f62aad736a6c060d99437b70aa811d9cfd439c481a",
+    "raw_provenance_sha256": "11e6c60a660964736b3962806a8e4ee442ae379bb89c266d91d85906c46a8d1b",
+    "rgb_extract_audit_sha256": "a33f00ab9ceda2bda00f8494f953f2d4134340d8bf69cce9bdb42cc900d1a1a5"
+  },
+  "budget_count": 3,
+  "cluster_bootstrap_95ci": {
+    "boosting2021_at_most_k_official_threshold": {
+      "actual_selection_count": {
+        "lower": 2.975,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.3745819397993311,
+        "upper": 0.5168523717981145
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.28510119953419605,
+        "upper": 0.6980738838783476
+      },
+      "positive_utility_capture": {
+        "lower": 0.40825926360394893,
+        "upper": 0.7449572187729463
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.017282365348964095,
+        "upper": 0.09756891738935976
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.021686470021299094,
+        "upper": 0.07914418832271299
+      }
+    },
+    "boosting2021_exact_k": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.37666666666666665,
+        "upper": 0.5183333333333333
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.28510136422994325,
+        "upper": 0.6980804429011883
+      },
+      "positive_utility_capture": {
+        "lower": 0.40825926360394893,
+        "upper": 0.7449572187729463
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.017282339656817074,
+        "upper": 0.09756874881598483
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.021686441069158218,
+        "upper": 0.07914402034291004
+      }
+    },
+    "oracle_at_most_k_positive": {
+      "actual_selection_count": {
+        "lower": 2.925,
+        "upper": 2.99
+      },
+      "harmful_selection_rate": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "positive_utility_capture": {
+        "lower": 0.8830349051270203,
+        "upper": 0.975275859475521
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.05498071268417393,
+        "upper": 0.1327940103816849
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.06512543344765086,
+        "upper": 0.12349896911225033
+      }
+    },
+    "prior_strongest_simple": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.36333333333333334,
+        "upper": 0.5033333333333333
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.18056860521286933,
+        "upper": 0.5327769086715819
+      },
+      "positive_utility_capture": {
+        "lower": 0.5693105875347458,
+        "upper": 0.8469003274173643
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.02582202122757026,
+        "upper": 0.10796593653846427
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.03298923348236259,
+        "upper": 0.09645908182461092
+      }
+    }
+  },
+  "estimates": {
+    "boosting2021_at_most_k_official_threshold": {
+      "actual_selection_count": 2.99,
+      "harmful_selection_rate": 0.44481605351170567,
+      "oracle_regret_ratio": 0.47242536134714413,
+      "positive_utility_capture": 0.579100343228788,
+      "signed_absrel_error_reduction_ratio": 0.056337626018256766,
+      "signed_primary_error_reduction_ratio": 0.05096352904809304
+    },
+    "boosting2021_exact_k": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.4724274424273076,
+      "positive_utility_capture": 0.579100343228788,
+      "signed_absrel_error_reduction_ratio": 0.05633743814641092,
+      "signed_primary_error_reduction_ratio": 0.0509633280164634
+    },
+    "oracle_at_most_k_positive": {
+      "actual_selection_count": 2.96,
+      "harmful_selection_rate": 0.0,
+      "oracle_regret_ratio": 0.0,
+      "positive_utility_capture": 0.9271902677789703,
+      "signed_absrel_error_reduction_ratio": 0.09716368941028768,
+      "signed_primary_error_reduction_ratio": 0.09659965683382109
+    },
+    "prior_strongest_simple": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.31432697565588613,
+      "positive_utility_capture": 0.7230185711500551,
+      "signed_absrel_error_reduction_ratio": 0.06759776988837171,
+      "signed_primary_error_reduction_ratio": 0.06623577885184964
+    }
+  },
+  "fidelity": {
+    "adaptation": "official thresholded-Sobel local/global density ratio evaluated on the frozen 3x4 BAR target cells",
+    "official_example_audit_status": "PASS",
+    "official_revision": "fa16de03ec985c74aa4a0109b7235d78a4e598e7"
+  },
+  "g0_oracle_margin_gate": {
+    "all_pass": true,
+    "paired_ci_pass": true,
+    "point_margin_pass": true,
+    "thresholds": {
+      "min_primary_reduction_difference": 0.01,
+      "require_paired_ci_lower_above_zero": true
+    }
+  },
+  "oracle_margin_over_strongest_killer": {
+    "difference": 0.030363877981971446,
+    "paired_scan_bootstrap_95ci": {
+      "lower": 0.01812226466107761,
+      "upper": 0.044370372734225304
+    },
+    "prior_strongest_method_name": "rgb_base_rank_combination_topk",
+    "strongest_method": "prior_strongest_simple"
+  },
+  "paper_candidate": false,
+  "sample_count": 200,
+  "scan_count": 20,
+  "schema_version": 1,
+  "selector_cpu_timing_diagnostic": {
+    "interpretation": "local_cpu_diagnostic_not_gpu_efficiency_claim",
+    "p50_seconds": 0.024653675529407337,
+    "p90_seconds": 0.028061716369120405,
+    "total_seconds": 5.126681636436842
+  },
+  "status": "GO_ORACLE_MARGIN_OVER_BOOSTING2021"
+}

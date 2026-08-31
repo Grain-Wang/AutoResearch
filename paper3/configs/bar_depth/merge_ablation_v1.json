@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "bar-depth-merge-ablation-v1",
+  "base_config": "paper3/configs/bar_depth/oracle_canary_v2.json",
+  "base_config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+  "variants": [
+    "highpass_residual",
+    "aligned_patch_replacement",
+    "patch_high_frequency_without_base_subtraction",
+    "rgb_guided_bilateral_sharpening",
+    "base_depth_unsharp_mask"
+  ],
+  "rgb_guided_bilateral_sharpening": {
+    "radius": 1,
+    "spatial_sigma": 1.0,
+    "color_sigma": 0.1,
+    "amount": 0.5
+  },
+  "base_depth_unsharp_mask": {
+    "sigma_pixels": 2.0,
+    "amount": 0.5
+  },
+  "selection": {
+    "budget_count": 3,
+    "fixed_selector": "rgb_base_rank_combination_topk",
+    "also_report": [
+      "oracle_at_most_k_positive",
+      "all_12_regions"
+    ]
+  },
+  "bootstrap": {
+    "cluster_key": "scan_id",
+    "replicates": 10000,
+    "confidence_level": 0.95,
+    "seed": 314159
+  },
+  "patch_necessity_gate": {
+    "comparison": "highpass_fixed_selector_minus_best_no_extra_forward_fixed_selector",
+    "require_paired_ci_lower_above_zero": true
+  }
+}

@@ -1,0 +1,3746 @@
+{
+  "bindings": {
+    "config_sha256": "6b088bef2eefe6ed491e7fb5b799ca8e95f0745f44ca62ab117bc00f009906f4",
+    "implementation_sha256": "35f30570645abbf28c17be1a10ffa5b24c8aa3d17a36167303bc0cd6109ab98e",
+    "input_csv_sha256": "77d7b6b638a3663badd8eb724b4a70a9ce6511eeb9f1680494a357dbd05bfe90",
+    "output_csv_sha256": "1e6eb058a0b10cbab004b8a839922b8161caee91daf6181cf4b80ee0c10e6eb5",
+    "raw_provenance_sha256": "11e6c60a660964736b3962806a8e4ee442ae379bb89c266d91d85906c46a8d1b"
+  },
+  "bootstrap_replicates": 10000,
+  "cluster_bootstrap_95ci": {
+    "all_12_regions__k12": {
+      "actual_selection_count": {
+        "lower": 12.0,
+        "upper": 12.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.4091666666666667,
+        "upper": 0.47458333333333336
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.07314325631707055,
+        "upper": 0.32187277752435334
+      },
+      "positive_utility_capture": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.043291841644053884,
+        "upper": 0.13780400414537253
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.04954493080273465,
+        "upper": 0.11946812998566708
+      }
+    },
+    "base_gradient_topk__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.295,
+        "upper": 0.48
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.327964098420293,
+        "upper": 0.7783785911491415
+      },
+      "positive_utility_capture": {
+        "lower": 0.17801837090152453,
+        "upper": 0.44806072109402706
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.00973607223185636,
+        "upper": 0.04836975061879676
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.013187236017970656,
+        "upper": 0.04210016522713511
+      }
+    },
+    "base_gradient_topk__k3": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.3466666666666667,
+        "upper": 0.475
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.18721574196314272,
+        "upper": 0.4700420546421641
+      },
+      "positive_utility_capture": {
+        "lower": 0.629970307052655,
+        "upper": 0.8547251980295626
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.03345338888763118,
+        "upper": 0.11219421435779922
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.03825979865937033,
+        "upper": 0.09086032309741371
+      }
+    },
+    "base_gradient_topk__k6": {
+      "actual_selection_count": {
+        "lower": 6.0,
+        "upper": 6.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.36583333333333334,
+        "upper": 0.4708333333333333
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.09254073481280471,
+        "upper": 0.33467488058531863
+      },
+      "positive_utility_capture": {
+        "lower": 0.890803650086745,
+        "upper": 0.9766143993149111
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.04254577933555603,
+        "upper": 0.13398595919325104
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.04865945843999396,
+        "upper": 0.11605698883835096
+      }
+    },
+    "fixed_spatial_uniform_topk__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.36,
+        "upper": 0.525
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.7864486053395221,
+        "upper": 1.0042999846526097
+      },
+      "positive_utility_capture": {
+        "lower": 0.009149874397733392,
+        "upper": 0.12452813475010391
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.000132526708299778,
+        "upper": 0.010844859655910434
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": -0.0002760536963734975,
+        "upper": 0.011297282013554417
+      }
+    },
+    "fixed_spatial_uniform_topk__k3": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.3933333333333333,
+        "upper": 0.4766666666666667
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.640396995210654,
+        "upper": 0.9033850883470279
+      },
+      "positive_utility_capture": {
+        "lower": 0.1110633676451628,
+        "upper": 0.36050773868264435
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.007062307300927228,
+        "upper": 0.045335090275981024
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.009215599050816833,
+        "upper": 0.03510131473618577
+      }
+    },
+    "fixed_spatial_uniform_topk__k6": {
+      "actual_selection_count": {
+        "lower": 6.0,
+        "upper": 6.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.4025,
+        "upper": 0.47833333333333333
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.4827269791533379,
+        "upper": 0.7849102152804379
+      },
+      "positive_utility_capture": {
+        "lower": 0.3634538082197296,
+        "upper": 0.575060314134583
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.016127602140678016,
+        "upper": 0.062435684673500476
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.01748560877546955,
+        "upper": 0.06233172217300602
+      }
+    },
+    "oracle_at_most_k_positive__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "positive_utility_capture": {
+        "lower": 0.5225297243609762,
+        "upper": 0.7025873421583958
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.034310540445316055,
+        "upper": 0.07399366353606042
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.043525988138921314,
+        "upper": 0.07988536751368769
+      }
+    },
+    "oracle_at_most_k_positive__k12": {
+      "actual_selection_count": {
+        "lower": 6.145,
+        "upper": 6.895
+      },
+      "harmful_selection_rate": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "positive_utility_capture": {
+        "lower": 0.9999999999999997,
+        "upper": 1.0
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.05982449721305601,
+        "upper": 0.14792296603957572
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.07067468134842787,
+        "upper": 0.1321382680093813
+      }
+    },
+    "oracle_at_most_k_positive__k3": {
+      "actual_selection_count": {
+        "lower": 2.925,
+        "upper": 2.99
+      },
+      "harmful_selection_rate": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "positive_utility_capture": {
+        "lower": 0.8829079367261399,
+        "upper": 0.9750430809793884
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.05546062598610917,
+        "upper": 0.13293497533244145
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.06582805469489891,
+        "upper": 0.1244957769485321
+      }
+    },
+    "oracle_at_most_k_positive__k6": {
+      "actual_selection_count": {
+        "lower": 5.225,
+        "upper": 5.59
+      },
+      "harmful_selection_rate": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.0,
+        "upper": 0.0
+      },
+      "positive_utility_capture": {
+        "lower": 0.9889362062842664,
+        "upper": 0.9982131240261156
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.059543049103003814,
+        "upper": 0.14703588656205588
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.07021835666307795,
+        "upper": 0.1314454031746611
+      }
+    },
+    "random_topk_100_seeds__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.345,
+        "upper": 0.545
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.6455254875381401,
+        "upper": 1.0194262831929626
+      },
+      "positive_utility_capture": {
+        "lower": 0.011136770607845181,
+        "upper": 0.22808425769517493
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": -0.000784410414034232,
+        "upper": 0.02374614211157795
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": -0.0010901641496688077,
+        "upper": 0.023216998473680816
+      }
+    },
+    "random_topk_100_seeds__k3": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.38333333333333336,
+        "upper": 0.49333333333333335
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.5742384789997109,
+        "upper": 0.9601753809235871
+      },
+      "positive_utility_capture": {
+        "lower": 0.09480877457175754,
+        "upper": 0.4293084207249866
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.004159411415758466,
+        "upper": 0.04822809526791692
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.003605480205033345,
+        "upper": 0.04485377298011799
+      }
+    },
+    "random_topk_100_seeds__k6": {
+      "actual_selection_count": {
+        "lower": 6.0,
+        "upper": 6.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.3983333333333333,
+        "upper": 0.4825
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.3373749574988515,
+        "upper": 0.7874253273632467
+      },
+      "positive_utility_capture": {
+        "lower": 0.305261812195869,
+        "upper": 0.72774572947427
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.0165170251694622,
+        "upper": 0.08265721259777814
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.01855623367414818,
+        "upper": 0.07656358263307986
+      }
+    },
+    "rgb_base_rank_combination_topk__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.325,
+        "upper": 0.5
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.41110577406378285,
+        "upper": 0.8167513740350282
+      },
+      "positive_utility_capture": {
+        "lower": 0.1645240398052314,
+        "upper": 0.4354779891175907
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.007010104207551755,
+        "upper": 0.04053255160837557
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.010892932438528112,
+        "upper": 0.03730707388400821
+      }
+    },
+    "rgb_base_rank_combination_topk__k3": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.3616666666666667,
+        "upper": 0.505
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.17796785854411218,
+        "upper": 0.5344004787049662
+      },
+      "positive_utility_capture": {
+        "lower": 0.5686671174771856,
+        "upper": 0.846542716109106
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.026477714342401072,
+        "upper": 0.10845326037245437
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.03302494691762204,
+        "upper": 0.09669247957897698
+      }
+    },
+    "rgb_base_rank_combination_topk__k6": {
+      "actual_selection_count": {
+        "lower": 6.0,
+        "upper": 6.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.37083333333333335,
+        "upper": 0.4775
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.11710501610441226,
+        "upper": 0.3767084438117848
+      },
+      "positive_utility_capture": {
+        "lower": 0.8878454072919583,
+        "upper": 0.9627178168200656
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.03990817889432275,
+        "upper": 0.1318855387300219
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.04533496704065058,
+        "upper": 0.11350120712448568
+      }
+    },
+    "rgb_gradient_topk__k1": {
+      "actual_selection_count": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.365,
+        "upper": 0.54
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.5157447164793015,
+        "upper": 0.8875366289880834
+      },
+      "positive_utility_capture": {
+        "lower": 0.11678624233512555,
+        "upper": 0.3322403435106292
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.005227751330017258,
+        "upper": 0.03311013210406767
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.006377526520222688,
+        "upper": 0.03074142406343734
+      }
+    },
+    "rgb_gradient_topk__k3": {
+      "actual_selection_count": {
+        "lower": 3.0,
+        "upper": 3.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.36666666666666664,
+        "upper": 0.515
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.29309414712096193,
+        "upper": 0.7155905631739874
+      },
+      "positive_utility_capture": {
+        "lower": 0.397314541999955,
+        "upper": 0.736709089097126
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.016933823332169903,
+        "upper": 0.09734911855680477
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.020464253080972168,
+        "upper": 0.07846003996005542
+      }
+    },
+    "rgb_gradient_topk__k6": {
+      "actual_selection_count": {
+        "lower": 6.0,
+        "upper": 6.0
+      },
+      "harmful_selection_rate": {
+        "lower": 0.4041666666666667,
+        "upper": 0.505
+      },
+      "oracle_regret_ratio": {
+        "lower": 0.16318263018640508,
+        "upper": 0.4779257655352447
+      },
+      "positive_utility_capture": {
+        "lower": 0.7411608185782362,
+        "upper": 0.9361350580568514
+      },
+      "signed_absrel_error_reduction_ratio": {
+        "lower": 0.0346770939157797,
+        "upper": 0.1219259647339015
+      },
+      "signed_primary_error_reduction_ratio": {
+        "lower": 0.038461105448736654,
+        "upper": 0.10574431993140254
+      }
+    }
+  },
+  "estimates": {
+    "all_12_regions__k12": {
+      "actual_selection_count": 12.0,
+      "harmful_selection_rate": 0.4404166666666667,
+      "oracle_regret_ratio": 0.15178896876720716,
+      "positive_utility_capture": 1.0,
+      "signed_absrel_error_reduction_ratio": 0.09411436199601919,
+      "signed_primary_error_reduction_ratio": 0.08837117621610104
+    },
+    "base_gradient_topk__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.39,
+      "oracle_regret_ratio": 0.550547853965371,
+      "positive_utility_capture": 0.30159633030364985,
+      "signed_absrel_error_reduction_ratio": 0.029246494258146138,
+      "signed_primary_error_reduction_ratio": 0.027793393690241662
+    },
+    "base_gradient_topk__k3": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.41,
+      "oracle_regret_ratio": 0.3230953813723563,
+      "positive_utility_capture": 0.7289700664137158,
+      "signed_absrel_error_reduction_ratio": 0.073230041650584,
+      "signed_primary_error_reduction_ratio": 0.06538875386865892
+    },
+    "base_gradient_topk__k6": {
+      "actual_selection_count": 6.0,
+      "harmful_selection_rate": 0.4175,
+      "oracle_regret_ratio": 0.17649159878100215,
+      "positive_utility_capture": 0.9392094734784584,
+      "signed_absrel_error_reduction_ratio": 0.09084040954297742,
+      "signed_primary_error_reduction_ratio": 0.08525612553376692
+    },
+    "fixed_spatial_uniform_topk__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9169701129513019,
+      "positive_utility_capture": 0.057273336083985146,
+      "signed_absrel_error_reduction_ratio": 0.00487011485154762,
+      "signed_primary_error_reduction_ratio": 0.005134433908394248
+    },
+    "fixed_spatial_uniform_topk__k3": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.7649435942892086,
+      "positive_utility_capture": 0.24007059184215368,
+      "signed_absrel_error_reduction_ratio": 0.026480318665651897,
+      "signed_primary_error_reduction_ratio": 0.02270636812825388
+    },
+    "fixed_spatial_uniform_topk__k6": {
+      "actual_selection_count": 6.0,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.5990057148278046,
+      "positive_utility_capture": 0.47853780319623324,
+      "signed_absrel_error_reduction_ratio": 0.042023163775934624,
+      "signed_primary_error_reduction_ratio": 0.041514110923893684
+    },
+    "oracle_at_most_k_positive__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.0,
+      "oracle_regret_ratio": 0.0,
+      "positive_utility_capture": 0.5935419259557594,
+      "signed_absrel_error_reduction_ratio": 0.05559960065512775,
+      "signed_primary_error_reduction_ratio": 0.06183838242948396
+    },
+    "oracle_at_most_k_positive__k12": {
+      "actual_selection_count": 6.53,
+      "harmful_selection_rate": 0.0,
+      "oracle_regret_ratio": 0.0,
+      "positive_utility_capture": 1.0,
+      "signed_absrel_error_reduction_ratio": 0.10733309804225907,
+      "signed_primary_error_reduction_ratio": 0.10418536538915564
+    },
+    "oracle_at_most_k_positive__k3": {
+      "actual_selection_count": 2.96,
+      "harmful_selection_rate": 0.0,
+      "oracle_regret_ratio": 0.0,
+      "positive_utility_capture": 0.9271902677789703,
+      "signed_absrel_error_reduction_ratio": 0.09716368941028768,
+      "signed_primary_error_reduction_ratio": 0.09659965683382109
+    },
+    "oracle_at_most_k_positive__k6": {
+      "actual_selection_count": 5.415,
+      "harmful_selection_rate": 0.0,
+      "oracle_regret_ratio": 0.0,
+      "positive_utility_capture": 0.9936898161504039,
+      "signed_absrel_error_reduction_ratio": 0.10656090437433402,
+      "signed_primary_error_reduction_ratio": 0.10352793657911272
+    },
+    "random_topk_100_seeds__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.4432500000000001,
+      "oracle_regret_ratio": 0.8803761031530545,
+      "positive_utility_capture": 0.08388887370885573,
+      "signed_absrel_error_reduction_ratio": 0.007909234129084805,
+      "signed_primary_error_reduction_ratio": 0.007397348280926559
+    },
+    "random_topk_100_seeds__k3": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.43870000000000003,
+      "oracle_regret_ratio": 0.7759514893112864,
+      "positive_utility_capture": 0.24565949490669312,
+      "signed_absrel_error_reduction_ratio": 0.02334697722246701,
+      "signed_primary_error_reduction_ratio": 0.021643009246658417
+    },
+    "random_topk_100_seeds__k6": {
+      "actual_selection_count": 6.0,
+      "harmful_selection_rate": 0.44015000000000004,
+      "oracle_regret_ratio": 0.5660455572023041,
+      "positive_utility_capture": 0.5076669366381691,
+      "signed_absrel_error_reduction_ratio": 0.0476516031459852,
+      "signed_primary_error_reduction_ratio": 0.044926408032184034
+    },
+    "rgb_base_rank_combination_topk__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.41,
+      "oracle_regret_ratio": 0.6150924650128333,
+      "positive_utility_capture": 0.276664707512367,
+      "signed_absrel_error_reduction_ratio": 0.022545237830322154,
+      "signed_primary_error_reduction_ratio": 0.023802059348526385
+    },
+    "rgb_base_rank_combination_topk__k3": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.31432697565588613,
+      "positive_utility_capture": 0.7230185711500551,
+      "signed_absrel_error_reduction_ratio": 0.06759776988837171,
+      "signed_primary_error_reduction_ratio": 0.06623577885184964
+    },
+    "rgb_base_rank_combination_topk__k6": {
+      "actual_selection_count": 6.0,
+      "harmful_selection_rate": 0.4225,
+      "oracle_regret_ratio": 0.20100565055886074,
+      "positive_utility_capture": 0.9295058027914851,
+      "signed_absrel_error_reduction_ratio": 0.08916363703604153,
+      "signed_primary_error_reduction_ratio": 0.08271823633601169
+    },
+    "rgb_gradient_topk__k1": {
+      "actual_selection_count": 1.0,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.7015436549699928,
+      "positive_utility_capture": 0.21312844234866993,
+      "signed_absrel_error_reduction_ratio": 0.01848179206424394,
+      "signed_primary_error_reduction_ratio": 0.018456057602471595
+    },
+    "rgb_gradient_topk__k3": {
+      "actual_selection_count": 3.0,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.4858029322691308,
+      "positive_utility_capture": 0.566897579654653,
+      "signed_absrel_error_reduction_ratio": 0.05542813941265833,
+      "signed_primary_error_reduction_ratio": 0.04967126028775903
+    },
+    "rgb_gradient_topk__k6": {
+      "actual_selection_count": 6.0,
+      "harmful_selection_rate": 0.45416666666666666,
+      "oracle_regret_ratio": 0.2774414501896686,
+      "positive_utility_capture": 0.8552385093023612,
+      "signed_absrel_error_reduction_ratio": 0.08136646254839724,
+      "signed_primary_error_reduction_ratio": 0.07480499571945964
+    }
+  },
+  "g0_oracle_margin_gate": {
+    "all_pass": true,
+    "paired_ci_pass": true,
+    "point_margin_pass": true,
+    "thresholds": {
+      "min_primary_reduction_difference": 0.01,
+      "require_paired_ci_lower_above_zero": true
+    }
+  },
+  "historical_correction": {
+    "uniform_primary_reduction_ratio": "all_12_regions_not_budget_matched"
+  },
+  "metric_contract": {
+    "harmful_selection": "selected_primary_utility_below_zero",
+    "positive_capture": "diagnostic_only",
+    "primary": "signed_primary_error_reduction_ratio",
+    "random_uncertainty": "nested_random_seed_within_scan_bootstrap"
+  },
+  "oracle_margins": {
+    "1": {
+      "difference": 0.0340449887392423,
+      "paired_scan_bootstrap_95ci": {
+        "lower": 0.017510874910497812,
+        "upper": 0.05573016498691453
+      },
+      "strongest_non_oracle_method": "base_gradient_topk"
+    },
+    "3": {
+      "difference": 0.030363877981971446,
+      "paired_scan_bootstrap_95ci": {
+        "lower": 0.018223249963363906,
+        "upper": 0.04447576583847414
+      },
+      "strongest_non_oracle_method": "rgb_base_rank_combination_topk"
+    },
+    "6": {
+      "difference": 0.018271811045345795,
+      "paired_scan_bootstrap_95ci": {
+        "lower": 0.010557620408262261,
+        "upper": 0.02801644318505191
+      },
+      "strongest_non_oracle_method": "base_gradient_topk"
+    }
+  },
+  "paper_candidate": false,
+  "random_seed_count": 100,
+  "random_seed_estimates": [
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.46,
+      "oracle_regret_ratio": 0.9098232073180306,
+      "positive_utility_capture": 0.08107523433431671,
+      "seed": 1000,
+      "signed_absrel_error_reduction_ratio": 0.004153581609361733,
+      "signed_primary_error_reduction_ratio": 0.005576386992131917
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9206677138725029,
+      "positive_utility_capture": 0.06502192001348783,
+      "seed": 1001,
+      "signed_absrel_error_reduction_ratio": 0.004986190647768177,
+      "signed_primary_error_reduction_ratio": 0.004905780248557412
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.385,
+      "oracle_regret_ratio": 0.7947738772809954,
+      "positive_utility_capture": 0.13160033356495832,
+      "seed": 1002,
+      "signed_absrel_error_reduction_ratio": 0.00891521428432393,
+      "signed_primary_error_reduction_ratio": 0.012690851461218011
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9878474628814273,
+      "positive_utility_capture": 0.023017185729331844,
+      "seed": 1003,
+      "signed_absrel_error_reduction_ratio": 0.0017410067375753988,
+      "signed_primary_error_reduction_ratio": 0.0007514932378267959
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.9380475960690554,
+      "positive_utility_capture": 0.05229199191827388,
+      "seed": 1004,
+      "signed_absrel_error_reduction_ratio": 0.005121557665864206,
+      "signed_primary_error_reduction_ratio": 0.0038310364467076187
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8338271078641448,
+      "positive_utility_capture": 0.11026817772131253,
+      "seed": 1005,
+      "signed_absrel_error_reduction_ratio": 0.012495544429236725,
+      "signed_primary_error_reduction_ratio": 0.010275862853310403
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.9965623241174387,
+      "positive_utility_capture": 0.02474446245195527,
+      "seed": 1006,
+      "signed_absrel_error_reduction_ratio": -0.00020753596272364138,
+      "signed_primary_error_reduction_ratio": 0.00021258031589443968
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.8085295583617933,
+      "positive_utility_capture": 0.11744247384039753,
+      "seed": 1007,
+      "signed_absrel_error_reduction_ratio": 0.012999478016502277,
+      "signed_primary_error_reduction_ratio": 0.011840222393965618
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.46,
+      "oracle_regret_ratio": 0.9092544281979481,
+      "positive_utility_capture": 0.0768417611105838,
+      "seed": 1008,
+      "signed_absrel_error_reduction_ratio": 0.00447535024700124,
+      "signed_primary_error_reduction_ratio": 0.005611559372877483
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.9319120795977778,
+      "positive_utility_capture": 0.050914443827153544,
+      "seed": 1009,
+      "signed_absrel_error_reduction_ratio": 0.0031807134659122957,
+      "signed_primary_error_reduction_ratio": 0.004210446860660878
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.8914283610096683,
+      "positive_utility_capture": 0.07301659782250826,
+      "seed": 1010,
+      "signed_absrel_error_reduction_ratio": 0.00907850289325097,
+      "signed_primary_error_reduction_ratio": 0.0067138945328800055
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.7810855160799801,
+      "positive_utility_capture": 0.13550448581013513,
+      "seed": 1011,
+      "signed_absrel_error_reduction_ratio": 0.011729202181126613,
+      "signed_primary_error_reduction_ratio": 0.01353731757599931
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.49,
+      "oracle_regret_ratio": 0.8970281486673642,
+      "positive_utility_capture": 0.06734200931837006,
+      "seed": 1012,
+      "signed_absrel_error_reduction_ratio": 0.009422723574084179,
+      "signed_primary_error_reduction_ratio": 0.006367612722179494
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9321786197682567,
+      "positive_utility_capture": 0.07210647409146347,
+      "seed": 1013,
+      "signed_absrel_error_reduction_ratio": 0.007194741990685343,
+      "signed_primary_error_reduction_ratio": 0.004193964447665989
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.7636461158782897,
+      "positive_utility_capture": 0.15508925823413117,
+      "seed": 1014,
+      "signed_absrel_error_reduction_ratio": 0.020741652868609513,
+      "signed_primary_error_reduction_ratio": 0.014615741875012252
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.8415775804383165,
+      "positive_utility_capture": 0.10091272796313766,
+      "seed": 1015,
+      "signed_absrel_error_reduction_ratio": 0.007767468011870702,
+      "signed_primary_error_reduction_ratio": 0.009796586166259537
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.9551074770663142,
+      "positive_utility_capture": 0.035469879378036334,
+      "seed": 1016,
+      "signed_absrel_error_reduction_ratio": 0.0019767738903658013,
+      "signed_primary_error_reduction_ratio": 0.0027760810013976425
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.505,
+      "oracle_regret_ratio": 0.9608285724327924,
+      "positive_utility_capture": 0.04025178873761646,
+      "seed": 1017,
+      "signed_absrel_error_reduction_ratio": 0.002500131331518071,
+      "signed_primary_error_reduction_ratio": 0.002422297718209816
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.395,
+      "oracle_regret_ratio": 0.8748945795118663,
+      "positive_utility_capture": 0.08375204674491449,
+      "seed": 1018,
+      "signed_absrel_error_reduction_ratio": 0.01079972426711246,
+      "signed_primary_error_reduction_ratio": 0.007736316836146607
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.9886206119415175,
+      "positive_utility_capture": 0.02962118678246742,
+      "seed": 1019,
+      "signed_absrel_error_reduction_ratio": 0.0015867974681034313,
+      "signed_primary_error_reduction_ratio": 0.0007036829505739382
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.921802871581789,
+      "positive_utility_capture": 0.05684708704411003,
+      "seed": 1020,
+      "signed_absrel_error_reduction_ratio": 0.0073414930081172804,
+      "signed_primary_error_reduction_ratio": 0.004835583932012802
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.960264920227248,
+      "positive_utility_capture": 0.02759464920903652,
+      "seed": 1021,
+      "signed_absrel_error_reduction_ratio": 0.0015343080022466868,
+      "signed_primary_error_reduction_ratio": 0.0024571530588534964
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.7841339330439471,
+      "positive_utility_capture": 0.14071197228820467,
+      "seed": 1022,
+      "signed_absrel_error_reduction_ratio": 0.013467089082369257,
+      "signed_primary_error_reduction_ratio": 0.013348808401976987
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.47,
+      "oracle_regret_ratio": 0.9775980831658235,
+      "positive_utility_capture": 0.017983326592249587,
+      "seed": 1023,
+      "signed_absrel_error_reduction_ratio": 0.0008588521991626288,
+      "signed_primary_error_reduction_ratio": 0.001385298300345295
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.8423182791723061,
+      "positive_utility_capture": 0.10422160001967287,
+      "seed": 1024,
+      "signed_absrel_error_reduction_ratio": 0.01106261566502003,
+      "signed_primary_error_reduction_ratio": 0.009750782554682067
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.48,
+      "oracle_regret_ratio": 0.8750261074825867,
+      "positive_utility_capture": 0.09248040163084618,
+      "seed": 1025,
+      "signed_absrel_error_reduction_ratio": 0.00835613104869703,
+      "signed_primary_error_reduction_ratio": 0.007728183359193031
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.8658391219977498,
+      "positive_utility_capture": 0.08484386675286928,
+      "seed": 1026,
+      "signed_absrel_error_reduction_ratio": 0.008374734443108586,
+      "signed_primary_error_reduction_ratio": 0.008296291680978486
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.8748077261581201,
+      "positive_utility_capture": 0.08234678646414773,
+      "seed": 1027,
+      "signed_absrel_error_reduction_ratio": 0.005153594843706824,
+      "signed_primary_error_reduction_ratio": 0.0077416877070508525
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9632635226127638,
+      "positive_utility_capture": 0.0502935637786003,
+      "seed": 1028,
+      "signed_absrel_error_reduction_ratio": 0.004258727308392207,
+      "signed_primary_error_reduction_ratio": 0.0022717243377839993
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.9057713789109335,
+      "positive_utility_capture": 0.06880676155428804,
+      "seed": 1029,
+      "signed_absrel_error_reduction_ratio": 0.00789315252566611,
+      "signed_primary_error_reduction_ratio": 0.005826945506708636
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.51,
+      "oracle_regret_ratio": 0.8822280055272097,
+      "positive_utility_capture": 0.08678975323195129,
+      "seed": 1030,
+      "signed_absrel_error_reduction_ratio": 0.006344791255309676,
+      "signed_primary_error_reduction_ratio": 0.007282829633691475
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.8565328649583361,
+      "positive_utility_capture": 0.09400392615444261,
+      "seed": 1031,
+      "signed_absrel_error_reduction_ratio": 0.006798950100590065,
+      "signed_primary_error_reduction_ratio": 0.008871775562768823
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.395,
+      "oracle_regret_ratio": 0.9258078064328638,
+      "positive_utility_capture": 0.05368848432252763,
+      "seed": 1032,
+      "signed_absrel_error_reduction_ratio": 0.003823591949189006,
+      "signed_primary_error_reduction_ratio": 0.004587925239086875
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.9419921806489068,
+      "positive_utility_capture": 0.04806036548179804,
+      "seed": 1033,
+      "signed_absrel_error_reduction_ratio": 0.003958404927052896,
+      "signed_primary_error_reduction_ratio": 0.003587109716933329
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.475,
+      "oracle_regret_ratio": 0.8975919060285658,
+      "positive_utility_capture": 0.07478830932038734,
+      "seed": 1034,
+      "signed_absrel_error_reduction_ratio": 0.01005490529198052,
+      "signed_primary_error_reduction_ratio": 0.006332750878880083
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.9307390148708818,
+      "positive_utility_capture": 0.06001995697905284,
+      "seed": 1035,
+      "signed_absrel_error_reduction_ratio": 0.003416963651976712,
+      "signed_primary_error_reduction_ratio": 0.00428298728585721
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.47,
+      "oracle_regret_ratio": 0.8997291433943069,
+      "positive_utility_capture": 0.07182573346356796,
+      "seed": 1036,
+      "signed_absrel_error_reduction_ratio": 0.00806289047897687,
+      "signed_primary_error_reduction_ratio": 0.006200587577314798
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.475,
+      "oracle_regret_ratio": 0.9261419016664941,
+      "positive_utility_capture": 0.05937500982763414,
+      "seed": 1037,
+      "signed_absrel_error_reduction_ratio": 0.0032723459325071967,
+      "signed_primary_error_reduction_ratio": 0.0045672653302617685
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.8337168445388247,
+      "positive_utility_capture": 0.11191441581036474,
+      "seed": 1038,
+      "signed_absrel_error_reduction_ratio": 0.011293352312763023,
+      "signed_primary_error_reduction_ratio": 0.010282681358989494
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.49,
+      "oracle_regret_ratio": 0.8718264664062095,
+      "positive_utility_capture": 0.08940548923504198,
+      "seed": 1039,
+      "signed_absrel_error_reduction_ratio": 0.011656580484429841,
+      "signed_primary_error_reduction_ratio": 0.007926043987711129
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.9294117755899133,
+      "positive_utility_capture": 0.046954055196073236,
+      "seed": 1040,
+      "signed_absrel_error_reduction_ratio": 0.005057099635460811,
+      "signed_primary_error_reduction_ratio": 0.004365061616089178
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.8700400814973624,
+      "positive_utility_capture": 0.08094187621051442,
+      "seed": 1041,
+      "signed_absrel_error_reduction_ratio": 0.010372063715599865,
+      "signed_primary_error_reduction_ratio": 0.008036511140870667
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.475,
+      "oracle_regret_ratio": 0.7657497130735056,
+      "positive_utility_capture": 0.1552095735584419,
+      "seed": 1042,
+      "signed_absrel_error_reduction_ratio": 0.01286059319357638,
+      "signed_primary_error_reduction_ratio": 0.014485658827176902
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.8970357687716212,
+      "positive_utility_capture": 0.07355515196605834,
+      "seed": 1043,
+      "signed_absrel_error_reduction_ratio": 0.00638769146303868,
+      "signed_primary_error_reduction_ratio": 0.006367141507258302
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.9089141410487057,
+      "positive_utility_capture": 0.06484857553104735,
+      "seed": 1044,
+      "signed_absrel_error_reduction_ratio": 0.005574759041974648,
+      "signed_primary_error_reduction_ratio": 0.005632602179748173
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.9130555364442964,
+      "positive_utility_capture": 0.08293644422098789,
+      "seed": 1045,
+      "signed_absrel_error_reduction_ratio": 0.005910400468510567,
+      "signed_primary_error_reduction_ratio": 0.0053765049874839295
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.7797864220081202,
+      "positive_utility_capture": 0.1380146644996168,
+      "seed": 1046,
+      "signed_absrel_error_reduction_ratio": 0.014289113689426458,
+      "signed_primary_error_reduction_ratio": 0.013617651452026862
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.9097912039305663,
+      "positive_utility_capture": 0.08301819735935301,
+      "seed": 1047,
+      "signed_absrel_error_reduction_ratio": 0.008299566289173001,
+      "signed_primary_error_reduction_ratio": 0.005578366029844971
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.9376602834811409,
+      "positive_utility_capture": 0.046528500003336415,
+      "seed": 1048,
+      "signed_absrel_error_reduction_ratio": 0.004096532391711925,
+      "signed_primary_error_reduction_ratio": 0.0038549872306388217
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.39,
+      "oracle_regret_ratio": 0.8368012650023701,
+      "positive_utility_capture": 0.10020212655468426,
+      "seed": 1049,
+      "signed_absrel_error_reduction_ratio": 0.013097607023573049,
+      "signed_primary_error_reduction_ratio": 0.010091945786791451
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.7130731074880898,
+      "positive_utility_capture": 0.19618184876739095,
+      "seed": 1050,
+      "signed_absrel_error_reduction_ratio": 0.01816690301556225,
+      "signed_primary_error_reduction_ratio": 0.017743094908454934
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.46,
+      "oracle_regret_ratio": 0.8633889608186366,
+      "positive_utility_capture": 0.09883060138226442,
+      "seed": 1051,
+      "signed_absrel_error_reduction_ratio": 0.01109364729083779,
+      "signed_primary_error_reduction_ratio": 0.008447805684986369
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.7853701531077433,
+      "positive_utility_capture": 0.13706109667557112,
+      "seed": 1052,
+      "signed_absrel_error_reduction_ratio": 0.014096015419188992,
+      "signed_primary_error_reduction_ratio": 0.013272362552904964
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.9213665523882587,
+      "positive_utility_capture": 0.06000387397519856,
+      "seed": 1053,
+      "signed_absrel_error_reduction_ratio": 0.006885846067907572,
+      "signed_primary_error_reduction_ratio": 0.00486256520516365
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.4,
+      "oracle_regret_ratio": 0.9152146711251271,
+      "positive_utility_capture": 0.05313005401287014,
+      "seed": 1054,
+      "signed_absrel_error_reduction_ratio": 0.008255129354398977,
+      "signed_primary_error_reduction_ratio": 0.005242987591373955
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.39,
+      "oracle_regret_ratio": 0.9334607486778655,
+      "positive_utility_capture": 0.057134649855283985,
+      "seed": 1055,
+      "signed_absrel_error_reduction_ratio": 0.006322295355649716,
+      "signed_primary_error_reduction_ratio": 0.004114679669829698
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.8075735179852697,
+      "positive_utility_capture": 0.12545939717883392,
+      "seed": 1056,
+      "signed_absrel_error_reduction_ratio": 0.011680108468823112,
+      "signed_primary_error_reduction_ratio": 0.011899342384387111
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.365,
+      "oracle_regret_ratio": 0.9070353172727189,
+      "positive_utility_capture": 0.06565691734386188,
+      "seed": 1057,
+      "signed_absrel_error_reduction_ratio": 0.007960816750417692,
+      "signed_primary_error_reduction_ratio": 0.005748785602925252
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.47,
+      "oracle_regret_ratio": 0.8706420328268198,
+      "positive_utility_capture": 0.0918019547838562,
+      "seed": 1058,
+      "signed_absrel_error_reduction_ratio": 0.008607646982917633,
+      "signed_primary_error_reduction_ratio": 0.007999287444355753
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.485,
+      "oracle_regret_ratio": 0.9301165782127504,
+      "positive_utility_capture": 0.0519686774814964,
+      "seed": 1059,
+      "signed_absrel_error_reduction_ratio": 0.003959135880227356,
+      "signed_primary_error_reduction_ratio": 0.00432147776196087
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.9427791725953631,
+      "positive_utility_capture": 0.0370517484040303,
+      "seed": 1060,
+      "signed_absrel_error_reduction_ratio": 0.002036737403754335,
+      "signed_primary_error_reduction_ratio": 0.003538443407979431
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.51,
+      "oracle_regret_ratio": 0.9928983487930991,
+      "positive_utility_capture": 0.011467547160346337,
+      "seed": 1061,
+      "signed_absrel_error_reduction_ratio": 0.00025104082188089066,
+      "signed_primary_error_reduction_ratio": 0.00043915462321314204
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.515,
+      "oracle_regret_ratio": 0.9425003939025817,
+      "positive_utility_capture": 0.04081758998993208,
+      "seed": 1062,
+      "signed_absrel_error_reduction_ratio": 0.0026114006078842527,
+      "signed_primary_error_reduction_ratio": 0.0035556826313968403
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.54,
+      "oracle_regret_ratio": 0.9421369381200545,
+      "positive_utility_capture": 0.04599308426897996,
+      "seed": 1063,
+      "signed_absrel_error_reduction_ratio": 0.0025142642579409225,
+      "signed_primary_error_reduction_ratio": 0.0035781581490729663
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.385,
+      "oracle_regret_ratio": 0.7938751076307514,
+      "positive_utility_capture": 0.14588367553436163,
+      "seed": 1064,
+      "signed_absrel_error_reduction_ratio": 0.013200738628233783,
+      "signed_primary_error_reduction_ratio": 0.01274642992256581
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.495,
+      "oracle_regret_ratio": 0.9938459346038042,
+      "positive_utility_capture": 0.029353852721972527,
+      "seed": 1065,
+      "signed_absrel_error_reduction_ratio": -2.395347390386089e-05,
+      "signed_primary_error_reduction_ratio": 0.0003805574494660036
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.505,
+      "oracle_regret_ratio": 0.8985804477482847,
+      "positive_utility_capture": 0.07912556433607916,
+      "seed": 1066,
+      "signed_absrel_error_reduction_ratio": 0.009450414545798662,
+      "signed_primary_error_reduction_ratio": 0.0062716210579686
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.46,
+      "oracle_regret_ratio": 0.9142546544788595,
+      "positive_utility_capture": 0.061111675070659385,
+      "seed": 1067,
+      "signed_absrel_error_reduction_ratio": 0.007888072597987652,
+      "signed_primary_error_reduction_ratio": 0.005302353467884528
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.9035585458210873,
+      "positive_utility_capture": 0.07423471407657946,
+      "seed": 1068,
+      "signed_absrel_error_reduction_ratio": 0.004643586043396965,
+      "signed_primary_error_reduction_ratio": 0.00596378352557116
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.7783749354491442,
+      "positive_utility_capture": 0.14022408052114915,
+      "seed": 1069,
+      "signed_absrel_error_reduction_ratio": 0.009107036164190488,
+      "signed_primary_error_reduction_ratio": 0.013704935497654887
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.485,
+      "oracle_regret_ratio": 0.8246667672605298,
+      "positive_utility_capture": 0.12276392830499451,
+      "seed": 1070,
+      "signed_absrel_error_reduction_ratio": 0.010599918501444313,
+      "signed_primary_error_reduction_ratio": 0.010842323498741082
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.7561201003380317,
+      "positive_utility_capture": 0.15588145611163468,
+      "seed": 1071,
+      "signed_absrel_error_reduction_ratio": 0.011873492851178056,
+      "signed_primary_error_reduction_ratio": 0.015081138502160972
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.7423564686955184,
+      "positive_utility_capture": 0.1557815259585327,
+      "seed": 1072,
+      "signed_absrel_error_reduction_ratio": 0.014509328263972776,
+      "signed_primary_error_reduction_ratio": 0.015932259219289254
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.939482294790839,
+      "positive_utility_capture": 0.04298592117234439,
+      "seed": 1073,
+      "signed_absrel_error_reduction_ratio": 0.004263769704774402,
+      "signed_primary_error_reduction_ratio": 0.00374231699847887
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.4,
+      "oracle_regret_ratio": 0.9022091066954759,
+      "positive_utility_capture": 0.08669995496353672,
+      "seed": 1074,
+      "signed_absrel_error_reduction_ratio": 0.008575102430899503,
+      "signed_primary_error_reduction_ratio": 0.006047230658286023
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.9193059460413876,
+      "positive_utility_capture": 0.054828671801325564,
+      "seed": 1075,
+      "signed_absrel_error_reduction_ratio": 0.0034746385300131783,
+      "signed_primary_error_reduction_ratio": 0.0049899897684780835
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.7663646037417773,
+      "positive_utility_capture": 0.15615838878234614,
+      "seed": 1076,
+      "signed_absrel_error_reduction_ratio": 0.013603981837106016,
+      "signed_primary_error_reduction_ratio": 0.014447634982880004
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.38,
+      "oracle_regret_ratio": 0.8482432702497766,
+      "positive_utility_capture": 0.09290774331993225,
+      "seed": 1077,
+      "signed_absrel_error_reduction_ratio": 0.00965493993890995,
+      "signed_primary_error_reduction_ratio": 0.009384390690542154
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8930988020396663,
+      "positive_utility_capture": 0.07218360189525026,
+      "seed": 1078,
+      "signed_absrel_error_reduction_ratio": 0.008074066340683498,
+      "signed_primary_error_reduction_ratio": 0.006610597161641085
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.8100086535892208,
+      "positive_utility_capture": 0.12376512149718169,
+      "seed": 1079,
+      "signed_absrel_error_reduction_ratio": 0.010105135670555482,
+      "signed_primary_error_reduction_ratio": 0.011748757537642323
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.811618103203763,
+      "positive_utility_capture": 0.1164186608864267,
+      "seed": 1080,
+      "signed_absrel_error_reduction_ratio": 0.012552104914383092,
+      "signed_primary_error_reduction_ratio": 0.011649231776877282
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.385,
+      "oracle_regret_ratio": 0.8051596940897695,
+      "positive_utility_capture": 0.12096777341051548,
+      "seed": 1081,
+      "signed_absrel_error_reduction_ratio": 0.010714499097260858,
+      "signed_primary_error_reduction_ratio": 0.012048609349554481
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.814489714666397,
+      "positive_utility_capture": 0.12201581585917616,
+      "seed": 1082,
+      "signed_absrel_error_reduction_ratio": 0.013771388622794263,
+      "signed_primary_error_reduction_ratio": 0.011471655969062028
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.47,
+      "oracle_regret_ratio": 0.7956133055141733,
+      "positive_utility_capture": 0.1307369308372144,
+      "seed": 1083,
+      "signed_absrel_error_reduction_ratio": 0.011620581478137167,
+      "signed_primary_error_reduction_ratio": 0.01263894257711265
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.8306908509855866,
+      "positive_utility_capture": 0.10585848718560983,
+      "seed": 1084,
+      "signed_absrel_error_reduction_ratio": 0.007886919176051907,
+      "signed_primary_error_reduction_ratio": 0.01046980390556378
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.38,
+      "oracle_regret_ratio": 0.8683574535127223,
+      "positive_utility_capture": 0.09216092581183033,
+      "seed": 1085,
+      "signed_absrel_error_reduction_ratio": 0.009092349987323613,
+      "signed_primary_error_reduction_ratio": 0.0081405621336714
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.9112966475426473,
+      "positive_utility_capture": 0.05875680374426488,
+      "seed": 1086,
+      "signed_absrel_error_reduction_ratio": 0.006083933174630277,
+      "signed_primary_error_reduction_ratio": 0.005485271832035086
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.8463213207773375,
+      "positive_utility_capture": 0.10338343591043299,
+      "seed": 1087,
+      "signed_absrel_error_reduction_ratio": 0.010191580361116472,
+      "signed_primary_error_reduction_ratio": 0.009503240937028997
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.7897732572618886,
+      "positive_utility_capture": 0.1307294367921379,
+      "seed": 1088,
+      "signed_absrel_error_reduction_ratio": 0.012598710666623781,
+      "signed_primary_error_reduction_ratio": 0.013000081714344074
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.92968441774889,
+      "positive_utility_capture": 0.0666798696640143,
+      "seed": 1089,
+      "signed_absrel_error_reduction_ratio": 0.007439636568530379,
+      "signed_primary_error_reduction_ratio": 0.00434820186599597
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.475,
+      "oracle_regret_ratio": 0.7180492197027769,
+      "positive_utility_capture": 0.17939882681447528,
+      "seed": 1090,
+      "signed_absrel_error_reduction_ratio": 0.01875125025503158,
+      "signed_primary_error_reduction_ratio": 0.017435380178311092
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.51,
+      "oracle_regret_ratio": 0.9838692107610298,
+      "positive_utility_capture": 0.05161327422653016,
+      "seed": 1091,
+      "signed_absrel_error_reduction_ratio": 0.001970749809975317,
+      "signed_primary_error_reduction_ratio": 0.0009975019138488402
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.9548419797877686,
+      "positive_utility_capture": 0.034406943288328384,
+      "seed": 1092,
+      "signed_absrel_error_reduction_ratio": 0.00432848700079779,
+      "signed_primary_error_reduction_ratio": 0.002792498923642326
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.8357338312544251,
+      "positive_utility_capture": 0.10829898932245162,
+      "seed": 1093,
+      "signed_absrel_error_reduction_ratio": 0.011099127175218227,
+      "signed_primary_error_reduction_ratio": 0.01015795416311501
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.495,
+      "oracle_regret_ratio": 0.8697648214118299,
+      "positive_utility_capture": 0.09647359371212635,
+      "seed": 1094,
+      "signed_absrel_error_reduction_ratio": 0.008739362265642887,
+      "signed_primary_error_reduction_ratio": 0.008053532779307409
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8447754908683686,
+      "positive_utility_capture": 0.09848537580878153,
+      "seed": 1095,
+      "signed_absrel_error_reduction_ratio": 0.010414958021944648,
+      "signed_primary_error_reduction_ratio": 0.009598832558110745
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.9366375498270606,
+      "positive_utility_capture": 0.040813216063764986,
+      "seed": 1096,
+      "signed_absrel_error_reduction_ratio": 0.005278175455675498,
+      "signed_primary_error_reduction_ratio": 0.003918231425463351
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.9890152664189724,
+      "positive_utility_capture": 0.013832607333142082,
+      "seed": 1097,
+      "signed_absrel_error_reduction_ratio": 0.0006457222357490246,
+      "signed_primary_error_reduction_ratio": 0.0006792781560695769
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.8477217941013504,
+      "positive_utility_capture": 0.10613318106149115,
+      "seed": 1098,
+      "signed_absrel_error_reduction_ratio": 0.013259276035813481,
+      "signed_primary_error_reduction_ratio": 0.009416637932036396
+    },
+    {
+      "actual_selection_count": 1.0,
+      "budget_count": 1,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.899275045351202,
+      "positive_utility_capture": 0.07077924214960406,
+      "seed": 1099,
+      "signed_absrel_error_reduction_ratio": 0.007455623312290784,
+      "signed_primary_error_reduction_ratio": 0.006228668265764804
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.6467014335937549,
+      "positive_utility_capture": 0.3574858980356654,
+      "seed": 1000,
+      "signed_absrel_error_reduction_ratio": 0.03657966705698855,
+      "signed_primary_error_reduction_ratio": 0.03412852027472424
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.7762015917343493,
+      "positive_utility_capture": 0.22753441382505943,
+      "seed": 1001,
+      "signed_absrel_error_reduction_ratio": 0.01890273249323923,
+      "signed_primary_error_reduction_ratio": 0.021618849438417246
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.761360135788322,
+      "positive_utility_capture": 0.24830363402346628,
+      "seed": 1002,
+      "signed_absrel_error_reduction_ratio": 0.02658251050242089,
+      "signed_primary_error_reduction_ratio": 0.02305252898971776
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.7468967754085536,
+      "positive_utility_capture": 0.26782567051745293,
+      "seed": 1003,
+      "signed_absrel_error_reduction_ratio": 0.02381995923163105,
+      "signed_primary_error_reduction_ratio": 0.024449684639067278
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.7497905574441089,
+      "positive_utility_capture": 0.2640009660664757,
+      "seed": 1004,
+      "signed_absrel_error_reduction_ratio": 0.023973816580056848,
+      "signed_primary_error_reduction_ratio": 0.024170146287480748
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.8089201255712438,
+      "positive_utility_capture": 0.2232101163456907,
+      "seed": 1005,
+      "signed_absrel_error_reduction_ratio": 0.01806695759619107,
+      "signed_primary_error_reduction_ratio": 0.01845825029766747
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.8165664158753627,
+      "positive_utility_capture": 0.21067617913389922,
+      "seed": 1006,
+      "signed_absrel_error_reduction_ratio": 0.017598198857546005,
+      "signed_primary_error_reduction_ratio": 0.017719621278237823
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.7600462273225652,
+      "positive_utility_capture": 0.2556293773001077,
+      "seed": 1007,
+      "signed_absrel_error_reduction_ratio": 0.024096744729062716,
+      "signed_primary_error_reduction_ratio": 0.023179452096620912
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.6929378062891282,
+      "positive_utility_capture": 0.33071084111574717,
+      "seed": 1008,
+      "signed_absrel_error_reduction_ratio": 0.02800625867410266,
+      "signed_primary_error_reduction_ratio": 0.02966210253911051
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4266666666666667,
+      "oracle_regret_ratio": 0.8462887031499676,
+      "positive_utility_capture": 0.1771475042144193,
+      "seed": 1009,
+      "signed_absrel_error_reduction_ratio": 0.016773735434708347,
+      "signed_primary_error_reduction_ratio": 0.01484845852719473
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.8845317970858558,
+      "positive_utility_capture": 0.1373224692674249,
+      "seed": 1010,
+      "signed_absrel_error_reduction_ratio": 0.013608060259849005,
+      "signed_primary_error_reduction_ratio": 0.01115418877672434
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.7860936356758582,
+      "positive_utility_capture": 0.22271448899205598,
+      "seed": 1011,
+      "signed_absrel_error_reduction_ratio": 0.024078918495226347,
+      "signed_primary_error_reduction_ratio": 0.020663281388282412
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.41333333333333333,
+      "oracle_regret_ratio": 0.6580439162789885,
+      "positive_utility_capture": 0.32893462555725445,
+      "seed": 1012,
+      "signed_absrel_error_reduction_ratio": 0.03725075823313697,
+      "signed_primary_error_reduction_ratio": 0.033032840339687106
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.8930411423827259,
+      "positive_utility_capture": 0.13498735000587253,
+      "seed": 1013,
+      "signed_absrel_error_reduction_ratio": 0.00967087142915374,
+      "signed_primary_error_reduction_ratio": 0.01033218894116621
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4683333333333333,
+      "oracle_regret_ratio": 0.8149894739841743,
+      "positive_utility_capture": 0.21876037043663685,
+      "seed": 1014,
+      "signed_absrel_error_reduction_ratio": 0.012809530267751638,
+      "signed_primary_error_reduction_ratio": 0.017871953323773487
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.8108839595486054,
+      "positive_utility_capture": 0.2100681387202711,
+      "seed": 1015,
+      "signed_absrel_error_reduction_ratio": 0.021338469079829572,
+      "signed_primary_error_reduction_ratio": 0.018268544609375752
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.6984392518922249,
+      "positive_utility_capture": 0.31473602506042925,
+      "seed": 1016,
+      "signed_absrel_error_reduction_ratio": 0.025946009759608885,
+      "signed_primary_error_reduction_ratio": 0.02913066478176144
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.8592903745704605,
+      "positive_utility_capture": 0.19341550491672507,
+      "seed": 1017,
+      "signed_absrel_error_reduction_ratio": 0.017275419329973264,
+      "signed_primary_error_reduction_ratio": 0.01359250152970901
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.6622958432725359,
+      "positive_utility_capture": 0.350228038329164,
+      "seed": 1018,
+      "signed_absrel_error_reduction_ratio": 0.039178518421774035,
+      "signed_primary_error_reduction_ratio": 0.032622105651227966
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.6830673023485112,
+      "positive_utility_capture": 0.32508617035285114,
+      "seed": 1019,
+      "signed_absrel_error_reduction_ratio": 0.03672652716535896,
+      "signed_primary_error_reduction_ratio": 0.030615589832550996
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.9101072098206604,
+      "positive_utility_capture": 0.11905564625975458,
+      "seed": 1020,
+      "signed_absrel_error_reduction_ratio": 0.010055136240327191,
+      "signed_primary_error_reduction_ratio": 0.008683612683158886
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.7804020136341018,
+      "positive_utility_capture": 0.2434815871586428,
+      "seed": 1021,
+      "signed_absrel_error_reduction_ratio": 0.02465401201546674,
+      "signed_primary_error_reduction_ratio": 0.021213090124343886
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4066666666666667,
+      "oracle_regret_ratio": 0.761926227580223,
+      "positive_utility_capture": 0.26577343907462975,
+      "seed": 1022,
+      "signed_absrel_error_reduction_ratio": 0.028014704905200097,
+      "signed_primary_error_reduction_ratio": 0.022997844716883677
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.46,
+      "oracle_regret_ratio": 0.7517118529994286,
+      "positive_utility_capture": 0.2637106362553826,
+      "seed": 1023,
+      "signed_absrel_error_reduction_ratio": 0.023809978873679586,
+      "signed_primary_error_reduction_ratio": 0.02398454979616053
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.8851636592809947,
+      "positive_utility_capture": 0.16035156348727936,
+      "seed": 1024,
+      "signed_absrel_error_reduction_ratio": 0.015654711603768374,
+      "signed_primary_error_reduction_ratio": 0.011093151105507654
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.7187729373400271,
+      "positive_utility_capture": 0.32844256801661614,
+      "seed": 1025,
+      "signed_absrel_error_reduction_ratio": 0.032573333842480845,
+      "signed_primary_error_reduction_ratio": 0.02716643774533688
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.8233066172018864,
+      "positive_utility_capture": 0.19187860211557725,
+      "seed": 1026,
+      "signed_absrel_error_reduction_ratio": 0.021725420228140717,
+      "signed_primary_error_reduction_ratio": 0.01706852014310476
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.7561606691482702,
+      "positive_utility_capture": 0.25004748748179007,
+      "seed": 1027,
+      "signed_absrel_error_reduction_ratio": 0.02527137835606005,
+      "signed_primary_error_reduction_ratio": 0.023554795682865656
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.8355841796348532,
+      "positive_utility_capture": 0.20056428230203133,
+      "seed": 1028,
+      "signed_absrel_error_reduction_ratio": 0.020006732746498276,
+      "signed_primary_error_reduction_ratio": 0.01588251182532435
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.7244889382640877,
+      "positive_utility_capture": 0.3089476491669055,
+      "seed": 1029,
+      "signed_absrel_error_reduction_ratio": 0.022692589584450498,
+      "signed_primary_error_reduction_ratio": 0.026614274017610823
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.8275499960622339,
+      "positive_utility_capture": 0.19923186904506568,
+      "seed": 1030,
+      "signed_absrel_error_reduction_ratio": 0.022127806041510673,
+      "signed_primary_error_reduction_ratio": 0.0166586112013793
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.8643860007044232,
+      "positive_utility_capture": 0.17038364293207015,
+      "seed": 1031,
+      "signed_absrel_error_reduction_ratio": 0.019814471884135407,
+      "signed_primary_error_reduction_ratio": 0.013100265793814786
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.6588456240306152,
+      "positive_utility_capture": 0.352341122129757,
+      "seed": 1032,
+      "signed_absrel_error_reduction_ratio": 0.03075384313336573,
+      "signed_primary_error_reduction_ratio": 0.03295539564599894
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.7765684727954884,
+      "positive_utility_capture": 0.2363606800316644,
+      "seed": 1033,
+      "signed_absrel_error_reduction_ratio": 0.022696366011275025,
+      "signed_primary_error_reduction_ratio": 0.02158340885381239
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4033333333333333,
+      "oracle_regret_ratio": 0.6090717939937628,
+      "positive_utility_capture": 0.3836033486601186,
+      "seed": 1034,
+      "signed_absrel_error_reduction_ratio": 0.041094865235478034,
+      "signed_primary_error_reduction_ratio": 0.03776353054686383
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.7836789605301988,
+      "positive_utility_capture": 0.260292802279998,
+      "seed": 1035,
+      "signed_absrel_error_reduction_ratio": 0.02623335561329708,
+      "signed_primary_error_reduction_ratio": 0.020896538178718258
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.7584574026098075,
+      "positive_utility_capture": 0.2693840515849951,
+      "seed": 1036,
+      "signed_absrel_error_reduction_ratio": 0.025850954091662704,
+      "signed_primary_error_reduction_ratio": 0.023332932018642404
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.8416177354028018,
+      "positive_utility_capture": 0.1772169078329569,
+      "seed": 1037,
+      "signed_absrel_error_reduction_ratio": 0.01355756944763589,
+      "signed_primary_error_reduction_ratio": 0.015299672408652792
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4266666666666667,
+      "oracle_regret_ratio": 0.8787223826978442,
+      "positive_utility_capture": 0.1879706624773046,
+      "seed": 1038,
+      "signed_absrel_error_reduction_ratio": 0.008341950384543079,
+      "signed_primary_error_reduction_ratio": 0.011715376213011731
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4766666666666667,
+      "oracle_regret_ratio": 0.857486155544857,
+      "positive_utility_capture": 0.18556710355291514,
+      "seed": 1039,
+      "signed_absrel_error_reduction_ratio": 0.014495693489559598,
+      "signed_primary_error_reduction_ratio": 0.013766788468435385
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.45666666666666667,
+      "oracle_regret_ratio": 0.7686983271581577,
+      "positive_utility_capture": 0.2806695380470399,
+      "seed": 1040,
+      "signed_absrel_error_reduction_ratio": 0.0267629802216674,
+      "signed_primary_error_reduction_ratio": 0.02234366222161073
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.7884732577028052,
+      "positive_utility_capture": 0.21968454218275443,
+      "seed": 1041,
+      "signed_absrel_error_reduction_ratio": 0.02412378736374777,
+      "signed_primary_error_reduction_ratio": 0.02043341071708512
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.8256235974010407,
+      "positive_utility_capture": 0.194153644393371,
+      "seed": 1042,
+      "signed_absrel_error_reduction_ratio": 0.016552957291407024,
+      "signed_primary_error_reduction_ratio": 0.016844700650975694
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.45166666666666666,
+      "oracle_regret_ratio": 0.6969062660174496,
+      "positive_utility_capture": 0.3174194973497913,
+      "seed": 1043,
+      "signed_absrel_error_reduction_ratio": 0.029617969682788674,
+      "signed_primary_error_reduction_ratio": 0.029278750691195815
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.7920700837387566,
+      "positive_utility_capture": 0.2127838113080593,
+      "seed": 1044,
+      "signed_absrel_error_reduction_ratio": 0.0187369318462741,
+      "signed_primary_error_reduction_ratio": 0.02008595855632126
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.746232142683089,
+      "positive_utility_capture": 0.264154216415957,
+      "seed": 1045,
+      "signed_absrel_error_reduction_ratio": 0.029045037300766983,
+      "signed_primary_error_reduction_ratio": 0.024513887932267667
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.8080069586401648,
+      "positive_utility_capture": 0.22498095374904975,
+      "seed": 1046,
+      "signed_absrel_error_reduction_ratio": 0.018665445276184797,
+      "signed_primary_error_reduction_ratio": 0.018546461909841692
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.7963664979800621,
+      "positive_utility_capture": 0.23651648729569452,
+      "seed": 1047,
+      "signed_absrel_error_reduction_ratio": 0.014743790755791759,
+      "signed_primary_error_reduction_ratio": 0.01967092641499521
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.7147125198749769,
+      "positive_utility_capture": 0.3264904761736984,
+      "seed": 1048,
+      "signed_absrel_error_reduction_ratio": 0.025794106233562337,
+      "signed_primary_error_reduction_ratio": 0.027558672679062788
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.8484119970904463,
+      "positive_utility_capture": 0.1870568741894125,
+      "seed": 1049,
+      "signed_absrel_error_reduction_ratio": 0.01704765538974107,
+      "signed_primary_error_reduction_ratio": 0.014643349061187156
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.7077797190527911,
+      "positive_utility_capture": 0.29578243096106077,
+      "seed": 1050,
+      "signed_absrel_error_reduction_ratio": 0.02945953399534153,
+      "signed_primary_error_reduction_ratio": 0.028228378859383157
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4216666666666667,
+      "oracle_regret_ratio": 0.8219277618490678,
+      "positive_utility_capture": 0.19799291760044588,
+      "seed": 1051,
+      "signed_absrel_error_reduction_ratio": 0.017923189806479764,
+      "signed_primary_error_reduction_ratio": 0.017201717097010506
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.7939538220767849,
+      "positive_utility_capture": 0.22744933201648518,
+      "seed": 1052,
+      "signed_absrel_error_reduction_ratio": 0.021509024139252753,
+      "signed_primary_error_reduction_ratio": 0.01990399007930302
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.7206074846876731,
+      "positive_utility_capture": 0.31952712177832104,
+      "seed": 1053,
+      "signed_absrel_error_reduction_ratio": 0.03502251736886974,
+      "signed_primary_error_reduction_ratio": 0.026989221101108886
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.45666666666666667,
+      "oracle_regret_ratio": 0.7678454962710876,
+      "positive_utility_capture": 0.271597477048557,
+      "seed": 1054,
+      "signed_absrel_error_reduction_ratio": 0.025396080076261596,
+      "signed_primary_error_reduction_ratio": 0.022426045392638982
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.8350384043566407,
+      "positive_utility_capture": 0.19737225580967976,
+      "seed": 1055,
+      "signed_absrel_error_reduction_ratio": 0.014106044472073533,
+      "signed_primary_error_reduction_ratio": 0.015935233529908072
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.7744029474523371,
+      "positive_utility_capture": 0.2690241039331935,
+      "seed": 1056,
+      "signed_absrel_error_reduction_ratio": 0.02367174405059669,
+      "signed_primary_error_reduction_ratio": 0.021792597858825744
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.465,
+      "oracle_regret_ratio": 0.8077074627642578,
+      "positive_utility_capture": 0.20540126623479782,
+      "seed": 1057,
+      "signed_absrel_error_reduction_ratio": 0.02025019922892065,
+      "signed_primary_error_reduction_ratio": 0.018575393108677465
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.7142653290576636,
+      "positive_utility_capture": 0.2870630863175224,
+      "seed": 1058,
+      "signed_absrel_error_reduction_ratio": 0.03353242485117521,
+      "signed_primary_error_reduction_ratio": 0.027601871158554486
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.731859381505688,
+      "positive_utility_capture": 0.28111518345954595,
+      "seed": 1059,
+      "signed_absrel_error_reduction_ratio": 0.02801618669657246,
+      "signed_primary_error_reduction_ratio": 0.025902291729759077
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.7921575731294894,
+      "positive_utility_capture": 0.2198667841210973,
+      "seed": 1060,
+      "signed_absrel_error_reduction_ratio": 0.017262571927643435,
+      "signed_primary_error_reduction_ratio": 0.020077507111199877
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8212919633488432,
+      "positive_utility_capture": 0.19477187623147044,
+      "seed": 1061,
+      "signed_absrel_error_reduction_ratio": 0.01844953642693526,
+      "signed_primary_error_reduction_ratio": 0.01726313501394766
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.7721361946241928,
+      "positive_utility_capture": 0.26452591301851297,
+      "seed": 1062,
+      "signed_absrel_error_reduction_ratio": 0.026022105235809317,
+      "signed_primary_error_reduction_ratio": 0.022011565404151567
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.8583862904300771,
+      "positive_utility_capture": 0.157084991437813,
+      "seed": 1063,
+      "signed_absrel_error_reduction_ratio": 0.018171702248815886,
+      "signed_primary_error_reduction_ratio": 0.01367983574741897
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8544586489410464,
+      "positive_utility_capture": 0.17106680277000733,
+      "seed": 1064,
+      "signed_absrel_error_reduction_ratio": 0.013376587314210363,
+      "signed_primary_error_reduction_ratio": 0.014059244567425598
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.8702307585147234,
+      "positive_utility_capture": 0.2014625732400015,
+      "seed": 1065,
+      "signed_absrel_error_reduction_ratio": 0.018944201309750563,
+      "signed_primary_error_reduction_ratio": 0.01253566419506298
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.7859455913887684,
+      "positive_utility_capture": 0.22791923894255622,
+      "seed": 1066,
+      "signed_absrel_error_reduction_ratio": 0.026588308564920553,
+      "signed_primary_error_reduction_ratio": 0.02067758241561148
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.415,
+      "oracle_regret_ratio": 0.8032925894466372,
+      "positive_utility_capture": 0.20717899475424575,
+      "seed": 1067,
+      "signed_absrel_error_reduction_ratio": 0.018727629414940286,
+      "signed_primary_error_reduction_ratio": 0.019001868356124406
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4166666666666667,
+      "oracle_regret_ratio": 0.8518993930179956,
+      "positive_utility_capture": 0.198495078090174,
+      "seed": 1068,
+      "signed_absrel_error_reduction_ratio": 0.018231577164944963,
+      "signed_primary_error_reduction_ratio": 0.014306467811342224
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4083333333333333,
+      "oracle_regret_ratio": 0.7124876868320019,
+      "positive_utility_capture": 0.2859938920965393,
+      "seed": 1069,
+      "signed_absrel_error_reduction_ratio": 0.030427951605734783,
+      "signed_primary_error_reduction_ratio": 0.027773590787526715
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.8098365854788163,
+      "positive_utility_capture": 0.19990651005268437,
+      "seed": 1070,
+      "signed_absrel_error_reduction_ratio": 0.01693101502142969,
+      "signed_primary_error_reduction_ratio": 0.018369720585094017
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42333333333333334,
+      "oracle_regret_ratio": 0.7382114178849912,
+      "positive_utility_capture": 0.27460079520970887,
+      "seed": 1071,
+      "signed_absrel_error_reduction_ratio": 0.023199234621600288,
+      "signed_primary_error_reduction_ratio": 0.025288687195322443
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.7544539604456689,
+      "positive_utility_capture": 0.2445864388013077,
+      "seed": 1072,
+      "signed_absrel_error_reduction_ratio": 0.02269689469212669,
+      "signed_primary_error_reduction_ratio": 0.023719663157852233
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.881889460995639,
+      "positive_utility_capture": 0.14639626390046764,
+      "seed": 1073,
+      "signed_absrel_error_reduction_ratio": 0.011499752111398157,
+      "signed_primary_error_reduction_ratio": 0.011409437536278906
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.6634505080912688,
+      "positive_utility_capture": 0.3538461337288777,
+      "seed": 1074,
+      "signed_absrel_error_reduction_ratio": 0.03548313849901742,
+      "signed_primary_error_reduction_ratio": 0.03251056542598028
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.8899799946947842,
+      "positive_utility_capture": 0.14058867693868526,
+      "seed": 1075,
+      "signed_absrel_error_reduction_ratio": 0.014186273651171286,
+      "signed_primary_error_reduction_ratio": 0.010627894757339015
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.6732503879721652,
+      "positive_utility_capture": 0.326285107165732,
+      "seed": 1076,
+      "signed_absrel_error_reduction_ratio": 0.03688801346505455,
+      "signed_primary_error_reduction_ratio": 0.03156390039247302
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.40166666666666667,
+      "oracle_regret_ratio": 0.8167366089333237,
+      "positive_utility_capture": 0.18570090591539146,
+      "seed": 1077,
+      "signed_absrel_error_reduction_ratio": 0.018287404574688398,
+      "signed_primary_error_reduction_ratio": 0.017703180687243282
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42,
+      "oracle_regret_ratio": 0.7593924387921571,
+      "positive_utility_capture": 0.25822817237015006,
+      "seed": 1078,
+      "signed_absrel_error_reduction_ratio": 0.026688186616859184,
+      "signed_primary_error_reduction_ratio": 0.023242607844300215
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.7235287947539604,
+      "positive_utility_capture": 0.2894305260736407,
+      "seed": 1079,
+      "signed_absrel_error_reduction_ratio": 0.02223403254320453,
+      "signed_primary_error_reduction_ratio": 0.02670702355120034
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.704086345917386,
+      "positive_utility_capture": 0.31751475781466704,
+      "seed": 1080,
+      "signed_absrel_error_reduction_ratio": 0.03155175762553753,
+      "signed_primary_error_reduction_ratio": 0.028585157436822564
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.6192201195381292,
+      "positive_utility_capture": 0.37526000452551006,
+      "seed": 1081,
+      "signed_absrel_error_reduction_ratio": 0.035974900531429516,
+      "signed_primary_error_reduction_ratio": 0.03678320578184015
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.7724389718602364,
+      "positive_utility_capture": 0.2458691683753822,
+      "seed": 1082,
+      "signed_absrel_error_reduction_ratio": 0.021939499544177583,
+      "signed_primary_error_reduction_ratio": 0.02198231722705268
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.7816666774783015,
+      "positive_utility_capture": 0.26257484361708217,
+      "seed": 1083,
+      "signed_absrel_error_reduction_ratio": 0.019790436699867936,
+      "signed_primary_error_reduction_ratio": 0.021090924030984053
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4033333333333333,
+      "oracle_regret_ratio": 0.7045241779503602,
+      "positive_utility_capture": 0.30948505356835015,
+      "seed": 1084,
+      "signed_absrel_error_reduction_ratio": 0.028366191795055944,
+      "signed_primary_error_reduction_ratio": 0.028542863012686392
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.6738469012073406,
+      "positive_utility_capture": 0.34242472738587404,
+      "seed": 1085,
+      "signed_absrel_error_reduction_ratio": 0.03522283143875323,
+      "signed_primary_error_reduction_ratio": 0.031506277418658246
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.864420713793107,
+      "positive_utility_capture": 0.1809730394156749,
+      "seed": 1086,
+      "signed_absrel_error_reduction_ratio": 0.014223696273364315,
+      "signed_primary_error_reduction_ratio": 0.013096912521360264
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.6836544299489753,
+      "positive_utility_capture": 0.3276820417767633,
+      "seed": 1087,
+      "signed_absrel_error_reduction_ratio": 0.027001889843501502,
+      "signed_primary_error_reduction_ratio": 0.03055887350782849
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.7829062742593754,
+      "positive_utility_capture": 0.25707548643758155,
+      "seed": 1088,
+      "signed_absrel_error_reduction_ratio": 0.027159567112603894,
+      "signed_primary_error_reduction_ratio": 0.02097117940732
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.7117528428611032,
+      "positive_utility_capture": 0.30901622855392463,
+      "seed": 1089,
+      "signed_absrel_error_reduction_ratio": 0.033803550801364525,
+      "signed_primary_error_reduction_ratio": 0.027844576462941938
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.6878428348005603,
+      "positive_utility_capture": 0.312332099707249,
+      "seed": 1090,
+      "signed_absrel_error_reduction_ratio": 0.030892037976701616,
+      "signed_primary_error_reduction_ratio": 0.030154275036484275
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.827826924764779,
+      "positive_utility_capture": 0.1918124366384005,
+      "seed": 1091,
+      "signed_absrel_error_reduction_ratio": 0.01686609265671211,
+      "signed_primary_error_reduction_ratio": 0.016631859983746004
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.425,
+      "oracle_regret_ratio": 0.6658718955426771,
+      "positive_utility_capture": 0.336780144416625,
+      "seed": 1092,
+      "signed_absrel_error_reduction_ratio": 0.03496753683245051,
+      "signed_primary_error_reduction_ratio": 0.03227666022911252
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.9396510566060586,
+      "positive_utility_capture": 0.10941497508136094,
+      "seed": 1093,
+      "signed_absrel_error_reduction_ratio": 0.009635952406812554,
+      "signed_primary_error_reduction_ratio": 0.005829687222138429
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.47333333333333333,
+      "oracle_regret_ratio": 0.8846539242828771,
+      "positive_utility_capture": 0.14520600844026552,
+      "seed": 1094,
+      "signed_absrel_error_reduction_ratio": 0.014022960252681587,
+      "signed_primary_error_reduction_ratio": 0.011142391331402011
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.405,
+      "oracle_regret_ratio": 0.6451191023022703,
+      "positive_utility_capture": 0.35184806187577655,
+      "seed": 1095,
+      "signed_absrel_error_reduction_ratio": 0.031631329558333095,
+      "signed_primary_error_reduction_ratio": 0.034281372934479054
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.81363062679707,
+      "positive_utility_capture": 0.20175863269586664,
+      "seed": 1096,
+      "signed_absrel_error_reduction_ratio": 0.020094681334477348,
+      "signed_primary_error_reduction_ratio": 0.018003217495737366
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.7444182167038215,
+      "positive_utility_capture": 0.2646787989451867,
+      "seed": 1097,
+      "signed_absrel_error_reduction_ratio": 0.03147128787803807,
+      "signed_primary_error_reduction_ratio": 0.024689112559386873
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.8504492446586641,
+      "positive_utility_capture": 0.1624127303501997,
+      "seed": 1098,
+      "signed_absrel_error_reduction_ratio": 0.018470752442452557,
+      "signed_primary_error_reduction_ratio": 0.01444655164521178
+    },
+    {
+      "actual_selection_count": 3.0,
+      "budget_count": 3,
+      "harmful_selection_rate": 0.4683333333333333,
+      "oracle_regret_ratio": 0.7828660462841934,
+      "positive_utility_capture": 0.24427592586195154,
+      "seed": 1099,
+      "signed_absrel_error_reduction_ratio": 0.025628508858509404,
+      "signed_primary_error_reduction_ratio": 0.020975065415917704
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4266666666666667,
+      "oracle_regret_ratio": 0.4475280253035048,
+      "positive_utility_capture": 0.6127287208157184,
+      "seed": 1000,
+      "signed_absrel_error_reduction_ratio": 0.05272301160318737,
+      "signed_primary_error_reduction_ratio": 0.05719628355811592
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44083333333333335,
+      "oracle_regret_ratio": 0.5942804167475777,
+      "positive_utility_capture": 0.501227546567691,
+      "seed": 1001,
+      "signed_absrel_error_reduction_ratio": 0.04762726894232759,
+      "signed_primary_error_reduction_ratio": 0.042003311283860825
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.449324525300549,
+      "positive_utility_capture": 0.6214687034476482,
+      "seed": 1002,
+      "signed_absrel_error_reduction_ratio": 0.05904528884755412,
+      "signed_primary_error_reduction_ratio": 0.05701029562035755
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.5102222615475426,
+      "positive_utility_capture": 0.5692474902131252,
+      "seed": 1003,
+      "signed_absrel_error_reduction_ratio": 0.053750145873563235,
+      "signed_primary_error_reduction_ratio": 0.050705678644367265
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.4789097822363668,
+      "positive_utility_capture": 0.5849531306090647,
+      "seed": 1004,
+      "signed_absrel_error_reduction_ratio": 0.0592670033136185,
+      "signed_primary_error_reduction_ratio": 0.05394739501662945
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.41833333333333333,
+      "oracle_regret_ratio": 0.4968305361918411,
+      "positive_utility_capture": 0.6074709625678971,
+      "seed": 1005,
+      "signed_absrel_error_reduction_ratio": 0.058570294743950396,
+      "signed_primary_error_reduction_ratio": 0.052092096337677224
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.41833333333333333,
+      "oracle_regret_ratio": 0.38532585223348864,
+      "positive_utility_capture": 0.6762728661436775,
+      "seed": 1006,
+      "signed_absrel_error_reduction_ratio": 0.061819240873727574,
+      "signed_primary_error_reduction_ratio": 0.06363594618679155
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.5430040130372622,
+      "positive_utility_capture": 0.5215741276557101,
+      "seed": 1007,
+      "signed_absrel_error_reduction_ratio": 0.049489812738840205,
+      "signed_primary_error_reduction_ratio": 0.04731185155518734
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4425,
+      "oracle_regret_ratio": 0.6218318237485116,
+      "positive_utility_capture": 0.4585816212690909,
+      "seed": 1008,
+      "signed_absrel_error_reduction_ratio": 0.037268776558490035,
+      "signed_primary_error_reduction_ratio": 0.03915097096720281
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.574158475349162,
+      "positive_utility_capture": 0.4952233529655858,
+      "seed": 1009,
+      "signed_absrel_error_reduction_ratio": 0.04498795177557693,
+      "signed_primary_error_reduction_ratio": 0.044086494356804624
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.719086609117433,
+      "positive_utility_capture": 0.3505016941122283,
+      "seed": 1010,
+      "signed_absrel_error_reduction_ratio": 0.031209630442552174,
+      "signed_primary_error_reduction_ratio": 0.02908238371551389
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.4901574808586011,
+      "positive_utility_capture": 0.5728306241891619,
+      "seed": 1011,
+      "signed_absrel_error_reduction_ratio": 0.05879686998488513,
+      "signed_primary_error_reduction_ratio": 0.0527829439870058
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42333333333333334,
+      "oracle_regret_ratio": 0.5197062810516313,
+      "positive_utility_capture": 0.5416932471761517,
+      "seed": 1012,
+      "signed_absrel_error_reduction_ratio": 0.04875678009754409,
+      "signed_primary_error_reduction_ratio": 0.0497238176746329
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.5630363455714048,
+      "positive_utility_capture": 0.5064483337586363,
+      "seed": 1013,
+      "signed_absrel_error_reduction_ratio": 0.04889019635028841,
+      "signed_primary_error_reduction_ratio": 0.045237945503060935
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.45416666666666666,
+      "oracle_regret_ratio": 0.523057316455107,
+      "positive_utility_capture": 0.53771380916961,
+      "seed": 1014,
+      "signed_absrel_error_reduction_ratio": 0.04866670886569475,
+      "signed_primary_error_reduction_ratio": 0.04937689189390752
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.6048099050896555,
+      "positive_utility_capture": 0.46528793385284656,
+      "seed": 1015,
+      "signed_absrel_error_reduction_ratio": 0.03688804461575325,
+      "signed_primary_error_reduction_ratio": 0.04091321508257169
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42916666666666664,
+      "oracle_regret_ratio": 0.516867216717915,
+      "positive_utility_capture": 0.5419142603080699,
+      "seed": 1016,
+      "signed_absrel_error_reduction_ratio": 0.052396826656422577,
+      "signed_primary_error_reduction_ratio": 0.0500177401469179
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4533333333333333,
+      "oracle_regret_ratio": 0.4903753586425109,
+      "positive_utility_capture": 0.5608809695228252,
+      "seed": 1017,
+      "signed_absrel_error_reduction_ratio": 0.05691375957520622,
+      "signed_primary_error_reduction_ratio": 0.052760387549611196
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.48933196930534206,
+      "positive_utility_capture": 0.5980213603029859,
+      "seed": 1018,
+      "signed_absrel_error_reduction_ratio": 0.05751947461180503,
+      "signed_primary_error_reduction_ratio": 0.05286840749473694
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.657179294327069,
+      "positive_utility_capture": 0.4361582256239301,
+      "seed": 1019,
+      "signed_absrel_error_reduction_ratio": 0.03927027327060754,
+      "signed_primary_error_reduction_ratio": 0.03549152027491387
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.5807749583231778,
+      "positive_utility_capture": 0.5074761646931311,
+      "seed": 1020,
+      "signed_absrel_error_reduction_ratio": 0.044924431749752504,
+      "signed_primary_error_reduction_ratio": 0.04340150352709394
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.6755069359222147,
+      "positive_utility_capture": 0.40576480459010755,
+      "seed": 1021,
+      "signed_absrel_error_reduction_ratio": 0.03826626451156128,
+      "signed_primary_error_reduction_ratio": 0.033594097358206926
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.63640881906119,
+      "positive_utility_capture": 0.42124174887818905,
+      "seed": 1022,
+      "signed_absrel_error_reduction_ratio": 0.04254324128427021,
+      "signed_primary_error_reduction_ratio": 0.03764184472095782
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4425,
+      "oracle_regret_ratio": 0.4784808208658105,
+      "positive_utility_capture": 0.6107541774332562,
+      "seed": 1023,
+      "signed_absrel_error_reduction_ratio": 0.06116385618299023,
+      "signed_primary_error_reduction_ratio": 0.0539918045021953
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4375,
+      "oracle_regret_ratio": 0.7061936253246377,
+      "positive_utility_capture": 0.3398335108346104,
+      "seed": 1024,
+      "signed_absrel_error_reduction_ratio": 0.03656339599660905,
+      "signed_primary_error_reduction_ratio": 0.03041716772392994
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44416666666666665,
+      "oracle_regret_ratio": 0.6520192346708886,
+      "positive_utility_capture": 0.43492371093502874,
+      "seed": 1025,
+      "signed_absrel_error_reduction_ratio": 0.03362345347988674,
+      "signed_primary_error_reduction_ratio": 0.036025730603743346
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.46416666666666667,
+      "oracle_regret_ratio": 0.6068032995623918,
+      "positive_utility_capture": 0.47065071232815653,
+      "seed": 1026,
+      "signed_absrel_error_reduction_ratio": 0.039529918026044074,
+      "signed_primary_error_reduction_ratio": 0.040706843066021084
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.4945643113342341,
+      "positive_utility_capture": 0.5806031990436191,
+      "seed": 1027,
+      "signed_absrel_error_reduction_ratio": 0.052568440121777915,
+      "signed_primary_error_reduction_ratio": 0.05232671392100957
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.579401288771658,
+      "positive_utility_capture": 0.49871436021932386,
+      "seed": 1028,
+      "signed_absrel_error_reduction_ratio": 0.044585764359324924,
+      "signed_primary_error_reduction_ratio": 0.04354371670130433
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.45733471150252075,
+      "positive_utility_capture": 0.6088769004871178,
+      "seed": 1029,
+      "signed_absrel_error_reduction_ratio": 0.05493441579328212,
+      "signed_primary_error_reduction_ratio": 0.05618101757125294
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.7455790112199624,
+      "positive_utility_capture": 0.32080918672826847,
+      "seed": 1030,
+      "signed_absrel_error_reduction_ratio": 0.023706507756031094,
+      "signed_primary_error_reduction_ratio": 0.02633967999081488
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44416666666666665,
+      "oracle_regret_ratio": 0.5021367453714142,
+      "positive_utility_capture": 0.5660211664356876,
+      "seed": 1031,
+      "signed_absrel_error_reduction_ratio": 0.05355804187673177,
+      "signed_primary_error_reduction_ratio": 0.051542755450258874
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4141666666666667,
+      "oracle_regret_ratio": 0.5451100581454292,
+      "positive_utility_capture": 0.5593072688292662,
+      "seed": 1032,
+      "signed_absrel_error_reduction_ratio": 0.04890283151817127,
+      "signed_primary_error_reduction_ratio": 0.04709381705079627
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.5099644608998611,
+      "positive_utility_capture": 0.5659809996400379,
+      "seed": 1033,
+      "signed_absrel_error_reduction_ratio": 0.05073068756702511,
+      "signed_primary_error_reduction_ratio": 0.05073236821347049
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4475,
+      "oracle_regret_ratio": 0.6252339326354593,
+      "positive_utility_capture": 0.44771271602256907,
+      "seed": 1034,
+      "signed_absrel_error_reduction_ratio": 0.04622126462000119,
+      "signed_primary_error_reduction_ratio": 0.03879875765411965
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.6630754488111883,
+      "positive_utility_capture": 0.40185416681192254,
+      "seed": 1035,
+      "signed_absrel_error_reduction_ratio": 0.03173126468264328,
+      "signed_primary_error_reduction_ratio": 0.034881103567421315
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4325,
+      "oracle_regret_ratio": 0.5360457485402864,
+      "positive_utility_capture": 0.5369974218229396,
+      "seed": 1036,
+      "signed_absrel_error_reduction_ratio": 0.05233621826844271,
+      "signed_primary_error_reduction_ratio": 0.04803222632073094
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4225,
+      "oracle_regret_ratio": 0.6740965752094973,
+      "positive_utility_capture": 0.4062665098289981,
+      "seed": 1037,
+      "signed_absrel_error_reduction_ratio": 0.039485033144867614,
+      "signed_primary_error_reduction_ratio": 0.03374010909262679
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.6299483959816455,
+      "positive_utility_capture": 0.4202770508645419,
+      "seed": 1038,
+      "signed_absrel_error_reduction_ratio": 0.04034009324301303,
+      "signed_primary_error_reduction_ratio": 0.03831067899181113
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4508333333333333,
+      "oracle_regret_ratio": 0.5913921159740273,
+      "positive_utility_capture": 0.5028886440785637,
+      "seed": 1039,
+      "signed_absrel_error_reduction_ratio": 0.04366492550154251,
+      "signed_primary_error_reduction_ratio": 0.04230233110316635
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44416666666666665,
+      "oracle_regret_ratio": 0.4534613020888249,
+      "positive_utility_capture": 0.6255816920064501,
+      "seed": 1040,
+      "signed_absrel_error_reduction_ratio": 0.05389591455903016,
+      "signed_primary_error_reduction_ratio": 0.05658202365537898
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.6627227808435627,
+      "positive_utility_capture": 0.4243262115680207,
+      "seed": 1041,
+      "signed_absrel_error_reduction_ratio": 0.039188007945814146,
+      "signed_primary_error_reduction_ratio": 0.03491761455440714
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43166666666666664,
+      "oracle_regret_ratio": 0.509570943698093,
+      "positive_utility_capture": 0.563184689748272,
+      "seed": 1042,
+      "signed_absrel_error_reduction_ratio": 0.060452324289776475,
+      "signed_primary_error_reduction_ratio": 0.050773108237377934
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43416666666666665,
+      "oracle_regret_ratio": 0.5830944912830347,
+      "positive_utility_capture": 0.5105581165549339,
+      "seed": 1043,
+      "signed_absrel_error_reduction_ratio": 0.047401812023758656,
+      "signed_primary_error_reduction_ratio": 0.0431613670659327
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.5654448863505559,
+      "positive_utility_capture": 0.49157591875305073,
+      "seed": 1044,
+      "signed_absrel_error_reduction_ratio": 0.04761308547948726,
+      "signed_primary_error_reduction_ratio": 0.04498859424602877
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43583333333333335,
+      "oracle_regret_ratio": 0.6528714103731694,
+      "positive_utility_capture": 0.4073500907582916,
+      "seed": 1045,
+      "signed_absrel_error_reduction_ratio": 0.040684656414917204,
+      "signed_primary_error_reduction_ratio": 0.03593750661168336
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.5646919984005169,
+      "positive_utility_capture": 0.5182991349589536,
+      "seed": 1046,
+      "signed_absrel_error_reduction_ratio": 0.05061114705715017,
+      "signed_primary_error_reduction_ratio": 0.045066539181971586
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.45,
+      "oracle_regret_ratio": 0.6398429812858673,
+      "positive_utility_capture": 0.45422207701415795,
+      "seed": 1047,
+      "signed_absrel_error_reduction_ratio": 0.045561461559818786,
+      "signed_primary_error_reduction_ratio": 0.037286312991959045
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4475,
+      "oracle_regret_ratio": 0.4187658844767466,
+      "positive_utility_capture": 0.6419455901942782,
+      "seed": 1048,
+      "signed_absrel_error_reduction_ratio": 0.06322373797727283,
+      "signed_primary_error_reduction_ratio": 0.06017396864950805
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43916666666666665,
+      "oracle_regret_ratio": 0.7267341121371907,
+      "positive_utility_capture": 0.3367620936718697,
+      "seed": 1049,
+      "signed_absrel_error_reduction_ratio": 0.030185491511422063,
+      "signed_primary_error_reduction_ratio": 0.028290653507895842
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43416666666666665,
+      "oracle_regret_ratio": 0.6068441352290093,
+      "positive_utility_capture": 0.47011470981743975,
+      "seed": 1050,
+      "signed_absrel_error_reduction_ratio": 0.04105250691148786,
+      "signed_primary_error_reduction_ratio": 0.040702615433717344
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.6255094436988342,
+      "positive_utility_capture": 0.4443118785804206,
+      "seed": 1051,
+      "signed_absrel_error_reduction_ratio": 0.0382054332284924,
+      "signed_primary_error_reduction_ratio": 0.03877023456222373
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.6211113509612668,
+      "positive_utility_capture": 0.44973616044588965,
+      "seed": 1052,
+      "signed_absrel_error_reduction_ratio": 0.04150599505585931,
+      "signed_primary_error_reduction_ratio": 0.03922556002822767
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.571989944313689,
+      "positive_utility_capture": 0.4981847633491706,
+      "seed": 1053,
+      "signed_absrel_error_reduction_ratio": 0.046497756152891756,
+      "signed_primary_error_reduction_ratio": 0.04431099790031491
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.4475019140910982,
+      "positive_utility_capture": 0.6204911755639625,
+      "seed": 1054,
+      "signed_absrel_error_reduction_ratio": 0.05615244858317339,
+      "signed_primary_error_reduction_ratio": 0.05719898679805795
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4375,
+      "oracle_regret_ratio": 0.507488136468419,
+      "positive_utility_capture": 0.5643295125131729,
+      "seed": 1055,
+      "signed_absrel_error_reduction_ratio": 0.057424673652125655,
+      "signed_primary_error_reduction_ratio": 0.05098873697215814
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.6140711355240746,
+      "positive_utility_capture": 0.46526958535335106,
+      "seed": 1056,
+      "signed_absrel_error_reduction_ratio": 0.04207003458394571,
+      "signed_primary_error_reduction_ratio": 0.0399544190055126
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44666666666666666,
+      "oracle_regret_ratio": 0.6028363716407443,
+      "positive_utility_capture": 0.48375339350603414,
+      "seed": 1057,
+      "signed_absrel_error_reduction_ratio": 0.04233983924987732,
+      "signed_primary_error_reduction_ratio": 0.04111753092830731
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43333333333333335,
+      "oracle_regret_ratio": 0.58477562447114,
+      "positive_utility_capture": 0.5047016290315934,
+      "seed": 1058,
+      "signed_absrel_error_reduction_ratio": 0.04076982472305745,
+      "signed_primary_error_reduction_ratio": 0.042987322815853504
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.6116907419986602,
+      "positive_utility_capture": 0.46590651489144536,
+      "seed": 1059,
+      "signed_absrel_error_reduction_ratio": 0.04925393481412374,
+      "signed_primary_error_reduction_ratio": 0.040200856235445025
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44333333333333336,
+      "oracle_regret_ratio": 0.5189555770764982,
+      "positive_utility_capture": 0.551737946134973,
+      "seed": 1060,
+      "signed_absrel_error_reduction_ratio": 0.05419337191489773,
+      "signed_primary_error_reduction_ratio": 0.04980153650816018
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.45666666666666667,
+      "oracle_regret_ratio": 0.7305786027614243,
+      "positive_utility_capture": 0.3478668010416647,
+      "seed": 1061,
+      "signed_absrel_error_reduction_ratio": 0.03369722700678721,
+      "signed_primary_error_reduction_ratio": 0.0278926413263712
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4275,
+      "oracle_regret_ratio": 0.5963776379906913,
+      "positive_utility_capture": 0.4535753838951537,
+      "seed": 1062,
+      "signed_absrel_error_reduction_ratio": 0.03497296730245247,
+      "signed_primary_error_reduction_ratio": 0.04178619029601139
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.43243682754470986,
+      "positive_utility_capture": 0.6206775526330083,
+      "seed": 1063,
+      "signed_absrel_error_reduction_ratio": 0.06281728964152121,
+      "signed_primary_error_reduction_ratio": 0.05875864412259129
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4375,
+      "oracle_regret_ratio": 0.594102130626953,
+      "positive_utility_capture": 0.48019145178202816,
+      "seed": 1064,
+      "signed_absrel_error_reduction_ratio": 0.04015312753004487,
+      "signed_primary_error_reduction_ratio": 0.04202176887804978
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.6752550016362314,
+      "positive_utility_capture": 0.3957050780097345,
+      "seed": 1065,
+      "signed_absrel_error_reduction_ratio": 0.03356705711997717,
+      "signed_primary_error_reduction_ratio": 0.033620179594988295
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43833333333333335,
+      "oracle_regret_ratio": 0.6430044954916045,
+      "positive_utility_capture": 0.42669185764254236,
+      "seed": 1066,
+      "signed_absrel_error_reduction_ratio": 0.03936704638546605,
+      "signed_primary_error_reduction_ratio": 0.03695900794977351
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4425,
+      "oracle_regret_ratio": 0.5774379156608188,
+      "positive_utility_capture": 0.498725290375858,
+      "seed": 1067,
+      "signed_absrel_error_reduction_ratio": 0.05239704803293176,
+      "signed_primary_error_reduction_ratio": 0.04374698066820443
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44083333333333335,
+      "oracle_regret_ratio": 0.3982396374028176,
+      "positive_utility_capture": 0.6644456711930598,
+      "seed": 1068,
+      "signed_absrel_error_reduction_ratio": 0.06604136713641241,
+      "signed_primary_error_reduction_ratio": 0.06229900865478497
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43916666666666665,
+      "oracle_regret_ratio": 0.6298879247525105,
+      "positive_utility_capture": 0.44246736599146047,
+      "seed": 1069,
+      "signed_absrel_error_reduction_ratio": 0.03949272828176882,
+      "signed_primary_error_reduction_ratio": 0.03831693945338588
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42583333333333334,
+      "oracle_regret_ratio": 0.5028782805517311,
+      "positive_utility_capture": 0.5702172726855186,
+      "seed": 1070,
+      "signed_absrel_error_reduction_ratio": 0.04921863689877183,
+      "signed_primary_error_reduction_ratio": 0.051465985843139855
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44416666666666665,
+      "oracle_regret_ratio": 0.5789400759224318,
+      "positive_utility_capture": 0.5142239869419772,
+      "seed": 1071,
+      "signed_absrel_error_reduction_ratio": 0.05125505344440204,
+      "signed_primary_error_reduction_ratio": 0.0435914651159085
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43583333333333335,
+      "oracle_regret_ratio": 0.6820236477026622,
+      "positive_utility_capture": 0.40137482642015504,
+      "seed": 1072,
+      "signed_absrel_error_reduction_ratio": 0.03435646110483721,
+      "signed_primary_error_reduction_ratio": 0.03291943563429638
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.5560882318198879,
+      "positive_utility_capture": 0.5392892889398104,
+      "seed": 1073,
+      "signed_absrel_error_reduction_ratio": 0.051108824089442166,
+      "signed_primary_error_reduction_ratio": 0.045957269382872444
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43916666666666665,
+      "oracle_regret_ratio": 0.39559884700444076,
+      "positive_utility_capture": 0.6554568009946939,
+      "seed": 1074,
+      "signed_absrel_error_reduction_ratio": 0.06324811750006604,
+      "signed_primary_error_reduction_ratio": 0.06257240423566686
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4508333333333333,
+      "oracle_regret_ratio": 0.534547938250656,
+      "positive_utility_capture": 0.5209793847480949,
+      "seed": 1075,
+      "signed_absrel_error_reduction_ratio": 0.05441537026516688,
+      "signed_primary_error_reduction_ratio": 0.04818729152940334
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.3821816486003908,
+      "positive_utility_capture": 0.6952984990304563,
+      "seed": 1076,
+      "signed_absrel_error_reduction_ratio": 0.06729011810405021,
+      "signed_primary_error_reduction_ratio": 0.06396145910111072
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4325,
+      "oracle_regret_ratio": 0.5223299594797518,
+      "positive_utility_capture": 0.5509915471083743,
+      "seed": 1077,
+      "signed_absrel_error_reduction_ratio": 0.05695877140152856,
+      "signed_primary_error_reduction_ratio": 0.04945219366072246
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.5668392985211357,
+      "positive_utility_capture": 0.4842764186916044,
+      "seed": 1078,
+      "signed_absrel_error_reduction_ratio": 0.04861769573382923,
+      "signed_primary_error_reduction_ratio": 0.04484423363126785
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44083333333333335,
+      "oracle_regret_ratio": 0.6080929704004316,
+      "positive_utility_capture": 0.46707317214983324,
+      "seed": 1079,
+      "signed_absrel_error_reduction_ratio": 0.04602619148049341,
+      "signed_primary_error_reduction_ratio": 0.04057332610529256
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.41,
+      "oracle_regret_ratio": 0.4199512450448589,
+      "positive_utility_capture": 0.6220428855483584,
+      "seed": 1080,
+      "signed_absrel_error_reduction_ratio": 0.05699827977230184,
+      "signed_primary_error_reduction_ratio": 0.06005125071578914
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4325,
+      "oracle_regret_ratio": 0.5663622038855343,
+      "positive_utility_capture": 0.5071344967296603,
+      "seed": 1081,
+      "signed_absrel_error_reduction_ratio": 0.049066732128016016,
+      "signed_primary_error_reduction_ratio": 0.04489362625444462
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44166666666666665,
+      "oracle_regret_ratio": 0.6369342676852936,
+      "positive_utility_capture": 0.4524810747235432,
+      "seed": 1082,
+      "signed_absrel_error_reduction_ratio": 0.044735869595508376,
+      "signed_primary_error_reduction_ratio": 0.037587446109126045
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43,
+      "oracle_regret_ratio": 0.63981231761211,
+      "positive_utility_capture": 0.45498087943142496,
+      "seed": 1083,
+      "signed_absrel_error_reduction_ratio": 0.03831702558681397,
+      "signed_primary_error_reduction_ratio": 0.03728948753883107
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.42833333333333334,
+      "oracle_regret_ratio": 0.5828074678565827,
+      "positive_utility_capture": 0.4836868390356969,
+      "seed": 1084,
+      "signed_absrel_error_reduction_ratio": 0.055039822495540805,
+      "signed_primary_error_reduction_ratio": 0.043191082009023156
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43666666666666665,
+      "oracle_regret_ratio": 0.6302634198966814,
+      "positive_utility_capture": 0.42854436038320437,
+      "seed": 1085,
+      "signed_absrel_error_reduction_ratio": 0.03227455168910611,
+      "signed_primary_error_reduction_ratio": 0.038278065215914384
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.435,
+      "oracle_regret_ratio": 0.6328332677528263,
+      "positive_utility_capture": 0.4470667700586814,
+      "seed": 1086,
+      "signed_absrel_error_reduction_ratio": 0.04377311269049492,
+      "signed_primary_error_reduction_ratio": 0.038012014170045454
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4583333333333333,
+      "oracle_regret_ratio": 0.5974317832320384,
+      "positive_utility_capture": 0.5064164883386503,
+      "seed": 1087,
+      "signed_absrel_error_reduction_ratio": 0.04498526488035906,
+      "signed_primary_error_reduction_ratio": 0.04167705681432004
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4483333333333333,
+      "oracle_regret_ratio": 0.5607935713620965,
+      "positive_utility_capture": 0.5417170864155229,
+      "seed": 1088,
+      "signed_absrel_error_reduction_ratio": 0.046000756610079234,
+      "signed_primary_error_reduction_ratio": 0.04547013528916347
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.5496810159338287,
+      "positive_utility_capture": 0.5261364945330217,
+      "seed": 1089,
+      "signed_absrel_error_reduction_ratio": 0.052094414259872976,
+      "signed_primary_error_reduction_ratio": 0.04662059522277305
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.45916666666666667,
+      "oracle_regret_ratio": 0.5660113979036122,
+      "positive_utility_capture": 0.5190180807323286,
+      "seed": 1090,
+      "signed_absrel_error_reduction_ratio": 0.05358890176334241,
+      "signed_primary_error_reduction_ratio": 0.04492994447389262
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4475,
+      "oracle_regret_ratio": 0.6361388222664419,
+      "positive_utility_capture": 0.4656040839575399,
+      "seed": 1091,
+      "signed_absrel_error_reduction_ratio": 0.04116199738330725,
+      "signed_primary_error_reduction_ratio": 0.03766979693200106
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.455,
+      "oracle_regret_ratio": 0.39823961438666505,
+      "positive_utility_capture": 0.6692416755989569,
+      "seed": 1092,
+      "signed_absrel_error_reduction_ratio": 0.06314968201301863,
+      "signed_primary_error_reduction_ratio": 0.06229901103759976
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43916666666666665,
+      "oracle_regret_ratio": 0.5734251627156387,
+      "positive_utility_capture": 0.5101647457574982,
+      "seed": 1093,
+      "signed_absrel_error_reduction_ratio": 0.04937982446520446,
+      "signed_primary_error_reduction_ratio": 0.04416241270062068
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.5798581191431486,
+      "positive_utility_capture": 0.4747013474617993,
+      "seed": 1094,
+      "signed_absrel_error_reduction_ratio": 0.052915491065206405,
+      "signed_primary_error_reduction_ratio": 0.04349642199557725
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44416666666666665,
+      "oracle_regret_ratio": 0.3748855063538126,
+      "positive_utility_capture": 0.7064951673247362,
+      "seed": 1095,
+      "signed_absrel_error_reduction_ratio": 0.06590099989515218,
+      "signed_primary_error_reduction_ratio": 0.06471681365288665
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.445,
+      "oracle_regret_ratio": 0.5585232486619979,
+      "positive_utility_capture": 0.5196394145347136,
+      "seed": 1096,
+      "signed_absrel_error_reduction_ratio": 0.0527104202667477,
+      "signed_primary_error_reduction_ratio": 0.0457051771136734
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.44,
+      "oracle_regret_ratio": 0.6272835025624178,
+      "positive_utility_capture": 0.428337963423327,
+      "seed": 1097,
+      "signed_absrel_error_reduction_ratio": 0.04218694144142597,
+      "signed_primary_error_reduction_ratio": 0.03858656990870704
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.43583333333333335,
+      "oracle_regret_ratio": 0.5904693057630293,
+      "positive_utility_capture": 0.4726752926150263,
+      "seed": 1098,
+      "signed_absrel_error_reduction_ratio": 0.04843349899193458,
+      "signed_primary_error_reduction_ratio": 0.04239786774016511
+    },
+    {
+      "actual_selection_count": 6.0,
+      "budget_count": 6,
+      "harmful_selection_rate": 0.4558333333333333,
+      "oracle_regret_ratio": 0.6209402547195565,
+      "positive_utility_capture": 0.4415845817454745,
+      "seed": 1099,
+      "signed_absrel_error_reduction_ratio": 0.035924762031194615,
+      "signed_primary_error_reduction_ratio": 0.03924327326908838
+    }
+  ],
+  "sample_count": 200,
+  "scan_count": 20,
+  "schema_version": 1,
+  "status": "GO_ORACLE_MARGIN_OVER_SIMPLE_SELECTORS"
+}

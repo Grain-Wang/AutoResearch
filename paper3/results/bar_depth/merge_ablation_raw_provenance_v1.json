@@ -1,0 +1,40 @@
+{
+  "base_forward_milliseconds_total": 12462.42462284863,
+  "cheap_control_milliseconds_total": 274747.50887136906,
+  "contract": {
+    "base_config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+    "config_sha256": "7c3ce806db9e43a57a04bbe352e78cb5e2f82f582696cdf3ed79858570ba18db",
+    "device": "cuda:0",
+    "implementation_canonical_sha256": "93c50b21441e5374153e6988d790eeea2512e7abe52f4139becede9c1c3ecbde",
+    "implementation_files_sha256": {
+      "core.py": "1a63ee11034c99770abeb45277d17fed998b01a4cb75db8fa0791f2c36051087",
+      "io_utils.py": "7055fad77c83e860a4d0396ce6f0c662e4977eab29ccd764a2ce2129e77154a5",
+      "merge_variants.py": "7a72b4d0f7dc53b9b8b1b8ac9cce34202ab006ae3e1cdeac7c74d58572bf0eb8",
+      "run_merge_ablation.py": "428df546dccaa090e4359d85118f5a6fa24c3c4149cb8c0dd3931e8b3dd3d372",
+      "run_oracle_canary.py": "1f9a5d2c762c91329d88f60424d278c1c9ede943c63f03b7fc83f86ff5158b74"
+    },
+    "manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+    "source_revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "weights_sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378"
+  },
+  "contract_sha256": "d195aa350a588b2116a9e644a2797315172587887a98cf7f4fc55c9d6f1e0cb1",
+  "output_csv_sha256": "838ef6b524261363ee5f9b1b97a885ab39e5587b50d3e67886d9da5d527fa06f",
+  "patch_forward_milliseconds_total": 36881.90363161266,
+  "region_row_count": 12000,
+  "runtime": {
+    "cuda": "12.1",
+    "device": "cuda:0",
+    "gpu": "NVIDIA A800 80GB PCIe",
+    "numpy": "2.5.1",
+    "opencv": "4.10.0",
+    "pillow": "12.3.0",
+    "python": "3.12.13",
+    "scipy": "1.18.0",
+    "torch": "2.5.0+cu121",
+    "torchvision": "0.20.0+cu121"
+  },
+  "sample_count": 200,
+  "schema_version": 1,
+  "status": "COMPLETE_MERGE_ABLATION_ROWS",
+  "variant_count": 5
+}

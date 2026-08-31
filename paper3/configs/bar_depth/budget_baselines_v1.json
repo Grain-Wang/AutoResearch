@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "experiment_id": "bar-depth-budget-baselines-v1",
+  "input_csv": "paper3/results/bar_depth/oracle_patch_utility_v2.csv",
+  "raw_provenance": "paper3/results/bar_depth/oracle_raw_provenance_v2.json",
+  "expected_sample_count": 200,
+  "expected_scan_count": 20,
+  "region_rows": 3,
+  "region_columns": 4,
+  "budget_counts": [
+    1,
+    3,
+    6
+  ],
+  "primary_budget_count": 3,
+  "fixed_spatial_uniform_patterns": {
+    "1": [
+      5
+    ],
+    "3": [
+      0,
+      6,
+      11
+    ],
+    "6": [
+      0,
+      2,
+      5,
+      7,
+      8,
+      10
+    ]
+  },
+  "random": {
+    "seed_start": 1000,
+    "seed_count": 100
+  },
+  "bootstrap": {
+    "cluster_key": "scan_id",
+    "replicates": 10000,
+    "confidence_level": 0.95,
+    "seed": 314159
+  },
+  "g0_oracle_margin_gate": {
+    "min_primary_reduction_difference": 0.01,
+    "require_paired_ci_lower_above_zero": true
+  }
+}

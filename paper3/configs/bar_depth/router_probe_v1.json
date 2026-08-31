@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "experiment_id": "bar-depth-router-probe-v1-preregistered",
+  "seed": 271828,
+  "dataset": {
+    "name": "DIODE",
+    "train_partition": "train",
+    "evaluation_partition": "val",
+    "train_samples_per_scan_max": 20,
+    "evaluation_manifest": "paper3/artifacts/bar_depth/diode_val_200_manifest_v2.jsonl",
+    "evaluation_manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+    "evaluation_is_one_time_frozen": true
+  },
+  "split": {
+    "group_key": "scan_id",
+    "folds": 5,
+    "selection_scope": "train_scans_only",
+    "require_train_evaluation_group_disjoint": true
+  },
+  "actions": {
+    "region_count": 12,
+    "budget_counts": [
+      1,
+      3,
+      6
+    ],
+    "primary_budget_count": 3,
+    "selection_tracks": [
+      "exact_k_ranking",
+      "at_most_k_train_calibrated_abstention"
+    ],
+    "primary_selection_track": "at_most_k_train_calibrated_abstention"
+  },
+  "label": {
+    "name": "normalized_signed_primary_utility",
+    "numerator": "primary_utility_sum",
+    "denominator": "weight_sum",
+    "positive_means": "refinement_reduces_error",
+    "generated_from_patch_prediction_on_training_partition_only": true
+  },
+  "features": {
+    "allowlist": [
+      "rgb_gradient_histogram_8",
+      "base_gradient_histogram_8",
+      "base_disparity_mean",
+      "base_disparity_std",
+      "base_disparity_quartiles",
+      "normalized_region_position",
+      "base_encoder_pooled_feature"
+    ],
+    "forbidden": [
+      "ground_truth_depth",
+      "ground_truth_valid_mask",
+      "patch_prediction",
+      "patch_affine_parameters",
+      "primary_utility",
+      "absrel_utility",
+      "image_relpath",
+      "dataset_id",
+      "scene_id",
+      "scan_id"
+    ],
+    "inference_firewall_required": true
+  },
+  "probe_models": {
+    "ridge": {
+      "alpha_grid": [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0
+      ],
+      "standardize": true
+    },
+    "mlp": {
+      "hidden_size": 256,
+      "activation": "gelu",
+      "dropout": 0.1,
+      "loss": "huber",
+      "max_epochs": 100,
+      "early_stopping_patience": 10
+    },
+    "seeds": [
+      11,
+      23,
+      37,
+      53,
+      71
+    ],
+    "interpretation": "routability_diagnostic_not_paper_algorithm"
+  },
+  "baselines": {
+    "required": [
+      "random_topk_100_seeds",
+      "fixed_spatial_uniform_topk",
+      "rgb_gradient_topk",
+      "base_gradient_topk",
+      "rgb_base_rank_combination_topk",
+      "boosting_mde_2021_budget_matched",
+      "point_utility_ridge",
+      "point_utility_mlp",
+      "oracle_at_most_k_positive",
+      "all_12_regions"
+    ],
+    "random_seeds": 100,
+    "abstention_thresholds_fit_on_train_only": true
+  },
+  "metrics": {
+    "primary": "signed_primary_error_reduction_ratio",
+    "required": [
+      "signed_primary_error_reduction_ratio",
+      "signed_absrel_error_reduction_ratio",
+      "harmful_selection_rate",
+      "oracle_regret_ratio",
+      "actual_selection_count"
+    ],
+    "positive_utility_capture": "diagnostic_only"
+  },
+  "bootstrap": {
+    "cluster_key": "scan_id",
+    "replicates": 10000,
+    "confidence_level": 0.95,
+    "seed": 314159,
+    "comparison": "paired_method_minus_strongest_budget_matched_baseline"
+  },
+  "gate": {
+    "budget_count": 3,
+    "min_method_minus_baseline_primary_reduction_percentage_points": 1.0,
+    "require_paired_difference_ci_lower_above_zero": true,
+    "min_oracle_signed_gain_recovery": 0.8,
+    "max_absrel_relative_degradation": 0.01,
+    "absrel_safety_statistic": "paired_ci_upper",
+    "max_selector_p50_end_to_end_fraction": 0.05,
+    "require_all_seeds_reported": true,
+    "pass_decision": "GO_ROUTABILITY_ALGORITHM_GATE_PENDING"
+  },
+  "stop_rules": [
+    "STOP_DATA_LEAKAGE",
+    "STOP_NO_ORACLE_MARGIN_OVER_KILLER",
+    "STOP_ROUTABILITY",
+    "STOP_GLOBAL_SAFETY",
+    "STOP_SELECTOR_OVERHEAD",
+    "STOP_NOVELTY",
+    "STOP_NO_PARETO_SPACE"
+  ]
+}

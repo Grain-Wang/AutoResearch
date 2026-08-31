@@ -1,0 +1,1427 @@
+{
+  "allocation_mode": "shared_diagnostic",
+  "bindings": {
+    "config_sha256": "4c025f12694bb28517b8cbf31c581b0fe3217bdeb79df0093c669b3d41c219b4",
+    "implementation_canonical_sha256": "55fc74bbb756e6486ebcf49aae6aa825f6c3cb5e165c7816c71158383381fda9",
+    "implementation_files_sha256": {
+      "analyze_budget_baselines.py": "35f30570645abbf28c17be1a10ffa5b24c8aa3d17a36167303bc0cd6109ab98e",
+      "benchmark_matched_latency.py": "dfa2fefc3a3330fd81fff19715d6dff67c3946c3abbe0f071ae23ddf97926f5c",
+      "core.py": "1a63ee11034c99770abeb45277d17fed998b01a4cb75db8fa0791f2c36051087",
+      "io_utils.py": "7055fad77c83e860a4d0396ce6f0c662e4977eab29ccd764a2ce2129e77154a5",
+      "merge_variants.py": "7a72b4d0f7dc53b9b8b1b8ac9cce34202ab006ae3e1cdeac7c74d58572bf0eb8",
+      "run_oracle_canary.py": "1f9a5d2c762c91329d88f60424d278c1c9ede943c63f03b7fc83f86ff5158b74"
+    },
+    "source_revision": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "weights_sha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378"
+  },
+  "exclusive_gpu_audit": {
+    "foreign_postcheck_compute_pids": [
+      565563,
+      978010,
+      1792559
+    ],
+    "own_pid": 786875,
+    "physical_index": 0,
+    "postcheck_compute_pids": [
+      565563,
+      786875,
+      978010,
+      1792559
+    ],
+    "precheck_compute_pids": [
+      565563,
+      978010,
+      1792559
+    ]
+  },
+  "raw_measurements": [
+    {
+      "method": "regional_k3",
+      "milliseconds": 2488.3095007389784,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 58.33803489804268,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 75.09596738964319,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 98.0996023863554,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 128.846799954772,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 220.73053568601608,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 174.2785545065999,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 280.93151468783617,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 254.83386684209108,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 281.87297377735376,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 291.72202851623297,
+      "sample_index": 0,
+      "scan_id": "indoors/scene_00019/scan_00183"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 65.17907790839672,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 68.82017944008112,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 88.75127416104078,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 106.31214827299118,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 152.32497546821833,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 280.5160004645586,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 210.79427003860474,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 224.56974536180496,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 329.19532898813486,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 281.9187631830573,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2498.7493865191936,
+      "sample_index": 10,
+      "scan_id": "indoors/scene_00020/scan_00184"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 125.56100729852915,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 208.84359814226627,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 131.63101021200418,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 106.14042915403843,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 133.66002589464188,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 193.81280802190304,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 193.41614749282598,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 218.4437019750476,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 303.8405077531934,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2001.2273471802473,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 67.45465286076069,
+      "sample_index": 20,
+      "scan_id": "indoors/scene_00020/scan_00185"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 109.94890984147787,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 95.84125597029924,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 167.03304462134838,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 194.30364947766066,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 211.928921751678,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 181.14816769957542,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 276.032542809844,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 247.91712686419487,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2401.275026611984,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 93.88142079114914,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 104.55066245049238,
+      "sample_index": 30,
+      "scan_id": "indoors/scene_00020/scan_00186"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 153.3262562006712,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 141.59855712205172,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 227.240857668221,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 259.9211186170578,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 250.20246300846338,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 266.8409375473857,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 321.15861121565104,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2825.6591828539968,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 112.35469859093428,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 87.83941995352507,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 138.63268494606018,
+      "sample_index": 40,
+      "scan_id": "indoors/scene_00020/scan_00187"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 186.95447873324156,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 216.9403536245227,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 207.36008137464523,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 238.80287259817123,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 249.28016494959593,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 580.5490845814347,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2388.8046722859144,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 248.6943770200014,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 119.76756248623133,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 175.59133004397154,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 172.18028381466866,
+      "sample_index": 50,
+      "scan_id": "indoors/scene_00021/scan_00188"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 233.08505304157734,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 243.86601615697145,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 160.87121795862913,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 213.74321449548006,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 319.04133409261703,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2712.9020243883133,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 116.54852144420147,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 99.9201089143753,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 111.93811055272818,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 143.9350750297308,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 156.0431243851781,
+      "sample_index": 60,
+      "scan_id": "indoors/scene_00021/scan_00189"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 285.0853791460395,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 241.2466462701559,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 335.8724871650338,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 281.94122668355703,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2648.1864815577865,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 157.43734128773212,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 102.24838368594646,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 126.27380341291428,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 166.7574606835842,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 184.9167188629508,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 234.92059111595154,
+      "sample_index": 70,
+      "scan_id": "indoors/scene_00021/scan_00190"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 285.1723497733474,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 213.87030091136694,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 334.03261192142963,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 3215.232539921999,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 59.736755676567554,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 63.59761115163565,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 165.10916035622358,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 117.54581984132528,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 102.23671980202198,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 188.3815871551633,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 178.3307148143649,
+      "sample_index": 80,
+      "scan_id": "indoors/scene_00021/scan_00191"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 290.01117311418056,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 301.7382826656103,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2705.212451517582,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 103.23157347738743,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 61.35670281946659,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 86.12343482673168,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 97.89681062102318,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 117.81789362430573,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 120.5536313354969,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 196.26033678650856,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 246.43311742693186,
+      "sample_index": 90,
+      "scan_id": "indoors/scene_00021/scan_00192"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 2578.684628009796,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 3417.246072553098,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 111.88273504376411,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 92.15143788605928,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 118.87082736939192,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 128.45471873879433,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 171.45828530192375,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 169.03830040246248,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 833.0428441986442,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 1551.4000356197357,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 189.7861836478114,
+      "sample_index": 100,
+      "scan_id": "outdoor/scene_00022/scan_00193"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2871.89157307148,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 105.03099951893091,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 92.73226000368595,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 116.37516506016254,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 147.36164454370737,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 175.79885106533766,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 260.04674192517996,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 291.7769216001034,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 330.6868663057685,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 239.7412322461605,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 515.2108306065202,
+      "sample_index": 110,
+      "scan_id": "outdoor/scene_00022/scan_00194"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 228.0181748792529,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 114.7814067080617,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 126.16441678255796,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 141.89621340483427,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 335.39579901844263,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 174.82419963926077,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 227.66889072954655,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 252.42332089692354,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 285.80853156745434,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 352.1323185414076,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2412.1511168777943,
+      "sample_index": 120,
+      "scan_id": "outdoor/scene_00022/scan_00195"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 89.86646868288517,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 83.62184092402458,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 148.387941531837,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 127.53687519580126,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 139.2723647877574,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 196.57940417528152,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 216.14354476332664,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 219.6809370070696,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 267.5026236101985,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2574.766325764358,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 130.71921095252037,
+      "sample_index": 130,
+      "scan_id": "outdoor/scene_00022/scan_00196"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 152.98654418438673,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 147.02644292265177,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 154.72142957150936,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 228.3350322395563,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 260.7832420617342,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 272.7963989600539,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 264.6442335098982,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 288.70277758687735,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2416.1481708288193,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 92.56069734692574,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 98.98999240249395,
+      "sample_index": 140,
+      "scan_id": "outdoor/scene_00022/scan_00197"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 133.55345278978348,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 167.84926969558,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 140.57333022356033,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 161.34841740131378,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 270.9184633567929,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 298.24462812393904,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 382.3258439078927,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2175.979558378458,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 72.5142452865839,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 90.17330594360828,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 94.75971851497889,
+      "sample_index": 150,
+      "scan_id": "outdoor/scene_00023/scan_00198"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 129.92418371140957,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 141.16671681404114,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 1218.206912279129,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 288.48787769675255,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 288.76956831663847,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 484.6422774717212,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 3457.06719532609,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 76.55269000679255,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 101.48731991648674,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 93.37277058511972,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 138.38032633066177,
+      "sample_index": 160,
+      "scan_id": "outdoor/scene_00023/scan_00199"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 175.90509355068207,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 267.9044948890805,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 980.2169967442751,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 323.1353387236595,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 454.5559911057353,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2405.295869335532,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 57.64281004667282,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 113.54370601475239,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 123.09664487838745,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 121.17693480104208,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 143.9291089773178,
+      "sample_index": 170,
+      "scan_id": "outdoor/scene_00023/scan_00200"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 240.24840630590916,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 226.31844505667686,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 284.5439501106739,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 249.4671754539013,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2733.698314987123,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 81.1657514423132,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 82.60889630764723,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 99.99043215066195,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 129.89648431539536,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 136.19254156947136,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 161.97921428829432,
+      "sample_index": 180,
+      "scan_id": "outdoor/scene_00024/scan_00201"
+    },
+    {
+      "method": "whole_image_910",
+      "milliseconds": 381.8933591246605,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_966",
+      "milliseconds": 266.57838746905327,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_1022",
+      "milliseconds": 335.8445893973112,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "regional_k3",
+      "milliseconds": 2556.6370375454426,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_518",
+      "milliseconds": 90.29202722012997,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_574",
+      "milliseconds": 75.21396689116955,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_630",
+      "milliseconds": 94.3803871050477,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_686",
+      "milliseconds": 120.66655606031418,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_742",
+      "milliseconds": 141.14573784172535,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_798",
+      "milliseconds": 171.4726062491536,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    },
+    {
+      "method": "whole_image_854",
+      "milliseconds": 170.7729585468769,
+      "sample_index": 190,
+      "scan_id": "outdoor/scene_00024/scan_00202"
+    }
+  ],
+  "runtime": {
+    "cuda": "12.1",
+    "device": "cuda:0",
+    "gpu": "NVIDIA A800 80GB PCIe",
+    "numpy": "2.5.1",
+    "python": "3.12.13",
+    "torch": "2.5.0+cu121",
+    "torchvision": "0.20.0+cu121"
+  },
+  "schema_version": 1,
+  "status": "COMPLETE_SHARED_DIAGNOSTIC_MATCHED_LATENCY",
+  "summaries": {
+    "regional_k3": {
+      "mean_milliseconds": 2645.3219924122095,
+      "p50_milliseconds": 2565.7016816549003,
+      "p95_milliseconds": 3419.237128691748
+    },
+    "whole_image_1022": {
+      "mean_milliseconds": 458.646431658417,
+      "p50_milliseconds": 320.09997265413404,
+      "p95_milliseconds": 680.4558617528542
+    },
+    "whole_image_518": {
+      "mean_milliseconds": 106.461789784953,
+      "p50_milliseconds": 93.22105906903744,
+      "p95_milliseconds": 229.05198498629036
+    },
+    "whole_image_574": {
+      "mean_milliseconds": 93.01531831733882,
+      "p50_milliseconds": 92.44184894487262,
+      "p95_milliseconds": 120.05723472684622
+    },
+    "whole_image_630": {
+      "mean_milliseconds": 120.64653281122446,
+      "p50_milliseconds": 114.15663780644536,
+      "p95_milliseconds": 177.2539434488863
+    },
+    "whole_image_686": {
+      "mean_milliseconds": 133.55368180200458,
+      "p50_milliseconds": 132.59223150089383,
+      "p95_milliseconds": 167.02860184013844
+    },
+    "whole_image_742": {
+      "mean_milliseconds": 160.9874279703945,
+      "p50_milliseconds": 153.52320251986384,
+      "p95_milliseconds": 226.4637988526375
+    },
+    "whole_image_798": {
+      "mean_milliseconds": 188.3246952202171,
+      "p50_milliseconds": 175.36464659497142,
+      "p95_milliseconds": 261.0702048521489
+    },
+    "whole_image_854": {
+      "mean_milliseconds": 306.83118267916143,
+      "p50_milliseconds": 233.95864851772785,
+      "p95_milliseconds": 852.3010476026686
+    },
+    "whole_image_910": {
+      "mean_milliseconds": 352.39909514784813,
+      "p50_milliseconds": 251.31289195269346,
+      "p95_milliseconds": 1008.7761486880486
+    },
+    "whole_image_966": {
+      "mean_milliseconds": 266.8047908227891,
+      "p50_milliseconds": 271.43674017861485,
+      "p95_milliseconds": 329.5291868969798
+    }
+  }
+}

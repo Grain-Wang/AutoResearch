@@ -1,5 +1,54 @@
 # AutoResearch 当前接续状态
 
+> **2026-08-31 paper3 BAR-Depth G0 执行状态（优先于下方全部内容）**
+>
+> - 当前分支为 `paper3_grain`，本轮基线提交为 `062dd2b`；下方状态将随本轮研究提交
+>   推送到同名远端分支。研究目录是 `paper3/`，下方把 BAR-Depth 写作 paper1 或旧分支
+>   的历史段落均已过期。用户已明确
+>   授权脱敏代码同步、单卡 A800 实验和共享准确率/诊断运行；不得终止外部 GPU 进程。
+> - W01 novelty audit 已完成：普通 point-regressor + Top-K 被 SaccadeCam 等近邻覆盖，
+>   只有“校准的 signed marginal-utility distribution + budget + harmful-action
+>   risk/abstention”仍是条件性算法方向。当前 novelty 状态为
+>   `CONDITIONAL_CONTINUE / SIMPLE_TOPK_ROUTER_NOT_NOVEL`。
+> - W04/W05 signed killers 已完成。K=3 最强非 oracle 为 RGB/base rank combination：
+>   primary reduction `6.6236%`；Boosting MDE 2021 exact-K 为 `5.0963%`。Oracle 为
+>   `9.6600%`，相对最强 selector 差 `3.0364` 个百分点，scan 配对 95% CI
+>   `[1.8122,4.4370]`，保留可学习空间但不证明 router 可学。
+> - W06 merge/no-forward gate 已完成并返回 `GO_PATCH_INFORMATION_NECESSARY`。
+>   high-pass + fixed selector 为 `6.6236%`；最强无前向控制 RGB-guided sharpening 为
+>   `-0.5948%`；差 `7.2184` 个百分点，配对 95% CI `[3.7250,10.3745]`。Aligned patch
+>   replacement 为 `6.1108%`，不减 base 高频的 patch 高频为 `-26.4953%`，支持“patch
+>   信息有用且 base-frequency subtraction 必要”。共享中间量实现与历史 v2 的 2400
+>   high-pass rows 在所有 utility/error/affine 列逐元素最大差 `0`。
+> - W07 200 图 × 10 whole-image sizes 准确率 sweep 已完成。相对 518 base，574 为
+>   `-0.4214%`，630--1022 全部更差，1022 为 `-13.6339%`；因此当前最强整图准确率点
+>   是 518 的 `0%`。结果与 provenance 位于
+>   `paper3/results/bar_depth/direct_resolution_raw_v1.*`。
+> - 用户明确要求尝试非独占实验；共享时延诊断已完成并被强制标为
+>   `COMPLETE_SHARED_DIAGNOSTIC_MATCHED_LATENCY`，不能被正式 analyzer 接受。区域 K=3
+>   p50/p95 为 `2565.70/3419.24 ms`；整图 518 为 `93.22/229.05 ms`，1022 为
+>   `320.10/680.46 ms`，故共享诊断下全部整图点可行。产物为
+>   `paper3/results/bar_depth/matched_latency_shared_diagnostic_v1.json`，其中记录了共租户
+>   PID 审计。显式 opt-in 分析返回
+>   `PROVISIONAL_SHARED_DIAGNOSTIC_GO_REGIONAL_ORACLE_PARETO` 且
+>   `formal_gate_completed=false`：全部 10 个整图点共享时延下可行，固定 selector CI
+>   `[3.2989%,9.6459%]`，oracle 相对最强整图差的配对 CI `[6.5125%,12.3499%]`。
+> - 正式 W07 exclusive 任务正在 ResearchClaw 队列后台等待：任务
+>   `w07-exclusive-latency`、状态最后核对为 `PENDING/attempt=0`，要求 4 次×30 秒无
+>   compute PID、显存 <1024 MiB、利用率 <5%，只使用一张卡。远端调度器由 PID 1
+>   托管，私有 YAML/SQLite/report/log 均在隔离远程研究目录，未提交。获得结果后应：
+>   拉回 `matched_latency_exclusive_v1.json` → 运行
+>   `paper3.experiments.bar_depth.analyze_matched_latency` → 更新 W07/G0；不得把共享诊断
+>   改名或复制成 exclusive 结果。
+> - 当前科学状态：`W06_PASS / W07_EXCLUSIVE_PENDING / NOT_PAPER_CANDIDATE`。W07 正式
+>   gate 未完成前不得启动 W08 router training 或 Paper Build。若 W07 返回
+>   `GO_REGIONAL_ORACLE_PARETO`，再按已冻结 `router_probe_v1.json` 执行 scan-held-out
+>   signed/risk-aware router；若 direct killer 消除 oracle 增益则停止方向。
+> - 本轮本地环境为 Python 3.12，依赖在已忽略的 `.local-deps/paper3-python`。最终最近
+>   一次 QA：`ruff check paper3` 通过、全部 Python 文件逐文件 Black check 通过、
+>   `pytest paper3/tests` 为 `35 passed`。DIODE 数据、模型、远程队列状态和认证文件均
+>   未入 Git。
+
 > **2026-08-27 BAR-Depth 200 图 oracle canary（优先于下方全部内容）**
 >
 > - 当前分支保持 `paper1`，没有新建或推送分支。BAR-Depth v1 精确失败快照提交为

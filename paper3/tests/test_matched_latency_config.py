@@ -15,6 +15,11 @@ from paper3.experiments.bar_depth.benchmark_matched_latency import (
     _physical_gpu_index,
     _selected_regions,
 )
+from paper3.experiments.bar_depth.benchmark_matched_latency_v2 import (
+    STAGE_NAMES,
+    _method_summary,
+    validate_latency_config,
+)
 from paper3.experiments.bar_depth.core import gradient_score, make_regions
 from paper3.experiments.bar_depth.io_utils import file_digest, read_json, read_jsonl
 from paper3.experiments.bar_depth.run_direct_resolution import _aligned_error
@@ -44,6 +49,36 @@ def test_matched_latency_contract_is_bound_and_cross_scan() -> None:
     assert len(timing_indices) == 20
     assert len({str(manifest[index]["scan_id"]) for index in timing_indices}) == 20
     assert int(config["latency"]["warmup_images"]) <= len(timing_indices)
+
+
+def test_matched_latency_v2_contract_closes_range_and_repeats_sessions() -> None:
+    config = read_json(Path("paper3/configs/bar_depth/matched_latency_v2.json"))
+    direct_path = Path(config["direct_resolution_config"])
+    assert file_digest(direct_path) == config["direct_resolution_config_sha256"]
+    direct_config = read_json(direct_path)
+    validate_latency_config(config, direct_config)
+
+    assert direct_config["whole_image_input_sizes"] == list(range(518, 2031, 56))
+    assert config["independent_sessions"] == ["run1", "run2"]
+    assert config["latency"]["expected_timed_rows_per_method_per_session"] == 200
+    assert config["latency"]["monitor"]["require_zero_foreign_compute_pids"]
+
+
+def test_matched_latency_v2_summary_reports_stages_memory_and_throughput() -> None:
+    row = {
+        "status": "OK",
+        "milliseconds": 10.0,
+        **{f"{name}_milliseconds": 10.0 / len(STAGE_NAMES) for name in STAGE_NAMES},
+        "peak_gpu_memory_mib": 128.0,
+        "throughput_images_per_second": 100.0,
+        "stage_sum_relative_error": 0.0,
+    }
+    summary = _method_summary([row, dict(row)], [50.0, 90.0, 95.0])
+    assert summary["raw_row_count"] == 2
+    assert summary["milliseconds"]["p95_milliseconds"] == 10.0
+    assert summary["peak_gpu_memory_mib"] == 128.0
+    assert summary["throughput_images_per_second"]["median"] == 100.0
+    assert all(name in summary for name in STAGE_NAMES)
 
 
 def test_independent_positive_median_alignment_recovers_inverse_depth() -> None:

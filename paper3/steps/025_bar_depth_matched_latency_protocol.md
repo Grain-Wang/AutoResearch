@@ -44,10 +44,11 @@ gives direct inference its strongest admissible result.
 
 Passing this gate does not establish algorithmic novelty or router learnability.
 
-## Shared diagnostic outcome
+## PROVISIONAL / NOT_FORMAL shared diagnostic outcome
 
 At the user's explicit request, the same benchmark was also run while sharing a
 GPU.  The artifact is permanently labeled
+`PROVISIONAL / NOT_FORMAL` evidence with the machine status
 `COMPLETE_SHARED_DIAGNOSTIC_MATCHED_LATENCY`; it records the foreign compute
 PIDs observed before and after the run, and the default analyzer rejects it.
 
@@ -59,8 +60,10 @@ is worse.  The regional fixed selector is `6.6236%` with scan-cluster 95% CI
 `[3.2989%, 9.6459%]`; the regional oracle is `9.6600%`, and its paired margin
 over the best feasible direct point has CI `[6.5125%, 12.3499%]`.
 
-This yields
-`PROVISIONAL_SHARED_DIAGNOSTIC_GO_REGIONAL_ORACLE_PARETO`, with
+This yields the historical machine decision
+`PROVISIONAL_SHARED_DIAGNOSTIC_GO_REGIONAL_ORACLE_PARETO`, always interpreted as
+`PROVISIONAL / NOT_FORMAL`, with
 `formal_gate_completed=false`.  It validates the code path and strongly
 predicts the formal decision, but it does not complete G0.  The exclusive queue
-remains the required formal evidence.
+has been drained because Round 2 invalidated its one-session/20-row protocol.
+The two-session v2 protocol in Step 029 is the only accepted formal evidence.

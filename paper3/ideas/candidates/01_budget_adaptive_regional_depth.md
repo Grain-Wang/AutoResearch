@@ -1,14 +1,16 @@
-# BAR-Depth：预算自适应的尺度对齐区域深度细化
+# BAR-Depth：选择性的尺度对齐区域深度细化
 
 ## 状态
 
-`SELECTED_RESEARCH_OPPORTUNITY / GO_ORACLE_ROUTABILITY_UNVERIFIED /
-ROUTER_KILLER_GATE_PENDING / NOT_PAPER_CANDIDATE`。
+`RESEARCH_OPPORTUNITY_JOINT_SET_PROBE_ONLY /
+STOP_NOVELTY_CURRENT_POINT_THRESHOLD_ROUTER / W08_CURRENT_CONTRACT_STOPPED /
+FORMAL_W07_V2_PENDING / NOT_PAPER_CANDIDATE`。
 
 ## 问题与最近邻缺口
 
 高分辨率单目深度同时需要全局上下文和局部细节。本文当前只研究
-**per-image median-scale-aligned depth refinement**，不主张 absolute metric depth。
+**逐图中位数尺度对齐的相对深度细化**；当前证据不外推到无需 GT
+对齐的度量深度。
 现有代表性路径包括：
 
 - [Boosting MDE, CVPR 2021](https://openaccess.thecvf.com/content/CVPR2021/papers/Miangoleh_Boosting_Monocular_Depth_Estimation_Models_to_High-Resolution_via_Content-Adaptive_Multi-Resolution_CVPR_2021_paper.pdf)
@@ -38,13 +40,13 @@ router。**
 $$
 E_i(D)=\sum_{p\in\Omega_i}w_p\frac{|D_p-y_p|}{y_p},\qquad
 u_i=E_i(D_0)-E_i(D^{(i)}),\qquad
-\widetilde u_i=\frac{u_i}{\sum_{p\in\Omega_i}w_p}.
+t_i=\frac{u_i}{E_0(x)}.
 $$
 
 $D^{(i)}$ 表示只执行动作 $i$ 后的结果。$u_i>0$ 表示改善，$u_i<0$ 表示有害；
-$\widetilde u_i$ 是 router 的训练标签。12 个 target cells 构成不重叠分区，当前
-merge 也只写回各自 target cell，因此当前误差合同下集合效用可加，不引入没有实测
-依据的 pairwise redundancy 项。
+$E_0(x)>0$ 是同一图像 12 个 target cells 的 base primary error 总和，故 $t_i$
+与 raw $u_i$ 在图像内严格保序；它只用于训练标签构造，不是推理特征。v1 的
+`u_i/weight_sum` 在 K=3 只恢复 raw oracle 的 93.70%，已经由 Step 027 停用。
 
 ## Defect hypothesis
 
@@ -73,28 +75,29 @@ $$
   敏感性支持后才能进入论文主张。
 - 统计：scan 为独立 cluster，固定 5,000 次 cluster bootstrap。
 
-## Post-canary algorithm hypothesis
+## Post-canary algorithm status
 
-若缺陷成立，最小 probe 只学习可加 signed marginal utility：
+以下逐动作 point probe 只保留为已否定的诊断基线：
 
 $$
 S_{\mathrm{probe}}=\arg\max_{S:\lvert S\rvert\le K}
 \sum_{i\in S}\widehat u_i,
 $$
 
-并只选择预测效用为正的动作。该 point-regression + Top-K probe 只回答“是否可路由”，
-不作为论文算法。论文级假设是从 base 前向预测 signed utility 的校准分布，在同步实测
-latency budget 下优化下置信效用并允许 abstention，以显式限制有害动作。router 只能
-读取 base 前向已有的 RGB/depth/features；不得读取 GT、patch prediction、文件名、
-数据集 ID 或专家执行后信息。初版使用 scan-held-out cross-fitting，比较 random、固定
-空间均匀、RGB edge、base-depth edge、2021 content-adaptive selection、point-utility
-ranking、uncertainty 和 oracle。
+通用算法近邻审计表明，point regression、训练期阈值校准、Top-K 和弃权的组合已被
+selective regression、conformal decision calibration 与 spatial adaptive inference
+实质覆盖，不能作为论文算法。当前只保留一个非等价、待预注册的机制 probe：直接估计
+自适应所选集合的联合、预算条件 utility 分布，并为 selected-set utility 构造
+selection-aware lower confidence bound。它必须用相同 features/folds 同时超过 point
+Top-K、Learn-then-Test 和直接 conformal decision calibration，并证明图像内依赖确实
+改变集合风险与有效 utility；否则方向最终记为 `STOP_NOVELTY`。正式 W07 v2 返回
+Pareto 空间前，不生成 DIODE-train patch labels，也不执行当前 W08。
 
 ## STOP and upgrade
 
-当前已完成 oracle canary。主门禁失败即归档该表述；通过只说明问题和动作空间存在，
-不说明可路由。只有 learned router 在 unseen scans 上恢复大部分 oracle headroom，且
-真实 latency/accuracy Pareto 超过全部 killer，才可能成为 Paper Candidate。
+当前 oracle canary 只说明问题和动作空间存在，不说明可路由。只有 joint-set 机制在
+unseen scans 上超过三类通用 killer，且正式 latency/accuracy Pareto 超过全部直接与
+完整近邻，才可能成为 Paper Candidate。
 
 v1 虽生成了原始 gate STOP，但 affine inverse-depth 在 outdoor 产生非正值并触发
 epsilon clipping，故该 STOP 已由 [Step 019](../../steps/019_bar_depth_v1_metric_audit.md)

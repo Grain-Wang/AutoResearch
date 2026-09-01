@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "experiment_id": "bar-depth-direct-resolution-v2-closed-range",
+  "base_config": "paper3/configs/bar_depth/oracle_canary_v2.json",
+  "base_config_sha256": "7c41d030a08f68af437035f5feeee5d3aec57ae171b942f1d2873cfebbe69b37",
+  "merge_config": "paper3/configs/bar_depth/merge_ablation_v1.json",
+  "merge_config_sha256": "7c3ce806db9e43a57a04bbe352e78cb5e2f82f582696cdf3ed79858570ba18db",
+  "manifest": "paper3/artifacts/bar_depth/diode_val_200_manifest_v2.jsonl",
+  "manifest_sha256": "602b5886af89fa3389705a2c61e7b32e71ce5d6b6d049d4d3dd984855fd817ff",
+  "regional_pipeline": {
+    "base_input_size": 518,
+    "budget_count": 3,
+    "selector": "rgb_base_rank_combination_topk",
+    "merge_variant": "highpass_residual",
+    "patch_batch_size": 3
+  },
+  "whole_image_input_sizes": [
+    518,
+    574,
+    630,
+    686,
+    742,
+    798,
+    854,
+    910,
+    966,
+    1022,
+    1078,
+    1134,
+    1190,
+    1246,
+    1302,
+    1358,
+    1414,
+    1470,
+    1526,
+    1582,
+    1638,
+    1694,
+    1750,
+    1806,
+    1862,
+    1918,
+    1974,
+    2030
+  ],
+  "accuracy": {
+    "expected_sample_count": 200,
+    "expected_scan_count": 20,
+    "alignment": "independent_positive_median_scale_per_prediction",
+    "record_oom_instead_of_dropping_candidate": true
+  },
+  "candidate_range_closure": {
+    "hard_max_input_size": 2030,
+    "step": 56,
+    "closed_if": "two_consecutive_sizes_exceed_regional_at_p50_and_p95_or_all_later_sizes_oom",
+    "required_consecutive_infeasible_sizes": 2,
+    "oom_is_result_not_missing_data": true
+  },
+  "bootstrap": {
+    "cluster_key": "scan_id",
+    "replicates": 10000,
+    "confidence_level": 0.95,
+    "seed": 314159,
+    "candidate_selection": "replicate_wise_max_over_latency_feasible_candidates"
+  },
+  "gate": {
+    "comparison": "highpass_oracle_at_most_k_minus_replicate_best_feasible_whole_image",
+    "require_point_difference_above_zero": true,
+    "require_paired_ci_lower_above_zero": true,
+    "require_candidate_range_closed": true,
+    "stop_if_no_whole_image_candidate_is_feasible": false
+  }
+}

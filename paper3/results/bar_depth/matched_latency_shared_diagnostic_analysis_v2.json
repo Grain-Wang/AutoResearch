@@ -1,0 +1,187 @@
+{
+  "bindings": {
+    "config_sha256": "4c025f12694bb28517b8cbf31c581b0fe3217bdeb79df0093c669b3d41c219b4",
+    "direct_csv_sha256": "c802434c6c0fd5ad9ac015d3bb615dbca771d2d37e307b27bde48853b06561c7",
+    "direct_provenance_sha256": "7748d5474d065820d7731527b8cd7f85b0f7c61126d31a7f1e6d163c048a2255",
+    "implementation_sha256": "b04a27e2664a8da19dad75d2fad3b11c16a696dcd60b284eb4fed0eb6c0f6bf5",
+    "latency_config_sha256": null,
+    "latency_sha256": {
+      "matched_latency_shared_diagnostic_v1.json": "77ccac493a08b24390240d757faee8d2b68459a3dfcdeceda2d21c4ff3fbbcf2"
+    },
+    "output_csv_sha256": "5f5a82b1ef7dc8e02535aaeacc12837d2fead03d72ae97469247afa4adb8b263",
+    "regional_csv_sha256": "838ef6b524261363ee5f9b1b97a885ab39e5587b50d3e67886d9da5d527fa06f",
+    "regional_provenance_sha256": "7a93226e381a9f5da42d7f46a1eebf7e5039d8d699b0061beb0b5608c288d913"
+  },
+  "bootstrap_best_feasible_winner_counts": {
+    "1022": 0,
+    "518": 5722,
+    "574": 3651,
+    "630": 125,
+    "686": 10,
+    "742": 2,
+    "798": 429,
+    "854": 2,
+    "910": 59,
+    "966": 0
+  },
+  "bootstrap_feasibility_probability": {
+    "1022": 1.0,
+    "518": 1.0,
+    "574": 1.0,
+    "630": 1.0,
+    "686": 1.0,
+    "742": 1.0,
+    "798": 1.0,
+    "854": 1.0,
+    "910": 1.0,
+    "966": 1.0
+  },
+  "bootstrap_replicates": 10000,
+  "candidate_range_closed": false,
+  "cluster_bootstrap_95ci": {
+    "fixed": {
+      "lower": 0.033131244642194704,
+      "upper": 0.09688106823259325
+    },
+    "oracle": {
+      "lower": 0.06504743319894517,
+      "upper": 0.12416970757769674
+    },
+    "whole_image_1022": {
+      "lower": -0.3575367985808944,
+      "upper": -0.015809748785386563
+    },
+    "whole_image_518": {
+      "lower": 0.0,
+      "upper": 0.0
+    },
+    "whole_image_574": {
+      "lower": -0.03881020085722408,
+      "upper": 0.03580321025542536
+    },
+    "whole_image_630": {
+      "lower": -0.06660288134688447,
+      "upper": 0.008777676194667523
+    },
+    "whole_image_686": {
+      "lower": -0.13387336905627417,
+      "upper": 0.005528902234641474
+    },
+    "whole_image_742": {
+      "lower": -0.14649203900607236,
+      "upper": -0.01483245502081271
+    },
+    "whole_image_798": {
+      "lower": -0.09591768209217637,
+      "upper": 0.01490252532938183
+    },
+    "whole_image_854": {
+      "lower": -0.3239685330821086,
+      "upper": -0.00920318177923728
+    },
+    "whole_image_910": {
+      "lower": -0.33254836544238503,
+      "upper": -0.002259914539229783
+    },
+    "whole_image_966": {
+      "lower": -0.23608773214378911,
+      "upper": -0.012055156996315718
+    }
+  },
+  "formal_gate_completed": false,
+  "latency_evidence_mode": "shared_diagnostic",
+  "oom_whole_image_input_sizes": [],
+  "paired_timing_unit_count": 20,
+  "paper_candidate": false,
+  "pareto_gate": {
+    "all_statistical_checks_pass": true,
+    "decision": "PROVISIONAL_NOT_FORMAL_GO_REGIONAL_ORACLE_PARETO_FORMAL_V2",
+    "formal_decision_if_evidence_were_exclusive": "GO_REGIONAL_ORACLE_PARETO_FORMAL_V2",
+    "paired_joint_bootstrap_95ci": {
+      "lower": 0.04206263039486927,
+      "upper": 0.12377114077736427
+    },
+    "point_difference": 0.09659965683382109
+  },
+  "point_best_feasible_whole_image_input_size": 518,
+  "point_estimates": {
+    "fixed": 0.06623577885184964,
+    "oracle": 0.09659965683382109,
+    "whole_image_1022": -0.1363390714638591,
+    "whole_image_518": 0.0,
+    "whole_image_574": -0.004213936709607267,
+    "whole_image_630": -0.026220661490976675,
+    "whole_image_686": -0.051980383496776916,
+    "whole_image_742": -0.06432430309302954,
+    "whole_image_798": -0.034700588860538936,
+    "whole_image_854": -0.11998091138725078,
+    "whole_image_910": -0.1213090980728904,
+    "whole_image_966": -0.09589828505067885
+  },
+  "point_feasible_whole_image_input_sizes": [
+    518,
+    574,
+    630,
+    686,
+    742,
+    798,
+    854,
+    910,
+    966,
+    1022
+  ],
+  "point_latency_milliseconds": {
+    "regional_k3": {
+      "p50": 2565.7016816549003,
+      "p95": 3419.237128691748
+    },
+    "whole_image_1022": {
+      "p50": 320.09997265413404,
+      "p95": 680.4558617528542
+    },
+    "whole_image_518": {
+      "p50": 93.22105906903744,
+      "p95": 229.05198498629036
+    },
+    "whole_image_574": {
+      "p50": 92.44184894487262,
+      "p95": 120.05723472684622
+    },
+    "whole_image_630": {
+      "p50": 114.15663780644536,
+      "p95": 177.2539434488863
+    },
+    "whole_image_686": {
+      "p50": 132.59223150089383,
+      "p95": 167.02860184013844
+    },
+    "whole_image_742": {
+      "p50": 153.52320251986384,
+      "p95": 226.4637988526375
+    },
+    "whole_image_798": {
+      "p50": 175.36464659497142,
+      "p95": 261.0702048521489
+    },
+    "whole_image_854": {
+      "p50": 233.95864851772785,
+      "p95": 852.3010476026686
+    },
+    "whole_image_910": {
+      "p50": 251.31289195269346,
+      "p95": 1008.7761486880486
+    },
+    "whole_image_966": {
+      "p50": 271.43674017861485,
+      "p95": 329.5291868969798
+    }
+  },
+  "replicate_wise_max_envelope": true,
+  "schema_version": 2,
+  "session_checks": {
+    "session_count": 1,
+    "session_reproducibility_pass": false
+  },
+  "status": "PROVISIONAL_NOT_FORMAL_GO_REGIONAL_ORACLE_PARETO_FORMAL_V2",
+  "timing_rows_resampled": true
+}

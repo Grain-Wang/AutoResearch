@@ -1,5 +1,66 @@
 # AutoResearch 当前接续状态
 
+> **2026-09-01 paper3 Round 2 改进状态（优先于下方全部内容）**
+>
+> - 当前分支为 `paper3_grain`。已从同名远端 fast-forward 到审稿提交 `cc78a83`
+>   （新增 `review_round2.md`）；本轮改进尚未提交或推送。下方 2026-08-31 中“旧 W07
+>   exclusive 正在等待”和“当前 W08 可能继续”的描述均已过期。
+> - target-alignment audit 已完成并返回 `REDEFINE_RANK_PRESERVING_TARGET`。K=3 的
+>   raw-vs-`u/weight_sum` mean Jaccard 为 0.927，但 normalized-target raw-oracle
+>   recovery 为 0.93696，低于 0.95；14% 图像选择集合不同，且 32/2400 区域为
+>   `weight_sum=0,u=0`。v2 标签改为图像内保序的 `u_i/E_0(x)`。
+> - v2 objective/risk 合同已实现：唯一 utility 符号 `u_i`，图像 harm event
+>   `1[sum selected u_i<0]`，one-sided 95% Clopper--Pearson UCB≤0.10，101 个 OOF
+>   score quantile thresholds，同一校准规则用于所有 score baseline，失败时
+>   `abstain_all`。它仍只是诊断合同。
+> - 13 工作×10 轴通用算法近邻审计返回
+>   `STOP_NOVELTY_CURRENT_POINT_THRESHOLD_ROUTER / W08_CURRENT_CONTRACT_STOPPED`。
+>   point score+threshold+Top-K/abstention 是已有 selective/conformal/spatial routing
+>   的应用性组合。不得生成 DIODE-train patch labels 或执行当前 W08。只保留一个
+>   joint selected-set utility distribution + selection-aware LCB 的 Research
+>   Opportunity，须超过 point Top-K、Learn-then-Test 和 direct conformal calibration。
+> - budget baseline 已改为 replicate-wise max envelope。K=3 oracle-minus-envelope
+>   point margin 3.0364 pp，10,000-replicate 95% CI `[1.6991,4.0169]` pp；winner 在
+>   RGB/base combination（5035 次）与 base gradient（4964 次）间切换，说明旧固定
+>   winner CI 确有 post-selection 问题但 oracle margin 未消失。
+> - shared timing 已用 joint timing+accuracy bootstrap 重析；每 replicate 重建 feasible
+>   set 并重选 direct winner。结果仍明确为
+>   `PROVISIONAL_NOT_FORMAL_GO_REGIONAL_ORACLE_PARETO_FORMAL_V2`，oracle margin joint
+>   95% CI `[4.2063,12.3771]` pp；它不能完成正式门禁。
+> - 审稿前的 W07-v1 queue 在没有获得 GPU 时 graceful drain，保持
+>   `PENDING/attempt=0` 历史状态；没有终止任何 GPU 作业。v2 已冻结 28 个整图尺寸
+>   518--2030、OOM/range-closure 规则、两次 independent exclusive sessions、每方法
+>   每 session 200 raw timing、20 warm-ups、阶段/显存/吞吐与 1 秒 PID/clock/power
+>   monitor。远程隔离副本的 targeted Ruff、CLI import 与 15 tests 已通过；四任务
+>   fail-closed 队列保持在用户级 tmux 中运行，只会在 4 次×30 秒完整独占空闲窗口后
+>   使用一张卡，不会终止或抢占其他进程。
+> - direct accuracy v2 已在首次 exclusive 尝试完成：28×200=5600 rows，518--2030
+>   全部 OK、无 OOM；原始 CSV SHA 为 `78579b...becf`，provenance SHA 为
+>   `cf693a...3bf`。点估计最强整图尺寸为 518（0%），其余全部负改善。对全部 28
+>   尺寸做 replicate-wise max envelope 后，regional K=3 oracle minus direct point
+>   margin 为 9.6600 pp，paired 95% CI `[1.4235,11.9335]` pp，状态
+>   `PROVISIONAL_ACCURACY_ONLY_GO_ORACLE_MARGIN_OVER_ALL_DIRECT_SIZES`；这不完成正式
+>   latency gate。
+> - 最后核对时 latency session1 为 `RUNNING/attempt=1`，session2 与 CPU analysis 为
+>   `PENDING/attempt=0`。session1 虽从干净 allocation 启动，但一秒监控在启动后观察到
+>   外来 compute process，因此本 attempt 不能作为 exclusive 证据；runner 将
+>   fail-closed，scheduler 配有一次 retry，并会重新等待完整独占窗口。不要终止外部
+>   进程，也不要把当前 attempt 写成 formal result。
+> - 活动文档 claim 已收缩为 selective, per-image scale-aligned relative-depth
+>   refinement；Boosting 对比明确为 edge-density selector adaptation；patch 结论只覆盖
+>   两类冻结 controls；shared latency 统一为 `PROVISIONAL / NOT_FORMAL`。
+> - 当前科学状态：`RESEARCH_OPPORTUNITY_JOINT_SET_PROBE_ONLY /
+>   DIRECT_ACCURACY_V2_PASS / FORMAL_LATENCY_V2_PENDING / CURRENT_W08_STOPPED /
+>   NOT_PAPER_CANDIDATE`。最强反方是 joint-set 机制仍可能退化为 generic conformal
+>   calibration，且两次有效 exclusive session 尚未证明 matched-latency Pareto 与
+>   range closure。下一原子动作是保持并监控已启动的 W07-v2 队列，等待 session1
+>   fail-closed 重试，再完成 session2 与 formal analysis；只有 formal Pareto 保留空间
+>   才可预注册 joint-set probe。
+> - 本轮最终 QA：全仓库 Ruff 通过；所有 Python 文件逐文件 Black check 通过；
+>   `tools/tests + paper3/tests` 为 115 passed；JSON、artifact implementation hash、
+>   claim-scope/sensitive-path scan 和 `git diff --check` 均通过。远程 targeted test
+>   为 15 passed。
+
 > **2026-08-31 paper3 BAR-Depth G0 执行状态（优先于下方全部内容）**
 >
 > - 当前分支为 `paper3_grain`，本轮基线提交为 `062dd2b`；下方状态将随本轮研究提交

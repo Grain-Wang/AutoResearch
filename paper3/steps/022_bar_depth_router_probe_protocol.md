@@ -51,7 +51,8 @@ the feature schema before every fit and prediction.
 Ridge and the frozen two-layer MLP are routability diagnostics, not the paper
 method.  Every result must compare random Top-K with 100 fixed seeds, fixed
 spatially uniform Top-K, RGB/base/rank-gradient selectors, budget-matched
-Boosting MDE 2021, point-utility Ridge/MLP, oracle at-most-K, and all 12 actions.
+Boosting-MDE edge-density selector adapted to frozen BAR actions, point-utility
+Ridge/MLP, oracle at-most-K, and all 12 actions.
 
 The primary metric is signed primary-error reduction divided by base primary
 error.  Also report signed ordinary-AbsRel reduction, harmful-selection rate,

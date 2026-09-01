@@ -23,7 +23,7 @@ P0 gate and must precede router training.
    novelty in any of those components.
 4. Depth Pro makes matched-latency whole-image high-resolution inference a
    mandatory killer and shows why the current per-image GT scale-aligned DAV2-S
-   canary cannot support an absolute metric-depth claim.
+   canary supports only a per-image scale-aligned relative-depth claim.
 
 ## Gate
 

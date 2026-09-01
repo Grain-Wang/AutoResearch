@@ -33,8 +33,9 @@ reduction.  W06 passes only if the high-pass patch merge has a larger point
 estimate and the paired 10,000-replicate scan-bootstrap 95% CI lower bound of
 the difference is above zero.
 
-- `GO_PATCH_INFORMATION_NECESSARY`: patch inference contributes information
-  not reproduced by the two frozen cheap controls.
+- `GO_PATCH_INFORMATION_BEYOND_TWO_FROZEN_CONTROLS`: patch inference contributes
+  information not reproduced by the two frozen cheap controls and their single
+  preregistered parameter settings.
 - `STOP_PATCH_INFERENCE_NOT_NECESSARY`: the claimed patch mechanism is not
   necessary under the frozen selector and should not proceed to router work.
 
@@ -43,7 +44,7 @@ the other patch variants diagnose whether any result is specific to that merge.
 
 ## Outcome
 
-`GO_PATCH_INFORMATION_NECESSARY`.
+`GO_PATCH_INFORMATION_BEYOND_TWO_FROZEN_CONTROLS`.
 
 With the fixed RGB/base-rank selector, high-pass residual improves the primary
 metric by `6.6236%`; the strongest no-forward control, RGB-guided bilateral

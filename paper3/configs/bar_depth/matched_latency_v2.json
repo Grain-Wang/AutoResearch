@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "experiment_id": "bar-depth-matched-latency-v2-exclusive-repeated",
+  "direct_resolution_config": "paper3/configs/bar_depth/direct_resolution_v2.json",
+  "direct_resolution_config_sha256": "21513ab4cecb4d16424b538b607a4825019453099edb017f1a11f2041860fa5b",
+  "independent_sessions": [
+    "run1",
+    "run2"
+  ],
+  "latency": {
+    "allocation": "exclusive_single_a800",
+    "preload_rgb": true,
+    "include_model_preprocess_forward_resize_selector_and_merge": true,
+    "exclude_disk_io_and_metric_evaluation": true,
+    "warmup_repetitions_per_method": 20,
+    "timed_repetitions_per_image": 10,
+    "timing_sample_indices": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      100,
+      110,
+      120,
+      130,
+      140,
+      150,
+      160,
+      170,
+      180,
+      190
+    ],
+    "expected_cross_scan_images": 20,
+    "expected_timed_rows_per_method_per_session": 200,
+    "percentiles": [
+      50,
+      90,
+      95
+    ],
+    "stage_names": [
+      "model_preprocess",
+      "base_forward",
+      "selector",
+      "patch_forward",
+      "merge",
+      "output_resize",
+      "orchestration"
+    ],
+    "maximum_stage_sum_relative_error": 0.02,
+    "monitor": {
+      "poll_seconds": 1.0,
+      "query_compute_pids": true,
+      "query_gpu_clock": true,
+      "query_memory_clock": true,
+      "query_power_draw": true,
+      "query_power_limit": true,
+      "query_pstate": true,
+      "query_persistence_mode": true,
+      "require_zero_foreign_compute_pids": true
+    },
+    "record_peak_gpu_memory": true,
+    "record_throughput": true,
+    "feasible_if": "whole_image_p50_le_regional_p50_and_whole_image_p95_le_regional_p95"
+  },
+  "session_reproducibility": {
+    "maximum_relative_p50_difference": 0.05,
+    "maximum_relative_p95_difference": 0.10,
+    "require_all_methods_or_same_oom_suffix": true
+  },
+  "candidate_range_closure": {
+    "required_consecutive_p50_and_p95_infeasible_sizes": 2,
+    "allow_all_later_sizes_oom": true,
+    "hard_max_input_size": 2030
+  },
+  "bootstrap": {
+    "timing_unit": "session_id_sample_index_repeat_index",
+    "replicates": 10000,
+    "confidence_level": 0.95,
+    "seed": 314159,
+    "reselect_feasible_candidate_each_replicate": true
+  }
+}

@@ -22,8 +22,8 @@ CSV and does not rerun the depth model.  The machine-readable outputs are:
 | RGB gradient | 4.97% | [2.05%, 7.85%] | 44.00% | 3.00 |
 | Base-depth gradient | 6.54% | [3.83%, 9.09%] | 41.00% | 3.00 |
 | RGB/base rank combination | **6.62%** | [3.30%, 9.67%] | 43.33% | 3.00 |
-| Boosting MDE 2021, exact K | 5.10% | [2.17%, 7.91%] | 44.67% | 3.00 |
-| Boosting MDE 2021, official threshold | 5.10% | [2.17%, 7.91%] | 44.48% | 2.99 |
+| Boosting-MDE edge-density selector adapted to frozen BAR actions, exact K | 5.10% | [2.17%, 7.91%] | 44.67% | 3.00 |
+| Boosting-MDE edge-density selector adapted to frozen BAR actions, official threshold | 5.10% | [2.17%, 7.91%] | 44.48% | 2.99 |
 | Oracle, at most three positive actions | **9.66%** | [6.58%, 12.45%] | 0.00% | 2.96 |
 
 The old `uniform_primary_reduction_ratio=8.84%` was all 12 actions and is not a
@@ -57,7 +57,8 @@ W06 has now completed.  Under the fixed RGB/base-rank selector, high-pass
 residual obtains `6.6236%` signed primary reduction.  The strongest frozen
 no-extra-forward control is RGB-guided bilateral sharpening at `-0.5948%`.
 The paired difference is `7.2184` percentage points with scan-cluster 95% CI
-`[3.7250, 10.3745]`, so W06 returns `GO_PATCH_INFORMATION_NECESSARY`.
+`[3.7250, 10.3745]`, so W06 returns
+`GO_PATCH_INFORMATION_BEYOND_TWO_FROZEN_CONTROLS`.
 
 The mechanism controls are informative beyond the gate: affine-aligned patch
 replacement obtains `6.1108%`, whereas patch high frequency without subtracting

@@ -1,12 +1,18 @@
 {
   "schema_version": 2,
-  "snapshot_time": "2026-08-31T14:41:00+08:00",
+  "snapshot_time": "2026-09-04T16:54:55+08:00",
   "snapshot_kind": "sanitized_portable_handoff",
+  "handoff_status": {
+    "round": 5,
+    "round_status": "CLOSED",
+    "round_6_authorized": false,
+    "new_experiments_authorized": false
+  },
   "entrypoint": ".codex/handoff/CURRENT.md",
   "history": ".codex/handoff/TRANSCRIPT.md",
   "repository": {
     "canonical_root": "AutoResearch",
-    "remote": "git@github.com:Grain-Wang/AutoResearch.git",
+    "remote": "https://github.com/Grain-Wang/AutoResearch.git",
     "branch": "paper2",
     "default_branch": "main"
   },
@@ -17,29 +23,33 @@
     "stage": "Research Opportunity",
     "opportunity_gate": "PASS",
     "paper_candidate": false,
-    "paper_candidate_gate": "FAIL_UNVERIFIED",
-    "target": "strong CCF-B"
+    "paper_candidate_gate": "FAIL-UNVERIFIED",
+    "target": "weak CCF-B / strong CCF-C"
   },
   "current_blockers": [
-    "proof operator C invertibility not yet closed in the formal contract",
-    "final directed-rounded arithmetic backend not implemented",
-    "complete fixed-step BE MNA microkernel not implemented",
-    "BlockStamp operator recurrence not implemented",
-    "B2-strong pointwise verified baseline not implemented",
-    "no nonlinear transient main experiment yet"
+    "algorithmic novelty is not established for the current BlockStamp recurrence",
+    "the frozen Claim-W signal fails the contractive-interface pointwise killer canary"
   ],
   "review_chain": [
     "paper2/responce_from_reviewer/review_round1.md",
     "paper2/responce_from_reviewer/review_round2.md",
-    "paper2/responce_from_reviewer/review_round3.md"
+    "paper2/responce_from_reviewer/review_round3.md",
+    "paper2/responce_from_reviewer/review_round4.md"
   ],
   "historical_notes": [
     "paper2/research/notes/stage_assessment_before_ccfb_review.md"
   ],
   "last_verified": {
     "scientific_status": "Research Opportunity / Paper Candidate FAIL-UNVERIFIED",
-    "cleanup_note": "cross-project paper1/CoVoL handoff content removed from the paper2 branch",
-    "tests_rerun_during_cleanup": false
+    "machine_gate": "M0 PASS-CANARY / M1 REFRAME-SYSTEM / M2 ITERATE / W FAIL-CANARY / D,E STOP",
+    "tests": "ruff pass; 95 Python files black-check pass; 94 pytest cases pass",
+    "clean_replay_required_now": false
+  },
+  "git_binding": {
+    "handoff_identity": "the commit containing this manifest",
+    "artifact_generation_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+    "artifact_generation_dirty_worktree": true,
+    "artifact_generation_note": "immutable provenance recorded by Round 5 artifacts"
   },
   "redacted": [
     "credentials",

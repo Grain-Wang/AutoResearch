@@ -204,13 +204,17 @@ def _run_trajectory(*, diode: bool, steps: int, step_size: float) -> dict[str, o
         "accepted": accepted,
         "unknown": unknown,
         "unsupported": unsupported,
-        "oracle": ("Decimal-160 bisection bracket" if diode else "exact Fraction root"),
-        "oracle_precision_decimal_digits": 160 if diode else None,
-        "oracle_precision_bits": 531 if diode else None,
-        "oracle_precision_kind": "finite Decimal" if diode else "exact rational",
+        "reference": (
+            "Decimal-160 high-precision test reference (non-rigorous)"
+            if diode
+            else "exact Fraction root"
+        ),
+        "reference_precision_decimal_digits": 160 if diode else None,
+        "reference_precision_bits": 531 if diode else None,
+        "reference_precision_kind": "finite Decimal" if diode else "exact rational",
         "root_contained_steps": steps - oracle_outside_image,
         "root_excluded_steps": oracle_outside_image,
-        "oracle_bracket_outside_checker_image": oracle_outside_image,
+        "reference_outside_checker_image": oracle_outside_image,
         "max_point_residual": max_point_residual,
         "jacobian_sample_count": jacobian_sample_count,
         "jacobian_containment_violations": jacobian_containment_violations,
@@ -383,7 +387,7 @@ def run_canary(
     ]
     wrong_history = _wrong_history_audit(step_size)
     violations = sum(
-        int(trajectory["oracle_bracket_outside_checker_image"])
+        int(trajectory["reference_outside_checker_image"])
         + int(trajectory["jacobian_containment_violations"])
         + int(trajectory["checker_false_accepts"])
         + int(trajectory["unknown"])

@@ -1,0 +1,65 @@
+name: paper2 BlockStamp core regression
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core-regression:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: paper2
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install MPFR system library
+        run: sudo apt-get update
+
+      - name: Install MPFR development package
+        run: sudo apt-get install --yes libmpfr-dev
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: paper2/pyproject.toml
+
+      - name: Install Python test tools
+        run: python -m pip install ".[dev]"
+
+      - name: Record and verify MPFR runtime
+        run: |
+          python -c "from experiments.rigorous_backend import backend_info; print(backend_info())"
+          python -m pytest -q tests/test_runtime_requirements.py
+
+      - name: Check formatting and lint
+        run: |
+          ruff check .
+          black --check .
+
+      - name: Run theorem algebra regression
+        run: python -m pytest -q tests/test_krawczyk_soundness_contract.py
+
+      - name: Run reduced arithmetic audit
+        run: python -m experiments.run_rigorous_backend --samples 64 --output /tmp/paper2-rigorous-backend.json
+
+      - name: Run reduced MNA canary
+        run: python -m experiments.run_mna_canary --steps 3 --output /tmp/paper2-mna-canary.json --fairness-output /tmp/paper2-b2-fairness.json
+
+      - name: Run reduced operator canary
+        run: python -m experiments.run_operator_canary --cases-per-grid 4 --dense-canary-cases 2 --output /tmp/paper2-operator-canary.json
+
+      - name: Run operator exact-action regressions
+        run: python -m pytest -q tests/test_blockstamp_dense_equivalence.py tests/test_verified_sparse.py tests/test_slab_krawczyk.py
+
+      - name: Run dynamic evidence-gate tests
+        run: python -m pytest -q tests/test_next_round_gate.py
+
+      - name: Execute current evidence gate
+        run: python -m experiments.run_next_round_gate --output /tmp/paper2-next-round-gate.json

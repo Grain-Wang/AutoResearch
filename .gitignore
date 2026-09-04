@@ -4,8 +4,17 @@ sshconfig.md
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.ruff_cache/
 paper*/data/
 paper*/cache/
+
+# Round 5 local execution state. Canonical aggregate CSV/JSON artifacts and their
+# manifests remain versioned; resumability checkpoints, duplicate replay material,
+# and explicitly invalidated runs do not.
+/paper2/results/blockstamp/minimal_probe_parts/
+/paper2/results/blockstamp/component_ladder_parts/
+/paper2/results/blockstamp/integrity_replay/
+/paper2/results/blockstamp/minimal_probe_invalidated/
 
 # Reference PDFs are project-specific. In paper2, PDFs explicitly listed in
 # reference_papers_origin/SOURCES.md are intentionally tracked; do not blanket-ignore

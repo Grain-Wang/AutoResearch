@@ -9,15 +9,23 @@ This auditable dense elimination path is not the verified-sparse B2-strong basel
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import StrEnum
 
-from experiments.blockstamp_operator import OperatorStatus, verified_solve
+from experiments.blockstamp_operator import (
+    OperatorStatus,
+    VerifiedSolveResult,
+    verified_solve,
+)
 from experiments.interval_backend import Interval, IntervalResult, IntervalStatus
 from experiments.rigorous_backend import add, multiply, subtract
 
 type IntervalVector = tuple[Interval, ...]
 type IntervalMatrix = tuple[tuple[Interval, ...], ...]
+type LinearSolver = Callable[
+    [tuple[tuple[float, ...], ...], IntervalVector], VerifiedSolveResult
+]
 
 
 class CheckerVerdict(StrEnum):
@@ -44,16 +52,20 @@ def _require(result: IntervalResult) -> Interval:
     return result.interval
 
 
-def _midpoint(value: Interval) -> float:
+def interval_midpoint(value: Interval) -> float:
+    """Return a finite binary64 midpoint clamped to its interval."""
+
     midpoint = value.lower * 0.5 + value.upper * 0.5
     if not math.isfinite(midpoint):
         raise ValueError("Jacobian midpoint is not finite")
     return min(value.upper, max(value.lower, midpoint))
 
 
-def _interval_matrix_vector_product(
+def interval_matrix_vector_product(
     matrix: IntervalMatrix, vector: IntervalVector
 ) -> IntervalVector:
+    """Apply an interval matrix to an interval vector with outward rounding."""
+
     if any(len(row) != len(vector) for row in matrix):
         raise ValueError("matrix/vector dimension mismatch")
     output: list[Interval] = []
@@ -70,6 +82,8 @@ def pointwise_krawczyk(
     tube: IntervalVector,
     residual_at_center: IntervalVector,
     jacobian_enclosure: IntervalMatrix,
+    *,
+    linear_solver: LinearSolver = verified_solve,
 ) -> CheckerResult:
     """Check strict Krawczyk inclusion for one discrete time point.
 
@@ -106,7 +120,8 @@ def pointwise_krawczyk(
 
     try:
         midpoint_matrix = tuple(
-            tuple(_midpoint(value) for value in row) for row in jacobian_enclosure
+            tuple(interval_midpoint(value) for value in row)
+            for row in jacobian_enclosure
         )
         centered_tube = tuple(
             _require(subtract(interval, Interval.point(value)))
@@ -119,7 +134,7 @@ def pointwise_krawczyk(
             )
             for row, jacobian_row in enumerate(jacobian_enclosure)
         )
-        nonlinear_remainder = _interval_matrix_vector_product(
+        nonlinear_remainder = interval_matrix_vector_product(
             remainder_matrix, centered_tube
         )
         right_hand_side = tuple(
@@ -129,7 +144,7 @@ def pointwise_krawczyk(
     except (ValueError, _UnsupportedArithmetic) as error:
         return CheckerResult(CheckerVerdict.UNSUPPORTED, None, None, str(error))
 
-    solved = verified_solve(midpoint_matrix, right_hand_side)
+    solved = linear_solver(midpoint_matrix, right_hand_side)
     if solved.status is not OperatorStatus.OK or solved.enclosure is None:
         return CheckerResult(
             CheckerVerdict.UNSUPPORTED,

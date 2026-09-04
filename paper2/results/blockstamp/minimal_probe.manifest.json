@@ -1,0 +1,768 @@
+{
+  "all_primary_shared_hashes_match": true,
+  "allowed_methods": [
+    "dense_slab_generic",
+    "device_local_pointwise_b2",
+    "temporal_only",
+    "temporal_device_blockstamp",
+    "strict_mpfr_rerun"
+  ],
+  "allowed_verdicts": [
+    "ACCEPT",
+    "UNKNOWN",
+    "UNSUPPORTED"
+  ],
+  "artifact_sha256": "b3728863d01f12b1c4c5735f4f0b252e6f71a613aff4cadbe9bf88a83e72dfeb",
+  "attempted_cases": 2250,
+  "backend_sha256": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+  "bootstrap": {
+    "confidence": 0.95,
+    "samples": 2000,
+    "seed": 20260901,
+    "unit": "circuit-instance"
+  },
+  "certificate_size_scope": "candidate and tube serialization only; method-specific factor/witness bytes are not represented",
+  "checkpoint_counts": {
+    "measured_executed": 2250,
+    "measured_reused": 0,
+    "warmups_executed": 450,
+    "warmups_reused": 0
+  },
+  "checkpoint_dir": "results/blockstamp/minimal_probe_parts",
+  "checkpoint_set_sha256": "7b36fdd4ba32258a5f54a24a932df2826a1361befc560548a71a8d42af60cc04",
+  "claim_scope": "frozen nonlinear M2 probe; strict comparator uses Decimal-160 candidate generation plus MPFR-256 directed certificate checking",
+  "claims": {
+    "D": "STOP",
+    "E": "STOP",
+    "W": "PASS",
+    "claim_d_mechanism": {
+      "baseline": "temporal_only",
+      "passes": false,
+      "passing_instance_counts": {
+        "16": {
+          "diode_rc": 0,
+          "nmos_ring_3stage": 0
+        },
+        "2": {
+          "diode_rc": 0,
+          "nmos_ring_3stage": 0
+        },
+        "4": {
+          "diode_rc": 0,
+          "nmos_ring_3stage": 0
+        },
+        "8": {
+          "diode_rc": 0,
+          "nmos_ring_3stage": 0
+        }
+      },
+      "passing_slabs": []
+    },
+    "claim_d_passing_metrics": [],
+    "claim_e_passing_metrics": [],
+    "claim_w_mechanism": {
+      "baseline": "device_local_pointwise_b2",
+      "passes": true,
+      "passing_instance_counts": {
+        "16": {
+          "diode_rc": 1,
+          "nmos_ring_3stage": 0
+        },
+        "2": {
+          "diode_rc": 3,
+          "nmos_ring_3stage": 3
+        },
+        "4": {
+          "diode_rc": 3,
+          "nmos_ring_3stage": 2
+        },
+        "8": {
+          "diode_rc": 1,
+          "nmos_ring_3stage": 1
+        }
+      },
+      "passing_slabs": [
+        "2",
+        "4"
+      ]
+    },
+    "resource_signals": {
+      "dense_slab_generic": {
+        "certificate_bytes": {
+          "baseline": "dense_slab_generic",
+          "clustered_bootstrap": {
+            "ci_lower": 1.0,
+            "ci_upper": 1.0,
+            "ratio": 1.0,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/nominal": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 1.0,
+              "8": 1.0
+            }
+          },
+          "metric": "certificate_bytes",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        },
+        "check_seconds": {
+          "baseline": "dense_slab_generic",
+          "clustered_bootstrap": {
+            "ci_lower": 0.9543390892940997,
+            "ci_upper": 1.0216739475058338,
+            "ratio": 0.9939234817627759,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.9473484267205424,
+              "8": 0.9620051277505618
+            },
+            "diode_rc/nominal": {
+              "16": 0.9755464712411037,
+              "8": 0.8866681614745949
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 0.9574527643710325,
+              "8": 0.9722364076147589
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 1.0222393757204191,
+              "8": 1.06781433284553
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 1.0136044855200321,
+              "8": 1.02094006530489
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 1.048767827494659,
+              "8": 0.9638620561994976
+            }
+          },
+          "metric": "check_seconds",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 3,
+              "8": 2
+            }
+          },
+          "stable": false
+        },
+        "peak_rss_bytes": {
+          "baseline": "dense_slab_generic",
+          "clustered_bootstrap": {
+            "ci_lower": 0.9931552036945407,
+            "ci_upper": 0.9959978495908249,
+            "ratio": 0.9947647683056243,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.9910979228486647,
+              "8": 0.9937106918238994
+            },
+            "diode_rc/nominal": {
+              "16": 0.9890909090909091,
+              "8": 0.9926470588235294
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 0.9943342776203966,
+              "8": 0.994535519125683
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 0.9952153110047847,
+              "8": 0.9949748743718593
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 0.9955654101995566,
+              "8": 0.9955357142857143
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 0.9979959919839679,
+              "8": 0.9962049335863378
+            }
+          },
+          "metric": "peak_rss_bytes",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        }
+      },
+      "device_local_pointwise_b2": {
+        "certificate_bytes": {
+          "baseline": "device_local_pointwise_b2",
+          "clustered_bootstrap": {
+            "ci_lower": 1.0,
+            "ci_upper": 1.0,
+            "ratio": 1.0,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/nominal": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 1.0,
+              "8": 1.0
+            }
+          },
+          "metric": "certificate_bytes",
+          "no_quality_regression": false,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        },
+        "check_seconds": {
+          "baseline": "device_local_pointwise_b2",
+          "clustered_bootstrap": {
+            "ci_lower": 0.899324677673831,
+            "ci_upper": 0.9399744492743907,
+            "ratio": 0.9185557152316767,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.910643210419099,
+              "8": 0.9299149761006046
+            },
+            "diode_rc/nominal": {
+              "16": 0.8980729472601674,
+              "8": 0.8754227801063609
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 0.9101274761058913,
+              "8": 0.9281227785092863
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 0.9198180006015568,
+              "8": 0.9453218153911479
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 0.958689917536014,
+              "8": 0.9393629511721823
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 0.9553443151726503,
+              "8": 0.9200895686153907
+            }
+          },
+          "metric": "check_seconds",
+          "no_quality_regression": false,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        },
+        "peak_rss_bytes": {
+          "baseline": "device_local_pointwise_b2",
+          "clustered_bootstrap": {
+            "ci_lower": 0.994882026370576,
+            "ci_upper": 0.9971633888048411,
+            "ratio": 0.9963211885390874,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.9940652818991098,
+              "8": 0.9968553459119497
+            },
+            "diode_rc/nominal": {
+              "16": 0.9927272727272727,
+              "8": 0.9926470588235294
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 0.9971671388101983,
+              "8": 0.9972677595628415
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 0.9976076555023924,
+              "8": 0.9974874371859297
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 0.9977827050997783,
+              "8": 0.9956896551724138
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 0.9980544747081712,
+              "8": 0.9979838709677419
+            }
+          },
+          "metric": "peak_rss_bytes",
+          "no_quality_regression": false,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        }
+      },
+      "temporal_only": {
+        "certificate_bytes": {
+          "baseline": "temporal_only",
+          "clustered_bootstrap": {
+            "ci_lower": 1.0,
+            "ci_upper": 1.0,
+            "ratio": 1.0,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/nominal": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 1.0,
+              "8": 1.0
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 1.0,
+              "8": 1.0
+            }
+          },
+          "metric": "certificate_bytes",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        },
+        "check_seconds": {
+          "baseline": "temporal_only",
+          "clustered_bootstrap": {
+            "ci_lower": 0.9897898070297023,
+            "ci_upper": 1.0725930288304906,
+            "ratio": 1.0424204702238178,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.9836355607592034,
+              "8": 1.0061396534232792
+            },
+            "diode_rc/nominal": {
+              "16": 0.9999319158339838,
+              "8": 0.9714845746975852
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 0.9913665730588728,
+              "8": 1.0059135346017836
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 1.017348999202162,
+              "8": 0.9997640285792196
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 1.0060051458510708,
+              "8": 1.0008695917459303
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 0.9946198009503399,
+              "8": 0.98456040362661
+            }
+          },
+          "metric": "check_seconds",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 2
+            },
+            "nmos_ring_3stage": {
+              "16": 2,
+              "8": 1
+            }
+          },
+          "stable": false
+        },
+        "peak_rss_bytes": {
+          "baseline": "temporal_only",
+          "clustered_bootstrap": {
+            "ci_lower": 0.9971023824855119,
+            "ci_upper": 0.998613212304589,
+            "ratio": 0.998019101521047,
+            "samples": 2000
+          },
+          "instance_rule": false,
+          "instance_slab_ratios": {
+            "diode_rc/fast_load": {
+              "16": 0.9970326409495549,
+              "8": 0.9968553459119497
+            },
+            "diode_rc/nominal": {
+              "16": 0.9963636363636363,
+              "8": 0.996078431372549
+            },
+            "diode_rc/slow_hot_start": {
+              "16": 1.0,
+              "8": 0.9972677595628415
+            },
+            "nmos_ring_3stage/balanced": {
+              "16": 0.9976076555023924,
+              "8": 0.9976798143851509
+            },
+            "nmos_ring_3stage/light_load": {
+              "16": 0.9979338842975206,
+              "8": 0.997920997920998
+            },
+            "nmos_ring_3stage/slow_load": {
+              "16": 1.0,
+              "8": 0.9981024667931688
+            }
+          },
+          "metric": "peak_rss_bytes",
+          "no_quality_regression": true,
+          "passing_instance_counts": {
+            "diode_rc": {
+              "16": 0,
+              "8": 0
+            },
+            "nmos_ring_3stage": {
+              "16": 0,
+              "8": 0
+            }
+          },
+          "stable": false
+        }
+      }
+    }
+  },
+  "command": "python3 -m experiments.run_minimal_probe --steps-grid 100 300 1000 --slab-lengths 1 2 4 8 16 --replicates 5 --workers 1 --checkpoint-dir results/blockstamp/minimal_probe_parts --resume",
+  "complete_cost_accounting": true,
+  "config_sha256": "d6a9105db3e54dfed2471199f2018d3d89629df786a96cbf98826cd51937770e",
+  "confirmed_false_accept_definition": "checker ACCEPT and independent Decimal-160 test reference outside tube; the Decimal reference is high precision but not a directed root proof",
+  "confirmed_false_accepts": 0,
+  "dirty_worktree": true,
+  "execution_complete": true,
+  "expected_row_count": 2250,
+  "expected_warmup_processes": 450,
+  "failure_code_distribution": {
+    "B2_STRICT_INCLUSION_FAILED": 900,
+    "SLAB_STRICT_INCLUSION_FAILED": 1350
+  },
+  "failure_codes": [
+    "B2_STRICT_INCLUSION_FAILED",
+    "SLAB_STRICT_INCLUSION_FAILED"
+  ],
+  "fairness_artifact_sha256": "d81b967340251befe5438eaee4d0a64dad5bb23db1dc9c321eac4184e82389d1",
+  "fairness_pass": true,
+  "fallback_and_recovery": {
+    "complete_cost_accounting": true,
+    "policy": "every non-ACCEPT primary row adds its matched strict-rerun end-to-end cost",
+    "recovered_accept_rows": 0,
+    "recovery_rate": 0.0,
+    "strict_comparators_unique": true,
+    "total_fallback_seconds": 68540.0536970858,
+    "triggered_rows": 1800
+  },
+  "fallback_policy": "every non-ACCEPT primary row adds its matched strict-rerun end-to-end cost",
+  "first_failure": {
+    "checker_verdict": "UNKNOWN",
+    "circuit_id": "diode_rc",
+    "failure_code": "SLAB_STRICT_INCLUSION_FAILED",
+    "instance_id": "fast_load",
+    "method": "dense_slab_generic",
+    "replicate": 0,
+    "run_id": "19ad2602c3eef1ed882d",
+    "slab_length": 1,
+    "steps": 100
+  },
+  "frozen_grid_requested": true,
+  "generated_at_utc": "2026-09-03T14:39:26.945486+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "grid_complete": true,
+  "independent_processes": true,
+  "input_sha256": "4f3cb67123de8ee2e22a0f50a04d974d798b46981b45af845fb174c71864b682",
+  "integrity": {
+    "all_checkpoint_contract_hashes_match": true,
+    "all_checkpoints_complete": true,
+    "all_pass": true,
+    "all_primary_shared_hashes_match": true,
+    "duplicate_rows": 0,
+    "exact_key_counter_match": true,
+    "expected_queue_keys_unique": true,
+    "extra_rows": 0,
+    "five_methods_per_matched_group": true,
+    "missing_rows": 0,
+    "run_ids_unique": true,
+    "strict_comparator_exception": "strict_mpfr_rerun deliberately regenerates its Decimal-160 candidate and oracle-centered tube; it is excluded from primary shared-hash equality",
+    "strict_comparator_hashes_valid": true
+  },
+  "methods": [
+    "dense_slab_generic",
+    "device_local_pointwise_b2",
+    "temporal_only",
+    "temporal_device_blockstamp",
+    "strict_mpfr_rerun"
+  ],
+  "observed_instances": {
+    "diode_rc": [
+      "fast_load",
+      "nominal",
+      "slow_hot_start"
+    ],
+    "nmos_ring_3stage": [
+      "balanced",
+      "light_load",
+      "slow_load"
+    ]
+  },
+  "observed_reference_exclusions": 1800,
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "producer_completion": {
+    "expected_measured": 2250,
+    "expected_warmups": 450,
+    "measured_trace_complete": 2250,
+    "measured_tube_complete": 2250,
+    "warmup_trace_complete": 450,
+    "warmup_tube_complete": 450
+  },
+  "protocol_complete": true,
+  "python_version": "3.12.3",
+  "random_seeds": {
+    "clustered_bootstrap": 20260901
+  },
+  "replicates": 5,
+  "requested_coverage_complete": true,
+  "required_columns": [
+    "run_id",
+    "circuit_id",
+    "instance_id",
+    "producer_id",
+    "producer_precision",
+    "producer_tolerance",
+    "step_size",
+    "steps",
+    "slab_length",
+    "replicate",
+    "method",
+    "input_sha256",
+    "producer_trace_sha256",
+    "candidate_sha256",
+    "tube_sha256",
+    "backend_sha256",
+    "semantics_sha256",
+    "scaling_sha256",
+    "ordering_sha256",
+    "factor_sha256",
+    "threads",
+    "hardware_id",
+    "checker_verdict",
+    "failure_code",
+    "oracle_root_in_tube",
+    "confirmed_false_accept",
+    "certification_rate",
+    "certified_prefix_steps",
+    "tube_max_relative_width",
+    "tube_growth_rate",
+    "inclusion_margin_min",
+    "assembly_seconds",
+    "verified_solve_seconds",
+    "operator_propagation_seconds",
+    "certificate_generation_seconds",
+    "check_seconds",
+    "fallback_seconds",
+    "end_to_end_seconds",
+    "peak_rss_bytes",
+    "certificate_bytes",
+    "raw_trajectory_bytes"
+  ],
+  "row_content_sha256": "0e9b7731ffe502d9c441283efeb3fc6a42637a981522df1a656615cd19333999",
+  "row_count": 2250,
+  "rss_measurement_scope": "fresh-worker process high-water mark",
+  "schema_version": 2,
+  "scientific_evidence_valid": true,
+  "semantics_sha256": "60fe305ae90cfb9e6a200feba6116f7e516f4c991c899008a3c3d808c4fd1faf",
+  "slab_lengths": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "source_files_sha256": {
+    "experiments/__init__.py": "dfff78aa96509c5f013cf41dc8d2660a78007245c67cbcebe7d70cc6dc479dac",
+    "experiments/benchmark.py": "a705810587eac2a838501dd86e6e0fec89b5dee0b9e8a658827b13d8bb6a9e88",
+    "experiments/blockstamp_operator.py": "d4e01f9ef9bd46f42a316cb0976332eca7b9c4549784891f6ae6871c0cf54426",
+    "experiments/checkers/__init__.py": "94a3215cbba3150f5b59b8dc80cae785c43160d9c1ab3804e7695e1fc67800e7",
+    "experiments/checkers/be_step.py": "23be84161b3561c19a00787c16a2f12c26d9153f5d8e12908ecd2369dcd7e196",
+    "experiments/checkers/pointwise_krawczyk.py": "266953c9a8dcacf9eadf22bd8a91cd7b6515026d4cceae10f9ffe4e2a1bc5528",
+    "experiments/checkers/slab_krawczyk.py": "984e6818ed5ec5d2a48c85d00cbac6f1406e173e84fc82acf8d1b017b948b692",
+    "experiments/checkers/verified_sparse.py": "dbb930be8ccb80410119351ef35b247d1f43ae6ea5e18de5708d417c3d520908",
+    "experiments/devices/__init__.py": "9313afef31cef7b0d942a0bd5d3dc09a9f6166abf3fd1dfa3f9f889e69029295",
+    "experiments/devices/stamps.py": "136468e4ca9f78fe6b5e51dd848e297205d55f986c9c95a0b447c78de559ddea",
+    "experiments/interval_backend.py": "4f5ea444783059891d987fb10ae9ae8528c5d80a30f36e9f3155072e2710350b",
+    "experiments/mna/__init__.py": "2893c8cf4846446a9e65fd26d78b1c1612fd6d492936b33ac7c143d5116bacef",
+    "experiments/mna/fixed_be.py": "dd4d7cf09e2972c1de66174bde8529fefe15c2c95408bf8d5bdd39d57f2bf3f9",
+    "experiments/mna/minimal_circuits.py": "99e2095aed94d17b7d36aafad999bd6c0213e75744c50f409f13509e0815b1ac",
+    "experiments/mna/oracles.py": "ac4e9258b49e31e6746a286b84f8ccdf905f7be9007cb6debe6ad4f28206b9b0",
+    "experiments/producers/__init__.py": "33f2f12055e5340ba81bece6718a4449edcc54cbf664865584cbf33d157b1cb9",
+    "experiments/producers/config.py": "78708ac60825faadd950ed77ca874341ce8ad51712a79ce34e1a049812d2a232",
+    "experiments/producers/nonlinear.py": "6fe7e2959d1acd017423c5966885ffd77ab5356d51dfc7456783cc76fc501047",
+    "experiments/producers/precision.py": "2c234dc144a3248674032ef134240337722863bc395d7ad688432a488a510732",
+    "experiments/producers/trace.py": "39d10cff4a2850b69e351e25d78f8289a6b2838e5b25912b50ffe8a7da401e6b",
+    "experiments/producers/transient.py": "6f3e09a94a15728dd3f440efed8e5a8f98ae8334292e6f2e119a91c93682f76b",
+    "experiments/producers/tube.py": "e3d7e4af82099688d5638319894c7038a0ac5810e902090c4b1d71dbbcb08641",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_minimal_probe.py": "790fb07104e2b2a27a2125c631082a253824d7d3cccb93c71e6dbdc26328851d"
+  },
+  "stable_signal": {
+    "clustered_bootstrap_95ci_complete": true,
+    "decision_rule": "paper2/steps/008_next_round_gate.md#54-stable-signal-definition"
+  },
+  "status": "PASS",
+  "steps_grid": [
+    100,
+    300,
+    1000
+  ],
+  "strict_comparator_hashes_valid": true,
+  "strict_comparator_scope": "Decimal-160 reference candidate followed by MPFR-256 directed B2 certificate checking; not an independent full transient solver",
+  "strict_generation_accounted": true,
+  "strict_rerun_allowed_difference": {
+    "different": [
+      "producer_trace_sha256",
+      "candidate_sha256",
+      "tube_sha256",
+      "factor_sha256"
+    ],
+    "reason": "Decimal-160 candidate generation and oracle-centered strict tube",
+    "required_equal": [
+      "input_sha256",
+      "backend_sha256",
+      "semantics_sha256",
+      "scaling_sha256",
+      "ordering_sha256",
+      "hardware_id",
+      "threads"
+    ],
+    "role": "predeclared utility/fallback comparator; not a fifth primary matched checker"
+  },
+  "success_only_filtering": false,
+  "supported_cases": 2250,
+  "timing_aggregation": "five-process median per configuration",
+  "unsupported_cases": 0,
+  "verdict_counts": {
+    "ACCEPT": 0,
+    "UNKNOWN": 2250,
+    "UNSUPPORTED": 0
+  },
+  "warmup_processes": 450,
+  "warmups_excluded": true,
+  "workers": 1,
+  "workloads_complete": true,
+  "workloads_complete_details": {
+    "diode_rc": true,
+    "nmos_ring_3stage": true
+  }
+}

@@ -1,11 +1,16 @@
 {
   "artifact_sha256": {
     "arithmetic": "b081d91368cfe1e4fb4f30720a375a317bceaaac0fa3d506fad1a330402edf2e",
-    "b2_fairness": "75394dc847d80037f0311edc661540d062027d90163572e6660cb109d67c4d55",
-    "mna": "807bda6cfb1a86f9616ad0dfdfa857fdff19624fba08a2e79d915572dec00910",
-    "operator": "bb00b495e7deef95e4c3e02fce17b7a6c84d42ce40173d5f721bd2dadd32ca25"
+    "b2_fairness": "d81b967340251befe5438eaee4d0a64dad5bb23db1dc9c321eac4184e82389d1",
+    "component_ladder": "0a6bddeec39455b3634bfef6ae0ee96558ee59013a92ba6cd9d935aafeb392c9",
+    "interface_contraction": "862dd55e19e712953d31b22be59bb902697f52d6d0ca2266cc7bb1ba6140c36b",
+    "minimal_probe": "64a198cda92899e2e4584ae77d2921be9255c442e060bc7bcd2212b347218c6a",
+    "mna": "c8a35ec3de0e813fc284aebdfc24890bcb4ca6a4f812d60f5be0715df671a7d4",
+    "operator": "bb00b495e7deef95e4c3e02fce17b7a6c84d42ce40173d5f721bd2dadd32ca25",
+    "operator_stress": "268c69d81ab68c04d00797aa160548602b58323013d25327249f724b9336383f",
+    "prior_art": "30ec7ef8614e133716de70e90d0542ac2b29d423d85064ead4a10266b9e656c0"
   },
-  "attempted_cases": 4,
+  "attempted_cases": 9,
   "backend": {
     "library": "libmpfr.so.6",
     "name": "MPFR",
@@ -13,20 +18,18 @@
     "version": "4.2.1"
   },
   "blockers": [
-    "THEOREM_LEVEL_NOVELTY_UNRESOLVED",
-    "B2_STRONG_UNIMPLEMENTED",
-    "COMPONENT_LADDER_NOT_RUN",
-    "MATCHED_NONLINEAR_M2_NOT_RUN"
+    "ALGORITHMIC_NOVELTY_NOT_ESTABLISHED",
+    "CLAIM_W_CONTRACTIVE_KILLER_CANARY_FAIL"
   ],
-  "claim_scope": "claim-separated next-round decision; no performance claim",
+  "claim_scope": "claim-separated next-round decision; no paper-candidate claim",
   "command": "python3 -m experiments.run_next_round_gate",
-  "config_sha256": "60866b25bce0a1431f2c57dc0b455a3782f7493018f20912447e437188b4af7c",
+  "config_sha256": "1085cdebb43a80eee4c878793b1b5fcbccd4eb05dee34507b1f9daf8790bfd4f",
   "dirty_worktree": true,
   "failure_codes": [],
   "first_failure": null,
-  "generated_at_utc": "2026-08-31T07:37:26.195197+00:00",
-  "git_commit": "1fc3d6dd2eb2f38f7df2025fe27e9969017f40ae",
-  "input_sha256": "2d6e743d3a70dd7c2e722ace30d50e87d4bff31cf7fb14d16d139f087d0929cd",
+  "generated_at_utc": "2026-09-04T05:13:45.191599+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "input_sha256": "337ea30a6e9a7db2942b2cdbbd071c3d0927608ebccdbadeddbc9d9c294b9ec5",
   "m0": {
     "arithmetic_checks": {
       "all_operations_present": true,
@@ -48,36 +51,108 @@
     "status": "PASS-CANARY"
   },
   "m1": {
+    "algorithm_novelty": "ABANDONED-AS-PAPER-HEADLINE",
     "claim_i": "IMPLEMENTATION-CANARY-PASS",
-    "efficiency": "UNVERIFIED",
-    "novelty": "UNRESOLVED",
+    "efficiency": "KILLER-BASELINE-CANARY-FAIL",
+    "novelty": "REFRAME-SYSTEM",
     "operator_checks": {
       "all_12_grid_cells_pass": true,
       "artifact_pass": true,
       "singular_case_fails_closed": true,
       "zero_recursive_containment_violations": true
     },
-    "status": "ITERATE"
+    "operator_stress_checks": {
+      "all_16_interval_rhs_cells_pass": true,
+      "all_condition_buckets_present": true,
+      "artifact_pass": true,
+      "artifact_present": true,
+      "difficult_cases_present": true,
+      "expected_unsupported_fail_closed": true,
+      "zero_containment_violations": true
+    },
+    "prior_art_gate": "REFRAME-SYSTEM",
+    "prior_art_reframe_closure": "COMPLETE",
+    "status": "REFRAME-SYSTEM"
   },
   "m2": {
-    "b2_strong_ready": false,
-    "component_ladder": "NOT-RUN",
-    "matched_nonlinear_probe": "NOT-RUN",
-    "status": "NOT-STARTED"
+    "b2_strong_ready": true,
+    "claim_w_after_contractive_baseline": "FAIL-CANARY",
+    "component_ladder": "PASS",
+    "component_ladder_checks": {
+      "all_methods_present": true,
+      "all_required_hashes_present": true,
+      "all_shared_hashes_match": true,
+      "artifact_pass": true,
+      "artifact_present": true,
+      "coverage_complete": true,
+      "unfiltered": true,
+      "zero_confirmed_false_accepts": true
+    },
+    "contractive_w_cleared": false,
+    "fairness_checks": {
+      "all_required_hashes_present": true,
+      "all_shared_hashes_match": true,
+      "artifact_pass": true,
+      "known_bad_cases_present": true,
+      "strong_baseline_implemented": true,
+      "zero_confirmed_false_accepts": true
+    },
+    "interface_contraction_canary_complete": true,
+    "interface_contraction_checks": {
+      "algorithm_novelty_reported": true,
+      "artifact_pass_canary": true,
+      "artifact_present": true,
+      "claim_w_result_reported": true,
+      "protocol_complete": true,
+      "six_registered_traces": true,
+      "unfiltered": true
+    },
+    "known_bad_cases_safe": true,
+    "matched_nonlinear_probe": "PASS-INVALIDATED-BY-KILLER-CANARY",
+    "minimal_probe_checks": {
+      "artifact_pass": true,
+      "artifact_present": true,
+      "artifact_status_reported": true,
+      "both_workloads_complete": true,
+      "claim_d_reported_independently": true,
+      "claim_e_pass": false,
+      "claim_e_reported": true,
+      "claim_w_or_e_pass": true,
+      "claim_w_pass": true,
+      "claim_w_reported": true,
+      "clustered_bootstrap_ci_present": true,
+      "complete_cost_accounting": true,
+      "fairness_pass": true,
+      "five_replicates": true,
+      "grid_complete": true,
+      "independent_processes": true,
+      "unfiltered": true,
+      "warmups_excluded": true,
+      "zero_confirmed_false_accepts": true
+    },
+    "minimal_probe_evidence_complete": true,
+    "minimal_probe_scientific_pass": false,
+    "prior_art_ready": false,
+    "prior_art_reframe_complete": true,
+    "status": "ITERATE"
   },
+  "missing_optional_evidence": [],
   "paper_candidate": "FAIL-UNVERIFIED",
   "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "pre_paper_candidate": "FAIL-UNVERIFIED",
   "python_version": "3.12.3",
   "random_seeds": {},
   "research_opportunity": "PASS",
-  "schema_version": 1,
+  "schema_version": 2,
   "source_files_sha256": {
-    "experiments/run_next_round_gate.py": "e186f32e877ab9b4f866b39a3e0df628fd8a10986801a89e10eb7081af0b052d",
-    "steps/003_formal_soundness_contract.md": "3c7b4fb4a45c2b6ef9f6d6667a12944552d3e0ea3c24557e9c13882e6e430d96",
+    "experiments/run_next_round_gate.py": "1eb3576124e644f31101878f1292c3423e2e547dc729262845c2c67f1223e3b7",
+    "steps/003_formal_soundness_contract.md": "988e1dfb6b6864e0bee41c7fb8a24d6e48f0dd7dbe8cca207152f68908053065",
+    "steps/004_theorem_prior_art_closure.md": "30ec7ef8614e133716de70e90d0542ac2b29d423d85064ead4a10266b9e656c0",
     "steps/007_blockstamp_operator_spec.md": "3b00dc2fa2b37ebae265cdda42c4d8b08e55437acb2c7e6619d96592cc9eac78",
-    "steps/008_next_round_gate.md": "60866b25bce0a1431f2c57dc0b455a3782f7493018f20912447e437188b4af7c"
+    "steps/008_next_round_gate.md": "1085cdebb43a80eee4c878793b1b5fcbccd4eb05dee34507b1f9daf8790bfd4f",
+    "steps/009_m2_result_gate.md": "b4d8be352cf50b83f3deefb7c59eb9d115ae71632ad18b9fc0bd89de7499c113"
   },
   "status": "ITERATE",
-  "supported_cases": 4,
+  "supported_cases": 9,
   "unsupported_cases": 0
 }

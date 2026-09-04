@@ -1,0 +1,4360 @@
+{
+  "UNKNOWN": 32,
+  "attempted_cases": 3232,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "backend_sha256": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+  "bucketing_metric": "exact infinity-norm condition number of the materialized scaled bidiagonal chain; exact partial-pivot growth is also reported",
+  "claim_scope": "synthetic exact-dyadic operator stress only; no efficiency, less-wrapping, novelty, or real-MNA distribution claim",
+  "command": "python3 -m experiments.run_operator_stress --cases-per-cell 200 --seed 20260831",
+  "conditioning_and_pivot_growth_buckets": [
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 800,
+      "bucket": "1e0-1e2",
+      "condition_inf": {
+        "maximum": 10.000041737872772,
+        "median": 10.000015136705237,
+        "minimum": 10.000003258320248
+      },
+      "containment_violation_coordinates": 0,
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.10877714802656446,
+        "max_relative": 53.89732237703305,
+        "median_absolute": 1.9334873271968667e-15,
+        "median_relative": 1.2488116362106015e-14,
+        "samples": 800
+      },
+      "interval_rhs_cases": 800,
+      "lower_inclusive": 1,
+      "near_singular_cases": 0,
+      "near_singular_supported_cases": 0,
+      "nonnormal_block_cases": 600,
+      "nonnormal_global_matrix_cases": 800,
+      "nonzero_width_interval_rhs_coordinates": 22500,
+      "operator_seconds": 29.42740771199624,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 800,
+      "target": 10,
+      "unknown_reasons": {},
+      "upper_exclusive": 100,
+      "verdict_distribution": {
+        "OK": 800,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 800,
+      "bucket": "1e2-1e4",
+      "condition_inf": {
+        "maximum": 1000.0359364714869,
+        "median": 1000.0014582704038,
+        "minimum": 1000.0000242536998
+      },
+      "containment_violation_coordinates": 0,
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.6699576316926856,
+        "max_relative": 277.9352497147851,
+        "median_absolute": 0.09109934034458596,
+        "median_relative": 1.97332380343564,
+        "samples": 800
+      },
+      "interval_rhs_cases": 800,
+      "lower_inclusive": 100,
+      "near_singular_cases": 0,
+      "near_singular_supported_cases": 0,
+      "nonnormal_block_cases": 600,
+      "nonnormal_global_matrix_cases": 800,
+      "nonzero_width_interval_rhs_coordinates": 22500,
+      "operator_seconds": 31.77411328400558,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "strong_subdiagonal_cases": 800,
+      "supported_cases": 800,
+      "target": 1000,
+      "unknown_reasons": {},
+      "upper_exclusive": 10000,
+      "verdict_distribution": {
+        "OK": 800,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 800,
+      "bucket": "1e4-1e6",
+      "condition_inf": {
+        "maximum": 100006.10068391984,
+        "median": 100000.21527261859,
+        "minimum": 100000.00001274358
+      },
+      "containment_violation_coordinates": 0,
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.57370467412316,
+        "max_relative": 140.59900243750758,
+        "median_absolute": 0.06545921634052047,
+        "median_relative": 1.1537868989288254,
+        "samples": 800
+      },
+      "interval_rhs_cases": 800,
+      "lower_inclusive": 10000,
+      "near_singular_cases": 0,
+      "near_singular_supported_cases": 0,
+      "nonnormal_block_cases": 600,
+      "nonnormal_global_matrix_cases": 800,
+      "nonzero_width_interval_rhs_coordinates": 22500,
+      "operator_seconds": 31.808194826002136,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "strong_subdiagonal_cases": 800,
+      "supported_cases": 800,
+      "target": 100000,
+      "unknown_reasons": {},
+      "upper_exclusive": 1000000,
+      "verdict_distribution": {
+        "OK": 800,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 800,
+      "bucket": "1e6-1e8",
+      "condition_inf": {
+        "maximum": 10000323.203086844,
+        "median": 10000027.600733744,
+        "minimum": 10000000.001274358
+      },
+      "containment_violation_coordinates": 0,
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.494444910164708,
+        "max_relative": 209.69422566685932,
+        "median_absolute": 0.04801650567395915,
+        "median_relative": 0.7887256455445183,
+        "samples": 800
+      },
+      "interval_rhs_cases": 800,
+      "lower_inclusive": 1000000,
+      "near_singular_cases": 160,
+      "near_singular_supported_cases": 160,
+      "nonnormal_block_cases": 600,
+      "nonnormal_global_matrix_cases": 800,
+      "nonzero_width_interval_rhs_coordinates": 22500,
+      "operator_seconds": 31.657712099005494,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "strong_subdiagonal_cases": 800,
+      "supported_cases": 800,
+      "target": 10000000,
+      "unknown_reasons": {},
+      "upper_exclusive": 100000000,
+      "verdict_distribution": {
+        "OK": 800,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    }
+  ],
+  "config_sha256": "fa321e6dd075f3227f91470e41f2d029e7aed576de8d02838ef9796ba1ef34b2",
+  "containment_violation_coordinates": 0,
+  "containment_violations": 0,
+  "coverage": {
+    "all_16_dimension_slab_cells_present": true,
+    "all_four_condition_buckets_present_per_cell": true,
+    "dimension_one_block_nonnormality": "not applicable to scalar blocks; the assembled temporal matrix is non-normal",
+    "minimum_interval_rhs_cases_per_cell": 200,
+    "near_singular_supported_present_per_cell": true,
+    "nonnormal_block_cases": 2400,
+    "nonnormal_global_matrix_cases": 3200,
+    "required_interval_rhs_cases_per_cell": 200,
+    "strong_subdiagonal_present_per_cell": true
+  },
+  "dirty_worktree": true,
+  "expected_unsupported": {
+    "UNKNOWN": 32,
+    "attempted_cases": 32,
+    "false_OK": 0,
+    "records": [
+      {
+        "case_id": "d1-s2-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s2-inconclusive",
+        "category": "nonsingular_output_overflow_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s4-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s4-inconclusive",
+        "category": "nonsingular_output_overflow_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s8-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s8-inconclusive",
+        "category": "nonsingular_output_overflow_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s16-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d1-s16-inconclusive",
+        "category": "nonsingular_output_overflow_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s2-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s2-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s4-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s4-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s8-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s8-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s16-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d2-s16-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s2-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s2-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s4-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s4-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s8-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s8-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s16-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d4-s16-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s2-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s2-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s4-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s4-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s8-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s8-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s16-singular",
+        "category": "exact_singular",
+        "exact_matrix_nonsingular": false,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+        "stress_verdict": "UNKNOWN"
+      },
+      {
+        "case_id": "d8-s16-inconclusive",
+        "category": "nonsingular_pivot_interval_inconclusive",
+        "exact_matrix_nonsingular": true,
+        "operator_status": "UNSUPPORTED",
+        "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+        "stress_verdict": "UNKNOWN"
+      }
+    ]
+  },
+  "failure_codes": [],
+  "generated_at_utc": "2026-08-31T16:11:49.598396+00:00",
+  "generator_contract": {
+    "coupling_quantization_denominator": 1048576,
+    "coupling_selection": "smallest positive quantized coupling whose exact condition_inf reaches the bucket target",
+    "expected_unsupported_per_cell": [
+      "one exact-singular block system",
+      "one exact-nonsingular but interval-inconclusive system"
+    ],
+    "matrix_family": "scale * (I - coupling * nilpotent_lower_shift)",
+    "near_singular_rule": "every fifth case in bucket 1e6-1e8 uses matrix and RHS scale 2^-80",
+    "rhs_centers": "independent signed multiples of 1/64 in [-2, 2]",
+    "rhs_radii": "independent positive multiples of 1/1024 in [1/1024, 1/32]"
+  },
+  "generator_seed": 20260831,
+  "generator_version": 1,
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "grids": [
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 1,
+      "condition_inf": {
+        "maximum": 10000000.001274358,
+        "median": 50500.00001849864,
+        "minimum": 10.000003258320248
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000003258320248,
+            "median": 10.000003258320248,
+            "minimum": 10.000003258320248
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0,
+            "max_relative": 0.0,
+            "median_absolute": 0.0,
+            "median_relative": 0.0,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 100,
+          "operator_seconds": 0.01382645199896615,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0000242536998,
+            "median": 1000.0000242536998,
+            "minimum": 1000.0000242536998
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0,
+            "max_relative": 0.0,
+            "median_absolute": 0.0,
+            "median_relative": 0.0,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 100,
+          "operator_seconds": 0.013418359000752389,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.00001274358,
+            "median": 100000.00001274358,
+            "minimum": 100000.00001274358
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0,
+            "max_relative": 0.0,
+            "median_absolute": 0.0,
+            "median_relative": 0.0,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 100,
+          "operator_seconds": 0.013226949999761928,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000000.001274358,
+            "median": 10000000.001274358,
+            "minimum": 10000000.001274358
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0,
+            "max_relative": 0.0,
+            "median_absolute": 0.0,
+            "median_relative": 0.0,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 100,
+          "operator_seconds": 0.013749493999966944,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d1-s2-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d1-s2-inconclusive",
+            "category": "nonsingular_output_overflow_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.0,
+        "max_relative": 0.0,
+        "median_absolute": 0.0,
+        "median_relative": 0.0,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 0,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 400,
+      "operator_seconds": 0.05422125499944741,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 2,
+      "strong_subdiagonal_cases": 200,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 1,
+      "condition_inf": {
+        "maximum": 10000000.269975059,
+        "median": 50500.008033086284,
+        "minimum": 10.000007355968481
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000007355968481,
+            "median": 10.000007355968481,
+            "minimum": 10.000007355968481
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 1.0781306403195856e-15,
+            "max_relative": 1.6317695263888994e-14,
+            "median_absolute": 4.484260185400046e-16,
+            "median_relative": 2.753707471555677e-15,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.03253899299943441,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0006015214772,
+            "median": 1000.0006015214772,
+            "minimum": 1000.0006015214772
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 8.651575549717405e-14,
+            "max_relative": 7.916367611560213e-14,
+            "median_absolute": 1.9225723443816456e-14,
+            "median_relative": 3.7929184771875535e-15,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.03125842499957798,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.0154646511,
+            "median": 100000.0154646511,
+            "minimum": 100000.0154646511
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 5.0723702819108814e-12,
+            "max_relative": 1.3480168968909694e-13,
+            "median_absolute": 1.5842721786077265e-12,
+            "median_relative": 1.0072284354917243e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.03420646999984456,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000000.269975059,
+            "median": 10000000.269975059,
+            "minimum": 10000000.269975059
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 1.635666010187803e-10,
+            "max_relative": 1.2489844026967194e-13,
+            "median_absolute": 4.4026160701034905e-11,
+            "median_relative": 1.0178611299485483e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.0332182600006945,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d1-s4-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d1-s4-inconclusive",
+            "category": "nonsingular_output_overflow_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 1.635666010187803e-10,
+        "max_relative": 1.3480168968909694e-13,
+        "median_absolute": 4.9319055783758614e-14,
+        "median_relative": 5.4650348322055094e-15,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 0,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 800,
+      "operator_seconds": 0.13122214799955145,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 4,
+      "strong_subdiagonal_cases": 200,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 1,
+      "condition_inf": {
+        "maximum": 10000001.844585197,
+        "median": 50500.05187751676,
+        "minimum": 10.000011952320888
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000011952320888,
+            "median": 10.000011952320888,
+            "minimum": 10.000011952320888
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 2.240125568031562e-15,
+            "max_relative": 2.2848696675036613e-14,
+            "median_absolute": 1.2768856671877212e-15,
+            "median_relative": 8.17191496111571e-15,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.06838183600029879,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0014582704038,
+            "median": 1000.0014582704038,
+            "minimum": 1000.0014582704038
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.320851896246632e-13,
+            "max_relative": 5.72548171936305e-14,
+            "median_absolute": 1.4125643276313822e-13,
+            "median_relative": 1.6858564133361862e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.06653823299939177,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.10229676311,
+            "median": 100000.10229676311,
+            "minimum": 100000.10229676311
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 3.578986530187032e-11,
+            "max_relative": 1.0158732010556437e-13,
+            "median_absolute": 9.159236445483507e-12,
+            "median_relative": 1.896318103382107e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.06757659299887564,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000001.844585197,
+            "median": 10000001.844585197,
+            "minimum": 10000001.844585197
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 2.033101193454375e-09,
+            "max_relative": 1.8867708407198835e-13,
+            "median_absolute": 6.731105445881437e-10,
+            "median_relative": 2.0284377532648568e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.06733963200031212,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d1-s8-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d1-s8-inconclusive",
+            "category": "nonsingular_output_overflow_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 2.033101193454375e-09,
+        "max_relative": 1.8867708407198835e-13,
+        "median_absolute": 5.338928723149584e-13,
+        "median_relative": 1.2866667686037533e-14,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 0,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 1600,
+      "operator_seconds": 0.2698362939988783,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 8,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 1,
+      "condition_inf": {
+        "maximum": 10000027.600733744,
+        "median": 50500.11014588993,
+        "minimum": 10.000030838179258
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000030838179258,
+            "median": 10.000030838179258,
+            "minimum": 10.000030838179258
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 3.679049878041814e-15,
+            "max_relative": 3.1980460296294325e-14,
+            "median_absolute": 1.8514826280096308e-15,
+            "median_relative": 1.0900642089001185e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.14882947199953378,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.005019161274,
+            "median": 1000.005019161274,
+            "minimum": 1000.005019161274
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 9.065323556590608e-13,
+            "max_relative": 7.493908485631536e-14,
+            "median_absolute": 3.059542454496903e-13,
+            "median_relative": 2.150027308851878e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.14637714300010884,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.21527261859,
+            "median": 100000.21527261859,
+            "minimum": 100000.21527261859
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 1.1864728813374496e-10,
+            "max_relative": 1.3715162472298644e-13,
+            "median_absolute": 3.972093509884741e-11,
+            "median_relative": 3.7658283514043766e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.14333872199949838,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000027.600733744,
+            "median": 10000027.600733744,
+            "minimum": 10000027.600733744
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 9.93683094878718e-09,
+            "max_relative": 1.8879493743013216e-13,
+            "median_absolute": 3.456772144455804e-09,
+            "median_relative": 3.837572784965804e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 0,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.14410665000059453,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d1-s16-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d1-s16-inconclusive",
+            "category": "nonsingular_output_overflow_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: exact result is outside the finite binary64 range",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 9.93683094878718e-09,
+        "max_relative": 1.8879493743013216e-13,
+        "median_absolute": 1.140416632051212e-12,
+        "median_relative": 2.1582235905815564e-14,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 0,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 3200,
+      "operator_seconds": 0.5826519869997355,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 16,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 2,
+      "condition_inf": {
+        "maximum": 10000000.269975059,
+        "median": 50500.008033086284,
+        "minimum": 10.000007355968481
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000007355968481,
+            "median": 10.000007355968481,
+            "minimum": 10.000007355968481
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.10877714802656446,
+            "max_relative": 53.89732237703305,
+            "median_absolute": 0.07895115582573362,
+            "median_relative": 1.5969577000602548,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.060746247999304614,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0006015214772,
+            "median": 1000.0006015214772,
+            "minimum": 1000.0006015214772
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.02454408655150786,
+            "max_relative": 3.9270538482340953,
+            "median_absolute": 0.018408064913630673,
+            "median_relative": 0.3660083082235769,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.062205445000927284,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.0154646511,
+            "median": 100000.0154646511,
+            "minimum": 100000.0154646511
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.007009783698466832,
+            "max_relative": 1.7366173807812544,
+            "median_absolute": 0.0055399903423360985,
+            "median_relative": 0.13520517603287008,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.06044291099942711,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000000.269975059,
+            "median": 10000000.269975059,
+            "minimum": 10000000.269975059
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0022428834454899516,
+            "max_relative": 0.2631649904476679,
+            "median_absolute": 0.0015069373124190766,
+            "median_relative": 0.03652695890142445,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 200,
+          "operator_seconds": 0.06057849599983456,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d2-s2-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d2-s2-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.10877714802656446,
+        "max_relative": 53.89732237703305,
+        "median_absolute": 0.00695640402053223,
+        "median_relative": 0.23331151634131522,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 800,
+      "operator_seconds": 0.24397309999949357,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 2,
+      "strong_subdiagonal_cases": 200,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 2,
+      "condition_inf": {
+        "maximum": 10000001.844585197,
+        "median": 50500.05187751676,
+        "minimum": 10.000011952320888
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000011952320888,
+            "median": 10.000011952320888,
+            "minimum": 10.000011952320888
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 3.3511476098132735e-15,
+            "max_relative": 1.729365024068364e-14,
+            "median_absolute": 1.118014088250708e-15,
+            "median_relative": 6.958668105969499e-15,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.13537592899979245,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0014582704038,
+            "median": 1000.0014582704038,
+            "minimum": 1000.0014582704038
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.06006330218944762,
+            "max_relative": 25.947346545805885,
+            "median_absolute": 0.05255538941600199,
+            "median_relative": 1.064968550357602,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.15090153999972244,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.10229676311,
+            "median": 100000.10229676311,
+            "minimum": 100000.10229676311
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.031621667165319604,
+            "max_relative": 15.68434689841225,
+            "median_absolute": 0.02668078164823208,
+            "median_relative": 0.4522238418073462,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.15304579800044849,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000001.844585197,
+            "median": 10000001.844585197,
+            "minimum": 10000001.844585197
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.01725824735256795,
+            "max_relative": 6.351034781150588,
+            "median_absolute": 0.015100965851920334,
+            "median_relative": 0.28891583344202243,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.15269549899994672,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d2-s4-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d2-s4-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.06006330218944762,
+        "max_relative": 25.947346545805885,
+        "median_absolute": 0.01725824693561004,
+        "median_relative": 0.3443692212940551,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 1600,
+      "operator_seconds": 0.5920187659999101,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 4,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 2,
+      "condition_inf": {
+        "maximum": 10000027.600733744,
+        "median": 50500.11014588993,
+        "minimum": 10.000030838179258
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000030838179258,
+            "median": 10.000030838179258,
+            "minimum": 10.000030838179258
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.1636190326831855e-15,
+            "max_relative": 3.1204580362931695e-14,
+            "median_absolute": 1.700797914967214e-15,
+            "median_relative": 1.0673402649646907e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.2717372469990096,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.005019161274,
+            "median": 1000.005019161274,
+            "minimum": 1000.005019161274
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.09109934034463939,
+            "max_relative": 40.812504474274135,
+            "median_absolute": 0.08540563157283948,
+            "median_relative": 1.6149428515591628,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.3282899760008604,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.21527261859,
+            "median": 100000.21527261859,
+            "minimum": 100000.21527261859
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.06545921636045321,
+            "max_relative": 11.520822075705496,
+            "median_absolute": 0.06136801531805189,
+            "median_relative": 1.0080719316242193,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.31446589000029235,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000027.600733744,
+            "median": 10000027.600733744,
+            "minimum": 10000027.600733744
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.04801650663469286,
+            "max_relative": 12.292225452499679,
+            "median_absolute": 0.04351495826817633,
+            "median_relative": 0.6363846558429674,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.3222685600007935,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d2-s8-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d2-s8-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.09109934034463939,
+        "max_relative": 40.812504474274135,
+        "median_absolute": 0.048555459444565824,
+        "median_relative": 0.6952954103995014,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 3200,
+      "operator_seconds": 1.2367616730009559,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 8,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 2,
+      "condition_inf": {
+        "maximum": 10000153.312279902,
+        "median": 50500.80972859942,
+        "minimum": 10.000015136705237
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000015136705237,
+            "median": 10.000015136705237,
+            "minimum": 10.000015136705237
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 5.043266913813018e-15,
+            "max_relative": 4.63706580212256e-14,
+            "median_absolute": 2.2963357497455463e-15,
+            "median_relative": 1.441818986246532e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 0.5562344209999992,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0007876581321,
+            "median": 1000.0007876581321,
+            "minimum": 1000.0007876581321
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.10963524066436707,
+            "max_relative": 49.11658781726612,
+            "median_absolute": 0.10620913939338328,
+            "median_relative": 1.6027628039860653,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 0.6467212870002186,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100001.61866954071,
+            "median": 100001.61866954071,
+            "minimum": 100001.61866954071
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.09257510548092059,
+            "max_relative": 15.552617694733954,
+            "median_absolute": 0.08968213329452007,
+            "median_relative": 1.1990680308864996,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 0.6519062580000536,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000153.312279902,
+            "median": 10000153.312279902,
+            "minimum": 10000153.312279902
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0791456966552015,
+            "max_relative": 18.994967045773798,
+            "median_absolute": 0.0766723931312778,
+            "median_relative": 0.9957967572481589,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 0.6568060469987813,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d2-s16-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d2-s16-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.10963524066436707,
+        "max_relative": 49.11658781726612,
+        "median_absolute": 0.07914569631610785,
+        "median_relative": 0.8940110171462698,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 6400,
+      "operator_seconds": 2.5116680129990527,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 16,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 4,
+      "condition_inf": {
+        "maximum": 10000001.844585197,
+        "median": 50500.05187751676,
+        "minimum": 10.000011952320888
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000011952320888,
+            "median": 10.000011952320888,
+            "minimum": 10.000011952320888
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 2.8644460245628915e-15,
+            "max_relative": 2.145655445928651e-14,
+            "median_absolute": 1.0310840773591773e-15,
+            "median_relative": 6.31314004619645e-15,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.25942526099970564,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0014582704038,
+            "median": 1000.0014582704038,
+            "minimum": 1000.0014582704038
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.0977378423026149,
+            "max_relative": 37.604075491202195,
+            "median_absolute": 0.07196952813981944,
+            "median_relative": 1.8303463767985035,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.29181654500098375,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.10229676311,
+            "median": 100000.10229676311,
+            "minimum": 100000.10229676311
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.038871158422658335,
+            "max_relative": 15.613628530512756,
+            "median_absolute": 0.03116871315530856,
+            "median_relative": 0.649818703164136,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.29296694599997863,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000001.844585197,
+            "median": 10000001.844585197,
+            "minimum": 10000001.844585197
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.018565171603848348,
+            "max_relative": 8.103665595990265,
+            "median_absolute": 0.015808340751191075,
+            "median_relative": 0.28687469616424177,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 400,
+          "operator_seconds": 0.2945133640007498,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d4-s2-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d4-s2-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.0977378423026149,
+        "max_relative": 37.604075491202195,
+        "median_absolute": 0.019658445332207022,
+        "median_relative": 0.3756057795554554,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 1600,
+      "operator_seconds": 1.1387221160014178,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 2,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 4,
+      "condition_inf": {
+        "maximum": 10000027.600733744,
+        "median": 50500.11014588993,
+        "minimum": 10.000030838179258
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000030838179258,
+            "median": 10.000030838179258,
+            "minimum": 10.000030838179258
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.011481401661808e-15,
+            "max_relative": 2.6698686905132255e-14,
+            "median_absolute": 1.6368848449194082e-15,
+            "median_relative": 1.0809989714664934e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.597966895999889,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.005019161274,
+            "median": 1000.005019161274,
+            "minimum": 1000.005019161274
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.19096860979073285,
+            "max_relative": 44.38757261842048,
+            "median_absolute": 0.15333178377425083,
+            "median_relative": 3.6579352162292267,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.6871049510011744,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.21527261859,
+            "median": 100000.21527261859,
+            "minimum": 100000.21527261859
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.11151893336158052,
+            "max_relative": 38.80550241711103,
+            "median_absolute": 0.08493501483897035,
+            "median_relative": 2.3908553981315555,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.6864976070005469,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000027.600733744,
+            "median": 10000027.600733744,
+            "minimum": 10000027.600733744
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.06916387968685955,
+            "max_relative": 35.00528269134918,
+            "median_absolute": 0.056081338440958355,
+            "median_relative": 1.123663728178245,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 0.6673258120003993,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d4-s4-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d4-s4-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.19096860979073285,
+        "max_relative": 44.38757261842048,
+        "median_absolute": 0.06660021425658634,
+        "median_relative": 1.5140028105073358,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 3200,
+      "operator_seconds": 2.6388952660020095,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 4,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 4,
+      "condition_inf": {
+        "maximum": 10000153.312279902,
+        "median": 50500.80972859942,
+        "minimum": 10.000015136705237
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000015136705237,
+            "median": 10.000015136705237,
+            "minimum": 10.000015136705237
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.3304235933442236e-15,
+            "max_relative": 3.3556672396189036e-14,
+            "median_absolute": 2.1792198728007137e-15,
+            "median_relative": 1.431538564870863e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 1.3130465580004511,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0007876581321,
+            "median": 1000.0007876581321,
+            "minimum": 1000.0007876581321
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.2735813588842763,
+            "max_relative": 53.18176081958154,
+            "median_absolute": 0.21504856797972255,
+            "median_relative": 3.780677207592977,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 1.377381473999776,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100001.61866954071,
+            "median": 100001.61866954071,
+            "minimum": 100001.61866954071
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.2090198175301644,
+            "max_relative": 77.0422825220138,
+            "median_absolute": 0.16060532859163926,
+            "median_relative": 3.6024600062112437,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 1.3844841580007596,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000153.312279902,
+            "median": 10000153.312279902,
+            "minimum": 10000153.312279902
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.15999588345615143,
+            "max_relative": 35.13389129020982,
+            "median_absolute": 0.12355410819201496,
+            "median_relative": 3.510436005429037,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 1.4450340940009028,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d4-s8-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d4-s8-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.2735813588842763,
+        "max_relative": 77.0422825220138,
+        "median_absolute": 0.13832027029578406,
+        "median_relative": 2.7327456180366947,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 6400,
+      "operator_seconds": 5.51994628400189,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 8,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 4,
+      "condition_inf": {
+        "maximum": 10000127.594719125,
+        "median": 50501.53918843732,
+        "minimum": 10.000041737872772
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000041737872772,
+            "median": 10.000041737872772,
+            "minimum": 10.000041737872772
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.868866077002445e-15,
+            "max_relative": 3.787424543648076e-14,
+            "median_absolute": 2.7991237883332987e-15,
+            "median_relative": 1.9131199172947086e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 2.2754872630002865,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0238312978834,
+            "median": 1000.0238312978834,
+            "minimum": 1000.0238312978834
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.32869116489820827,
+            "max_relative": 87.56726423198393,
+            "median_absolute": 0.2711803026857772,
+            "median_relative": 5.428148978070811,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 2.5644756060000873,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100003.05454557676,
+            "median": 100003.05454557676,
+            "minimum": 100003.05454557676
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.2863076117357093,
+            "max_relative": 38.38860950446356,
+            "median_absolute": 0.225289510473907,
+            "median_relative": 5.358831459385433,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 2.578041532000725,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000127.594719125,
+            "median": 10000127.594719125,
+            "minimum": 10000127.594719125
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.23214316011094172,
+            "max_relative": 82.84697420895577,
+            "median_absolute": 0.1998499272707459,
+            "median_relative": 3.4778161084449604,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 2.563725153000405,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d4-s16-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d4-s16-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.32869116489820827,
+        "max_relative": 87.56726423198393,
+        "median_absolute": 0.2133591635542224,
+        "median_relative": 3.2792978817513916,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 12800,
+      "operator_seconds": 9.981729554001504,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 16,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 8,
+      "condition_inf": {
+        "maximum": 10000027.600733744,
+        "median": 50500.11014588993,
+        "minimum": 10.000030838179258
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000030838179258,
+            "median": 10.000030838179258,
+            "minimum": 10.000030838179258
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.019815456494831e-15,
+            "max_relative": 2.9173935724253357e-14,
+            "median_absolute": 1.9169718888499447e-15,
+            "median_relative": 1.3323147851516812e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 1.3336791839999478,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.005019161274,
+            "median": 1000.005019161274,
+            "minimum": 1000.005019161274
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.24134723012583756,
+            "max_relative": 98.86518052781315,
+            "median_absolute": 0.18384717275909065,
+            "median_relative": 4.21650334967868,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 1.390673983999477,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100000.21527261859,
+            "median": 100000.21527261859,
+            "minimum": 100000.21527261859
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.12071997826716141,
+            "max_relative": 40.15177263323915,
+            "median_absolute": 0.09951555381537952,
+            "median_relative": 1.8007072247664937,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 1.4108159400007025,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000027.600733744,
+            "median": 10000027.600733744,
+            "minimum": 10000027.600733744
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.06911942596224474,
+            "max_relative": 30.763604875278702,
+            "median_absolute": 0.061430433508581204,
+            "median_relative": 1.3711500986048817,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 800,
+          "operator_seconds": 1.4135316319989215,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d8-s2-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d8-s2-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.24134723012583756,
+        "max_relative": 98.86518052781315,
+        "median_absolute": 0.0706715488550863,
+        "median_relative": 1.5554638431321297,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 3200,
+      "operator_seconds": 5.548700739999049,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 2,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 8,
+      "condition_inf": {
+        "maximum": 10000153.312279902,
+        "median": 50500.80972859942,
+        "minimum": 10.000015136705237
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000015136705237,
+            "median": 10.000015136705237,
+            "minimum": 10.000015136705237
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 4.325052037036384e-15,
+            "max_relative": 2.92282314778245e-14,
+            "median_absolute": 2.2160138128112388e-15,
+            "median_relative": 1.5371223328832666e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 2.8396422899991194,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0007876581321,
+            "median": 1000.0007876581321,
+            "minimum": 1000.0007876581321
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.4784297166297053,
+            "max_relative": 111.12829848980857,
+            "median_absolute": 0.3498116341606454,
+            "median_relative": 6.863034821138642,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 3.090870045001111,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100001.61866954071,
+            "median": 100001.61866954071,
+            "minimum": 100001.61866954071
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.26185671122577475,
+            "max_relative": 116.56001023125748,
+            "median_absolute": 0.20990952767494514,
+            "median_relative": 5.254782614597408,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 3.099095570000827,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000153.312279902,
+            "median": 10000153.312279902,
+            "minimum": 10000153.312279902
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.18887037101522597,
+            "max_relative": 56.23400385801392,
+            "median_absolute": 0.14744800530409868,
+            "median_relative": 2.8782167383213886,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 1600,
+          "operator_seconds": 3.050986617001172,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d8-s4-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d8-s4-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.4784297166297053,
+        "max_relative": 116.56001023125748,
+        "median_absolute": 0.17294805550191217,
+        "median_relative": 4.046241462634406,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 6400,
+      "operator_seconds": 12.08059452200223,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 4,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 8,
+      "condition_inf": {
+        "maximum": 10000127.594719125,
+        "median": 50501.53918843732,
+        "minimum": 10.000041737872772
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000041737872772,
+            "median": 10.000041737872772,
+            "minimum": 10.000041737872772
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 5.0612375360587995e-15,
+            "max_relative": 3.2686443182660226e-14,
+            "median_absolute": 2.5029939192174273e-15,
+            "median_relative": 1.7087021992508553e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 6.516770488999782,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0238312978834,
+            "median": 1000.0238312978834,
+            "minimum": 1000.0238312978834
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.6373818949373431,
+            "max_relative": 209.35039781167055,
+            "median_absolute": 0.47748816256015536,
+            "median_relative": 11.319625503430489,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 7.030080002001796,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100003.05454557676,
+            "median": 100003.05454557676,
+            "minimum": 100003.05454557676
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.4224927147025168,
+            "max_relative": 41.20831765308327,
+            "median_absolute": 0.3555770121602815,
+            "median_relative": 7.799072782894125,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 6.983897028001138,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000127.594719125,
+            "median": 10000127.594719125,
+            "minimum": 10000127.594719125
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.3289454884238052,
+            "max_relative": 79.32409304069489,
+            "median_absolute": 0.28757888222112005,
+            "median_relative": 7.942641208859784,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 3200,
+          "operator_seconds": 6.853394714999922,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d8-s8-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d8-s8-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.6373818949373431,
+        "max_relative": 209.35039781167055,
+        "median_absolute": 0.3164600659562519,
+        "median_relative": 6.52963308488124,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 12800,
+      "operator_seconds": 27.38414223400264,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 8,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    },
+    {
+      "UNKNOWN": 0,
+      "attempted_cases": 200,
+      "block_dimension": 8,
+      "condition_inf": {
+        "maximum": 10000323.203086844,
+        "median": 50503.06831019566,
+        "minimum": 10.000010490357534
+      },
+      "conditioning_and_pivot_growth_buckets": [
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e0-1e2",
+          "condition_inf": {
+            "maximum": 10.000010490357534,
+            "median": 10.000010490357534,
+            "minimum": 10.000010490357534
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 5.285361979784107e-15,
+            "max_relative": 4.1840155138642057e-14,
+            "median_absolute": 3.4306896540377725e-15,
+            "median_relative": 2.1876373031227173e-14,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 6400,
+          "operator_seconds": 13.003719173000718,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 0,
+          "supported_cases": 50,
+          "target": 10,
+          "unknown_reasons": {},
+          "upper_exclusive": 100,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e2-1e4",
+          "condition_inf": {
+            "maximum": 1000.0359364714869,
+            "median": 1000.0359364714869,
+            "minimum": 1000.0359364714869
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.6699576316926856,
+            "max_relative": 277.9352497147851,
+            "median_absolute": 0.5886747714394347,
+            "median_relative": 11.135788480376773,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 100,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 6400,
+          "operator_seconds": 13.896000268999614,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 1000,
+          "unknown_reasons": {},
+          "upper_exclusive": 10000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e4-1e6",
+          "condition_inf": {
+            "maximum": 100006.10068391984,
+            "median": 100006.10068391984,
+            "minimum": 100006.10068391984
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.57370467412316,
+            "max_relative": 140.59900243750758,
+            "median_absolute": 0.49651552614034244,
+            "median_relative": 10.32839292793199,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 10000,
+          "near_singular_cases": 0,
+          "near_singular_supported_cases": 0,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 6400,
+          "operator_seconds": 13.934186452999256,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 100000,
+          "unknown_reasons": {},
+          "upper_exclusive": 1000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        },
+        {
+          "UNKNOWN": 0,
+          "attempted_cases": 50,
+          "bucket": "1e6-1e8",
+          "condition_inf": {
+            "maximum": 10000323.203086844,
+            "median": 10000323.203086844,
+            "minimum": 10000323.203086844
+          },
+          "containment_violation_coordinates": 0,
+          "failure_case_ids": [],
+          "inflation": {
+            "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+            "max_absolute": 0.494444910164708,
+            "max_relative": 209.69422566685932,
+            "median_absolute": 0.4265145441194812,
+            "median_relative": 10.944606110705994,
+            "samples": 50
+          },
+          "interval_rhs_cases": 50,
+          "lower_inclusive": 1000000,
+          "near_singular_cases": 10,
+          "near_singular_supported_cases": 10,
+          "nonnormal_block_cases": 50,
+          "nonnormal_global_matrix_cases": 50,
+          "nonzero_width_interval_rhs_coordinates": 6400,
+          "operator_seconds": 13.918438074002097,
+          "partial_pivot_growth": {
+            "maximum": 1.0,
+            "median": 1.0,
+            "minimum": 1.0
+          },
+          "strong_subdiagonal_cases": 50,
+          "supported_cases": 50,
+          "target": 10000000,
+          "unknown_reasons": {},
+          "upper_exclusive": 100000000,
+          "verdict_distribution": {
+            "OK": 50,
+            "UNKNOWN": 0
+          },
+          "violations": 0
+        }
+      ],
+      "containment_violation_coordinates": 0,
+      "expected_unsupported": {
+        "UNKNOWN": 2,
+        "attempted_cases": 2,
+        "false_OK": 0,
+        "records": [
+          {
+            "case_id": "d8-s16-singular",
+            "category": "exact_singular",
+            "exact_matrix_nonsingular": false,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 0",
+            "stress_verdict": "UNKNOWN"
+          },
+          {
+            "case_id": "d8-s16-inconclusive",
+            "category": "nonsingular_pivot_interval_inconclusive",
+            "exact_matrix_nonsingular": true,
+            "operator_status": "UNSUPPORTED",
+            "reason": "block 0 solve failed: pivot interval contains zero at column 1",
+            "stress_verdict": "UNKNOWN"
+          }
+        ]
+      },
+      "failure_case_ids": [],
+      "inflation": {
+        "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+        "max_absolute": 0.6699576316926856,
+        "max_relative": 277.9352497147851,
+        "median_absolute": 0.45728241336983,
+        "median_relative": 8.988126522215428,
+        "samples": 200
+      },
+      "interval_rhs_cases": 200,
+      "near_singular_cases": 10,
+      "near_singular_supported_cases": 10,
+      "nonnormal_block_cases": 200,
+      "nonnormal_global_matrix_cases": 200,
+      "nonzero_width_interval_rhs_coordinates": 25600,
+      "operator_seconds": 54.752343969001686,
+      "partial_pivot_growth": {
+        "maximum": 1.0,
+        "median": 1.0,
+        "minimum": 1.0
+      },
+      "slab_length": 16,
+      "strong_subdiagonal_cases": 150,
+      "supported_cases": 200,
+      "unknown_reasons": {},
+      "verdict_distribution": {
+        "OK": 200,
+        "UNKNOWN": 0
+      },
+      "violations": 0
+    }
+  ],
+  "implementation_sha256": "70b27d348c2e95c9218829356c5e3c2ffc8680be7762ad2734a6be74b71f9798",
+  "input_sha256": "85775cc0f6c0dd238b49f24dc6d4ff89ab054a31aadc0738e7f6c1ec1707d852",
+  "interval_rhs_attempted_cases": 3200,
+  "main_nonsingular_UNKNOWN": 0,
+  "oracle": {
+    "arithmetic": "fractions.Fraction over exact binary64 inputs",
+    "independent_of_verified_solve": true,
+    "matrix_contract": "materialized global lower-bidiagonal matrix with independently checked sparsity and nonzero diagonal",
+    "name": "exact_fraction_materialized_dense_chain_coordinate_hull"
+  },
+  "oracle_version": 1,
+  "overall": {
+    "UNKNOWN": 0,
+    "attempted_cases": 3200,
+    "condition_inf": {
+      "maximum": 10000323.203086844,
+      "median": 50500.01797460753,
+      "minimum": 10.000003258320248
+    },
+    "containment_violation_coordinates": 0,
+    "failure_case_ids": [],
+    "inflation": {
+      "definition": "per supported case, maximum over coordinates of binary64 enclosure width minus exact Fraction dense-chain hull width; relative inflation divides by the nonzero exact hull width",
+      "max_absolute": 0.6699576316926856,
+      "max_relative": 277.9352497147851,
+      "median_absolute": 0.020751719065676584,
+      "median_relative": 0.3636618105911365,
+      "samples": 3200
+    },
+    "interval_rhs_cases": 3200,
+    "near_singular_cases": 160,
+    "near_singular_supported_cases": 160,
+    "nonnormal_block_cases": 2400,
+    "nonnormal_global_matrix_cases": 3200,
+    "nonzero_width_interval_rhs_coordinates": 90000,
+    "operator_seconds": 124.66742792100945,
+    "partial_pivot_growth": {
+      "maximum": 1.0,
+      "median": 1.0,
+      "minimum": 1.0
+    },
+    "strong_subdiagonal_cases": 2550,
+    "supported_cases": 3200,
+    "unknown_reasons": {},
+    "verdict_distribution": {
+      "OK": 3200,
+      "UNKNOWN": 0
+    },
+    "violations": 0
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "random_seeds": {
+    "base": 20260831,
+    "case_seed_formula_version": 1
+  },
+  "recurrence_version": 1,
+  "schema_version": 1,
+  "source_files_sha256": {
+    "experiments/blockstamp_operator.py": "b25577f23a77a04af3674073a3cf1cfddd3859e26a823c2b4b59524a46b7d3bf",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_operator_stress.py": "075578e5bc5ac5c5703b3d4bb551d60ec31526867d62d16fcaf7917e6933e658"
+  },
+  "status": "PASS",
+  "status_semantics": "PASS means required coverage, zero observed containment violations among OK cases, and fail-closed expected edges; UNKNOWN is retained and is never counted as a supported success",
+  "supported_cases": 3200
+}

@@ -1,7 +1,13 @@
-"""Restricted smooth diode and Level-1 NMOS interval stamps.
+"""Restricted diode, Level-1 NMOS, and smooth-NMOS interval stamps.
 
 Boxes crossing a Level-1 region boundary are deliberately unsupported.  This avoids
 using a center-point floating branch as a purported interval Jacobian.
+
+The smooth NMOS model is a separate, explicitly declared benchmark semantics.  It is
+not presented as a compact-model replacement.  Its exponentially controlled channel
+conductance is differentiable on the whole finite domain, which makes a three-stage
+ring useful for testing transient producer/checker interfaces without hiding region
+splits inside the checker.
 """
 
 from __future__ import annotations
@@ -54,6 +60,25 @@ class MosStamp:
     region: MosRegion
 
 
+@dataclass(frozen=True, slots=True)
+class SmoothNmosParameters:
+    """Parameters for the globally smooth ring-oscillator NMOS semantics."""
+
+    conductance_scale: float = 5e-5
+    threshold: float = 0.45
+    slope_voltage: float = 0.12
+    floor_conductance: float = 1e-8
+
+
+@dataclass(frozen=True, slots=True)
+class SmoothNmosStamp:
+    """Drain-current and first-derivative enclosures for a smooth NMOS."""
+
+    drain_current: Interval
+    transconductance: Interval
+    output_conductance: Interval
+
+
 def _require(result: IntervalResult) -> Interval:
     if result.status is not IntervalStatus.OK or result.interval is None:
         raise ArithmeticError(result.reason or "unsupported interval operation")
@@ -66,6 +91,17 @@ def _widen_one_ulp(value: Interval) -> Interval:
         math.nextafter(value.lower, -math.inf),
         math.nextafter(value.upper, math.inf),
     )
+
+
+def _widen_point_evaluation(value: Interval, ulps: int = 16) -> Interval:
+    """Also contain the registered multi-operation binary64 point evaluator."""
+
+    lower = value.lower
+    upper = value.upper
+    for _ in range(ulps):
+        lower = math.nextafter(lower, -math.inf)
+        upper = math.nextafter(upper, math.inf)
+    return Interval(lower, upper)
 
 
 def diode_point(voltage: float, parameters: DiodeParameters) -> tuple[float, float]:
@@ -201,3 +237,68 @@ def mos_interval(
     )
     output_conductance = _require(multiply(beta, _require(add(first, second))))
     return MosStamp(current, transconductance, output_conductance, region)
+
+
+def smooth_nmos_point(
+    vgs: float, vds: float, parameters: SmoothNmosParameters
+) -> tuple[float, float, float]:
+    """Evaluate the declared smooth-NMOS current, ``gm``, and ``gds``.
+
+    The benchmark model is
+
+    ``g(vgs) = g_floor + g_scale exp((vgs - vth) / slope)`` and
+    ``Id(vgs, vds) = g(vgs) vds``.
+    """
+
+    activation = math.exp((vgs - parameters.threshold) / parameters.slope_voltage)
+    controlled = parameters.conductance_scale * activation
+    conductance = parameters.floor_conductance + controlled
+    transconductance = controlled / parameters.slope_voltage * vds
+    return conductance * vds, transconductance, conductance
+
+
+def smooth_nmos_interval(
+    vgs: Interval,
+    vds: Interval,
+    parameters: SmoothNmosParameters,
+) -> SmoothNmosStamp | None:
+    """Enclose the smooth-NMOS current and derivatives with directed rounding."""
+
+    if (
+        parameters.conductance_scale <= 0.0
+        or parameters.slope_voltage <= 0.0
+        or parameters.floor_conductance < 0.0
+    ):
+        return None
+    try:
+        exponent = _require(
+            divide(
+                _require(subtract(vgs, Interval.point(parameters.threshold))),
+                Interval.point(parameters.slope_voltage),
+            )
+        )
+        activation_result = exp(exponent)
+        if (
+            activation_result.status is not IntervalStatus.OK
+            or activation_result.interval is None
+        ):
+            return None
+        controlled = _require(
+            multiply(
+                Interval.point(parameters.conductance_scale),
+                activation_result.interval,
+            )
+        )
+        conductance = _require(
+            add(Interval.point(parameters.floor_conductance), controlled)
+        )
+        slope = _require(divide(controlled, Interval.point(parameters.slope_voltage)))
+        transconductance = _require(multiply(slope, vds))
+        current = _require(multiply(conductance, vds))
+    except ArithmeticError:
+        return None
+    return SmoothNmosStamp(
+        _widen_point_evaluation(current),
+        _widen_point_evaluation(transconductance),
+        _widen_point_evaluation(conductance),
+    )

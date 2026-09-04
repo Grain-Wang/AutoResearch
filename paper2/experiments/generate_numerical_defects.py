@@ -16,9 +16,7 @@ import argparse
 import csv
 import json
 import math
-import struct
 from dataclasses import dataclass
-from enum import StrEnum
 from fractions import Fraction
 from pathlib import Path
 from typing import Any
@@ -29,6 +27,7 @@ from experiments.checkers.pointwise_krawczyk import (
     pointwise_krawczyk,
 )
 from experiments.interval_backend import Interval, IntervalResult, IntervalStatus
+from experiments.producers.precision import BinaryArithmetic, ProducerPrecision
 from experiments.provenance import (
     canonical_sha256,
     git_state,
@@ -46,23 +45,16 @@ DEFAULT_SEED = 17
 DEFAULT_RESIDUAL_THRESHOLD = 1e-5
 DEFAULT_TUBE_RADIUS = 1e-3
 SCHEMA_VERSION = "2"
-_BINARY32 = struct.Struct("!f")
 _PAPER_ROOT = Path(__file__).resolve().parents[1]
 _PROVENANCE_FILES = (
     Path(__file__).resolve(),
     _PAPER_ROOT / "experiments/blockstamp_operator.py",
     _PAPER_ROOT / "experiments/checkers/pointwise_krawczyk.py",
     _PAPER_ROOT / "experiments/interval_backend.py",
+    _PAPER_ROOT / "experiments/producers/precision.py",
     _PAPER_ROOT / "experiments/provenance.py",
     _PAPER_ROOT / "experiments/rigorous_backend.py",
 )
-
-
-class ProducerPrecision(StrEnum):
-    """Arithmetic precision used by the residual-stopped producer."""
-
-    FLOAT32 = "float32"
-    FLOAT64 = "float64"
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,29 +79,27 @@ class OracleResult:
 
 
 def _cast(value: float, precision: ProducerPrecision) -> float:
-    if precision is ProducerPrecision.FLOAT32:
-        return _BINARY32.unpack(_BINARY32.pack(value))[0]
-    return float(value)
+    return BinaryArithmetic(precision).cast(value)
 
 
 def _producer_add(left: float, right: float, precision: ProducerPrecision) -> float:
-    return _cast(left + right, precision)
+    return BinaryArithmetic(precision).add(left, right)
 
 
 def _producer_subtract(
     left: float, right: float, precision: ProducerPrecision
 ) -> float:
-    return _cast(left - right, precision)
+    return BinaryArithmetic(precision).subtract(left, right)
 
 
 def _producer_multiply(
     left: float, right: float, precision: ProducerPrecision
 ) -> float:
-    return _cast(left * right, precision)
+    return BinaryArithmetic(precision).multiply(left, right)
 
 
 def _producer_divide(left: float, right: float, precision: ProducerPrecision) -> float:
-    return _cast(left / right, precision)
+    return BinaryArithmetic(precision).divide(left, right)
 
 
 def _producer_residual(

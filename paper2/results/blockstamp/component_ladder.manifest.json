@@ -1,0 +1,102 @@
+{
+  "all_required_hashes_present": true,
+  "all_shared_hashes_match": true,
+  "artifact_sha256": "cc8bb6b0756f86a25fb71b4004915dde2482ecb0bd1dc9558bda14ad3793e22a",
+  "backend_sha256": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+  "checkpoint_count": 120,
+  "checkpoint_set_sha256": "186f4189e0f8bfc02b30eecc5129855780e068ebf31a81747103e4adffb43fd5",
+  "claim_scope": "four-method component-matched implementation probe assembled from per-configuration checkpoints; not the five-replicate nonlinear M2",
+  "command": "checkpoint aggregation of component-ladder-v1 indices 0000-0119; no experiment configurations rerun during aggregation",
+  "config_sha256": "d6a9105db3e54dfed2471199f2018d3d89629df786a96cbf98826cd51937770e",
+  "confirmed_false_accepts": 0,
+  "coverage_complete": true,
+  "dirty_worktree": true,
+  "expected_row_count": 120,
+  "generated_at_utc": "2026-09-02T04:37:40.337318+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "matched_group_count": 30,
+  "methods": [
+    "dense_slab_generic",
+    "device_local_pointwise_b2",
+    "temporal_only",
+    "temporal_device_blockstamp"
+  ],
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "producer_precision": "float64",
+  "producer_tolerance": 1e-10,
+  "python_version": "3.12.3",
+  "radius_multiplier": 4.0,
+  "replicate_ids": [
+    0
+  ],
+  "replicates": 1,
+  "row_content_sha256": "85f72aa675c4a1047d653e804b2e54a958dde1dc874943176cb986b3f5cc1288",
+  "row_count": 120,
+  "rss_measurement_scope": "fresh-process high-water mark; includes interpreter, producer, and checker state and is not causal method-only RSS",
+  "schema_version": 1,
+  "semantics_sha256": "60fe305ae90cfb9e6a200feba6116f7e516f4c991c899008a3c3d808c4fd1faf",
+  "slab_lengths": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "source_files_sha256": {
+    "experiments/benchmark.py": "a705810587eac2a838501dd86e6e0fec89b5dee0b9e8a658827b13d8bb6a9e88",
+    "experiments/blockstamp_operator.py": "d4e01f9ef9bd46f42a316cb0976332eca7b9c4549784891f6ae6871c0cf54426",
+    "experiments/checkers/pointwise_krawczyk.py": "266953c9a8dcacf9eadf22bd8a91cd7b6515026d4cceae10f9ffe4e2a1bc5528",
+    "experiments/checkers/slab_krawczyk.py": "984e6818ed5ec5d2a48c85d00cbac6f1406e173e84fc82acf8d1b017b948b692",
+    "experiments/checkers/verified_sparse.py": "dbb930be8ccb80410119351ef35b247d1f43ae6ea5e18de5708d417c3d520908",
+    "experiments/devices/stamps.py": "136468e4ca9f78fe6b5e51dd848e297205d55f986c9c95a0b447c78de559ddea",
+    "experiments/mna/fixed_be.py": "dd4d7cf09e2972c1de66174bde8529fefe15c2c95408bf8d5bdd39d57f2bf3f9",
+    "experiments/producers/trace.py": "39d10cff4a2850b69e351e25d78f8289a6b2838e5b25912b50ffe8a7da401e6b",
+    "experiments/run_component_ladder.py": "0863c41deb40c940209465f46e92d057165960f1529d895d31ae0fa62a042759"
+  },
+  "status": "PASS",
+  "steps_grid": [
+    100
+  ],
+  "streamed_remainder_scope": "streams globally assembled Jacobian rows; direct device-stamp remainder is not implemented",
+  "success_only_filtering": false,
+  "timing_scope": "one fresh process per configuration, one un-warmed replicate; checker-internal timing only",
+  "trace_sha256": {
+    "diode_rc/fast_load": "7ca388b16796e9060cf2ad7931a8f8de8fa695d969b837dd1d59f8d2f8f9653e",
+    "diode_rc/nominal": "f74663fa17b6c7ef1fbfd7b9edc06df1d565b838321ed82f5bcd90def847e014",
+    "diode_rc/slow_hot_start": "10ca1025966e646808c4c3421fa74234982161c5bf2f168ba40591cf1fa53c1f",
+    "nmos_ring_3stage/balanced": "92cdb28506d3f7504bf357b8b1474212a388d10abc47189f53e6f984d9cbd47e",
+    "nmos_ring_3stage/light_load": "db40f0f305aac8343229077554f9d679a48b7a032afe418d49273be2c9f5acc6",
+    "nmos_ring_3stage/slow_load": "ce80e31204a2573f081f85df004aa9e10dec527ab56664b97dbd08744bdeb1e4"
+  },
+  "verdict_counts": {
+    "ACCEPT": 0,
+    "UNKNOWN": 120,
+    "UNSUPPORTED": 0
+  },
+  "workloads": [
+    {
+      "circuit_id": "diode_rc",
+      "instance_id": "nominal"
+    },
+    {
+      "circuit_id": "diode_rc",
+      "instance_id": "fast_load"
+    },
+    {
+      "circuit_id": "diode_rc",
+      "instance_id": "slow_hot_start"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "instance_id": "balanced"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "instance_id": "light_load"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "instance_id": "slow_load"
+    }
+  ]
+}

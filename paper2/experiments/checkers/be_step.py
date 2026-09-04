@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from experiments.blockstamp_operator import verified_solve
 from experiments.checkers.pointwise_krawczyk import (
     CheckerResult,
     CheckerVerdict,
+    LinearSolver,
     pointwise_krawczyk,
 )
 from experiments.interval_backend import Interval
@@ -17,6 +19,8 @@ def check_be_step(
     tube: tuple[Interval, ...],
     previous_state: tuple[Interval, ...],
     step_size: float,
+    *,
+    linear_solver: LinearSolver = verified_solve,
 ) -> CheckerResult:
     """Rebuild a BE step and run the component-matched pointwise checker."""
 
@@ -49,4 +53,5 @@ def check_be_step(
         tube,
         center_evaluation.residual,
         tube_evaluation.jacobian,
+        linear_solver=linear_solver,
     )

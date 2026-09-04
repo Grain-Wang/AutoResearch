@@ -1,7 +1,9 @@
 [project]
 name = "autoresearch-paper2"
 version = "0.1.0"
-requires-python = ">=3.12"
+# The experiment code has no third-party Python runtime dependency.  It loads MPFR
+# through ctypes; the required system library is declared below and installed in CI.
+requires-python = ">=3.12,<3.13"
 dependencies = []
 
 [project.optional-dependencies]
@@ -24,3 +26,6 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.autoresearch.system-requirements]
+mpfr = ">=4.2"

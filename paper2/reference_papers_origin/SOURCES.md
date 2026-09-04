@@ -1,7 +1,8 @@
 # Proof-Carrying SPICE PDF Sources
 
-Downloaded and validated on 2026-08-25. Files listed here passed a PDF file-type
-check. SHA-256 values allow exact reproduction checks.
+The initial corpus was downloaded and validated on 2026-08-25; the
+Frommer--Hashemi author preprint was added and inspected on 2026-09-01.  Files listed
+here passed a PDF parser check. SHA-256 values allow exact reproduction checks.
 
 | File | Public source | SHA-256 |
 |---|---|---|
@@ -12,6 +13,7 @@ check. SHA-256 values allow exact reproduction checks.
 | `dang2004_ams_verification.pdf` | <https://www-verimag.imag.fr/~tdang/Papers/fmcad04.pdf> | `bcdb7f1c6805befba9660f84d18eb5e34a1be5da2acf3709d42c3548b72ea343` |
 | `data_driven_mna_solver_2023.pdf` | <https://arxiv.org/pdf/2303.03401> | `db7683abdd45a31c77b876d09d53453f5d36daed56c1fb2ebde19c8f0e534746` |
 | `drzevitzky2010_proof_carrying_hardware.pdf` | <https://pdfs.semanticscholar.org/eb30/c39649b61b1db8e69467e2c15a06d6dfc18c.pdf> | `468b519c03dc92ed5e42c11ba0d0a8ef647c07fb2b6b784b6cf106a3b286c54a` |
+| `frommer_hashemi2012_sylvester.pdf` | <https://www-ai.math.uni-wuppertal.de/SciComp/preprints/SC1003.pdf> | `5dec1a9b01321a1f8b7ebfea86570f4976e7f0d04fa62e9f16c5bfee9c4c6e80` |
 | `hunt2022_vwsim.pdf` | <https://arxiv.org/pdf/2205.11698> | `306292e3d480ed9f8f093cd677c671014f7b50fc564cd5765efc8116ff7b663c` |
 | `ivanov2019_safety_learning_enabled_components.pdf` | <https://arxiv.org/pdf/1804.03973> | `b650d0480ebdcbe2c4d9922b95de7003f481a2764b196f09c04661c21b630655` |
 | `kapela2021_capd_dynsys.pdf` | <https://arxiv.org/pdf/2010.07097> | `1b890811b6894c361e417b108bfca863f3360caabc16589a7c5a9c2267d1fb71` |

@@ -1,13 +1,16 @@
 # Codex 可移植接续包（paper2）
 
-本目录用于让另一台机器上的 Codex 在克隆 `paper2` 分支后恢复 **BlockStamp-Cert** 的研究语境。它保存的是经过审阅的状态摘要和决策历史，不是 Codex 原始会话导出，也不能让 `codex resume` 直接恢复另一台机器上的聊天。
+本目录用于让另一台机器上的 Codex 在克隆 `paper2` 分支后恢复已经关闭的
+**BlockStamp-Cert Round 5**。它保存的是经过审阅的终态摘要和决策历史，不是 Codex
+原始会话导出，也不能让 `codex resume` 直接恢复另一台机器上的聊天。该 handoff 不授权
+Round 6 或任何新实验。
 
-## 在另一台机器继续 paper2
+## 在另一台机器恢复并审计 Round 5
 
 首次克隆：
 
 ```bash
-git clone -b paper2 git@github.com:Grain-Wang/AutoResearch.git
+git clone -b paper2 https://github.com/Grain-Wang/AutoResearch.git
 cd AutoResearch
 codex -C .
 ```
@@ -24,7 +27,10 @@ codex -C .
 建议新会话首条消息：
 
 ```text
-请遵循根目录 AGENTS.md，读取 .codex/handoff/CURRENT.md，并用当前 Git、源码、测试和实验产物核对其中状态；然后从 paper2 的下一原子动作继续。只有需要追溯 paper2 决策时才读取 TRANSCRIPT.md。
+请遵循根目录 AGENTS.md，读取 .codex/handoff/CURRENT.md，并用当前 Git、源码、测试和
+实验产物核对其中状态。Round 5 已关闭；不要运行实验，不要进入 Round 6，也不要把
+TRANSCRIPT.md 中的历史计划当作当前指令。只有需要追溯 paper2 决策时才读取
+TRANSCRIPT.md。
 ```
 
 ## 读取优先级
@@ -38,17 +44,21 @@ codex -C .
 
 ## 文件说明
 
-- `CURRENT.md`：paper2 当前目标、研究状态、阻断项和下一动作；
-- `TRANSCRIPT.md`：仅包含 paper2 / BlockStamp-Cert 的脱敏压缩历史；
+- `CURRENT.md`：paper2 Round 5 的闭环状态、证据边界和生命周期锁；
+- `TRANSCRIPT.md`：仅包含 paper2 / BlockStamp-Cert 的脱敏压缩历史；其中出现的
+  “当前”或“下一步”只指历史时点，不是可执行指令；
 - `manifest.json`：paper2 快照元数据与清理声明；
 - `README.md`：本说明。
 
 ## Reviewer 与历史 note
 
-正式 reviewer round 只在：
+正式 reviewer chain 为：
 
 ```text
-paper2/responce_from_reviewer/
+paper2/responce_from_reviewer/review_round1.md
+paper2/responce_from_reviewer/review_round2.md
+paper2/responce_from_reviewer/review_round3.md
+paper2/responce_from_reviewer/review_round4.md
 ```
 
 历史阶段技术评估如果没有对应研究增量，不进入 reviewer numbering；这类内容放在：

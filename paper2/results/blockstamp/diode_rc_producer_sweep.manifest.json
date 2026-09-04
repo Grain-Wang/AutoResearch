@@ -1,0 +1,71 @@
+{
+  "artifact": "diode_rc_producer_sweep.csv",
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "checker_accept": 2024,
+  "checker_unknown": 7576,
+  "checker_unsupported": 0,
+  "claim_scope": "unfiltered producer certification-boundary sweep; Decimal reference is post-hoc and non-rigorous; no performance or industrial-SPICE claim",
+  "command": "python3 -m experiments.run_diode_rc_sweep",
+  "config": "configs/blockstamp/minimal_probe.yaml",
+  "config_sha256": "d6a9105db3e54dfed2471199f2018d3d89629df786a96cbf98826cd51937770e",
+  "csv_sha256": "c4d573dbfa883b55e9a602dc5c65ebed9a50ec76a9c224c9ef99ca6fbce513e9",
+  "detached_reference_accepts": 8,
+  "dirty_worktree": true,
+  "eligible_reference_excluding_accepts": 0,
+  "expected_rows": 96,
+  "failure_codes": [],
+  "first_failure": null,
+  "generated_at_utc": "2026-08-31T16:40:09.774487+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "grid_has_accept_region": true,
+  "grid_has_unknown_region": true,
+  "incomplete_traces": 0,
+  "input_sha256": "72b0e8300a8066ec3b3cd645251f7df4da66df2af55997fe6d0a0af95f7ffb97",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "producer_checker_independence": {
+    "checker_semantics": "experiments/mna/fixed_be.py",
+    "producer": "experiments/producers/transient.py",
+    "test_reference": "experiments/mna/oracles.py",
+    "tube_reference_access": false
+  },
+  "python_version": "3.12.3",
+  "random_seeds": {},
+  "randomness_used": false,
+  "reference_audit": {
+    "confirmed_false_accepts": null,
+    "confirmed_false_accepts_reason": "the Decimal-160 test reference is not a rigorous oracle",
+    "detached_reference_accept": "checker ACCEPT after the Decimal test trajectory had already left the incoming tube; this is not a checker contradiction",
+    "eligible_reference_excluding_accept": "checker ACCEPT while the incoming tube contained the Decimal test reference but the current tube did not"
+  },
+  "row_count": 96,
+  "schema_version": 1,
+  "source_files_sha256": {
+    "experiments/checkers/be_step.py": "23be84161b3561c19a00787c16a2f12c26d9153f5d8e12908ecd2369dcd7e196",
+    "experiments/checkers/pointwise_krawczyk.py": "266953c9a8dcacf9eadf22bd8a91cd7b6515026d4cceae10f9ffe4e2a1bc5528",
+    "experiments/devices/stamps.py": "136468e4ca9f78fe6b5e51dd848e297205d55f986c9c95a0b447c78de559ddea",
+    "experiments/mna/fixed_be.py": "dd4d7cf09e2972c1de66174bde8529fefe15c2c95408bf8d5bdd39d57f2bf3f9",
+    "experiments/mna/minimal_circuits.py": "99e2095aed94d17b7d36aafad999bd6c0213e75744c50f409f13509e0815b1ac",
+    "experiments/mna/oracles.py": "ac4e9258b49e31e6746a286b84f8ccdf905f7be9007cb6debe6ad4f28206b9b0",
+    "experiments/producers/config.py": "78708ac60825faadd950ed77ca874341ce8ad51712a79ce34e1a049812d2a232",
+    "experiments/producers/nonlinear.py": "6fe7e2959d1acd017423c5966885ffd77ab5356d51dfc7456783cc76fc501047",
+    "experiments/producers/precision.py": "2c234dc144a3248674032ef134240337722863bc395d7ad688432a488a510732",
+    "experiments/producers/trace.py": "39d10cff4a2850b69e351e25d78f8289a6b2838e5b25912b50ffe8a7da401e6b",
+    "experiments/producers/transient.py": "6f3e09a94a15728dd3f440efed8e5a8f98ae8334292e6f2e119a91c93682f76b",
+    "experiments/producers/tube.py": "e3d7e4af82099688d5638319894c7038a0ac5810e902090c4b1d71dbbcb08641",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_diode_rc_sweep.py": "1fdaed9e64c005955466cb84df13c49d3e1cb2b3771f920606605ff0bea1c9b6"
+  },
+  "status": "PASS-CANARY",
+  "test_reference": {
+    "decimal_digits": 160,
+    "name": "Decimal-160 high-precision test reference",
+    "rigorous": false,
+    "usage": "post-hoc evaluation only"
+  }
+}

@@ -1,6 +1,12 @@
 # paper2 脱敏研究历史
 
-本文件只记录 `paper2` / BlockStamp-Cert 的压缩研究历史，用于跨机器追溯“为什么 paper2 变成现在这样”。它不是原始会话导出，也不是科学证据。当前事实必须以 Git、源码、测试和实验产物为准。
+> **HISTORICAL ONLY / NON-ACTIONABLE。** 本文件主体是截至 2026-08-31 的压缩研究
+> 历史，末尾仅补充后续 review 与 Round 5 closure 的索引。其中“当前”“下一步”
+> “冻结顺序”均指各自历史时点，已经被 `CURRENT.md` 的 Round 5 closure 覆盖；不得
+> 据此运行实验或进入 Round 6。
+
+本文件用于追溯研究决策，不是原始会话导出，也不是科学证据。权威状态必须以当前
+Git、源码、正式 artifacts 和 `CURRENT.md` 为准。
 
 ## 1. 方向起点：Proof-Carrying SPICE
 
@@ -19,7 +25,7 @@
 
 因此 `Proof-Carrying SPICE` 被降为系统愿景，不能作为“首次提出”的 headline。
 
-## 3. 当前主线：BlockStamp-Cert
+## 3. 当时的主线：BlockStamp-Cert
 
 主线收缩为：对 fixed-step Backward Euler nonlinear transient MNA，利用两类结构：
 
@@ -65,7 +71,7 @@
 
 定义 dependency-safe recovery：失败 slab 重算后，只有新 outgoing enclosure 被下一 slab 的 cached incoming assumption 包含时才允许复用后缀；否则从首次 containment failure 起重新检查。
 
-## 5. 已有实现 canary
+## 5. 截至当时的实现 canary
 
 - `paper2/experiments/interval_backend.py`：Decimal-based binary64 interval canary；不是最终 rigorous backend。
 - `paper2/experiments/devices/stamps.py`：diode 与受限 Level-1 NMOS interval stamps；跨工作区间 fail closed。
@@ -79,17 +85,23 @@
 - `review_round2.md`：指出 Decimal transcendental 不足以支撑严格 soundness、device oracle common-mode risk、baseline-defect generator 仍是解析表、BlockStamp/B2 尚未出现。
 - 一个无研究增量的阶段性技术评估曾错误进入 reviewer-round 链；其有用结论已移至 `paper2/research/notes/stage_assessment_before_ccfb_review.md`。
 - `review_round3.md`：按强 CCF-B 标准重新评估，确认方向本身具有 CCF-B 上限，但 Paper Candidate 仍未通过。
+- `review_round4.md`：随后记录 M0/M1 implementation canary 的进展及进入 M2 前仍未
+  通过 Paper Candidate 的判断。Round 5 最终结论见 `CURRENT.md` 与
+  `paper2/steps/009_m2_result_gate.md`。
 
-## 7. 当前最重要的研究事实
+## 7. 当时的研究事实
 
 1. 问题定义和 non-claims 已较清楚。
-2. 当前最大数学阻断项是 `C` 的可逆性与最终 operator 定义。
-3. 当前最大实现阻断项是缺少真正 directed-rounded arithmetic backend 与完整 BE MNA microkernel。
-4. 当前最大创新性阻断项是 BlockStamp recurrence 尚未实现，无法判断是否只是标准 block forward substitution。
-5. 当前最大实验阻断项是 B2-strong、dense slab、BlockStamp 和 nonlinear transient probe 都尚未出现。
-6. 当前状态仍是 **Research Opportunity / Paper Candidate FAIL-UNVERIFIED**。
+2. 当时最大数学阻断项是 `C` 的可逆性与最终 operator 定义。
+3. 当时最大实现阻断项是缺少真正 directed-rounded arithmetic backend 与完整 BE MNA
+   microkernel。
+4. 当时最大创新性阻断项是 BlockStamp recurrence 尚未实现，无法判断是否只是标准
+   block forward substitution。
+5. 当时最大实验阻断项是 B2-strong、dense slab、BlockStamp 和 nonlinear transient
+   probe 都尚未出现。
+6. 当时状态仍是 **Research Opportunity / Paper Candidate FAIL-UNVERIFIED**。
 
-## 8. 下一步冻结顺序
+## 8. 当时冻结的后续顺序（历史，禁止执行）
 
 1. 修正 `C` 可逆性 theorem/contract；
 2. 实现 rigorous directed-rounding backend；
@@ -100,3 +112,8 @@
 7. 跑 diode-RC + 3-stage ring oscillator 最小 probe。
 
 在这些门禁通过前，不扩张到 SRAM、BSIM、通用 Verilog-A、第二 producer 或工业大规模网表。
+
+## 9. Round 5 closure note
+
+Round 5 已于 2026-09-04 结束。权威终态只记录在 `CURRENT.md` 和 Step 009；本历史文件
+不授权新的算法设计、probe、实验、clean replay 或 Round 6。

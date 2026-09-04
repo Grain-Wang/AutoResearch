@@ -1,0 +1,1897 @@
+{
+  "artifacts": {
+    "b2_fairness": {
+      "path": "results/blockstamp/b2_fairness.json",
+      "sha256": "d81b967340251befe5438eaee4d0a64dad5bb23db1dc9c321eac4184e82389d1"
+    },
+    "checkpoint_set_sha256": "186f4189e0f8bfc02b30eecc5129855780e068ebf31a81747103e4adffb43fd5",
+    "component_ladder_csv": {
+      "path": "results/blockstamp/component_ladder.csv",
+      "sha256": "cc8bb6b0756f86a25fb71b4004915dde2482ecb0bd1dc9558bda14ad3793e22a"
+    },
+    "component_ladder_manifest": {
+      "path": "results/blockstamp/component_ladder.manifest.json",
+      "sha256": "0a6bddeec39455b3634bfef6ae0ee96558ee59013a92ba6cd9d935aafeb392c9"
+    },
+    "next_round_gate": {
+      "path": "results/blockstamp/next_round_gate.json",
+      "sha256": "d274470aaf34e5045e19ac8becad5b193e7842bfc696581a743b72b57d0c7a03"
+    }
+  },
+  "backend_sha256": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+  "by_replicate": {
+    "0": {
+      "configuration_count": 120,
+      "method_statistics": {
+        "dense_slab_generic": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.8411056359982467,
+            "mean": 1.1047961417008005,
+            "median": 1.0165858479989538,
+            "min": 0.44176133300425136
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24510464,
+            "median": 24117248.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0,
+            "max": 1.0,
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        },
+        "device_local_pointwise_b2": {
+          "accept_rate": 0.18166666666666667,
+          "accepted_steps": 545,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.6281458690018553,
+            "mean": 1.024067111100726,
+            "median": 0.9792675900014274,
+            "min": 0.4408797750056692
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 10,
+            "mean": 3.0,
+            "median": 1.0,
+            "min": 1,
+            "sum": 90
+          },
+          "failure_code_distribution": {
+            "B2_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -7.324574280431762e-10,
+          "peak_rss_bytes": {
+            "max": 24641536,
+            "median": 23986176.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0695550372879756,
+            "max": 1.2427861157063744,
+            "mean": 1.072476557610084,
+            "median": 1.0698758469864798,
+            "min": 0.8205564007973514
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2455
+        },
+        "temporal_device_blockstamp": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.7497553360003621,
+            "mean": 1.0894491382996572,
+            "median": 1.0413872519998222,
+            "min": 0.471479754999109
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24510464,
+            "median": 24051712.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0053754306175702,
+            "max": 1.1310974667209759,
+            "mean": 1.0068856204954701,
+            "median": 1.013728655297012,
+            "min": 0.8611049440569578
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        },
+        "temporal_only": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.8820379469998443,
+            "mean": 1.083754611566716,
+            "median": 1.0480095004993473,
+            "min": 0.45124537700030487
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24641536,
+            "median": 24182784.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0127364343764844,
+            "max": 1.145463098118825,
+            "mean": 1.014681540097141,
+            "median": 1.0146271018672244,
+            "min": 0.8683935176143043
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        }
+      }
+    }
+  },
+  "by_slab": {
+    "1": {
+      "dense_slab_generic": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6632226069987155,
+          "mean": 1.0658899581690473,
+          "median": 1.078247445502143,
+          "min": 0.4833553400035271,
+          "sum": 6.395339749014283
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24117248.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "ratio_of_sums": 1.0
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "device_local_pointwise_b2": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6281458690018553,
+          "mean": 1.0189940195012923,
+          "median": 0.9879666479997695,
+          "min": 0.4660364770002161,
+          "sum": 6.113964117007754
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "B2_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 23986176.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.06099490126571,
+          "max": 1.1896086596599098,
+          "mean": 1.0625882508277118,
+          "median": 1.0433171911514227,
+          "min": 1.015581055139905,
+          "ratio_of_sums": 1.0460217997066423
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_device_blockstamp": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.5560651809973933,
+          "mean": 1.013736370665356,
+          "median": 1.0174297594967356,
+          "min": 0.471479754999109,
+          "sum": 6.082418223992136
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24117248.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.054854226179869,
+          "max": 1.1310974667209759,
+          "mean": 1.0555331701753505,
+          "median": 1.0362793891410447,
+          "min": 1.0251879001770512,
+          "ratio_of_sums": 1.0514468938995065
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_only": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6164770060017872,
+          "mean": 1.0328047058333898,
+          "median": 1.029981819002387,
+          "min": 0.45124537700030487,
+          "sum": 6.196828235000339
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 24248320.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0501393669847396,
+          "max": 1.145463098118825,
+          "mean": 1.0514809917298125,
+          "median": 1.0311054245258817,
+          "min": 0.9881123790027739,
+          "ratio_of_sums": 1.0320343741162181
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      }
+    },
+    "16": {
+      "dense_slab_generic": {
+        "accept_rate": 0.09333333333333334,
+        "accepted_steps": 56,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7927293109996754,
+          "mean": 1.1374679070002003,
+          "median": 1.1326360920006664,
+          "min": 0.49560900100050276,
+          "sum": 6.824807442001202
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 16,
+          "mean": 2.6666666666666665,
+          "median": 0.0,
+          "min": 0,
+          "sum": 16
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -1.0720609955328086e-09,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24248320.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "ratio_of_sums": 1.0
+        },
+        "total_steps": 600,
+        "unknown_steps": 544
+      },
+      "device_local_pointwise_b2": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6025121239963482,
+          "mean": 1.0120672161667699,
+          "median": 0.9594012079980985,
+          "min": 0.4818610560023444,
+          "sum": 6.072403297000619
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "B2_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24117248.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0943531380256832,
+          "max": 1.2427861157063744,
+          "mean": 1.0967391772909394,
+          "median": 1.069913974087174,
+          "min": 1.0249197048528944,
+          "ratio_of_sums": 1.123905496423833
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_device_blockstamp": {
+        "accept_rate": 0.09333333333333334,
+        "accepted_steps": 56,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7450833969992345,
+          "mean": 1.1214753121668461,
+          "median": 1.1010027115000867,
+          "min": 0.518453924001733,
+          "sum": 6.7288518730010765
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 16,
+          "mean": 2.6666666666666665,
+          "median": 0.0,
+          "min": 0,
+          "sum": 16
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -1.0720609955328086e-09,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24051712.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9997403567926024,
+          "max": 1.0527484420270272,
+          "mean": 1.0003082943495178,
+          "median": 1.001089024218078,
+          "min": 0.9559364449884001,
+          "ratio_of_sums": 1.0142603182253334
+        },
+        "total_steps": 600,
+        "unknown_steps": 544
+      },
+      "temporal_only": {
+        "accept_rate": 0.09333333333333334,
+        "accepted_steps": 56,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7244914140001129,
+          "mean": 1.0970374518336332,
+          "median": 1.0651208970004973,
+          "min": 0.4977420909999637,
+          "sum": 6.5822247110018
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 16,
+          "mean": 2.6666666666666665,
+          "median": 0.0,
+          "min": 0,
+          "sum": 16
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -1.0720609955328086e-09,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 24182784.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0231394840915826,
+          "max": 1.0807711652033387,
+          "mean": 1.0238707570869576,
+          "median": 1.033433825242525,
+          "min": 0.9620511042330648,
+          "ratio_of_sums": 1.0368542159604395
+        },
+        "total_steps": 600,
+        "unknown_steps": 544
+      }
+    },
+    "2": {
+      "dense_slab_generic": {
+        "accept_rate": 0.18,
+        "accepted_steps": 108,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7226590359996408,
+          "mean": 1.0556614280008791,
+          "median": 0.9897653645011815,
+          "min": 0.44176133300425136,
+          "sum": 6.333968568005275
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.6666666666666665,
+          "median": 2.0,
+          "min": 2,
+          "sum": 22
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24051712.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "ratio_of_sums": 1.0
+        },
+        "total_steps": 600,
+        "unknown_steps": 492
+      },
+      "device_local_pointwise_b2": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6050801589985895,
+          "mean": 1.0489372584996393,
+          "median": 1.0598436965012752,
+          "min": 0.4722881889993005,
+          "sum": 6.293623550997836
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "B2_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 24051712.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9907251851190759,
+          "max": 1.0737747202150554,
+          "mean": 0.9955737141616722,
+          "median": 1.043783214290808,
+          "min": 0.8205564007973514,
+          "ratio_of_sums": 1.0064104592021623
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_device_blockstamp": {
+        "accept_rate": 0.18,
+        "accepted_steps": 108,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6613840960017114,
+          "mean": 1.0699861703336258,
+          "median": 1.0663677480001752,
+          "min": 0.4799653199993372,
+          "sum": 6.419917022001755
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.6666666666666665,
+          "median": 2.0,
+          "min": 2,
+          "sum": 22
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24379392,
+          "median": 24117248.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9777266083515956,
+          "max": 1.049126520226131,
+          "mean": 0.9805908974300753,
+          "median": 1.0161515460485393,
+          "min": 0.8611049440569578,
+          "ratio_of_sums": 0.9866122173071825
+        },
+        "total_steps": 600,
+        "unknown_steps": 492
+      },
+      "temporal_only": {
+        "accept_rate": 0.18,
+        "accepted_steps": 108,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6384499599989795,
+          "mean": 1.0618058303333175,
+          "median": 1.0594685735004532,
+          "min": 0.4988470589960343,
+          "sum": 6.370834981999906
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.6666666666666665,
+          "median": 2.0,
+          "min": 2,
+          "sum": 22
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24182784.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9803900433873457,
+          "max": 1.069824283421863,
+          "mean": 0.9832758014264904,
+          "median": 1.0078485958850125,
+          "min": 0.8683935176143043,
+          "ratio_of_sums": 0.9942132524074485
+        },
+        "total_steps": 600,
+        "unknown_steps": 492
+      }
+    },
+    "4": {
+      "dense_slab_generic": {
+        "accept_rate": 0.17333333333333334,
+        "accepted_steps": 104,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.8411056359982467,
+          "mean": 1.1392203225004778,
+          "median": 1.1135092995009472,
+          "min": 0.49793596199970125,
+          "sum": 6.835321935002867
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 12,
+          "mean": 5.333333333333333,
+          "median": 4.0,
+          "min": 4,
+          "sum": 32
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24182784.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "ratio_of_sums": 1.0
+        },
+        "total_steps": 600,
+        "unknown_steps": 496
+      },
+      "device_local_pointwise_b2": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.5881940379999833,
+          "mean": 1.0177147623357996,
+          "median": 1.0186220470020544,
+          "min": 0.4408797750056692,
+          "sum": 6.106288574014798
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "B2_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24117248.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.1097674299927638,
+          "max": 1.1733892175276526,
+          "mean": 1.1106437523984063,
+          "median": 1.1114376155265453,
+          "min": 1.0573656071987076,
+          "ratio_of_sums": 1.1193905843379983
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_device_blockstamp": {
+        "accept_rate": 0.17333333333333334,
+        "accepted_steps": 104,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.719221944997571,
+          "mean": 1.1154831741660018,
+          "median": 1.1116440164989854,
+          "min": 0.5148394860002554,
+          "sum": 6.692899044996011
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 12,
+          "mean": 5.333333333333333,
+          "median": 4.0,
+          "min": 4,
+          "sum": 32
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24182784.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0006531496404798,
+          "max": 1.0827682800564067,
+          "mean": 1.0017010454240762,
+          "median": 0.9972490674429877,
+          "min": 0.9377522144104553,
+          "ratio_of_sums": 1.0212797009262136
+        },
+        "total_steps": 600,
+        "unknown_steps": 496
+      },
+      "temporal_only": {
+        "accept_rate": 0.17333333333333334,
+        "accepted_steps": 104,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7444864550029706,
+          "mean": 1.100877435833733,
+          "median": 1.0887642424986552,
+          "min": 0.48821489800229756,
+          "sum": 6.6052646150023975
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 12,
+          "mean": 5.333333333333333,
+          "median": 4.0,
+          "min": 4,
+          "sum": 32
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.596026030398662e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24248320.0,
+          "min": 23724032
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0256018775095908,
+          "max": 1.11803997590634,
+          "mean": 1.0264604278180622,
+          "median": 1.0128591907841442,
+          "min": 0.9879108052569188,
+          "ratio_of_sums": 1.0348293873765397
+        },
+        "total_steps": 600,
+        "unknown_steps": 496
+      }
+    },
+    "8": {
+      "dense_slab_generic": {
+        "accept_rate": 0.13333333333333333,
+        "accepted_steps": 80,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7761945079996622,
+          "mean": 1.1257410928333986,
+          "median": 1.1200355394996677,
+          "min": 0.4978687680004441,
+          "sum": 6.754446557000392
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 8,
+          "mean": 4.0,
+          "median": 4.0,
+          "min": 0,
+          "sum": 24
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -9.156361224782472e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24182784.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0,
+          "max": 1.0,
+          "mean": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "ratio_of_sums": 1.0
+        },
+        "total_steps": 600,
+        "unknown_steps": 520
+      },
+      "device_local_pointwise_b2": {
+        "accept_rate": 0.18166666666666667,
+        "accepted_steps": 109,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.6008358070021131,
+          "mean": 1.0226222990001286,
+          "median": 1.0060485389994938,
+          "min": 0.4534382209994874,
+          "sum": 6.135733794000771
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 10,
+          "mean": 3.0,
+          "median": 1.0,
+          "min": 1,
+          "sum": 18
+        },
+        "failure_code_distribution": {
+          "B2_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -7.324574280431762e-10,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 24117248.0,
+          "min": 23842816
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 1.0963765166719899,
+          "max": 1.1334943421113413,
+          "mean": 1.096837893371691,
+          "median": 1.1014608763133467,
+          "min": 1.0392778096290674,
+          "ratio_of_sums": 1.1008376151528232
+        },
+        "total_steps": 600,
+        "unknown_steps": 491
+      },
+      "temporal_device_blockstamp": {
+        "accept_rate": 0.13333333333333333,
+        "accepted_steps": 80,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.7497553360003621,
+          "mean": 1.1265646641664564,
+          "median": 1.1274724469999455,
+          "min": 0.4939385500001663,
+          "sum": 6.759387984998739
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 8,
+          "mean": 4.0,
+          "median": 4.0,
+          "min": 0,
+          "sum": 24
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -9.156361224782472e-10,
+        "peak_rss_bytes": {
+          "max": 24510464,
+          "median": 24049664.0,
+          "min": 23855104
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9955444751544222,
+          "max": 1.0405538462219195,
+          "mean": 0.9962946950983304,
+          "median": 1.007165496135515,
+          "min": 0.9190669559426875,
+          "ratio_of_sums": 0.9992689533417355
+        },
+        "total_steps": 600,
+        "unknown_steps": 520
+      },
+      "temporal_only": {
+        "accept_rate": 0.13333333333333333,
+        "accepted_steps": 80,
+        "aggregate_verdict_counts": {
+          "UNKNOWN": 6
+        },
+        "certificate_bytes": {
+          "max": 41475,
+          "median": 33114.0,
+          "min": 24695,
+          "sum": 198582
+        },
+        "checker_runtime_seconds": {
+          "max": 1.8820379469998443,
+          "mean": 1.1262476339995071,
+          "median": 1.0480095004993473,
+          "min": 0.525676843999463,
+          "sum": 6.757485803997042
+        },
+        "configuration_count": 6,
+        "continuous_certified_prefix": {
+          "max": 8,
+          "mean": 4.0,
+          "median": 4.0,
+          "min": 0,
+          "sum": 24
+        },
+        "failure_code_distribution": {
+          "SLAB_STRICT_INCLUSION_FAILED": 6
+        },
+        "minimum_inclusion_margin": -9.156361224782472e-10,
+        "peak_rss_bytes": {
+          "max": 24641536,
+          "median": 24182784.0,
+          "min": 23986176
+        },
+        "raw_trajectory_bytes": {
+          "max": 8851,
+          "median": 6890.0,
+          "min": 4871,
+          "sum": 41238
+        },
+        "speedup_vs_dense": {
+          "geometric_mean": 0.9861039287624144,
+          "max": 1.10875481069171,
+          "mean": 0.9883197224243818,
+          "median": 0.9751335034666289,
+          "min": 0.9140133464053035,
+          "ratio_of_sums": 0.9995502399731492
+        },
+        "total_steps": 600,
+        "unknown_steps": 520
+      }
+    }
+  },
+  "by_steps": {
+    "100": {
+      "configuration_count": 120,
+      "method_statistics": {
+        "dense_slab_generic": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.8411056359982467,
+            "mean": 1.1047961417008005,
+            "median": 1.0165858479989538,
+            "min": 0.44176133300425136
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24510464,
+            "median": 24117248.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0,
+            "max": 1.0,
+            "mean": 1.0,
+            "median": 1.0,
+            "min": 1.0
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        },
+        "device_local_pointwise_b2": {
+          "accept_rate": 0.18166666666666667,
+          "accepted_steps": 545,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.6281458690018553,
+            "mean": 1.024067111100726,
+            "median": 0.9792675900014274,
+            "min": 0.4408797750056692
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 10,
+            "mean": 3.0,
+            "median": 1.0,
+            "min": 1,
+            "sum": 90
+          },
+          "failure_code_distribution": {
+            "B2_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -7.324574280431762e-10,
+          "peak_rss_bytes": {
+            "max": 24641536,
+            "median": 23986176.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0695550372879756,
+            "max": 1.2427861157063744,
+            "mean": 1.072476557610084,
+            "median": 1.0698758469864798,
+            "min": 0.8205564007973514
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2455
+        },
+        "temporal_device_blockstamp": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.7497553360003621,
+            "mean": 1.0894491382996572,
+            "median": 1.0413872519998222,
+            "min": 0.471479754999109
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24510464,
+            "median": 24051712.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0053754306175702,
+            "max": 1.1310974667209759,
+            "mean": 1.0068856204954701,
+            "median": 1.013728655297012,
+            "min": 0.8611049440569578
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        },
+        "temporal_only": {
+          "accept_rate": 0.15233333333333332,
+          "accepted_steps": 457,
+          "aggregate_verdict_counts": {
+            "UNKNOWN": 30
+          },
+          "certificate_bytes": {
+            "max": 41475,
+            "median": 33114.0,
+            "min": 24695
+          },
+          "checker_runtime_seconds": {
+            "max": 1.8820379469998443,
+            "mean": 1.083754611566716,
+            "median": 1.0480095004993473,
+            "min": 0.45124537700030487
+          },
+          "configuration_count": 30,
+          "continuous_certified_prefix": {
+            "max": 16,
+            "mean": 3.7333333333333334,
+            "median": 2.0,
+            "min": 0,
+            "sum": 112
+          },
+          "failure_code_distribution": {
+            "SLAB_STRICT_INCLUSION_FAILED": 30
+          },
+          "minimum_inclusion_margin": -1.0720609955328086e-09,
+          "peak_rss_bytes": {
+            "max": 24641536,
+            "median": 24182784.0,
+            "min": 23724032
+          },
+          "raw_trajectory_bytes": {
+            "max": 8851,
+            "median": 6890.0,
+            "min": 4871
+          },
+          "speedup_vs_dense": {
+            "geometric_mean": 1.0127364343764844,
+            "max": 1.145463098118825,
+            "mean": 1.014681540097141,
+            "median": 1.0146271018672244,
+            "min": 0.8683935176143043
+          },
+          "total_steps": 3000,
+          "unknown_steps": 2543
+        }
+      }
+    }
+  },
+  "claim_limits": [
+    "single replicate cannot establish stable timing or memory advantage",
+    "peak RSS is fresh-process high-water mark, not method-only causal memory",
+    "certificate_bytes serializes candidate and tubes, not method-specific witness",
+    "temporal_device_blockstamp streams a globally assembled Jacobian and does not implement direct device-stamp locality",
+    "all aggregate checker verdicts are UNKNOWN; no full-trace certification claim"
+  ],
+  "completion": {
+    "aggregate_verdict_counts": {
+      "ACCEPT": 0,
+      "UNKNOWN": 120,
+      "UNSUPPORTED": 0
+    },
+    "completed_configurations": 120,
+    "duplicate_queue_keys": 0,
+    "expected_configurations": 120,
+    "failed_process_configurations": 0,
+    "missing_configurations": 0,
+    "newly_run_configurations": 116,
+    "oracle_root_in_tube_false_rows": 120,
+    "producer_complete_configurations": 120,
+    "reused_complete_checkpoints": 4,
+    "unexpected_configurations": 0,
+    "unsupported_configurations": 0
+  },
+  "config_sha256": "d6a9105db3e54dfed2471199f2018d3d89629df786a96cbf98826cd51937770e",
+  "direct_runtime_comparisons": {
+    "temporal_device_blockstamp_vs_device_local_pointwise_b2": {
+      "absolute_seconds": 1.9614608159679392,
+      "interpretation": "positive values mean temporal_device_blockstamp is slower",
+      "relative_runtime_change": 0.06384545162148103
+    }
+  },
+  "dirty_worktree": true,
+  "failure_code_distribution": {
+    "B2_STRICT_INCLUSION_FAILED": 30,
+    "SLAB_STRICT_INCLUSION_FAILED": 90
+  },
+  "frozen_protocol": {
+    "methods": [
+      "dense_slab_generic",
+      "device_local_pointwise_b2",
+      "temporal_only",
+      "temporal_device_blockstamp"
+    ],
+    "producer_precision": "float64",
+    "producer_tolerance": 1e-10,
+    "radius_multiplier": 4.0,
+    "replicate_ids": [
+      0
+    ],
+    "slab_lengths": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "steps_grid": [
+      100
+    ],
+    "workloads": [
+      {
+        "circuit_id": "diode_rc",
+        "instance_id": "nominal"
+      },
+      {
+        "circuit_id": "diode_rc",
+        "instance_id": "fast_load"
+      },
+      {
+        "circuit_id": "diode_rc",
+        "instance_id": "slow_hot_start"
+      },
+      {
+        "circuit_id": "nmos_ring_3stage",
+        "instance_id": "balanced"
+      },
+      {
+        "circuit_id": "nmos_ring_3stage",
+        "instance_id": "light_load"
+      },
+      {
+        "circuit_id": "nmos_ring_3stage",
+        "instance_id": "slow_load"
+      }
+    ]
+  },
+  "gate": {
+    "b2_component_fairness_ready": true,
+    "blockers": [
+      "PRIOR_ART_REFRAME_SYSTEM",
+      "MATCHED_NONLINEAR_M2_NOT_RUN"
+    ],
+    "component_ladder_complete": true,
+    "current_round_status": "COMPLETE-CANARY",
+    "decision": "HOLD",
+    "eligible_for_automatic_next_round": false,
+    "machine_gate_status": "ITERATE",
+    "machine_m2_status": "NOT-STARTED",
+    "matched_nonlinear_m2_ready": false,
+    "matched_nonlinear_m2_started": false,
+    "paper_candidate": "FAIL-UNVERIFIED",
+    "pre_paper_candidate": "FAIL-UNVERIFIED",
+    "prior_art_ready": false,
+    "reason": "the component canary is complete, but the frozen five-method/five-replicate M2 and a defensible algorithmic prior-art distinction are absent"
+  },
+  "generated_at_utc": "2026-09-02T04:37:40.337318+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "matched_hash_consistency": {
+    "config_hash_consistent": true,
+    "current_sources_match_checkpoints": true,
+    "expected_matched_groups": 30,
+    "matched_groups": 30,
+    "mismatches": [],
+    "shared_columns": [
+      "input_sha256",
+      "producer_trace_sha256",
+      "candidate_sha256",
+      "tube_sha256",
+      "backend_sha256",
+      "semantics_sha256",
+      "scaling_sha256",
+      "ordering_sha256",
+      "factor_sha256",
+      "hardware_id"
+    ],
+    "source_hashes_consistent": true,
+    "status": "PASS"
+  },
+  "per_method": {
+    "dense_slab_generic": {
+      "accept_rate": 0.15233333333333332,
+      "accepted_steps": 457,
+      "aggregate_verdict_counts": {
+        "UNKNOWN": 30
+      },
+      "certificate_bytes": {
+        "max": 41475,
+        "mean": 33097.0,
+        "median": 33114.0,
+        "min": 24695,
+        "sum": 992910
+      },
+      "checker_runtime_seconds": {
+        "max": 1.8411056359982467,
+        "mean": 1.1047961417008005,
+        "median": 1.0165858479989538,
+        "min": 0.44176133300425136,
+        "sum": 33.14388425102402
+      },
+      "configuration_count": 30,
+      "continuous_certified_prefix": {
+        "max": 16,
+        "mean": 3.7333333333333334,
+        "median": 2.0,
+        "min": 0,
+        "sum": 112
+      },
+      "failure_code_distribution": {
+        "SLAB_STRICT_INCLUSION_FAILED": 30
+      },
+      "minimum_inclusion_margin": -1.0720609955328086e-09,
+      "peak_rss_bytes": {
+        "max": 24510464,
+        "median": 24117248.0,
+        "min": 23724032
+      },
+      "raw_trajectory_bytes": {
+        "max": 8851,
+        "mean": 6873.0,
+        "median": 6890.0,
+        "min": 4871,
+        "sum": 206190
+      },
+      "speedup_vs_dense": {
+        "geometric_mean": 1.0,
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "ratio_of_sums": 1.0
+      },
+      "total_steps": 3000,
+      "unknown_steps": 2543
+    },
+    "device_local_pointwise_b2": {
+      "accept_rate": 0.18166666666666667,
+      "accepted_steps": 545,
+      "aggregate_verdict_counts": {
+        "UNKNOWN": 30
+      },
+      "certificate_bytes": {
+        "max": 41475,
+        "mean": 33097.0,
+        "median": 33114.0,
+        "min": 24695,
+        "sum": 992910
+      },
+      "checker_runtime_seconds": {
+        "max": 1.6281458690018553,
+        "mean": 1.024067111100726,
+        "median": 0.9792675900014274,
+        "min": 0.4408797750056692,
+        "sum": 30.722013333021778
+      },
+      "configuration_count": 30,
+      "continuous_certified_prefix": {
+        "max": 10,
+        "mean": 3.0,
+        "median": 1.0,
+        "min": 1,
+        "sum": 90
+      },
+      "failure_code_distribution": {
+        "B2_STRICT_INCLUSION_FAILED": 30
+      },
+      "minimum_inclusion_margin": -7.324574280431762e-10,
+      "peak_rss_bytes": {
+        "max": 24641536,
+        "median": 23986176.0,
+        "min": 23724032
+      },
+      "raw_trajectory_bytes": {
+        "max": 8851,
+        "mean": 6873.0,
+        "median": 6890.0,
+        "min": 4871,
+        "sum": 206190
+      },
+      "speedup_vs_dense": {
+        "geometric_mean": 1.0695550372879756,
+        "max": 1.2427861157063744,
+        "mean": 1.072476557610084,
+        "median": 1.0698758469864798,
+        "min": 0.8205564007973514,
+        "ratio_of_sums": 1.0788317774538259
+      },
+      "total_steps": 3000,
+      "unknown_steps": 2455
+    },
+    "temporal_device_blockstamp": {
+      "accept_rate": 0.15233333333333332,
+      "accepted_steps": 457,
+      "aggregate_verdict_counts": {
+        "UNKNOWN": 30
+      },
+      "certificate_bytes": {
+        "max": 41475,
+        "mean": 33097.0,
+        "median": 33114.0,
+        "min": 24695,
+        "sum": 992910
+      },
+      "checker_runtime_seconds": {
+        "max": 1.7497553360003621,
+        "mean": 1.0894491382996572,
+        "median": 1.0413872519998222,
+        "min": 0.471479754999109,
+        "sum": 32.68347414898972
+      },
+      "configuration_count": 30,
+      "continuous_certified_prefix": {
+        "max": 16,
+        "mean": 3.7333333333333334,
+        "median": 2.0,
+        "min": 0,
+        "sum": 112
+      },
+      "failure_code_distribution": {
+        "SLAB_STRICT_INCLUSION_FAILED": 30
+      },
+      "minimum_inclusion_margin": -1.0720609955328086e-09,
+      "peak_rss_bytes": {
+        "max": 24510464,
+        "median": 24051712.0,
+        "min": 23724032
+      },
+      "raw_trajectory_bytes": {
+        "max": 8851,
+        "mean": 6873.0,
+        "median": 6890.0,
+        "min": 4871,
+        "sum": 206190
+      },
+      "speedup_vs_dense": {
+        "geometric_mean": 1.0053754306175702,
+        "max": 1.1310974667209759,
+        "mean": 1.0068856204954701,
+        "median": 1.013728655297012,
+        "min": 0.8611049440569578,
+        "ratio_of_sums": 1.014086938858932
+      },
+      "total_steps": 3000,
+      "unknown_steps": 2543
+    },
+    "temporal_only": {
+      "accept_rate": 0.15233333333333332,
+      "accepted_steps": 457,
+      "aggregate_verdict_counts": {
+        "UNKNOWN": 30
+      },
+      "certificate_bytes": {
+        "max": 41475,
+        "mean": 33097.0,
+        "median": 33114.0,
+        "min": 24695,
+        "sum": 992910
+      },
+      "checker_runtime_seconds": {
+        "max": 1.8820379469998443,
+        "mean": 1.083754611566716,
+        "median": 1.0480095004993473,
+        "min": 0.45124537700030487,
+        "sum": 32.512638347001484
+      },
+      "configuration_count": 30,
+      "continuous_certified_prefix": {
+        "max": 16,
+        "mean": 3.7333333333333334,
+        "median": 2.0,
+        "min": 0,
+        "sum": 112
+      },
+      "failure_code_distribution": {
+        "SLAB_STRICT_INCLUSION_FAILED": 30
+      },
+      "minimum_inclusion_margin": -1.0720609955328086e-09,
+      "peak_rss_bytes": {
+        "max": 24641536,
+        "median": 24182784.0,
+        "min": 23724032
+      },
+      "raw_trajectory_bytes": {
+        "max": 8851,
+        "mean": 6873.0,
+        "median": 6890.0,
+        "min": 4871,
+        "sum": 206190
+      },
+      "speedup_vs_dense": {
+        "geometric_mean": 1.0127364343764844,
+        "max": 1.145463098118825,
+        "mean": 1.014681540097141,
+        "median": 1.0146271018672244,
+        "min": 0.8683935176143043,
+        "ratio_of_sums": 1.0194154007830851
+      },
+      "total_steps": 3000,
+      "unknown_steps": 2543
+    }
+  },
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python_version": "3.12.3",
+  "result_equivalence": {
+    "dense_temporal_blockstamp_equal_on_verdict_acceptance_prefix_margin": true,
+    "temporal_only_blockstamp_equal_on_verdict_acceptance_prefix_margin": true
+  },
+  "round": "component-ladder-v1",
+  "schema_version": 1,
+  "scientific_assessment": {
+    "does_not_support": [
+      "a stable or statistically significant runtime or memory advantage",
+      "a certificate-size advantage because the metric excludes method-specific witnesses and is identical across methods",
+      "a device-locality claim because the current streamed path consumes globally assembled Jacobians",
+      "a full-trace certification claim because every configuration-level verdict is UNKNOWN",
+      "a Paper Candidate promotion or any five-replicate nonlinear M2 conclusion"
+    ],
+    "supports": [
+      "the frozen component-ladder matrix is complete and unfiltered",
+      "all 30 four-method comparisons use matched producer/candidate/tube/backend and remaining required shared hashes",
+      "the registered verified-sparse B2 path is operational on all 30 inputs",
+      "B2 has the highest pooled accepted-step rate and the lowest cumulative checker runtime in this one-replicate matrix"
+    ]
+  },
+  "scope": "frozen four-method slab scaling curve at steps=100 and replicate=0; the five-method, five-replicate M2 is explicitly out of scope",
+  "semantics_sha256": "60fe305ae90cfb9e6a200feba6116f7e516f4c991c899008a3c3d808c4fd1faf",
+  "source_files_sha256": {
+    "experiments/benchmark.py": "a705810587eac2a838501dd86e6e0fec89b5dee0b9e8a658827b13d8bb6a9e88",
+    "experiments/blockstamp_operator.py": "d4e01f9ef9bd46f42a316cb0976332eca7b9c4549784891f6ae6871c0cf54426",
+    "experiments/checkers/pointwise_krawczyk.py": "266953c9a8dcacf9eadf22bd8a91cd7b6515026d4cceae10f9ffe4e2a1bc5528",
+    "experiments/checkers/slab_krawczyk.py": "984e6818ed5ec5d2a48c85d00cbac6f1406e173e84fc82acf8d1b017b948b692",
+    "experiments/checkers/verified_sparse.py": "dbb930be8ccb80410119351ef35b247d1f43ae6ea5e18de5708d417c3d520908",
+    "experiments/devices/stamps.py": "136468e4ca9f78fe6b5e51dd848e297205d55f986c9c95a0b447c78de559ddea",
+    "experiments/mna/fixed_be.py": "dd4d7cf09e2972c1de66174bde8529fefe15c2c95408bf8d5bdd39d57f2bf3f9",
+    "experiments/producers/trace.py": "39d10cff4a2850b69e351e25d78f8289a6b2838e5b25912b50ffe8a7da401e6b",
+    "experiments/run_component_ladder.py": "0863c41deb40c940209465f46e92d057165960f1529d895d31ae0fa62a042759"
+  },
+  "status": "COMPLETE",
+  "trace_sha256": {
+    "diode_rc/fast_load": "7ca388b16796e9060cf2ad7931a8f8de8fa695d969b837dd1d59f8d2f8f9653e",
+    "diode_rc/nominal": "f74663fa17b6c7ef1fbfd7b9edc06df1d565b838321ed82f5bcd90def847e014",
+    "diode_rc/slow_hot_start": "10ca1025966e646808c4c3421fa74234982161c5bf2f168ba40591cf1fa53c1f",
+    "nmos_ring_3stage/balanced": "92cdb28506d3f7504bf357b8b1474212a388d10abc47189f53e6f984d9cbd47e",
+    "nmos_ring_3stage/light_load": "db40f0f305aac8343229077554f9d679a48b7a032afe418d49273be2c9f5acc6",
+    "nmos_ring_3stage/slow_load": "ce80e31204a2573f081f85df004aa9e10dec527ab56664b97dbd08744bdeb1e4"
+  }
+}

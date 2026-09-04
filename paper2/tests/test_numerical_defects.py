@@ -99,6 +99,7 @@ def test_writer_rebuilds_csv_and_provenance(tmp_path) -> None:
         "experiments/checkers/pointwise_krawczyk.py",
         "experiments/generate_numerical_defects.py",
         "experiments/interval_backend.py",
+        "experiments/producers/precision.py",
         "experiments/provenance.py",
         "experiments/rigorous_backend.py",
     }

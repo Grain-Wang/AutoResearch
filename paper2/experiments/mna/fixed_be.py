@@ -12,7 +12,14 @@ import math
 from dataclasses import dataclass
 from enum import StrEnum
 
-from experiments.devices import DiodeParameters, diode_interval, diode_point
+from experiments.devices import (
+    DiodeParameters,
+    SmoothNmosParameters,
+    diode_interval,
+    diode_point,
+    smooth_nmos_interval,
+    smooth_nmos_point,
+)
 from experiments.interval_backend import Interval, IntervalResult, IntervalStatus
 from experiments.rigorous_backend import add, divide, multiply, subtract
 
@@ -58,6 +65,16 @@ class Diode:
 
 
 @dataclass(frozen=True, slots=True)
+class SmoothNmos:
+    """Three-terminal globally smooth NMOS benchmark element."""
+
+    drain: int
+    gate: int
+    source: int
+    parameters: SmoothNmosParameters = SmoothNmosParameters()
+
+
+@dataclass(frozen=True, slots=True)
 class Circuit:
     node_count: int
     resistors: tuple[Resistor, ...] = ()
@@ -65,6 +82,7 @@ class Circuit:
     current_sources: tuple[CurrentSource, ...] = ()
     voltage_sources: tuple[VoltageSource, ...] = ()
     diodes: tuple[Diode, ...] = ()
+    smooth_nmos: tuple[SmoothNmos, ...] = ()
 
     @property
     def state_dimension(self) -> int:
@@ -121,6 +139,15 @@ def _validate_circuit(circuit: Circuit) -> str | None:
             return "negative node index is outside the normalized layout"
         if element.positive == element.negative:
             return "a two-terminal element cannot connect a node to itself"
+    for transistor in circuit.smooth_nmos:
+        if not (0 <= transistor.drain <= circuit.node_count):
+            return "smooth-NMOS drain index is outside the normalized layout"
+        if not (0 <= transistor.gate <= circuit.node_count):
+            return "smooth-NMOS gate index is outside the normalized layout"
+        if not (0 <= transistor.source <= circuit.node_count):
+            return "smooth-NMOS source index is outside the normalized layout"
+        if transistor.drain == transistor.source:
+            return "smooth-NMOS drain and source nodes must differ"
     for resistor in circuit.resistors:
         if not math.isfinite(resistor.resistance) or resistor.resistance <= 0.0:
             return "resistance must be finite and positive"
@@ -141,6 +168,18 @@ def _validate_circuit(circuit: Circuit) -> str | None:
             or diode.parameters.thermal_voltage <= 0.0
         ):
             return "diode parameters must be finite and positive"
+    for transistor in circuit.smooth_nmos:
+        parameters = transistor.parameters
+        if (
+            not math.isfinite(parameters.conductance_scale)
+            or not math.isfinite(parameters.threshold)
+            or not math.isfinite(parameters.slope_voltage)
+            or not math.isfinite(parameters.floor_conductance)
+            or parameters.conductance_scale <= 0.0
+            or parameters.slope_voltage <= 0.0
+            or parameters.floor_conductance < 0.0
+        ):
+            return "smooth-NMOS parameters are outside the supported finite domain"
     return None
 
 
@@ -187,6 +226,30 @@ def _stamp_point_branch(
     _add_point_jacobian(jacobian, positive, negative, -conductance)
     _add_point_jacobian(jacobian, negative, positive, -conductance)
     _add_point_jacobian(jacobian, negative, negative, conductance)
+
+
+def _stamp_point_controlled_branch(
+    residual: list[float],
+    jacobian: list[list[float]],
+    drain: int,
+    gate: int,
+    source: int,
+    current: float,
+    transconductance: float,
+    output_conductance: float,
+) -> None:
+    """Stamp ``Id(Vg-Vs, Vd-Vs)`` into point KCL rows."""
+
+    _add_point_value(residual, drain, current)
+    _add_point_value(residual, source, -current)
+    source_derivative = -(transconductance + output_conductance)
+    for column, derivative in (
+        (drain, output_conductance),
+        (gate, transconductance),
+        (source, source_derivative),
+    ):
+        _add_point_jacobian(jacobian, drain, column, derivative)
+        _add_point_jacobian(jacobian, source, column, -derivative)
 
 
 def point_be_residual_jacobian(
@@ -264,6 +327,26 @@ def point_be_residual_jacobian(
                 step_size * current,
                 step_size * conductance,
             )
+        for transistor in circuit.smooth_nmos:
+            vgs = _point_voltage(current_state, transistor.gate) - _point_voltage(
+                current_state, transistor.source
+            )
+            vds = _point_voltage(current_state, transistor.drain) - _point_voltage(
+                current_state, transistor.source
+            )
+            current, transconductance, output_conductance = smooth_nmos_point(
+                vgs, vds, transistor.parameters
+            )
+            _stamp_point_controlled_branch(
+                residual,
+                jacobian,
+                transistor.drain,
+                transistor.gate,
+                transistor.source,
+                step_size * current,
+                step_size * transconductance,
+                step_size * output_conductance,
+            )
         for source_index, source in enumerate(circuit.voltage_sources):
             branch_index = circuit.node_count + source_index
             branch_current = current_state[branch_index]
@@ -333,6 +416,30 @@ def _stamp_interval_branch(
     _add_interval_jacobian(jacobian, positive, negative, _negative(conductance))
     _add_interval_jacobian(jacobian, negative, positive, _negative(conductance))
     _add_interval_jacobian(jacobian, negative, negative, conductance)
+
+
+def _stamp_interval_controlled_branch(
+    residual: list[Interval],
+    jacobian: list[list[Interval]],
+    drain: int,
+    gate: int,
+    source: int,
+    current: Interval,
+    transconductance: Interval,
+    output_conductance: Interval,
+) -> None:
+    """Stamp an interval enclosure of a three-terminal controlled branch."""
+
+    _add_interval_value(residual, drain, current)
+    _add_interval_value(residual, source, _negative(current))
+    source_derivative = _negative(_require(add(transconductance, output_conductance)))
+    for column, derivative in (
+        (drain, output_conductance),
+        (gate, transconductance),
+        (source, source_derivative),
+    ):
+        _add_interval_jacobian(jacobian, drain, column, derivative)
+        _add_interval_jacobian(jacobian, source, column, _negative(derivative))
 
 
 def interval_be_residual_jacobian(
@@ -422,6 +529,34 @@ def interval_be_residual_jacobian(
                 diode.negative,
                 _require(multiply(step, stamp.current)),
                 _require(multiply(step, stamp.conductance)),
+            )
+        for transistor in circuit.smooth_nmos:
+            vgs = _require(
+                subtract(
+                    _interval_voltage(current_state, transistor.gate),
+                    _interval_voltage(current_state, transistor.source),
+                )
+            )
+            vds = _require(
+                subtract(
+                    _interval_voltage(current_state, transistor.drain),
+                    _interval_voltage(current_state, transistor.source),
+                )
+            )
+            stamp = smooth_nmos_interval(vgs, vds, transistor.parameters)
+            if stamp is None:
+                raise _UnsupportedArithmetic(
+                    "smooth-NMOS interval stamp is unsupported"
+                )
+            _stamp_interval_controlled_branch(
+                residual,
+                jacobian,
+                transistor.drain,
+                transistor.gate,
+                transistor.source,
+                _require(multiply(step, stamp.drain_current)),
+                _require(multiply(step, stamp.transconductance)),
+                _require(multiply(step, stamp.output_conductance)),
             )
         for source_index, source in enumerate(circuit.voltage_sources):
             branch_index = circuit.node_count + source_index

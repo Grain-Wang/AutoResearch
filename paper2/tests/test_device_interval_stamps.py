@@ -4,10 +4,13 @@ from experiments.devices import (
     DiodeParameters,
     MosParameters,
     MosRegion,
+    SmoothNmosParameters,
     diode_interval,
     diode_point,
     mos_interval,
     mos_point,
+    smooth_nmos_interval,
+    smooth_nmos_point,
 )
 from experiments.interval_backend import Interval
 
@@ -68,3 +71,24 @@ def test_mos_boundary_crossing_returns_unknown() -> None:
     assert mos_interval(Interval(0.49, 0.51), Interval(0.0, 0.1), parameters) is None
     assert mos_interval(Interval(0.9, 1.0), Interval(0.3, 0.6), parameters) is None
     assert mos_interval(Interval(0.9, 1.0), Interval(-0.1, 0.1), parameters) is None
+
+
+def test_smooth_nmos_boxes_contain_current_and_derivatives() -> None:
+    generator = random.Random(109)
+    parameters = SmoothNmosParameters()
+    for _ in range(1_000):
+        gate_center = generator.uniform(-0.2, 1.3)
+        drain_center = generator.uniform(-0.1, 1.3)
+        gate_radius = generator.uniform(0.0, 0.03)
+        drain_radius = generator.uniform(0.0, 0.03)
+        vgs = Interval(gate_center - gate_radius, gate_center + gate_radius)
+        vds = Interval(drain_center - drain_radius, drain_center + drain_radius)
+        stamp = smooth_nmos_interval(vgs, vds, parameters)
+        assert stamp is not None
+        for index in range(11):
+            point_vgs = vgs.lower + index * (vgs.upper - vgs.lower) / 10.0
+            point_vds = vds.upper - index * (vds.upper - vds.lower) / 10.0
+            current, gm, gds = smooth_nmos_point(point_vgs, point_vds, parameters)
+            assert stamp.drain_current.contains(current)
+            assert stamp.transconductance.contains(gm)
+            assert stamp.output_conductance.contains(gds)

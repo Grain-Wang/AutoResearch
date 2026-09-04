@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "discretization": "fixed-step-backward-euler",
+  "producer": {
+    "algorithm": "residual-stopped-damped-newton",
+    "precisions": ["float32", "float64"],
+    "max_iterations": 30,
+    "ring_tolerance_by_precision": {
+      "float32": 1.0e-5,
+      "float64": 1.0e-10
+    }
+  },
+  "test_reference": {
+    "name": "Decimal-160 high-precision test reference",
+    "decimal_digits": 160,
+    "rigorous": false,
+    "usage": "post-hoc evaluation only"
+  },
+  "tube_rule": {
+    "name": "residual-local-inverse-jacobian-frozen-radius-v1",
+    "rounding_ulps": 8.0,
+    "ring_base_radii": [1.0e-12, 1.0e-12, 1.0e-12, 1.0e-12, 1.0e-15],
+    "ring_semantic_scales": [1.0, 1.0, 1.0, 1.0, 1.0e-3],
+    "diode_rc_base_radii": [1.0e-12, 1.0e-12, 1.0e-15],
+    "diode_rc_semantic_scales": [1.0, 1.0, 1.0e-3]
+  },
+  "ring_canary": {
+    "circuit_id": "nmos_ring_3stage",
+    "steps": [100, 300, 1000],
+    "radius_multiplier": 4.0,
+    "instances": [
+      {
+        "name": "balanced",
+        "load_resistance": 10000.0,
+        "load_capacitance": 2.0e-11,
+        "step_size": 2.0e-9,
+        "initial_voltages": [0.05, 0.60, 1.15]
+      },
+      {
+        "name": "light_load",
+        "load_resistance": 8000.0,
+        "load_capacitance": 1.5e-11,
+        "step_size": 1.5e-9,
+        "initial_voltages": [0.10, 0.20, 1.10]
+      },
+      {
+        "name": "slow_load",
+        "load_resistance": 15000.0,
+        "load_capacitance": 2.5e-11,
+        "step_size": 2.5e-9,
+        "initial_voltages": [0.02, 0.90, 0.40]
+      }
+    ]
+  },
+  "diode_rc_sweep": {
+    "circuit_id": "diode_rc",
+    "steps": 100,
+    "tolerances": [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8],
+    "radius_multipliers": [0.25, 1.0, 4.0, 16.0],
+    "instances": [
+      {
+        "name": "nominal",
+        "resistance": 1000.0,
+        "capacitance": 1.0e-6,
+        "source_voltage": 0.70,
+        "initial_voltage": 0.00,
+        "step_size": 1.0e-5
+      },
+      {
+        "name": "fast_load",
+        "resistance": 680.0,
+        "capacitance": 8.0e-7,
+        "source_voltage": 0.65,
+        "initial_voltage": 0.05,
+        "step_size": 8.0e-6
+      },
+      {
+        "name": "slow_hot_start",
+        "resistance": 2200.0,
+        "capacitance": 1.5e-6,
+        "source_voltage": 0.75,
+        "initial_voltage": 0.20,
+        "step_size": 1.2e-5
+      }
+    ]
+  }
+}

@@ -1,5 +1,17 @@
 # Step 008: Next-Round M0/M1/M2 Gate
 
+## 2026-09-04 authoritative post-M2 update
+
+The frozen M2 has finished: all 2,250 measured rows and 450 warm-ups are present.
+Its registered comparison reports `W=PASS` and `D=E=STOP`, but the W result does not
+survive the subsequently registered contractive-interface pointwise killer canary.
+That baseline improves the old pointwise prefix on all six 100-step instances, while
+no fixed slab or largest-first adaptive partition beats it.  The current machine state
+is therefore `M0 PASS-CANARY / M1 REFRAME-SYSTEM / M2 ITERATE`, with Claim W
+`FAIL-CANARY`, algorithm novelty not established, and Paper Candidate
+`FAIL-UNVERIFIED`.  Step 009 is the authoritative scientific interpretation; the
+sections below retain the frozen pre-M2 protocol and historical execution record.
+
 ## 1. Decision and purpose
 
 Current machine decision from `results/blockstamp/next_round_gate.json`:
@@ -203,30 +215,35 @@ device/time representation remains, stop the algorithm-headline claim.  Continue
 as a restricted certificate-system opportunity if M2 later demonstrates end-to-end
 value over strict rerun.
 
-**Current M1 decision:** `ITERATE`.  Claim I is
-`IMPLEMENTATION-CANARY-PASS`, efficiency is `UNVERIFIED`, and novelty is `UNRESOLVED`.
-The operator canary therefore permits continued mechanism work but cannot support an
-algorithm contribution statement.
+**Current M1 decision:** `REFRAME-SYSTEM-CLOSED`.  Claim I is
+`IMPLEMENTATION-CANARY-PASS`, efficiency is `UNVERIFIED`, and the current numerical
+algorithm headline is `ABANDONED`.  Step 004 closes the prior-art action by narrowing
+the surviving opportunity to a circuit-specific certifying system; it does not satisfy
+the algorithmic-difference promotion condition below.
 
 ## 5. M2: matched nonlinear and killer-baseline gate
 
 M2 starts only after M0 passes, the M1 operator canary has zero containment violations,
-and a component-matched B2-strong/fairness path is ready.  The first two numerical
-conditions now pass at canary level; B2-strong is not ready, so M2 remains
-`NOT-STARTED`.
+and a component-matched B2-strong/fairness path is ready.  These conditions and the
+four-level component ladder now pass at their declared canary scope.  M2 itself remains
+`NOT-STARTED` until the frozen grid below is executed.
 
 ### 5.1 Frozen workload and run grid
 
-- Workloads: `diode_rc` and `nmos_ring_3stage`.
-- Instances: at least three predeclared conditioning/load/initial-state settings per
-  workload.
-- Time steps: `{100, 300, 1000}`.
-- Slab lengths: `{1, 2, 4, 8, 16}` where applicable.
-- Timing: five independent processes per matched timing configuration; one warm-up is
-  recorded but excluded before observing timings.
-- Methods: `strict_mpfr_rerun`, `dense_slab_generic`,
-  `device_local_pointwise_b2`, `temporal_only`, and
-  `temporal_device_blockstamp`.
+- Workloads and exact instances: `diode_rc/{nominal,fast_load,slow_hot_start}` and
+  `nmos_ring_3stage/{balanced,light_load,slow_load}`.
+- Producer precision, tolerance, and tube-radius multiplier: exactly `float64`,
+  `1e-10`, and `4`.
+- Time steps, in executable queue order: `(100, 300, 1000)`.
+- Slab lengths, in executable queue order: `(1, 2, 4, 8, 16)`.
+- Timing replicates: exactly `(0, 1, 2, 3, 4)`, each in a fresh process.  Exactly one
+  `replicate=-1` warm-up per circuit/instance/steps/slab/method is checkpointed and
+  excluded from measured statistics.
+- Executable method order: `dense_slab_generic`, `device_local_pointwise_b2`,
+  `temporal_only`, `temporal_device_blockstamp`, `strict_mpfr_rerun`.
+- Execution is serial for Round 5 (`workers=1`).  The queue contains 450 warm-ups
+  followed by 2,250 measured configurations; every terminal checker verdict, including
+  `UNKNOWN` and `UNSUPPORTED`, is a completed configuration.
 
 B2-strong must use a verified-sparse linear kernel where applicable.  It is the primary
 killer for slab necessity.  Dense slab is the operator-strength/cost comparator;
@@ -248,12 +265,20 @@ M2 is invalid if a shared hash is absent or differs without a predeclared method
 or if the baseline and proposed method use different tube initialization, precision,
 semantics, scaling, ordering, factor quality, threads, or hardware.
 
-**Observed B2 status.**  `b2_fairness.json` reports `ITERATE / B2-CANARY-ONLY`: the
-dense pointwise path accepted 200 registered easy cases, and 17 known-bad cases had 0
-confirmed false accepts.  However, `all_required_hashes_present=false`, shared-method
-matching is not yet decidable, and `strong_baseline_status` is
-`UNIMPLEMENTED-VERIFIED-SPARSE`.  Missing items are the verified-sparse kernel, a
-component-matched BlockStamp circuit path, and timing/RSS/certificate-byte ladder.
+The four certification methods form each strict matched group and must share every
+listed hash.  The frozen `strict_mpfr_rerun` utility comparator is the one predeclared
+exception: it constructs a Decimal-160 reference candidate and oracle-centered tube
+before MPFR-256 directed B2 checking, so its trace/candidate/tube/factor hashes differ by
+design.  It must still share the declared problem input, backend, semantics, scaling,
+ordering, thread count, hardware, and global config.  It is not a fifth primary matched
+checker and must not be described as an independent full strict transient solver.
+
+**Observed B2 status.**  The current `b2_fairness.json` reports `PASS` at its declared
+component-matched canary scope: `strong_baseline_status=IMPLEMENTED`, required hashes
+are present and match, and no registered confirmed false accept is reported.  The
+kernel is an auditable correctness-oriented sparse-row verified solve, not an optimized
+third-party sparse package.  This permits M2; it does not itself prove a performance or
+paper claim.
 
 ### 5.3 Component and minimal-probe artifacts
 
@@ -283,8 +308,11 @@ The component ladder must contain all four certification methods
 `temporal_device_blockstamp` for each matched input.  The minimal probe additionally
 contains `strict_mpfr_rerun`.  No success-only filtering is permitted.
 
-**Current artifact status:** neither `component_ladder.csv` nor `minimal_probe.csv`
-exists; no Claim W/D/E or nonlinear transient performance result is available.
+**Post-execution artifact status:** `component_ladder.csv` and its manifest passed final
+integrity at the single-replicate canary scope (120/120 rows, 30/30 primary matched
+groups).  `minimal_probe.csv` and its manifest contain all 2,250 registered measured
+rows.  The frozen rules report `W=PASS` and `D=E=STOP`, but W is now
+`FAIL-CANARY / ITERATE` after the contractive-interface killer canary in Step 009.
 
 ### 5.4 Stable-signal definition
 
@@ -364,9 +392,11 @@ The generated gate artifact reports:
 
 - `Research Opportunity: PASS`;
 - `M0: PASS-CANARY`;
-- `M1: ITERATE`, with `Claim I: IMPLEMENTATION-CANARY-PASS`, novelty unresolved, and
-  efficiency unverified;
-- `M2: NOT-STARTED`;
+- `M1: REFRAME-SYSTEM`, with `Claim I: IMPLEMENTATION-CANARY-PASS`, algorithm novelty
+  abandoned for the current recurrence, and efficiency failing the killer canary;
+- `M2: ITERATE`; the frozen probe is complete, but its W signal is invalidated for
+  promotion by the stronger contractive-interface pointwise baseline;
+- `Claim W after contractive baseline: FAIL-CANARY`; `Claim D/E: STOP`;
 - `Paper Candidate: FAIL-UNVERIFIED`.
 
 Run the recorded commands from `paper2/` under Python 3.12 with MPFR available:
@@ -376,9 +406,11 @@ python3 -m experiments.generate_numerical_defects --output results/blockstamp/nu
 python3 -m experiments.run_rigorous_backend --samples 50000 --seed 20260831
 python3 -m experiments.run_mna_canary --steps 100 --step-size 1e-05
 python3 -m experiments.run_operator_canary --cases-per-grid 200 --dense-canary-cases 2 --seed 20260831
+python3 -m experiments.run_interface_contraction_canary --steps 100
 python3 -m experiments.run_next_round_gate
 ```
 
 The gate runner consumes the generated canary artifacts; it must be rerun after any
-source, configuration, or artifact change.  Clean-output replay is still required
-because the current artifacts record a dirty worktree.
+source, configuration, or artifact change.  Do not spend a clean-output replay or a
+larger experiment grid on the present recurrence: Step 009 requires a non-equivalent
+mechanism that first beats contractive pointwise B2 in a low-cost canary.

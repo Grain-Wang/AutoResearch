@@ -20,30 +20,32 @@ F_b(x_{b-1},x_b)),\qquad z=(x_a,\ldots,x_b).
 width in every coordinate.  `int(X)` is its ordinary Euclidean interior, and the
 outgoing projection is `P_b z = x_b`.  A center `z_bar` must lie in `int(X)`.
 
-The first-version preconditioner has one meaning only.  After the checker has applied
-the input-bound permutation and nonzero diagonal scaling, it reconstructs a finite
-point midpoint matrix `M` from its own slab Jacobian enclosure.  Each stored binary
-floating-point entry of `M` denotes its exact dyadic real value.  Producer-supplied
-permutations, scaling, factors, or approximate inverses are untrusted hints: they may
-accelerate verification, but they do not define `M`.  Once the checker proves `M`
-nonsingular, the theorem's fixed real operator is
+The frozen first-version checker profile uses one preconditioner construction.  After
+the checker has applied the input-bound permutation and nonzero diagonal scaling, it
+reconstructs a finite point midpoint matrix `M` from its own slab Jacobian enclosure.
+Each stored binary floating-point entry of `M` denotes its exact dyadic real value.
+Producer-supplied permutations, scaling, factors, or approximate inverses are
+untrusted hints: they may accelerate verification, but they do not define `M`.  Once
+the checker proves `M` nonsingular, this restricted implementation sets
 
 \[
 C := M^{-1}.
 \]
 
 The checker need not form `C`; it applies this exact real inverse through verified
-block solves as specified in `007_blockstamp_operator_spec.md`.
+block solves as specified in `007_blockstamp_operator_spec.md`.  This choice is an
+implementation constraint, not a necessary premise of the general Krawczyk inclusion
+theorem stated in Section 4.
 
 ## 2. Executable assumptions
 
-| ID | Mathematical assumption | Checker obligation |
+| ID | Contract or profile requirement | Checker obligation |
 | --- | --- | --- |
 | A1 | The normalized netlist has the supported regular index-1 BE structure. | Reject unsupported topology, device, state layout, inconsistent initial state, or singular structural pattern. |
 | A2 | `G_S` is continuously differentiable in `z` on an open neighborhood of `Y x X`. | Use only supported smooth device regions; split a box crossing a piecewise-model boundary or return `UNKNOWN`. |
 | A3 | `[J_z G](Y,X)` encloses every real `J_z G(y,z)`. | Reconstruct all device-local interval stamps with outward rounding. |
 | A4 | `[G](Y,z_bar)` encloses every `G(y,z_bar)`. | Reconstruct values and BE history terms independently of the producer. |
-| A5 | The checker-defined point matrix `M` is nonsingular, and `C` is exactly `M^{-1}`. | Recompute `M`; verify every diagonal-block invertibility witness and the permutation/scaling semantics; reject or return `UNKNOWN` if any witness is inconclusive. |
+| A5 | The frozen checker profile requires a nonsingular checker-defined point matrix `M` and fixes `C` to exactly `M^{-1}`. | Recompute `M`; verify every diagonal-block invertibility witness and the permutation/scaling semantics; reject or return `UNKNOWN` if any witness is inconclusive. |
 | A6 | Every reported `VSolve(D,B)` encloses `{D^{-1}b : b in B}` and every assembled remainder/operator bound is outward rounded. | Validate dimensions, sparse indices, triangular operations, interval products, and rounding bounds.  A small ordinary `D-LU` residual is insufficient. |
 | A7 | The certificate, normalized netlist, method, grid, semantics, ordering, scaling, and checker-reconstructed `M` are bound to the accepted digest; all interval endpoints are finite and ordered. | Recompute canonical hashes; reject mismatches, NaNs, reversed intervals, unsupported infinities, or a different matrix bit pattern. |
 
@@ -76,20 +78,34 @@ encloses the exact real inverse action.  Merely observing nonzero floating-point
 without enclosing their rounding error, or a small ordinary factor residual, does not
 discharge A5--A6.
 
-## 3. Why nonsingularity is necessary
+## 3. Arbitrary `C` versus the frozen checker profile
 
-The former condition “the checker encloses `C v` and `C A`” was insufficient.  In one
+The former singular-operator counterexample was algebraically wrong.  In one
 dimension, take
 
 \[
 F(x)=x+2,\qquad X=[-1,1],\qquad z_bar=0,\qquad C=0.
 \]
 
-Then the nominal Krawczyk image is `K(X)={0}`, which lies strictly inside `X`, although
-`F` has no zero in `X`.  Thus strict inclusion alone cannot compensate for a singular
-`C`.  Under the present contract, `C=0` cannot equal `M^{-1}`; a missing or failed
-invertibility witness must stop the checker before inclusion and yield
-`UNKNOWN/UNSUPPORTED`, never `ACCEPT`.
+Direct substitution into this contract's formula instead gives
+
+\[
+K(X)=\bar z-0F(\bar z)+(I-0[J F(X)])(X-\bar z)=X.
+\]
+
+Consequently `C=0` cannot satisfy strict inclusion for the required positive-width
+box; it does **not** produce `{0}`.  More generally, the theorem in Section 4 permits
+an arbitrary fixed real matrix `C`.  If its exact Krawczyk image is strictly contained
+in the box, nonsingularity of `C` and of every matrix in the interval Jacobian follows
+from the inclusion conclusion; it need not be assumed beforehand.
+
+The executable checker nevertheless fixes `C=M^{-1}`.  This conservative profile
+binds the operator to a checker-reconstructed midpoint, prevents an untrusted producer
+from selecting `C`, and reduces exact operator application to auditable verified block
+solves.  A failed proof that `M` is nonsingular therefore yields
+`UNKNOWN/UNSUPPORTED` under this implementation, not because arbitrary nonsingular
+`C` is a theorem requirement, but because the implementation exposes no alternate
+preconditioner path.
 
 ## 4. Strict inclusion and theorem version
 
@@ -109,13 +125,22 @@ x_{lo,i}<k_{lo,i}\quad\text{and}\quad k_{hi,i}<x_{hi,i}.
 Equality at either boundary, an unbounded endpoint, or an undecidable comparison does
 not pass.  No implementation epsilon may replace these strict comparisons.
 
-The theorem used here is the finite-dimensional Krawczyk inclusion theorem with a
-nonsingular fixed real preconditioner, as catalogued in
-`004_theorem_prior_art_closure.md` (Krawczyk and Neumaier, *An Improved Interval Newton
-Operator*, JMAA 118(1), 1986, DOI `10.1016/0022-247X(86)90303-3`).  The contract uses
-its componentwise strict-inclusion existence-and-uniqueness conclusion.  It does not
-silently substitute an arbitrary singular linear map for the theorem's
-preconditioner.
+The theorem version used here is Rump, *Verification methods: Rigorous results using
+floating-point arithmetic*, Acta Numerica 19 (2010), Theorem 13.3, p. 89,
+[DOI 10.1017/S096249291000005X](https://doi.org/10.1017/S096249291000005X).
+For continuously differentiable `f`, a centered box `Z` with
+`z_bar+Z` inside the domain, an interval enclosure of all Jacobians on that box, and
+an **arbitrary fixed real matrix** `C`, the theorem considers
+
+\[
+S(Z,\bar z)=-C f(\bar z)+(I-C[Jf(\bar z+Z)])Z.
+\]
+
+If `S(Z,z_bar) subset int(Z)`, it concludes that `C` and every matrix in the
+interval Jacobian are nonsingular and establishes the unique enclosed zero.  Thus
+prior nonsingularity of `C` is not a premise of this theorem version.  Taking
+`Z=X-z_bar` gives the formula used below.  The checker's `C=M^{-1}` rule is a
+restricted instantiation of this more general result.
 
 ## 5. Theorem S-fixed
 
@@ -138,14 +163,17 @@ fixed `y0` inside the declared box `X`.  It says neither that no root exists out
 
 ### Proof skeleton
 
-A2--A4 provide the hypotheses and mean-value enclosure required by the cited
-Krawczyk theorem.  A5 supplies its missing nonsingular fixed real operator, while A6
-ensures the checker result contains that operator's exact real action.  The checked
-strict inclusion therefore yields existence and uniqueness in `X`; projection
-preserves containment.  A7 binds this statement to the accepted instance.
+A2--A4 provide the smoothness, residual, and mean-value enclosures required by the
+cited Krawczyk theorem.  A5 selects the restricted profile's fixed real `C` and proves
+that the checker can apply it through `M`; it does not supply a missing theorem
+premise.  A6 ensures the checker result contains that operator's exact real action.
+The checked strict inclusion therefore yields existence and uniqueness in `X`;
+projection preserves containment.  A7 binds this statement to the accepted instance.
 
-This proof does not use, and the checker does not currently claim, a separate theorem
-that every member of `[J_zG]` is nonsingular or that a solution map is continuous.
+The same strict-inclusion theorem also concludes that every member of `[J_zG]` on the
+declared box is nonsingular.  The checker does not claim this independently when
+inclusion fails, and neither that conclusion nor S-fixed proves that a parameterized
+solution map is continuous.
 
 ## 6. Theorem S-param
 
@@ -201,10 +229,12 @@ slab, as specified in `006_selective_recovery_contract.md`.
 ## 9. Open implementation obligations
 
 This document instantiates established Krawczyk reasoning; neither S-fixed nor S-param
-is a novelty claim.  The mathematical contract still requires executable regression
-tests for the singular-`C` counterexample, a directed-rounded arithmetic backend,
-complete BE MNA semantics, and zero false accepts on known corrupt certificates.
-`007_blockstamp_operator_spec.md` defines the next algorithmic obligation: prove and
-cross-check that the block recurrence encloses the exact action of this same fixed
+is a novelty claim.  The mathematical contract still requires an executable
+arbitrary-`C` algebra regression showing that `C=0` gives `K(X)=X`, a directed-rounded
+arithmetic backend, complete BE MNA semantics, and zero false accepts on known corrupt
+certificates.
+`007_blockstamp_operator_spec.md` defines the operator-implementation obligation: prove
+and cross-check that the block recurrence encloses the exact action of this same fixed
 operator `M^{-1}`, then isolate any efficiency or enclosure-strength benefit against
-component-matched baselines.
+component-matched baselines.  Step 004 classifies the present recurrence as a standard
+checker kernel rather than a new algorithm.

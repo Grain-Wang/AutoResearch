@@ -1,0 +1,1308 @@
+{
+  "adaptive_partition_canary": {
+    "instances_beating_contractive_pointwise": 0,
+    "method": "largest-first slab selection with pointwise backoff",
+    "status": "NO-PREFIX-GAIN"
+  },
+  "algorithmic_novelty": "NOT-ESTABLISHED",
+  "attempted_traces": 6,
+  "backend": {
+    "library": "libmpfr.so.6",
+    "name": "MPFR",
+    "precision_bits": 256,
+    "version": "4.2.1"
+  },
+  "backend_sha256": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+  "claim_scope": "strengthened Claim-W killer-baseline canary; fixed-step discrete-MNA prefix evidence only, not a novelty, full-grid, or rigorous-oracle claim",
+  "claim_w_killer_baseline": {
+    "criterion_applicable": true,
+    "passing_slab_lengths": [],
+    "slab_win_counts_by_workload": {
+      "16": {
+        "diode_rc": 0,
+        "nmos_ring_3stage": 0
+      },
+      "2": {
+        "diode_rc": 0,
+        "nmos_ring_3stage": 0
+      },
+      "4": {
+        "diode_rc": 0,
+        "nmos_ring_3stage": 0
+      },
+      "8": {
+        "diode_rc": 0,
+        "nmos_ring_3stage": 0
+      }
+    },
+    "status": "KILLER-BASELINE-CANARY-FAIL"
+  },
+  "command": "python3 -m experiments.run_interface_contraction_canary --steps 100",
+  "completed_traces": 6,
+  "config": "configs/blockstamp/minimal_probe.yaml",
+  "config_sha256": "d6a9105db3e54dfed2471199f2018d3d89629df786a96cbf98826cd51937770e",
+  "contractive_pointwise_dominates_or_ties_all_fixed_slabs": true,
+  "contractive_pointwise_improves_legacy_instances": 6,
+  "dirty_worktree": true,
+  "failure_codes": [],
+  "first_failure": null,
+  "generated_at_utc": "2026-09-04T05:04:54.468122+00:00",
+  "git_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
+  "greedy_beats_contractive_pointwise_instances": 0,
+  "input_sha256": "1ce65343ac975a109b6603c1b737381e09ba3aaef26f20f6c4e1700fcd0bb455",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "protocol_complete": true,
+  "python_version": "3.12.3",
+  "random_seeds": {},
+  "randomness_used": false,
+  "records": [
+    {
+      "circuit_id": "diode_rc",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+          ],
+          "accepted_obligations": 25,
+          "certification_rate": 0.25,
+          "certified_prefix_steps": 25,
+          "check_seconds": 0.13933905800513458,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.730482920464965e-13,
+          "obligation_attempts": 26,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [
+            16
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.16,
+          "certified_prefix_steps": 16,
+          "check_seconds": 0.1828388400026597,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -4.28415636299917e-12,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            16
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            24
+          ],
+          "accepted_obligations": 12,
+          "certification_rate": 0.24,
+          "certified_prefix_steps": 24,
+          "check_seconds": 0.1688235949841328,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.72937269744034e-13,
+          "obligation_attempts": 13,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4,
+            8,
+            12,
+            16,
+            20,
+            24
+          ],
+          "accepted_obligations": 6,
+          "certification_rate": 0.24,
+          "certified_prefix_steps": 24,
+          "check_seconds": 0.1586841649695998,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -1.8099965970463927e-12,
+          "obligation_attempts": 7,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [
+            8,
+            16,
+            24
+          ],
+          "accepted_obligations": 3,
+          "certification_rate": 0.24,
+          "certified_prefix_steps": 24,
+          "check_seconds": 0.19943308501387946,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -4.284184118574785e-12,
+          "obligation_attempts": 4,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            8,
+            8,
+            8
+          ],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "accepted_obligations": 25,
+        "certification_rate": 0.25,
+        "certified_prefix_steps": 25,
+        "check_seconds": 0.13492241306812502,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -7.730482920464965e-13,
+        "obligation_attempts": 26,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -9,
+        "2": -1,
+        "4": -1,
+        "8": -1
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          16,
+          24,
+          25
+        ],
+        "accepted_obligations": 3,
+        "certification_rate": 0.25,
+        "certified_prefix_steps": 25,
+        "check_seconds": 0.5891998680308461,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -2.547556610110746e-11,
+        "obligation_attempts": 13,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          16,
+          8,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "nominal",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.1,
+        "certified_prefix_steps": 10,
+        "check_seconds": 0.5133589400793426,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 15,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 1e-05,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "f74663fa17b6c7ef1fbfd7b9edc06df1d565b838321ed82f5bcd90def847e014"
+    },
+    {
+      "circuit_id": "diode_rc",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "accepted_obligations": 13,
+          "certification_rate": 0.13,
+          "certified_prefix_steps": 13,
+          "check_seconds": 0.06753421199391596,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.477352070850429e-14,
+          "obligation_attempts": 14,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.08352640199882444,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -4.580780199603396e-13,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4,
+            6,
+            8,
+            10,
+            12
+          ],
+          "accepted_obligations": 6,
+          "certification_rate": 0.12,
+          "certified_prefix_steps": 12,
+          "check_seconds": 0.07262185998843051,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.46902539816574e-14,
+          "obligation_attempts": 7,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4,
+            8,
+            12
+          ],
+          "accepted_obligations": 3,
+          "certification_rate": 0.12,
+          "certified_prefix_steps": 12,
+          "check_seconds": 0.08336211298592389,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -4.580780199603396e-13,
+          "obligation_attempts": 4,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4,
+            4,
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [
+            8
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.08,
+          "certified_prefix_steps": 8,
+          "check_seconds": 0.08240077999653295,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -4.580780199603396e-13,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            8
+          ],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "accepted_obligations": 13,
+        "certification_rate": 0.13,
+        "certified_prefix_steps": 13,
+        "check_seconds": 0.07233967598585878,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -7.477352070850429e-14,
+        "obligation_attempts": 14,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -13,
+        "2": -1,
+        "4": -1,
+        "8": -5
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          8,
+          12,
+          13
+        ],
+        "accepted_obligations": 3,
+        "certification_rate": 0.13,
+        "certified_prefix_steps": 13,
+        "check_seconds": 0.6060110360413091,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -4.314842927399809e-11,
+        "obligation_attempts": 15,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          8,
+          4,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "fast_load",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.01,
+        "certified_prefix_steps": 1,
+        "check_seconds": 0.47664191808144096,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 12,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 8e-06,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "7ca388b16796e9060cf2ad7931a8f8de8fa695d969b837dd1d59f8d2f8f9653e"
+    },
+    {
+      "circuit_id": "diode_rc",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "accepted_obligations": 6,
+          "certification_rate": 0.06,
+          "certified_prefix_steps": 6,
+          "check_seconds": 0.03649116697488353,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.975287097394812e-13,
+          "obligation_attempts": 7,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.08805173600558192,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -9.122980149101068e-12,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4,
+            6
+          ],
+          "accepted_obligations": 3,
+          "certification_rate": 0.06,
+          "certified_prefix_steps": 6,
+          "check_seconds": 0.042254346029949374,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -1.6822654380632684e-12,
+          "obligation_attempts": 4,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.04,
+          "certified_prefix_steps": 4,
+          "check_seconds": 0.04314132400031667,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -1.6822376824876528e-12,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.04302206001011655,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -1.6822376824876528e-12,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "accepted_obligations": 6,
+        "certification_rate": 0.06,
+        "certified_prefix_steps": 6,
+        "check_seconds": 0.0342243980121566,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -7.975287097394812e-13,
+        "obligation_attempts": 7,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -6,
+        "2": 0,
+        "4": -2,
+        "8": -6
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          4,
+          6
+        ],
+        "accepted_obligations": 2,
+        "certification_rate": 0.06,
+        "certified_prefix_steps": 6,
+        "check_seconds": 0.5005881039833184,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -1.7438467336816643e-11,
+        "obligation_attempts": 12,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          4,
+          2
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "slow_hot_start",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.01,
+        "certified_prefix_steps": 1,
+        "check_seconds": 0.5100957590912003,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 5,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 1.2e-05,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "10ca1025966e646808c4c3421fa74234982161c5bf2f168ba40591cf1fa53c1f"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "accepted_obligations": 8,
+          "certification_rate": 0.08,
+          "certified_prefix_steps": 8,
+          "check_seconds": 0.14703307798481546,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.87997098128379e-12,
+          "obligation_attempts": 9,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.2912720739841461,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -8.097966741615892e-12,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4,
+            6,
+            8
+          ],
+          "accepted_obligations": 4,
+          "certification_rate": 0.08,
+          "certified_prefix_steps": 8,
+          "check_seconds": 0.18147663296258543,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.879894653450847e-12,
+          "obligation_attempts": 5,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4,
+            8
+          ],
+          "accepted_obligations": 2,
+          "certification_rate": 0.08,
+          "certified_prefix_steps": 8,
+          "check_seconds": 0.20882114898995496,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -7.87986342842828e-12,
+          "obligation_attempts": 3,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4,
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [
+            8
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.08,
+          "certified_prefix_steps": 8,
+          "check_seconds": 0.28766385500784963,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -8.097966741615892e-12,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            8
+          ],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "accepted_obligations": 8,
+        "certification_rate": 0.08,
+        "certified_prefix_steps": 8,
+        "check_seconds": 0.14503706702089403,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -7.87997098128379e-12,
+        "obligation_attempts": 9,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -8,
+        "2": 0,
+        "4": 0,
+        "8": 0
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          8
+        ],
+        "accepted_obligations": 1,
+        "certification_rate": 0.08,
+        "certified_prefix_steps": 8,
+        "check_seconds": 0.9612459649797529,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -1.504353724923746e-10,
+        "obligation_attempts": 7,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          8
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "balanced",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.01,
+        "certified_prefix_steps": 1,
+        "check_seconds": 1.6227536030783085,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 7,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 2e-09,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "92cdb28506d3f7504bf357b8b1474212a388d10abc47189f53e6f984d9cbd47e"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "accepted_obligations": 5,
+          "certification_rate": 0.05,
+          "certified_prefix_steps": 5,
+          "check_seconds": 0.1312323309975909,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.53486606704989e-11,
+          "obligation_attempts": 6,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.3386662580014672,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.5348598220453766e-11,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4
+          ],
+          "accepted_obligations": 2,
+          "certification_rate": 0.04,
+          "certified_prefix_steps": 4,
+          "check_seconds": 0.12084592501923908,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.534863118019981e-11,
+          "obligation_attempts": 3,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.04,
+          "certified_prefix_steps": 4,
+          "check_seconds": 0.16585127600410488,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.534860515934767e-11,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.17860598700644914,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.5348598220453766e-11,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "accepted_obligations": 5,
+        "certification_rate": 0.05,
+        "certified_prefix_steps": 5,
+        "check_seconds": 0.10571444999368396,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -2.53486606704989e-11,
+        "obligation_attempts": 6,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -5,
+        "2": -1,
+        "4": -1,
+        "8": -5
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          4,
+          5
+        ],
+        "accepted_obligations": 2,
+        "certification_rate": 0.05,
+        "certified_prefix_steps": 5,
+        "check_seconds": 1.6848859419551445,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -2.5348610363518098e-11,
+        "obligation_attempts": 13,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          4,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "light_load",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.04,
+        "certified_prefix_steps": 4,
+        "check_seconds": 1.8519073341303738,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 1,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 1.5e-09,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "db40f0f305aac8343229077554f9d679a48b7a032afe418d49273be2c9f5acc6"
+    },
+    {
+      "circuit_id": "nmos_ring_3stage",
+      "contractive_fixed_slabs": {
+        "1": {
+          "accepted_boundaries": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "accepted_obligations": 6,
+          "certification_rate": 0.06,
+          "certified_prefix_steps": 6,
+          "check_seconds": 0.11504801402043086,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -2.0875606798753665e-11,
+          "obligation_attempts": 7,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "16": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.3116730610054219,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -8.146702756839375e-11,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        },
+        "2": {
+          "accepted_boundaries": [
+            2,
+            4,
+            6
+          ],
+          "accepted_obligations": 3,
+          "certification_rate": 0.06,
+          "certified_prefix_steps": 6,
+          "check_seconds": 0.13975514099001884,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -3.8161390714108734e-11,
+          "obligation_attempts": 4,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            2,
+            2,
+            2
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "4": {
+          "accepted_boundaries": [
+            4
+          ],
+          "accepted_obligations": 1,
+          "certification_rate": 0.04,
+          "certified_prefix_steps": 4,
+          "check_seconds": 0.13852455600863323,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -3.816136295853312e-11,
+          "obligation_attempts": 2,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [
+            4
+          ],
+          "verdict": "UNKNOWN"
+        },
+        "8": {
+          "accepted_boundaries": [],
+          "accepted_obligations": 0,
+          "certification_rate": 0.0,
+          "certified_prefix_steps": 0,
+          "check_seconds": 0.14263911300804466,
+          "failure_code": "CONTRACTIVE_SLAB_STRICT_INCLUSION_FAILED",
+          "minimum_inclusion_margin": -3.81613352029575e-11,
+          "obligation_attempts": 1,
+          "reference_excluding_accepted_interfaces": 0,
+          "reference_in_all_accepted_interfaces": true,
+          "segment_lengths": [],
+          "verdict": "UNKNOWN"
+        }
+      },
+      "contractive_pointwise_b2": {
+        "accepted_boundaries": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "accepted_obligations": 6,
+        "certification_rate": 0.06,
+        "certified_prefix_steps": 6,
+        "check_seconds": 0.11331700603477657,
+        "failure_code": "CONTRACTIVE_B2_STRICT_INCLUSION_FAILED",
+        "minimum_inclusion_margin": -2.0875606798753665e-11,
+        "obligation_attempts": 7,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "fixed_slab_prefix_advantage_over_pointwise": {
+        "1": 0,
+        "16": -6,
+        "2": 0,
+        "4": -2,
+        "8": -6
+      },
+      "greedy_largest_first": {
+        "accepted_boundaries": [
+          4,
+          6
+        ],
+        "accepted_obligations": 2,
+        "certification_rate": 0.06,
+        "certified_prefix_steps": 6,
+        "check_seconds": 1.6031667889328673,
+        "failure_code": "GREEDY_NO_ACCEPTED_SLAB",
+        "minimum_inclusion_margin": -1.0271083983326434e-10,
+        "obligation_attempts": 12,
+        "reference_excluding_accepted_interfaces": 0,
+        "reference_in_all_accepted_interfaces": true,
+        "segment_lengths": [
+          4,
+          2
+        ],
+        "verdict": "UNKNOWN"
+      },
+      "greedy_prefix_advantage_over_pointwise": 0,
+      "instance_id": "slow_load",
+      "legacy_noncontractive_pointwise": {
+        "certification_rate": 0.01,
+        "certified_prefix_steps": 1,
+        "check_seconds": 1.7454634271271061,
+        "verdict": "UNKNOWN"
+      },
+      "pointwise_prefix_gain_over_legacy": 5,
+      "producer_precision": "float64",
+      "producer_tolerance": 1e-10,
+      "radius_multiplier": 4.0,
+      "step_size": 2.5e-09,
+      "steps": 100,
+      "trace_complete": true,
+      "trace_failure_code": null,
+      "trace_sha256": "ce80e31204a2573f081f85df004aa9e10dec527ab56664b97dbd08744bdeb1e4"
+    }
+  ],
+  "reference_audit": {
+    "confirmed_false_accepts": null,
+    "reason": "the Decimal-160 test reference is not a rigorous oracle",
+    "reference_excluding_accepted_interfaces": 0
+  },
+  "schema_version": 1,
+  "semantics_sha256": "60fe305ae90cfb9e6a200feba6116f7e516f4c991c899008a3c3d808c4fd1faf",
+  "slab_lengths": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "source_files_sha256": {
+    "experiments/benchmark.py": "a4af90531b91e5378af643b34b15fce36df8998f8fb409cd228cd4ad88721814",
+    "experiments/blockstamp_operator.py": "d4e01f9ef9bd46f42a316cb0976332eca7b9c4549784891f6ae6871c0cf54426",
+    "experiments/checkers/pointwise_krawczyk.py": "266953c9a8dcacf9eadf22bd8a91cd7b6515026d4cceae10f9ffe4e2a1bc5528",
+    "experiments/checkers/slab_krawczyk.py": "984e6818ed5ec5d2a48c85d00cbac6f1406e173e84fc82acf8d1b017b948b692",
+    "experiments/checkers/verified_sparse.py": "dbb930be8ccb80410119351ef35b247d1f43ae6ea5e18de5708d417c3d520908",
+    "experiments/devices/stamps.py": "136468e4ca9f78fe6b5e51dd848e297205d55f986c9c95a0b447c78de559ddea",
+    "experiments/mna/fixed_be.py": "dd4d7cf09e2972c1de66174bde8529fefe15c2c95408bf8d5bdd39d57f2bf3f9",
+    "experiments/mna/minimal_circuits.py": "740834347d9d9923335b398c9b3eb16534e1bcd26878b216b972490ea628553f",
+    "experiments/producers/nonlinear.py": "6fe7e2959d1acd017423c5966885ffd77ab5356d51dfc7456783cc76fc501047",
+    "experiments/producers/precision.py": "2c234dc144a3248674032ef134240337722863bc395d7ad688432a488a510732",
+    "experiments/producers/trace.py": "39d10cff4a2850b69e351e25d78f8289a6b2838e5b25912b50ffe8a7da401e6b",
+    "experiments/producers/transient.py": "6f3e09a94a15728dd3f440efed8e5a8f98ae8334292e6f2e119a91c93682f76b",
+    "experiments/producers/tube.py": "e3d7e4af82099688d5638319894c7038a0ac5810e902090c4b1d71dbbcb08641",
+    "experiments/provenance.py": "673acd5f0ba4b855c140b65f4a3e721a465b7bef40a1fb16e931d345111fb4f7",
+    "experiments/rigorous_backend.py": "b24939bba54ce9d155451029bc1315cf08a593e440e4d23ff1e75017ef8131d7",
+    "experiments/run_interface_contraction_canary.py": "ae1f0f625e77146979c6e325312f85b97ff0af81652abca1cf85d7f82345462f"
+  },
+  "status": "PASS-CANARY",
+  "success_only_filtering": false,
+  "test_reference": {
+    "decimal_digits": 160,
+    "name": "Decimal-160 high-precision test reference",
+    "rigorous": false,
+    "usage": "post-hoc evaluation only"
+  }
+}

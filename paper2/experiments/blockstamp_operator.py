@@ -129,11 +129,18 @@ def verified_solve(
             pivot = coefficients[column][column]
             verified_pivots += 1
             for row in range(column + 1, dimension):
-                factor = _require(divide(coefficients[row][column], pivot))
+                leading = coefficients[row][column]
+                if leading.lower == 0.0 and leading.upper == 0.0:
+                    continue
+                factor = _require(divide(leading, pivot))
                 for target_column in range(column + 1, dimension):
-                    product = _require(
-                        multiply(factor, coefficients[column][target_column])
-                    )
+                    pivot_coefficient = coefficients[column][target_column]
+                    if (
+                        pivot_coefficient.lower == 0.0
+                        and pivot_coefficient.upper == 0.0
+                    ):
+                        continue
+                    product = _require(multiply(factor, pivot_coefficient))
                     coefficients[row][target_column] = _require(
                         subtract(coefficients[row][target_column], product)
                     )
@@ -146,10 +153,13 @@ def verified_solve(
         for row in range(dimension - 1, -1, -1):
             residual = values[row]
             for column in range(row + 1, dimension):
+                coefficient = coefficients[row][column]
+                if coefficient.lower == 0.0 and coefficient.upper == 0.0:
+                    continue
                 residual = _require(
                     subtract(
                         residual,
-                        _require(multiply(coefficients[row][column], solution[column])),
+                        _require(multiply(coefficient, solution[column])),
                     )
                 )
             pivot = coefficients[row][row]

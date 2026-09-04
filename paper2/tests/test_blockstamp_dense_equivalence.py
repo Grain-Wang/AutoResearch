@@ -10,6 +10,11 @@ from experiments.blockstamp_operator import (
     recursive_verified_apply,
 )
 from experiments.interval_backend import Interval
+from experiments.run_operator_stress import (
+    exact_fraction_dense_hull,
+    expected_unsupported_cases,
+    generate_stress_case,
+)
 
 
 def _fraction_solve(
@@ -126,3 +131,50 @@ def test_singular_or_malformed_block_system_fails_closed() -> None:
         (((1.0,),),), (), ((Interval.point(1.0), Interval.point(2.0)),)
     )
     assert malformed.status is OperatorStatus.UNSUPPORTED
+
+
+def test_near_singular_nonnormal_stress_case_contains_exact_fraction_hull() -> None:
+    case = generate_stress_case(
+        block_dimension=8,
+        slab_length=16,
+        bucket_index=3,
+        case_ordinal=0,
+        base_seed=20_260_831,
+    )
+    assert case.scenario == "near_singular_supported_probe"
+    assert case.bucket.lower <= case.exact_condition_inf < case.bucket.upper
+    assert case.coupling >= 1
+    assert all(
+        value.lower < value.upper for block in case.remainder_blocks for value in block
+    )
+
+    dense_matrix = assemble_dense_matrix(case.diagonal_blocks, case.subdiagonal_blocks)
+    exact = exact_fraction_dense_hull(
+        dense_matrix,
+        tuple(value for block in case.remainder_blocks for value in block),
+    )
+    recursive = recursive_verified_apply(
+        case.diagonal_blocks, case.subdiagonal_blocks, case.remainder_blocks
+    )
+    assert recursive.status is OperatorStatus.OK
+    assert recursive.flattened() is not None
+    assert all(
+        Fraction.from_float(enclosure.lower) <= exact_bounds[0]
+        and exact_bounds[1] <= Fraction.from_float(enclosure.upper)
+        for enclosure, exact_bounds in zip(recursive.flattened(), exact, strict=True)
+    )
+
+
+@pytest.mark.parametrize("dimension", [1, 2, 8])
+def test_stress_singular_and_inconclusive_cases_never_return_ok(
+    dimension: int,
+) -> None:
+    cases = expected_unsupported_cases(dimension, slab_length=4)
+    assert {case.exact_matrix_nonsingular for case in cases} == {False, True}
+    for case in cases:
+        result = recursive_verified_apply(
+            case.diagonal_blocks,
+            case.subdiagonal_blocks,
+            case.remainder_blocks,
+        )
+        assert result.status is OperatorStatus.UNSUPPORTED

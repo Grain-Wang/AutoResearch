@@ -1,5 +1,21 @@
 # BlockStamp-Cert: Refined Research Direction
 
+## 2026-09-04 post-M2 ruling
+
+The frozen 2,250-row M2 is complete.  Its registered comparison reports `W=PASS`,
+`D=STOP`, and `E=STOP`, but the W promotion claim is superseded by the strengthened
+baseline in `steps/009_m2_result_gate.md`.  A pointwise B2 checker that propagates its
+own accepted Krawczyk image improves the legacy pointwise prefix on all six 100-step
+instances and dominates or ties every fixed slab; largest-first adaptive slabs improve
+zero instances.  Current machine status is therefore `Claim W = FAIL-CANARY / ITERATE`,
+`algorithmic novelty = NOT ESTABLISHED`, and `Paper Candidate = FAIL-UNVERIFIED`.
+
+Adaptive verified step/slab selection is also established prior art in interval
+continuation, Krawczyk homotopy tracking, and validated ODE solvers.  It is not an
+available replacement novelty.  No clean replay or larger experiment is justified for
+the present method until a non-equivalent dependency representation or optimization
+mechanism first beats contractive pointwise B2 in a low-cost canary.
+
 ## 1. Working title
 
 **BlockStamp-Cert: Independently Checkable, Circuit-Structured Certificates for
@@ -8,8 +24,11 @@ Discrete Nonlinear Transient Simulation**
 中文题目：**面向非线性瞬态离散 MNA 的器件—时间结构化可独立检查证书**
 
 “Proof-Carrying SPICE”保留为系统愿景，不作为暗示首次提出 proof-carrying、区间电路
-分析或严格积分的主张。算法名 BlockStamp-Cert 强调两个可被消融的结构来源：时间块
-带状结构和器件局部 stamp。
+分析或严格积分的主张。Round 5 prior-art closure 后，`BlockStamp-Cert` 只保留为系统原型
+名称，不再是新数值算法名称。当前 paper framing 是 **circuit-structured,
+independently checkable certificates for fixed-discretization nonlinear transient
+MNA**；贡献候选限于电路特定 trust boundary、certificate representation 与经 M2 验证的
+端到端 economics。
 
 ## 2. Refined problem
 
@@ -33,7 +52,7 @@ q(x_k)-q(x_{k-1})+h\,i(x_k,t_k)=0,
 (q) 和 (i) 由 checker 自己的器件语义和 MNA 装配生成。证明对象严格限定为给定
 离散模型的局部根，不覆盖连续时间截断误差、模型误差或真实硅片行为。
 
-## 3. Core algorithmic hypothesis
+## 3. System construction and restricted checker kernel
 
 ### 3.1 Untrusted certificate payload
 
@@ -71,9 +90,12 @@ K_S(\bar x,X)=\bar x-CF_S(\bar x)
 \]
 
 严格包含逐坐标要求 checker 得到的下端点严格大于 `X` 的下端点、上端点严格小于
-`X` 的上端点；边界相等或比较不确定只能返回 `UNKNOWN`。`C=0` 等奇异算子即使产生
-表面上的 strict inclusion 也不能 `ACCEPT`。完整前提和反例见
-`steps/003_formal_soundness_contract.md`。
+`X` 的上端点；边界相等或比较不确定只能返回 `UNKNOWN`。按上式直接代入 `C=0` 得
+`K_S(\bar x,X)=X`，因此不能通过 strict inclusion；此前“得到 `{0}`”的说法是代数
+错误。一般 Krawczyk 定理允许任意固定实矩阵 `C`，strict inclusion 本身推出所需的
+非奇异性。这里的 `C=M^{-1}` 仅是首版 checker 的保守实现约束：它把算子绑定到
+checker 重建的 `M`，并使算子作用可由 verified block solve 检查，而不是一般定理的
+必要前提。精确定理版本与实现义务见 `steps/003_formal_soundness_contract.md`。
 
 ### 3.3 BlockStamp structure
 
@@ -116,6 +138,11 @@ Producer 与 checker 不共享器件 evaluator、Jacobian、收敛判断或稀�
 
 ## 5. Formal claims under test
 
+Post-M2 claim 状态固定为：`S/C/I/R/P` 中的数学部分属于已有定理或推论，当前证据只
+支持受限 implementation canary；`D/E` 已按冻结 M2 停止；注册 M2 中的 `W=PASS` 被
+contractive-interface pointwise killer baseline 撤销晋级资格，当前为
+`FAIL-CANARY / ITERATE`。完整裁决见 `steps/009_m2_result_gate.md`。
+
 ### Claim S-fixed / S-param: sound local discrete root certification
 
 `S-fixed` 对一个固定 incoming state 使用普通 Krawczyk 包含证明 tube 内的局部唯一根。
@@ -137,10 +164,11 @@ exact/MPFR dense-action cross-check 共同验证。
 
 ### Claim W: slab-coupling hypothesis
 
-在相同 backend、candidate、tube initializer、scaling、ordering 和 witness 下，联合 slab
-相对 B2 pointwise propagation 是否提高 certification rate 或 certified prefix，属于待检验
-假设。仅改变 interval evaluation order 不足以预先声称 less wrapping；若无稳定信号，停止
-Claim W。
+冻结 M2 中，联合 slab 相对“不传播 accepted image”的注册 B2 在长度 2/4 通过原始规则。
+但更强的 contractive pointwise B2 在六个 100-step 实例上全部改善旧 B2，且没有任何固定
+slab 或 largest-first adaptive policy 获得更长前缀。因此 Claim W 当前为
+`FAIL-CANARY / ITERATE`，不能进入摘要或贡献列表。只有非等价 dependency representation
+在完整网格上击败该 killer baseline 时才可重开。
 
 ### Claim D: device-locality hypothesis
 
@@ -150,11 +178,10 @@ stamp streaming 是否降低 assembly time、peak RSS 或 certificate bytes，�
 
 ### Claim E: structure-sensitive efficiency hypothesis
 
-只有在至少两个非线性电路类别和多个配置上，BlockStamp 相对 component-matched B2、
-dense-slab 与 verified-sparse baseline 在检查时间、peak RSS 或 certificate bytes 中至少一项
-出现稳定优势，且未用 acceptance/tube strength 换取该优势时，才报告 Claim E。任何
-end-to-end 主张还必须计入 certificate generation、check 和必要 fallback；当前无完成时态
-性能结论。
+冻结 M2 没有任何 `check time`、peak RSS 或 certificate bytes 指标同时通过相对 matched
+B2 与 dense-slab 的稳定信号规则，Claim E 对当前实现为 `STOP`。1800 个主方法非接受配置
+全部触发 whole-run strict fallback，且 0 个恢复为整轨 `ACCEPT`。当前禁止任何更快、更省
+内存或更低端到端成本的表述。
 
 ### Claim R: safe selective recovery
 
@@ -173,7 +200,8 @@ failure 使对应未检查后缀失效并重新检查。低于完整严格重算
 - 不声称 Krawczyk、interval Newton、proof-carrying 或 circuit interval analysis 新颖；
 - 不声称 block Krawczyk、block forward substitution 或 verified factor witness 新颖；
 - 不声称递推与 dense interval evaluation 端点相同或天然减少 wrapping；
-- 不声称 Claim W/I/E/D 已被当前实现或实验支持；
+- 不声称 Claim W/D/E 已被当前实现支持；Claim I 仅是 implementation canary；
+- 不声称 adaptive slab/splitting 是新算法；
 - 不声称整个状态空间全局唯一；
 - 不声称连续时间 DAE 真解或真实硅片被包含；
 - 不声称任意 Verilog-A/BSIM、奇异拓扑或 index-2 电路可支持；
@@ -188,7 +216,8 @@ failure 使对应未检查后缀失效并重新检查。低于完整严格重算
 - 固定步长 Backward Euler；
 - R/C、独立电流/电压源、diode，以及形成 resistor-loaded ring 所需的受限 Level-1
   NMOS 语义；
-- RC analytic 与 diode-RC MPFR root 作为 correctness oracle；
+- RC analytic 与 diode-RC `Decimal-160` bisection reference root 作为独立高精度测试
+  oracle；后者的 residual 符号尚无 directed error bound，不能称为严格 root proof；
 - diode-RC 和 3-stage ring oscillator 两个非线性 transient probe；
 - `steps={100,300,1000}`、`slab={1,2,4,8,16}`，每个 timing 配置至少五个独立进程；
 - component-matched B2、dense-slab、verified-sparse、temporal-only 与
@@ -219,17 +248,18 @@ BLOCKSTAMP-CHECK(netlist, semantics, candidate, certificate):
     return ACCEPT(trajectory digest, tube digest, specification verdicts)
 ```
 
-## 9. Novelty statement
+## 9. System framing statement
 
-保守版本：
+当前唯一允许的保守版本：
 
 > We study certification of fixed-discretization nonlinear MNA trajectories that is
 > independent of the trajectory-generation algorithm provided it satisfies a declared
 > certificate interface. Under a restricted BE/netlist semantics and a correct checker
 > TCB, the checker targets local roots of the discrete equations only.
-> Unlike prior DC interval verification and validated continuous-time
-> integration, the proposed checker reconstructs circuit semantics independently and
-> verifies untrusted sparse witnesses over compositional discrete time slabs.
+> The intended contribution is the circuit-specific trust boundary, certificate
+> representation, and measured verification economics. It is not Krawczyk, block
+> substitution, temporal band structure, verified factorization, or proof-carrying
+> computation itself.
 
 结果版本只能在 Claim I/W/D/E 的对应门禁通过后，按真实数据填入，不得预写完成时态：
 
@@ -240,10 +270,13 @@ BLOCKSTAMP-CHECK(netlist, semantics, candidate, certificate):
 
 ## 10. Current gate
 
-方向通过 Research Opportunity Gate，但 Claim S/C/I/W/D/E/R/P 均未形成完整实现—实验
-证据。只有以下条件同时满足，才允许升级为 Pre-Paper Candidate：`C=M^{-1}` 的可逆性、
-directed rounding 和 BE MNA 链闭合且已知坏样本 0 false accept；B2 与 BlockStamp 的共享
-组件 hash 一致；Claim I 的 dense-action cross-check 通过；BlockStamp 相对 B2/dense/
-verified-sparse 在至少一个核心指标上跨多个配置稳定占优；diode-RC 与 ring 的未筛选结果
-可重放；所有端到端性能主张计入 certificate generation、check 和必要 fallback。若递推
-只是标准块前代且 W/D/E 无稳定收益，停止 BlockStamp 算法 headline，而不是扩张工程范围。
+Round 5 的 theorem-level audit 已把当前 recurrence 判为标准 block forward
+substitution；完整 M2 又停止 D/E。随后 contractive-interface canary 证明原始 W 信号不能
+通过更强 pointwise B2：六实例中 pointwise contraction 全部改善 legacy B2，且固定/adaptive
+slab 均没有前缀优势。因此当前 gate 为：`M0 PASS-CANARY`、`M1 REFRAME-SYSTEM`、
+`M2 ITERATE / W KILLER-BASELINE-CANARY-FAIL`、`Paper Candidate FAIL-UNVERIFIED`。
+
+这已经满足停止当前 BlockStamp algorithm headline 的条件。系统原型和已有 soundness
+canary 可以保留，但不得用 clean replay、扩大电路或工程功能来补偿算法缺失。只有先定义
+非等价的 dependency representation、witness-reuse decision 或优化目标，并在 theorem-level
+近邻核验后用低成本 probe 击败 contractive pointwise B2，才可重开算法主线。

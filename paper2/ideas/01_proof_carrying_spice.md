@@ -2,11 +2,16 @@
 
 ## Status
 
-- Stage: Research Opportunity
-- Opportunity gate: PASS
+- Stage: Archived after Round 6 P0
+- Opportunity gate: ARCHIVE-PAPER2
 - Paper Candidate gate: FAIL / UNVERIFIED
 - Algorithm headline: STOP for current BlockStamp recurrence
 - Literature cutoff: 2026-09-04
+
+Round 6 P0 found direct formula-level prior art for both proposed successor mechanisms;
+no concrete circuit-specific non-equivalent decision/update theorem exists in paper2.
+See `../steps/010_round6_reselection_gate.md`.  The remaining sections are the frozen
+Round-5 problem record, not an authorized P1 plan.
 
 ## Baseline defect
 

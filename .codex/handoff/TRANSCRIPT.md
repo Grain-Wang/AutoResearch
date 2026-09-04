@@ -3,7 +3,8 @@
 > **HISTORICAL ONLY / NON-ACTIONABLE。** 本文件主体是截至 2026-08-31 的压缩研究
 > 历史，末尾仅补充后续 review 与 Round 5 closure 的索引。其中“当前”“下一步”
 > “冻结顺序”均指各自历史时点，已经被 `CURRENT.md` 的 Round 5 closure 覆盖；不得
-> 据此运行实验或进入 Round 6。
+> 据此运行实验。本历史文件本身不授权任何 research round；Round 6 P0 已完成，当前
+> 终态与生命周期锁见 `CURRENT.md`。
 
 本文件用于追溯研究决策，不是原始会话导出，也不是科学证据。权威状态必须以当前
 Git、源码、正式 artifacts 和 `CURRENT.md` 为准。
@@ -116,4 +117,23 @@ Git、源码、正式 artifacts 和 `CURRENT.md` 为准。
 ## 9. Round 5 closure note
 
 Round 5 已于 2026-09-04 结束。权威终态只记录在 `CURRENT.md` 和 Step 009；本历史文件
-不授权新的算法设计、probe、实验、clean replay 或 Round 6。
+不授权新的算法设计、probe、实验或 clean replay。
+
+## 10. Review Round 5 与 P0 intake 索引
+
+- Round 5 artifact commit：`e04011003e519510b52fe2b954e3fdf43ac2bc46`。
+- 最新 reviewer input：`paper2/responce_from_reviewer/review_round5.md`，commit
+  `1aeb372386e5df2682d90578222c716b9ee42cc2`。
+- Review 维持当前 BlockStamp recurrence `ARCHIVED`、`W=FAIL-CANARY`、`D/E=STOP`、
+  Paper Candidate=`FAIL-UNVERIFIED`，并建议 Round 6 先做 A/B 机制重选。
+- 用户随后只授权 Round 6 P0 全文先例审计与三选一门禁；执行权限以 `CURRENT.md` 为准，
+  不得从本历史索引推导实验、原型或 P1 授权。
+
+## 11. Round 6 P0 closure note
+
+- A 类核验 10 篇、B 类核验 11 篇高相关全文；逐篇公式证据见
+  `paper2/research/round6_mechanism_prior_art.md`。
+- A 的 affine/doubleton/zonotope/history 表示与可靠压缩、B 的 circuit rank-one
+  interval update 与 verified factor/residual reuse 均被强先例覆盖。
+- Step 010 最终输出 `ARCHIVE-PAPER2`；没有选择机制、实现原型、运行实验或授权 P1。
+- 本条仅是历史索引；权威状态和后续执行权限仍以 `CURRENT.md` 为准。

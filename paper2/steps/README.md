@@ -4,9 +4,9 @@
 `GO/ITERATE/STOP` 决策。文档完成只表示规格已冻结，不表示对应定理、实现或实验已经
 通过。
 
-> **Round 5 CLOSED。** 本页记录已完成步骤及历史门禁，不是 Round 6 执行计划；未经
-> 用户另行明确授权，不得运行新实验、clean replay 或新机制 probe。Step 009 与当前
-> `next_round_gate.json` 是 Round 5 终态依据。
+> **Round 5 CLOSED；Round 6 P0 COMPLETE / ARCHIVE-PAPER2。** Step 009 与当前
+> `next_round_gate.json` 仍是 Round 5 终态依据。Step 010 完成纯全文先例审计并归档
+> paper2；不得实现原型、运行实验、clean replay 或进入 P1。
 
 ## 当前状态
 
@@ -21,6 +21,7 @@
 | 007 | BlockStamp operator specification | `CLAIM-I IMPLEMENTATION-CANARY-PASS / M1 REFRAME-SYSTEM` | 12-cell dense-action canary 已通过；当前 recurrence 不作为算法 headline。 |
 | 008 | M0/M1/M2 evidence gate | `M2 COMPLETE / SUPERSEDED-BY-009` | 注册 M2 的 W 正信号已由 Step 009 的 pointwise contraction baseline 复核。 |
 | 009 | M2 结果与 contractive-interface killer gate | `W FAIL-CANARY / D,E STOP` | contractive pointwise 支配或追平六实例 fixed/adaptive slab；algorithm novelty 未建立。 |
+| 010 | Round 6 P0 mechanism reselection gate | `COMPLETE / ARCHIVE-PAPER2` | A 10 篇、B 11 篇全文级公式对照均发现 killer prior art；没有可选择的公式级非等价机制。 |
 
 ## 当前机器证据
 
@@ -49,9 +50,10 @@
 2. 当前 recurrence、device path、固定 slab 与 adaptive-largest-first 均不得作为算法
    headline；它们已被先例或 killer baseline 覆盖/解释。
 3. 不对当前方法执行 clean replay 或更大实验。
-4. 当前算法方向归档，只保留 restricted certificate-system 原型事实。任何新机制、
-   canary 或根本转向均属于未授权的后续 round，必须等待用户另行明确指令。
+4. 当前 BlockStamp 与 paper2 算法路线均归档，只保留 restricted certificate-system 原型
+   事实。Round 6 P0 没有选择 A/B；任何新机制、canary、P1 或根本转向均须等待用户
+   另行明确指令。
 
-当前整体状态为 `Research Opportunity / Paper Candidate FAIL-UNVERIFIED`。升级为
-`Pre-Paper Candidate` 必须满足 Step 008 的联合门禁；协议、proof skeleton 或单次 canary
-不能替代 novelty、主方法和 killer-baseline 证据。复现命令见 Step 008 与顶层 README。
+当前整体状态为 `ARCHIVE-PAPER2 / Paper Candidate FAIL-UNVERIFIED`。协议、proof
+skeleton、未定义的新机制或单次 canary 都不能替代 novelty、主方法和 killer-baseline
+证据。历史复现命令见 Step 008 与顶层 README，但当前不授权执行。

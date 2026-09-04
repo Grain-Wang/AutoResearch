@@ -1,6 +1,21 @@
 # BlockStamp-Cert: Refined Research Direction
 
-## 2026-09-04 post-M2 ruling
+## 2026-09-04 Round 6 P0 closure
+
+Round 6 P0 completed a full-text formula audit of 10 Candidate-A papers and 11
+Candidate-B papers.  Generic affine/doubleton/zonotope correlation preservation and
+sound reduction are established; circuit transient/history affine propagation is also
+direct prior art.  Verified circuit rank-one interval updates, parametric Woodbury, and
+factor/residual witnesses likewise cover Candidate B's mathematical core.  Paper2 has no
+currently specified circuit-specific decision rule or non-equivalent update theorem.
+
+The gate is therefore `ARCHIVE-PAPER2`; no mechanism was selected and P1 is not
+authorized.  See `steps/010_round6_reselection_gate.md` and
+`research/round6_mechanism_prior_art.md`.  All text below records the frozen Round-5
+direction and evidence boundary; it is retained for provenance and is not a current
+execution plan.
+
+## 2026-09-04 Round 5 post-M2 ruling（frozen）
 
 The frozen 2,250-row M2 is complete.  Its registered comparison reports `W=PASS`,
 `D=STOP`, and `E=STOP`, but the W promotion claim is superseded by the strengthened
@@ -268,7 +283,7 @@ BLOCKSTAMP-CHECK(netlist, semantics, candidate, certificate):
 > effect size] relative to [component-matched baseline], including certificate
 > generation, checking, and required fallback costs where end-to-end cost is claimed.
 
-## 10. Current gate
+## 10. Historical Round-5 gate
 
 Round 5 的 theorem-level audit 已把当前 recurrence 判为标准 block forward
 substitution；完整 M2 又停止 D/E。随后 contractive-interface canary 证明原始 W 信号不能
@@ -277,6 +292,6 @@ slab 均没有前缀优势。因此当前 gate 为：`M0 PASS-CANARY`、`M1 REFR
 `M2 ITERATE / W KILLER-BASELINE-CANARY-FAIL`、`Paper Candidate FAIL-UNVERIFIED`。
 
 这已经满足停止当前 BlockStamp algorithm headline 的条件。系统原型和已有 soundness
-canary 可以保留，但不得用 clean replay、扩大电路或工程功能来补偿算法缺失。只有先定义
-非等价的 dependency representation、witness-reuse decision 或优化目标，并在 theorem-level
-近邻核验后用低成本 probe 击败 contractive pointwise B2，才可重开算法主线。
+canary 可以保留，但不得用 clean replay、扩大电路或工程功能来补偿算法缺失。Round 6 P0
+随后完成候选机制核验并输出 `ARCHIVE-PAPER2`；上方 closure 覆盖本历史段落中的条件式
+后续语言。

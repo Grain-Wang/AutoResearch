@@ -1,12 +1,16 @@
 {
   "schema_version": 2,
-  "snapshot_time": "2026-09-04T16:54:55+08:00",
+  "snapshot_time": "2026-09-04T18:06:36+08:00",
   "snapshot_kind": "sanitized_portable_handoff",
   "handoff_status": {
-    "round": 5,
-    "round_status": "CLOSED",
+    "round": 6,
+    "round_status": "P0_COMPLETE_ARCHIVE_PAPER2",
     "round_6_authorized": false,
-    "new_experiments_authorized": false
+    "authorized_scope": "completed full-text prior-art audit and formula-level reselection gate; no active follow-on authorization",
+    "active_work_authorized": false,
+    "prototype_authorized": false,
+    "new_experiments_authorized": false,
+    "p1_authorized": false
   },
   "entrypoint": ".codex/handoff/CURRENT.md",
   "history": ".codex/handoff/TRANSCRIPT.md",
@@ -18,38 +22,48 @@
   },
   "research": {
     "active_project": "paper2",
-    "active_direction": "BlockStamp-Cert",
+    "active_direction": "none (ARCHIVE-PAPER2)",
+    "archived_method": "BlockStamp recurrence",
     "system_vision": "Proof-Carrying SPICE",
-    "stage": "Research Opportunity",
-    "opportunity_gate": "PASS",
+    "stage": "Archived",
+    "opportunity_gate": "ARCHIVE-PAPER2",
     "paper_candidate": false,
     "paper_candidate_gate": "FAIL-UNVERIFIED",
     "target": "weak CCF-B / strong CCF-C"
   },
   "current_blockers": [
-    "algorithmic novelty is not established for the current BlockStamp recurrence",
-    "the frozen Claim-W signal fails the contractive-interface pointwise killer canary"
+    "candidate A is formula-equivalent to established affine/doubleton/zonotope propagation and sound reduction without a defined circuit-specific theorem",
+    "candidate B is covered by circuit rank-one interval updates plus generic verified witness reuse and does not address the frozen acceptance blocker"
   ],
   "review_chain": [
     "paper2/responce_from_reviewer/review_round1.md",
     "paper2/responce_from_reviewer/review_round2.md",
     "paper2/responce_from_reviewer/review_round3.md",
-    "paper2/responce_from_reviewer/review_round4.md"
+    "paper2/responce_from_reviewer/review_round4.md",
+    "paper2/responce_from_reviewer/review_round5.md"
   ],
   "historical_notes": [
     "paper2/research/notes/stage_assessment_before_ccfb_review.md"
   ],
   "last_verified": {
-    "scientific_status": "Research Opportunity / Paper Candidate FAIL-UNVERIFIED",
+    "scientific_status": "ARCHIVE-PAPER2 / Paper Candidate FAIL-UNVERIFIED",
     "machine_gate": "M0 PASS-CANARY / M1 REFRAME-SYSTEM / M2 ITERATE / W FAIL-CANARY / D,E STOP",
-    "tests": "ruff pass; 95 Python files black-check pass; 94 pytest cases pass",
+    "round6_p0_gate": "ARCHIVE-PAPER2",
+    "round6_prior_art_full_text_counts": {
+      "candidate_a": 10,
+      "candidate_b": 11
+    },
+    "round5_regression": "ruff pass; 95 Python files black-check pass; 94 pytest cases pass",
+    "round6_p0_validation": "documentation-only; JSON parse and git diff --check pass; no experiments or test suites run",
     "clean_replay_required_now": false
   },
   "git_binding": {
     "handoff_identity": "the commit containing this manifest",
     "artifact_generation_commit": "51351daa95f6f48cd97f27e639ed6b2d73260761",
     "artifact_generation_dirty_worktree": true,
-    "artifact_generation_note": "immutable provenance recorded by Round 5 artifacts"
+    "artifact_generation_note": "immutable provenance recorded by Round 5 artifacts",
+    "round5_artifact_commit": "e04011003e519510b52fe2b954e3fdf43ac2bc46",
+    "review_round5_commit": "1aeb372386e5df2682d90578222c716b9ee42cc2"
   },
   "redacted": [
     "credentials",

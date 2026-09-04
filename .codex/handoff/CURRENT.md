@@ -1,10 +1,35 @@
 # AutoResearch 当前接续状态
 
-## 2026-09-04 Round 5 CLOSED（权威状态）
+## 2026-09-04 Round 6 P0 COMPLETE — ARCHIVE-PAPER2（权威状态）
 
-> Round 5 已结束。本文件不授权 Round 6，也不授权任何新实验、clean replay、扩矩阵
-> 或新机制 probe。只有用户另行明确授权后才能开始新的 research round。下方所有旧
-> 快照均为历史，不得覆盖本节或作为执行指令。
+> 用户仅授权的 **P0 mechanism reselection gate** 已完成。最终门禁为
+> `ARCHIVE-PAPER2`；没有选择 A/B，也没有原型实现、canary、M2、参数调整、扩电路、
+> 论文写作、P1 或任何实验。当前无后续研究执行授权。
+
+- Git 谱系已核验：Round 5 artifact commit 为
+  `e04011003e519510b52fe2b954e3fdf43ac2bc46`；其直接后继、当前最新 reviewer input 为
+  `1aeb372386e5df2682d90578222c716b9ee42cc2`，且该提交只新增
+  `paper2/responce_from_reviewer/review_round5.md`。
+- Review Round 5 接受并强化 Round 5 的停止裁决：当前 BlockStamp recurrence 为
+  `ARCHIVED`，`W=FAIL-CANARY`，`D/E=STOP`，Paper Candidate=`FAIL-UNVERIFIED`。
+- P0 对 A（correlation-preserving sparse interface representation）核验 10 篇全文，对
+  B（verified factor witness reuse）核验 11 篇全文，逐篇记录表示/见证、精确更新、
+  soundness、压缩/复用、复杂度、依赖、公式关系与 circuit-specific gap。
+- A 的 `x=c+Aξ+Δ`、doubleton/QR、可靠生成元归并和 circuit transient/history
+  propagation 均有直接先例；B 的 circuit rank-one interval update、parametric
+  Woodbury/Krawczyk 与 factor/residual witness 也有直接先例。
+- 当前没有已定义的 circuit-specific 非等价选择/更新规则、定理或复杂度结果，不能把待
+  发明的机制选入 P1。详细证据见 `paper2/research/round6_mechanism_prior_art.md`，门禁见
+  `paper2/steps/010_round6_reselection_gate.md`。
+- 生命周期锁：停止并等待用户确认；不得自动实现 A/B、运行 canary 或进入 P1/Round 7。
+
+---
+
+## 2026-09-04 Round 5 CLOSED（冻结科学基线）
+
+> Round 5 已结束。本节不授权任何新实验、clean replay、扩矩阵或新机制 probe；上方
+> Round 6 P0 也已执行完毕并归档 paper2。下方所有旧快照均为历史，不得覆盖本节或作为
+> 执行指令。
 
 - 正式 Round 5 artifacts 记录生成时基线 commit
   `51351daa95f6f48cd97f27e639ed6b2d73260761` 和 `dirty_worktree=true`。这是不可回写
@@ -37,8 +62,8 @@
 当前算法 claim **不成立**。最强反方意见是：原 W 增益来自遗漏的 pointwise
 contraction，而数值核心仍是标准 Krawczyk 与 verified block forward substitution；
 adaptive partition 也已有直接先例。该结论保持不变，当前算法路线归档，只保留
-restricted certificate-system 原型事实。任何新机制、算法设计、probe 或实验都属于
-尚未授权的后续 round；本 handoff 的终点是等待用户指令。
+restricted certificate-system 原型事实。Round 6 P0 没有选出可辩护的新机制；任何算法
+实现、probe、P1 或新一轮研究仍未授权。
 
 ---
 
@@ -83,7 +108,7 @@ restricted certificate-system 原型事实。任何新机制、算法设计、pr
 ## 历史快照：2026-08-31
 
 > **HISTORICAL / NON-ACTIONABLE。** 以下内容是 2026-08-31 的接续快照，其中所有
-> “当前”“启动”“下一步”“复现”措辞只描述当时语境，不能覆盖文件顶部的 Round 5
+> “当前”“启动”“下一步”“复现”措辞只描述当时语境，不能覆盖文件顶部的 Round 6 P0
 > closure，也不授权执行任何命令。
 >
 > 当时有效项目：`paper2 / BlockStamp-Cert`。

@@ -1,5 +1,10 @@
 # Proof-Carrying SPICE 文献检索与新颖性红队审计
 
+> **Round 5 historical audit.** Round 6 P0 已在
+> `round6_mechanism_prior_art.md` 完成两个后继机制的全文公式审计，并由
+> `../steps/010_round6_reselection_gate.md` 输出 `ARCHIVE-PAPER2`。本文件下方的
+> `Research Opportunity` 状态只记录 Round 5，不覆盖当前归档状态或授权后续工作。
+
 检索截止日期：2026-09-04（Asia/Shanghai）
 
 目标层级：弱 CCF-B / 强 CCF-C full paper

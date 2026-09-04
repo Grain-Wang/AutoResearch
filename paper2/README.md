@@ -1,8 +1,17 @@
-# paper2：Proof-Carrying SPICE Research Opportunity
+# paper2：Proof-Carrying SPICE（Round 6 P0 后归档）
 
 ## 当前状态
 
-当前主机会是面向非线性瞬态离散 MNA 的可独立检查证书。最新机器 gate 为：
+Round 6 P0 已完成纯文献/公式级机制重选。A 类核验 10 篇全文，B 类核验 11 篇全文；
+`x=c+Aξ+Δ`、可靠生成元压缩、circuit transient/history affine propagation、circuit
+rank-one interval update 和 verified factor/residual witness 均有直接高威胁先例。当前没有
+已定义的 circuit-specific 决策规则、非等价更新定理或复杂度结果，最终门禁为
+`ARCHIVE-PAPER2`。详见 `steps/010_round6_reselection_gate.md` 与
+`research/round6_mechanism_prior_art.md`。本轮没有实现原型、运行实验或进入 P1。
+
+以下是保持不变的 Round 5 冻结机器状态：
+
+Round 5 冻结主机会是面向非线性瞬态离散 MNA 的可独立检查证书；当时机器 gate 为：
 
 - `Research Opportunity: PASS`；
 - `M0 soundness chain: PASS-CANARY`；
@@ -81,12 +90,14 @@ black --check .
 pytest tests/
 ```
 
-## Round 5 closure（不是后续执行计划）
+## Round 5 closure 与 Round 6 P0 终止状态（不是后续执行计划）
 
 1. 停止当前 BlockStamp numerical-algorithm headline：recurrence 已被 prior art reframe，
    D/E 已失败，W 又被 contractive pointwise killer canary 解释。
 2. 不为当前方法运行 clean replay、扩大电路、SRAM/BSIM/Verilog-A 或第二 producer；这些
    工作不能修复算法 novelty。
-3. 任何新 dependency representation、witness-reuse decision、优化目标或 probe 都属于
-   尚未授权的后续 round；等待用户另行明确指令。
-4. 完整数据与裁决见 `steps/009_m2_result_gate.md`。
+3. Round 6 P0 已审计两个候选机制并输出 `ARCHIVE-PAPER2`；不得把尚未定义的
+   charge/history generator selection 或 verified factor update 当成已选机制。
+4. 不实现原型、不运行 canary、不进入 P1；任何重开都必须等待用户另行明确指令。
+5. Round 5 数据见 `steps/009_m2_result_gate.md`，Round 6 P0 裁决见
+   `steps/010_round6_reselection_gate.md`。
